@@ -1,0 +1,1823 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+	<meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<title>국회 답변서 초안 생성 AI 워크스페이스 — AI-ONE</title>
+	<link rel="icon" href="../assets/icons/ai-one-logo.svg" type="image/svg+xml" />
+	<script src="../js/ai-theme.js"></script>
+	<link rel="stylesheet" href="../css/ai-theme.css" />
+	<link rel="stylesheet" href="../css/common.css" />
+	<link rel="stylesheet" href="../css/ai-answer.css" />
+</head>
+
+<body class="ai-answer-page answer-workspace-page" data-page="answer">
+	<div class="answer-workspace-app">
+		<!---------------------------------------- Start: 사이드 바---------------------------------------------->
+		<aside class="sidebar app-sidebar collapsed" id="sidebar">
+			<!---------------------------------------- Start: 사이드 바 컨텐츠---------------------------------------------->
+			<!--
+						  [문서/페이지 구조 안내 — 개발자용]
+						  -  sidebar-top-bar: 사이드바 상단 브랜드 영역(로고, 사이드바 접기 버튼)
+						  -  sidebar-nav: 사이드바 메인 내비게이션(메뉴) 영역
+						  -  sidebar-footer: 사이드바 하단 영역(계정 메뉴 등)
+			-->
+			<div class="sidebar-top-bar">
+				<a class="sidebar-brand" id="sidebarBrandButton" href="ai-home.html" aria-label="AI-ONE 홈"
+					title="AI-ONE 홈">
+					<span class="brand-logo">
+						<img class="brand-symbol" alt="AI-ONE" data-icon="ai-one-logo" />
+					</span>
+					<span class="brand-text">
+						<span class="brand-name">AI-ONE</span>
+						<span class="brand-sub">재정경제부 AI 플랫폼</span>
+					</span>
+				</a>
+				<button type="button" class="icon-button icon-button-ghost sidebar-collapse-btn" id="sidebarCollapseBtn"
+					aria-label="사이드바 펼치기" aria-expanded="false" title="사이드바 펼치기">
+					<img class="collapse-icon icon icon-text" data-icon="sidebar-collapse" alt="" aria-hidden="true" />
+				</button>
+			</div>
+			<!------------------------------------ Start: 사이드바 메뉴 영역 ------------------------------------>
+			<nav class="sidebar-nav" aria-label="메인 네비게이션">
+				<div class="nav-group">
+					<a class="nav-link" href="ai-home.html" data-route="home" data-page="home" data-tooltip="AI-ONE 홈"
+						aria-label="AI-ONE 홈">
+						<img data-icon="home" alt="" aria-hidden="true" />
+						<span class="nav-text">AI-ONE 홈</span>
+					</a>
+				</div>
+				<div class="nav-group">
+					<span class="nav-group-label">AI 서비스</span>
+					<a class="nav-link" href="ai-workspace.html" data-route="intake" data-page="intake"
+						data-tooltip="국회질의분류" aria-label="국회질의분류">
+						<svg viewBox="0 0 24 24" aria-hidden="true">
+							<path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+							<polyline points="14 2 14 8 20 8"></polyline>
+						</svg>
+						<span class="nav-text">국회질의분류</span>
+						<span class="nav-complete-dot hidden" aria-label="완료된 작업 있음" title="완료된 작업이 있습니다."></span>
+					</a>
+					<a class="nav-link" href="ai-answer.html" data-route="answer" data-page="answer"
+						data-tooltip="국회 답변서 초안 생성" aria-label="국회 답변서 초안 생성">
+						<svg viewBox="0 0 24 24" aria-hidden="true">
+							<path d="M12 20h9"></path>
+							<path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path>
+						</svg>
+						<span class="nav-text">국회 답변서 초안 생성</span>
+						<span class="nav-complete-dot hidden" aria-label="완료된 작업 있음" title="완료된 작업이 있습니다."></span>
+					</a>
+					<a class="nav-link hidden" href="ai-answer-after.html" data-route="answer-after-9" hidden
+						data-page="answer-after-9" data-tooltip="국회답변서 9월이후" aria-label="국회답변서 9월이후">
+						<svg viewBox="0 0 24 24" aria-hidden="true">
+							<path d="M12 20h9"></path>
+							<path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path>
+						</svg>
+						<span class="nav-text">국회답변서 9월이후</span>
+					</a>
+					<a class="nav-link" data-page="asset" data-modal-open="preparingServiceModal"
+						data-tooltip="국유재산 업무 관리" aria-label="국유재산 업무 관리 (준비중)">
+						<svg viewBox="0 0 24 24" aria-hidden="true">
+							<path d="M3 10 12 4l9 6"></path>
+							<path d="M5 10v9"></path>
+							<path d="M10 10v9"></path>
+							<path d="M14 10v9"></path>
+							<path d="M19 10v9"></path>
+							<path d="M3 19h18"></path>
+						</svg>
+						<span class="nav-text">국유재산 업무 관리</span>
+						<span class="nav-badge-soon">준비중</span>
+					</a>
+					<a class="nav-link" data-page="policy" data-modal-open="preparingServiceModal" data-tooltip="정책 안내서"
+						aria-label="정책 안내서 (준비중)">
+						<svg viewBox="0 0 24 24" aria-hidden="true">
+							<path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+							<polyline points="14 2 14 8 20 8"></polyline>
+							<line x1="8" y1="13" x2="16" y2="13"></line>
+							<line x1="8" y1="17" x2="16" y2="17"></line>
+						</svg>
+						<span class="nav-text">정책 안내서</span>
+						<span class="nav-badge-soon">준비중</span>
+					</a>
+				</div>
+				<div class="nav-group">
+					<a class="nav-link" data-page="chatbot" data-modal-open="preparingServiceModal"
+						data-tooltip="AI-ONE 챗봇" aria-label="AI-ONE 챗봇 (준비중)">
+						<svg viewBox="0 0 24 24" aria-hidden="true">
+							<path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+						</svg>
+						<span class="nav-text">AI-ONE 챗봇</span>
+						<span class="nav-complete-dot hidden" aria-label="완료된 작업 있음" title="완료된 작업이 있습니다."></span>
+						<span class="nav-badge-soon">준비중</span>
+					</a>
+				</div>
+			</nav>
+			<!------------------------------------ //End: 사이드바 메뉴 영역 ------------------------------------>
+			<div class="sidebar-footer">
+				<div class="user-card">
+					<button type="button" class="user-avatar" data-sidebar-account-toggle aria-label="사용자 계정 메뉴"
+						aria-haspopup="menu" aria-expanded="false" aria-controls="sidebarAccountMenu">
+						<img class="icon icon-text" data-icon="user" alt="" aria-hidden="true" />
+					</button>
+					<button type="button" class="user-info" data-sidebar-account-toggle aria-label="사용자 계정 메뉴"
+						title="사용자 계정 메뉴" aria-haspopup="menu" aria-expanded="false" aria-controls="sidebarAccountMenu">
+						<span class="user-name">박재정 주무관</span>
+						<span class="user-meta-row">
+							<span class="user-dept">재정분석과</span>
+							<span class="user-role-badge">국회담당자</span>
+						</span>
+					</button>
+					<button type="button" class="icon-button icon-button-ghost settings-btn hidden" id="settingsBtn"
+						aria-label="환경설정" title="환경설정" data-sidebar-account-toggle aria-haspopup="menu"
+						aria-expanded="false" aria-controls="sidebarAccountMenu">
+						<img class="icon icon-small" data-icon="settings-alt" alt="" aria-hidden="true" />
+					</button>
+
+				</div>
+			</div>
+			<!---------------------------------------- //End: 사이드 바  컨텐츠---------------------------------------------->
+
+
+			<!--
+					  [문서/페이지 구조 안내 — 개발자용]
+					  - 사이드바 오버레이의 종류는 총 4개
+						· 사이드바 하단 사용자 정보 클릭 시 나오는 계정 메뉴(아이디: sidebarAccountMenu)
+						· 내 정보 클릭 시 나오는 프로필 모달(아이디: sidebarProfileModal)
+						· 환경설정 클릭 시 나오는 프로필 모달(아이디: sidebarSettingsModal)
+						· 로그아웃 클릭 시 나오는 프로필 모달(아이디: sidebarLogoutModal)
+
+			-->
+
+			<!---------------------------------------- Start: 내 정보 클릭 시 나오는 프로필 모달---------------------------------------------->
+			<div class="custom-modal-backdrop" id="sidebarProfileModal" data-component="modal" data-modal hidden>
+				<section class="custom-modal modal-medium modal-variant-account-profile account-profile-modal"
+					role="dialog" aria-modal="true" data-modal-variant="account-profile" aria-label="내 정보">
+					<div class="modal-variant-panel" data-modal-panel="account-profile" data-account-modal-panel>
+						<div class="account-modal-head">
+							<div class="custom-modal-title">내 정보</div>
+							<button type="button" class="query-edit-modal-close" data-modal-close
+								aria-label="닫기">×</button>
+						</div>
+						<div class="account-modal-body account-profile-content">
+							<div class="account-profile-summary">
+								<span class="account-profile-avatar" aria-hidden="true">
+									<svg viewBox="0 0 24 24">
+										<circle cx="12" cy="8" r="4"></circle>
+										<path d="M5 21a7 7 0 0 1 14 0"></path>
+									</svg>
+								</span>
+								<div>
+									<strong data-account-profile-name>박재정 주무관</strong>
+									<span data-account-profile-dept>재정분석과</span>
+								</div>
+							</div>
+							<dl class="account-profile-list">
+								<div>
+									<dt>이름·직위</dt>
+									<dd data-account-profile-name>박재정 주무관</dd>
+								</div>
+								<div>
+									<dt>소속 부서</dt>
+									<dd data-account-profile-dept>재정분석과</dd>
+								</div>
+								<div>
+									<dt>사용자 권한</dt>
+									<dd><span class="account-role-tag" data-account-profile-role>국회담당자</span>
+									</dd>
+								</div>
+								<div>
+									<dt>로그인 방식</dt>
+									<dd>통합 ID · SSO</dd>
+								</div>
+							</dl>
+						</div>
+						<div class="custom-modal-actions account-modal-actions">
+							<button type="button" class="btn-confirm" data-modal-close>확인</button>
+						</div>
+					</div>
+				</section>
+			</div>
+			<!---------------------------------------- //End: 내 정보 클릭 시 나오는 프로필 모달---------------------------------------------->
+
+
+
+			<!---------------------------------------- Start: 환경설정 클릭 시 나오는 프로필 모달---------------------------------------------->
+			<div class="custom-modal-backdrop" id="sidebarSettingsModal" data-component="modal" data-modal hidden>
+				<section class="custom-modal modal-medium modal-variant-account-settings account-settings-modal"
+					role="dialog" aria-modal="true" data-modal-variant="account-settings" aria-label="환경설정">
+					<div class="modal-variant-panel" data-modal-panel="account-settings" data-account-modal-panel>
+						<div class="account-modal-head">
+							<div class="custom-modal-title">환경설정</div>
+							<button type="button" class="query-edit-modal-close" data-modal-close
+								aria-label="닫기">×</button>
+						</div>
+						<div class="account-modal-body account-settings-content" data-settings-panel>
+							<section class="account-settings-section">
+								<div class="settings-section-title">화면 모드</div>
+								<div class="theme-option-list" role="radiogroup" aria-label="화면 모드 선택">
+									<button type="button" class="theme-option" data-theme-value="system" role="radio">
+										<span class="theme-option-icon">
+											<svg viewBox="0 0 24 24" aria-hidden="true">
+												<rect x="3" y="4" width="18" height="14" rx="2"></rect>
+												<path d="M8 21h8M12 18v3"></path>
+											</svg>
+										</span>
+										<span class="theme-option-text"><strong>시스템</strong><small>기기 설정에
+												맞춤</small></span>
+										<span class="theme-option-check" aria-hidden="true"></span>
+									</button>
+									<button type="button" class="theme-option" data-theme-value="dark" role="radio">
+										<span class="theme-option-icon">
+											<svg viewBox="0 0 24 24" aria-hidden="true">
+												<path d="M21 12.8A8.5 8.5 0 1 1 11.2 3 6.5 6.5 0 0 0 21 12.8z">
+												</path>
+											</svg>
+										</span>
+										<span class="theme-option-text"><strong>다크 모드</strong><small>어두운
+												화면</small></span>
+										<span class="theme-option-check" aria-hidden="true"></span>
+									</button>
+									<button type="button" class="theme-option" data-theme-value="light" role="radio">
+										<span class="theme-option-icon">
+											<svg viewBox="0 0 24 24" aria-hidden="true">
+												<circle cx="12" cy="12" r="4"></circle>
+												<path
+													d="M12 2v2M12 20v2M4.93 4.93l1.42 1.42M17.65 17.65l1.42 1.42M2 12h2M20 12h2M4.93 19.07l1.42-1.42M17.65 6.35l1.42-1.42">
+												</path>
+											</svg>
+										</span>
+										<span class="theme-option-text"><strong>라이트 모드</strong><small>밝은
+												화면</small></span>
+										<span class="theme-option-check" aria-hidden="true"></span>
+									</button>
+								</div>
+							</section>
+							<section class="account-settings-section">
+								<div class="settings-section-title">강조 컬러</div>
+								<div class="settings-accent-control" data-accent-control>
+									<button type="button" class="settings-accent-trigger" data-accent-trigger
+										aria-haspopup="listbox" aria-expanded="false" aria-label="강조 컬러 선택">
+										<span class="settings-accent-swatch" aria-hidden="true"></span>
+										<span data-accent-label>기본값</span>
+										<span class="settings-accent-arrow" aria-hidden="true"></span>
+									</button>
+									<div class="settings-accent-options" data-accent-listbox role="listbox"
+										aria-label="강조 컬러 옵션" hidden>
+										<button type="button" class="settings-accent-option" role="option"
+											data-accent-value="default" aria-selected="true">
+											<span class="settings-accent-option-dot"
+												aria-hidden="true"></span><span>기본값</span><span
+												class="settings-accent-option-check" aria-hidden="true">✓</span>
+										</button>
+										<button type="button" class="settings-accent-option" role="option"
+											data-accent-value="blue" aria-selected="false">
+											<span class="settings-accent-option-dot"
+												aria-hidden="true"></span><span>블루</span><span
+												class="settings-accent-option-check" aria-hidden="true">✓</span>
+										</button>
+										<button type="button" class="settings-accent-option" role="option"
+											data-accent-value="green" aria-selected="false">
+											<span class="settings-accent-option-dot"
+												aria-hidden="true"></span><span>그린</span><span
+												class="settings-accent-option-check" aria-hidden="true">✓</span>
+										</button>
+										<button type="button" class="settings-accent-option" role="option"
+											data-accent-value="yellow" aria-selected="false">
+											<span class="settings-accent-option-dot"
+												aria-hidden="true"></span><span>옐로</span><span
+												class="settings-accent-option-check" aria-hidden="true">✓</span>
+										</button>
+										<button type="button" class="settings-accent-option" role="option"
+											data-accent-value="pink" aria-selected="false">
+											<span class="settings-accent-option-dot"
+												aria-hidden="true"></span><span>핑크</span><span
+												class="settings-accent-option-check" aria-hidden="true">✓</span>
+										</button>
+										<button type="button" class="settings-accent-option" role="option"
+											data-accent-value="orange" aria-selected="false">
+											<span class="settings-accent-option-dot"
+												aria-hidden="true"></span><span>오렌지</span><span
+												class="settings-accent-option-check" aria-hidden="true">✓</span>
+										</button>
+										<button type="button" class="settings-accent-option" role="option"
+											data-accent-value="purple" aria-selected="false">
+											<span class="settings-accent-option-dot"
+												aria-hidden="true"></span><span>퍼플</span><span
+												class="settings-accent-option-check" aria-hidden="true">✓</span>
+										</button>
+									</div>
+								</div>
+							</section>
+							<section class="account-settings-section">
+								<div class="settings-section-title">알림</div>
+								<div class="notification-setting-row">
+									<div class="notification-setting-text">
+										<strong>응답 완료 알림</strong>
+										<small>시간이 걸리는 요청에 응답할 때 알림을 받습니다.</small>
+										<span class="notification-setting-status" aria-live="polite"></span>
+									</div>
+									<button type="button" class="notification-toggle" role="switch" aria-checked="false"
+										aria-label="응답 완료 알림 설정"><span></span></button>
+								</div>
+							</section>
+						</div>
+					</div>
+				</section>
+			</div>
+			<!---------------------------------------- //End: 환경설정 클릭 시 나오는 프로필 모달-------------------------------------->
+
+
+			<!---------------------------------------- Start: 로그아웃 클릭 시 나오는 프로필 모달---------------------------------------------->
+			<div class="custom-modal-backdrop" id="sidebarLogoutModal" data-component="modal" data-modal hidden>
+				<section class="custom-modal modal-medium modal-variant-logout" role="dialog" aria-modal="true"
+					data-modal-variant="logout" aria-label="로그아웃 확인">
+					<div class="modal-variant-panel" data-modal-panel="content">
+						<div class="custom-modal-icon logout" data-modal-icon="logout" aria-hidden="true">
+							<img src="../assets/icons/logout.svg" alt="" />
+						</div>
+						<div class="custom-modal-title" id="sidebarLogoutModal-title" data-slot="title">로그아웃</div>
+						<div class="custom-modal-msg" id="sidebarLogoutModal-description" data-slot="description">
+							AI-ONE에서 로그아웃하시겠습니까?
+						</div>
+						<div class="custom-modal-actions" data-slot="actions">
+							<button type="button" class="btn-cancel" data-modal-close>취소</button>
+							<button type="button" class="btn-confirm danger" data-sidebar-logout-confirm
+								data-modal-close>로그아웃</button>
+						</div>
+					</div>
+				</section>
+			</div>
+			<!---------------------------------------- //End: 로그아웃 클릭 시 나오는 프로필 모달---------------------------------------------->
+
+			<!---------------------------------------- Start: 사이드 바 하단 클릭 시 나오는 프로필 메뉴---------------------------------------------->
+
+			<div class="user-account-menu" id="sidebarAccountMenu" role="menu" aria-label="사용자 계정 메뉴"
+				data-sidebar-account-menu="detached" hidden>
+				<div class="user-account-summary">
+					<strong>박재정 주무관</strong>
+					<span>재정분석과</span>
+				</div>
+				<button type="button" role="menuitem" data-sidebar-account-action="profile"
+					data-modal-open="sidebarProfileModal">
+					<img data-icon="user" alt="" aria-hidden="true" />
+					<span>내 정보</span>
+				</button>
+				<button type="button" role="menuitem" data-sidebar-account-action="settings"
+					data-modal-open="sidebarSettingsModal">
+					<img data-icon="settings-alt" alt="" aria-hidden="true" />
+					<span>환경설정</span>
+				</button>
+				<button type="button" class="danger" role="menuitem" data-sidebar-account-action="logout"
+					data-modal-open="sidebarLogoutModal">
+					<img data-icon="logout" alt="" aria-hidden="true" />
+					<span>로그아웃</span>
+				</button>
+			</div>
+			<!---------------------------------------- //End: 사이드 바 하단 클릭 시 나오는 프로필 메뉴---------------------------------------------->
+
+		</aside>
+		<!---------------------------------------- //End: 사이드 바 ---------------------------------------------->
+
+		<div class="main-wrap">
+			<div class="topbar-host">
+				<!--
+						  [문서/페이지 구조 안내 — 개발자용]
+						  - topbar-title: 현재 페이지 제목 처리
+						  - topbar-right: 현재 페이지에서 제공하는 액션 버튼 처리
+							· 새 채팅 버튼(아이디: newClassifyBtn)
+							· 채팅 목록 버튼(아이디: runDrawerBtn)
+				-->
+				<header class="topbar app-topbar type1">
+					<div class="topbar-title">
+						<h1 class="topbar-maintit" data-topbar-title>국회 답변서 초안 생성 AI 워크스페이스</h1>
+						<p class="topbar-subtit" data-topbar-subtitle>자료 분석 · 유사답변서 추천 · 초안 생성 · AI 채팅</p>
+					</div>
+
+					<div class="topbar-bottom">
+						<div class="topbar-right app-topbar-actions">
+							<button type="button" class="button button-soft-primary" id="newClassifyBtn"
+								data-pages="answer" data-workspace-action="new-chat" aria-label="새 채팅" title="새 채팅">
+								<img class="icon icon-small" aria-hidden="true" data-icon="plus" alt="" />
+								<span>새 채팅</span>
+							</button>
+							<button type="button" class="icon-button icon-button-purple" id="runDrawerBtn"
+								data-pages="answer" aria-label="채팅 목록" title="채팅 목록">
+								<img class="icon icon-text" aria-hidden="true" data-icon="list" alt="" />
+							</button>
+						</div>
+					</div>
+				</header>
+			</div>
+
+			<div class="answer-three-panel-host three-panel-host">
+				<!--
+						  [문서/페이지 구조 안내 — 개발자용]
+				  - three-panel 크기: small(최소 280px, 최대 360px) / medium(300px) / large(400px)
+						  - three-panel 구조: left-small right-large
+								· left: 참조소스 업로드 & 선택한 관련자료 확인
+								· panel-resize-handle: 마우스로 패널 크기 조절 가능
+								· center
+									관련자료 추천: 관련자료 전체 목록 및 문서 내용 확인
+									답변서 초안: 버전별 저장 및 하이라이트, 출처 확인
+								· right: AI 채팅
+									· chat-msg-ai: ai 답변 영역
+									· chat-msg-user: 사용자 질문 영역
+				-->
+				<main class="three-panel left-small right-large" data-component="three-panel">
+					<!-----------------------Start: 참조 소스 업로드 영역 -------------------------->
+					<section class="three-panel-slot three-panel-side small" data-slot="left">
+						<!-- Start: 참조소스 패널 -->
+						<div class="panel panel-component panel-folder answer-source-panel split-handler type2"
+							data-component="split-handler" data-split-min="80" data-panel="folder"
+							aria-labelledby="answerSourceTitle">
+							<header class="panel-head">
+								<h2 class="panel-title" id="answerSourceTitle">
+									<img class="icon icon-small" data-icon="document" alt="" aria-hidden="true" />
+									AI 참조소스
+								</h2>
+								<div class="panel-actions">
+									<button type="button" class="icon-button icon-button-ghost icon-button-sm"
+										data-source-reset aria-label="참조소스 초기화" title="참조소스 초기화">
+										<img class="icon icon-small" data-icon="reset" alt="" aria-hidden="true" />
+									</button>
+									<button type="button"
+										class="icon-button icon-button-ghost icon-button-sm panel-collapse-btn"
+										data-source-collapse aria-label="참조소스 패널 접기" title="참조소스 패널 접기">
+										<img class="icon icon-small" data-icon="panel-collapse" alt=""
+											aria-hidden="true" />
+									</button>
+								</div>
+							</header>
+							<!-- Start: 파일업로드 영역 -->
+							<div class="folder-upload-section answer-source-file-section file-list-section split-handler-pane"
+								data-file-actions data-file-delete-modal="answerSourceFileDeleteModal">
+								<div class="folder-upload-head">
+									<span>파일 추가</span>
+									<span class="selected-refs-count" data-source-file-count>3</span>
+								</div>
+								<!-- 파일 업로드 박스 -->
+								<div class="answer-upload-component file-upload-host" data-component-type="type2">
+									<div class="upload-zone upload-zone-type2" data-file-upload-zone role="button"
+										tabindex="0" aria-label="답변서 참고 파일 업로드">
+										<img class="upload-zone-default-icon" src="../assets/icons/upload.svg" alt=""
+											aria-hidden="true" />
+										<span class="upload-zone-icon" data-slot="icon" aria-hidden="true">
+											<img src="../assets/icons/upload-tray.svg" alt="" />
+										</span>
+										<span class="upload-zone-smart-icon" aria-hidden="true">
+											<svg viewBox="0 0 48 48">
+												<rect x="14" y="12" width="20" height="24" rx="5" />
+												<path d="M19 19h10M19 24h10M19 29h6" />
+												<circle cx="12" cy="15" r="2.3" />
+												<circle cx="36" cy="31" r="2.3" />
+												<path d="M13.8 16.5 17 19M31 29l3.2 1.5" />
+											</svg>
+										</span>
+										<p class="upload-text"><span data-slot="title">여기에 파일을 드래그하거나<br />클릭하여
+												업로드</span></p>
+										<span class="upload-hint"><span data-slot="content">파일 → SLM 작업요청 → 청킹 (업로드마다
+												실행)</span></span>
+										<div data-slot="input">
+											<input type="file" id="answerSourceFileInput" name="answerSources" multiple
+												accept=".pdf,.hwp,.hwpx,.docx,.txt" />
+										</div>
+									</div>
+								</div>
+								<!-- //파일 업로드 박스 -->
+								<button type="button" class="file-list-collapsed-add" data-source-file-add
+									aria-label="참조소스 파일 추가" title="참조소스 파일 추가">
+									<img src="../assets/icons/plus.svg" alt="" aria-hidden="true" />
+								</button>
+								<!-- Start: 업로드한 파일 리스트 사례 -->
+								<ul class="file-list simple answer-source-files" aria-live="polite">
+									<li class="file-item-simple">
+										<span class="file-type-dot hwp" aria-hidden="true"></span>
+										<span class="file-icon file-icon-collapsed hwp" aria-hidden="true">HWP</span>
+										<span class="file-name-simple"
+											title="260402_재경위_전체 의원 질의에 대한 답변_통합본.hwp">260402_재경위_전체 의원 질의에 대한
+											답변_통합본.hwp</span>
+										<span class="status-badge type1 blue" data-file-status="done">청킹 완료 13청크</span>
+										<button class="file-remove-simple" type="button"
+											aria-label="260402_재경위_전체 의원 질의에 대한 답변_통합본.hwp 삭제">×</button>
+									</li>
+									<li class="file-item-simple">
+										<span class="file-type-dot hwp" aria-hidden="true"></span>
+										<span class="file-icon file-icon-collapsed hwp" aria-hidden="true">HWPX</span>
+										<span class="file-name-simple" title="지방채 인수를 해야 하는 법적 의무.hwpx">지방채 인수를 해야 하는 법적
+											의무.hwpx</span>
+										<span class="status-badge type1 blue" data-file-status="done">청킹 완료 8청크</span>
+										<button class="file-remove-simple" type="button"
+											aria-label="지방채 인수를 해야 하는 법적 의무.hwpx 삭제">×</button>
+									</li>
+									<li class="file-item-simple">
+										<span class="file-type-dot hwp" aria-hidden="true"></span>
+										<span class="file-icon file-icon-collapsed hwp" aria-hidden="true">HWPX</span>
+										<span class="file-name-simple"
+											title="지방교부세가 지급되고 있고 지방채 인수시 추경 편성 이유.hwpx">지방교부세가 지급되고 있고 지방채 인수시 추경 편성
+											이유.hwpx</span>
+										<span class="status-badge type1 blue" data-file-status="done">청킹 완료 11청크</span>
+										<button class="file-remove-simple" type="button"
+											aria-label="지방교부세가 지급되고 있고 지방채 인수시 추경 편성 이유.hwpx 삭제">×</button>
+									</li>
+								</ul>
+								<!-- //End: 업로드한 파일 리스트 사례 -->
+								<div class="answer-source-empty-guide" data-source-empty-guide hidden>
+									<strong>답변서 초안 생성에 참조할 문서를 첨부해 보세요</strong>
+									<span>첨부 없이도 과거 답변서 기반으로 초안 생성이 가능합니다</span>
+								</div>
+							</div>
+							<div class="left-panel-resize-handle split-handler-handle type2" id="docSplitHandle"
+								role="separator" aria-orientation="horizontal" aria-label="원본 문서 영역 너비 조절"
+								title="원본 문서 영역 너비 조절" tabindex="0"></div>
+							<!-- Start: 선택된 관련 자료 -->
+							<div class="selected-refs split-handler-pane" id="selectedRefsSection">
+								<div class="selected-refs-head">
+									<span class="selected-refs-title">선택된 관련자료</span>
+									<span class="selected-refs-count" data-selected-reference-count>1</span>
+								</div>
+								<ul class="selected-refs-list" aria-live="polite">
+									<li>
+										<span class="ref-score">91%</span>
+										<span class="ref-name">260402_재경위_전체 의원 질의에 대한 답변_통합본</span>
+										<button type="button" class="ref-remove" data-selected-reference-remove
+											data-reference-index="0" aria-label="선택 해제">×</button>
+									</li>
+								</ul>
+								<!-- Start: 선택된 관련자료가 없을 경우 -->
+								<div class="selected-refs-guide" data-selected-references-empty hidden>
+									<p class="selected-refs-guide-title">관련자료 추천 목록에서 추가할 자료를 선택해 보세요</p>
+									<p class="selected-refs-guide-desc">선택된 자료를 기반으로 초안에 반영이 가능합니다</p>
+								</div>
+								<!-- //End: 선택된 관련자료가 없을 경우 -->
+								<div class="selected-refs-footer">
+									<span class="refs-footer-icon">✓</span>
+									<span class="refs-footer-text">초안에 반영 가능 — 선택된 소스를 근거로 답변서를 생성합니다</span>
+								</div>
+							</div>
+							<!--//End 선택된 관련 자료 -->
+						</div>
+					</section>
+					<!-----------------------//End: 참조 소스 업로드 영역 -------------------------->
+					<div class="panel-resize-handle" data-resize="0" role="separator" aria-label="왼쪽 패널 크기 조절"
+						aria-orientation="vertical" tabindex="0"></div>
+					<!-----------------------Start: 관련자료,답변서 초안 생성 영역 -------------------------->
+					<section class="three-panel-slot three-panel-center" data-slot="center">
+						<div class="panel panel-component panel-center answer-center-panel" data-panel="center"
+							aria-labelledby="answerWorkspaceTitle">
+							<header class="center-header">
+								<h2 class="center-header-title" id="answerWorkspaceTitle">
+									<img class="icon icon-small" data-icon="document-add" alt="" aria-hidden="true" />
+									<span>관련자료 · 답변서 초안생성</span>
+								</h2>
+								<!--
+									[문서/페이지 구조 안내 — 개발자용]
+									- center-tab 종류
+											· 관련자료 추천 (아이디: answerTabRecommend)
+											· 답변서 초안 (아이디: answerTabDraft)
+
+
+											· 9월 15일 버전에서 제외되는 탭
+											- 답변서 비교 (아이디: answerTabCompare)
+								-->
+								<div class="center-tabs tab-button-list" role="tablist" aria-label="답변서 작업 단계">
+									<button type="button" class="tab-button active is-active" id="answerTabRecommend"
+										role="tab" aria-selected="true" aria-controls="answerPanelRecommend"
+										data-answer-tab="recommend">
+										관련자료 추천 <span class="tab-count">8</span>
+									</button>
+									<button type="button" class="tab-button" id="answerTabDraft" role="tab"
+										aria-selected="false" aria-controls="answerPanelDraft" data-answer-tab="draft"
+										tabindex="-1">
+										답변서 초안 <span class="tab-count">1</span>
+									</button>
+								</div>
+								<span class="answer-center-spacer" aria-hidden="true"></span>
+							</header>
+
+							<!-- 관련자료,답변서 초안생성 패널 내 본문 영역 -->
+							<div class="center-body answer-center-body">
+								<!--
+									[문서/페이지 구조 안내 — 개발자용]
+									- recommend-view-wrapper: 관련자료 추천 패널
+									- draft-view-wrapper: 답변서 초안 패널
+								-->
+
+								<!----------------------------- Start: 관련자료추천 탭 내용 -------------------------------------- -->
+								<section class="answer-tab-panel recommend-view-wrapper doc-viewer-panel"
+									id="answerPanelRecommend" role="tabpanel" aria-labelledby="answerTabRecommend"
+									data-answer-panel="recommend">
+									<!--------------- Start: 관련자료 추천이 없을 경우 ----------------->
+									<div class="answer-recommend-empty" data-answer-recommend-empty hidden>
+										<img src="../assets/icons/search.svg" alt="" aria-hidden="true" />
+										<strong>검색된 추천 자료가 없습니다</strong>
+										<span>우측 AI 채팅에 질의 내용이나 검색 키워드를 입력해 보세요<br />AI가 관련 유사답변서와 참고자료를 추천합니다</span>
+									</div>
+									<!--------------- //End:관련자료 추천이 없을 경우 ----------------->
+									<div class="center-split split-handler" data-component="split-handler"
+										data-answer-recommend-results data-split-min="240">
+										<div class="center-left split-handler-left">
+											<div class="center-sub-head">
+												<span class="sub-title">관련자료 목록</span>
+												<label class="rec-select-all">
+													<input class="checkbox-control checkbox-control-sm" type="checkbox"
+														data-select-all-references />
+													<span>전체선택</span>
+												</label>
+												<span class="sub-badge">유사도순</span>
+											</div>
+											<!----------------- Start: 관련자료 필터 바 모음 --------------- -->
+											<div class="filter-bar answer-reference-filters" role="toolbar"
+												aria-label="관련자료 필터">
+												<button type="button" class="filter-btn active"
+													data-reference-filter="all" aria-pressed="true">전체
+													<span>8</span></button>
+												<button type="button" class="filter-btn" data-reference-filter="similar"
+													aria-pressed="false">유사답변서 <span>8</span></button>
+												<button type="button" class="filter-btn"
+													data-reference-filter="reference" aria-pressed="false">참조소스
+													<span>0</span></button>
+											</div>
+											<!----------------- //End: 관련자료 필터 바 모음 --------------- -->
+
+											<!---------- Start: 관련자료 목록 카드 리스트 ------------------>
+											<div class="recommend-list" data-recommend-list>
+												<!--
+													[문서/페이지 구조 안내 — 개발자용]
+													- 관련자료 카드(rec-card)
+															· rec-card-head:체크박스, 제목, 유사도 점수
+															·  rec-top-badge: 유사도 순위 표시
+															·  rec-meta: 자료 유형, 연도, 소속기관
+															·  rec-desc: 자료 요약
+															·  rec-tag: 자료 태그
+												-->
+												<article class="rec-card active" data-reference-card
+													data-category="similar" data-score="91"
+													data-title="재경위 전체 의원 질의에 대한 답변 통합본">
+													<div class="rec-card-head">
+														<label class="rec-checkbox"><input
+																class="checkbox-control checkbox-control-sm"
+																type="checkbox" aria-label="관련자료 선택" checked /></label>
+														<strong class="rec-title">260402_재경위_전체 의원 질의에 대한
+															답변_통합본</strong>
+														<span class="rec-score">91%</span>
+													</div>
+													<span class="rec-top-badge rec-top-badge--first">TOP 1</span>
+													<p class="rec-meta">과거답변서 · 2026년 · 기획재정위원회</p>
+													<p class="rec-desc">공자기금 지방채 인수 제도 개요, 추경 편성 배경, 지원조건 등을 포함.</p>
+													<div class="rec-tags">
+														<span class="rec-tag">과거답변서</span>
+														<span class="rec-tag">지방채인수</span>
+													</div>
+												</article>
+												<article class="rec-card" data-reference-card data-category="similar"
+													data-score="88" data-title="지방채 인수를 해야 하는 법적 의무">
+													<div class="rec-card-head">
+														<label class="rec-checkbox"><input
+																class="checkbox-control checkbox-control-sm"
+																type="checkbox" aria-label="관련자료 선택" /></label>
+														<strong class="rec-title">지방채 인수를 해야 하는 법적 의무</strong>
+														<span class="rec-score">88%</span>
+													</div>
+													<span class="rec-top-badge">TOP 2</span>
+													<p class="rec-meta">참고문서 · 법령근거 · 재정정책국</p>
+													<p class="rec-desc">지방재정법 시행령과 공공자금관리기금법 시행령의 법적 근거 정리.</p>
+													<div class="rec-tags">
+														<span class="rec-tag">법령근거</span><span
+															class="rec-tag">공자기금</span>
+													</div>
+												</article>
+												<article class="rec-card" data-reference-card data-category="similar"
+													data-score="95" data-title="지방교부세와 지방채 인수 추경 편성 이유">
+													<div class="rec-card-head">
+														<label class="rec-checkbox"><input
+																class="checkbox-control checkbox-control-sm"
+																type="checkbox" aria-label="관련자료 선택" /></label>
+														<strong class="rec-title">지방교부세가 지급되고 있고 지방채 인수시 추경을 편성해야 하는
+															이유</strong>
+														<span class="rec-score">95%</span>
+													</div>
+													<span class="rec-top-badge">TOP 3</span>
+													<p class="rec-meta">원본질의 · 2026년 · 기획재정위원회</p>
+													<p class="rec-desc">공자기금 제도 개요, 추경 배경, 광주·전남 사례를 포함한 직접 답변 자료.</p>
+													<div class="rec-tags"><span class="rec-tag">원본답변</span><span
+															class="rec-tag">추경편성</span></div>
+												</article>
+												<article class="rec-card" data-reference-card data-category="similar"
+													data-score="76" data-title="TK통합법 관련 지방채 인수 추경안 견해">
+													<div class="rec-card-head">
+														<label class="rec-checkbox"><input
+																class="checkbox-control checkbox-control-sm"
+																type="checkbox" aria-label="관련자료 선택" /></label>
+														<strong class="rec-title">민주당 반대로 무산된 TK통합법 관련 지방채 인수 추경안
+															견해</strong>
+														<span class="rec-score">76%</span>
+													</div>
+													<p class="rec-meta">참고답변 · 2026년 · 기획재정위원회</p>
+													<p class="rec-desc">TK통합법 통과 시 추경안 포함 가능성에 대한 정부 견해.</p>
+												</article>
+												<article class="rec-card" data-reference-card data-category="similar"
+													data-score="95" data-title="지방채 인수 예산 현황표">
+													<div class="rec-card-head">
+														<label class="rec-checkbox"><input
+																class="checkbox-control checkbox-control-sm"
+																type="checkbox" aria-label="관련자료 선택" /></label>
+														<strong class="rec-title">지방채 인수 예산 현황표 ('16~'26)</strong>
+														<span class="rec-score">95%</span>
+													</div>
+													<span class="rec-top-badge rec-top-badge--first">TOP 1</span>
+													<p class="rec-meta">참고자료 · 첨부용 · 재정정책국</p>
+													<p class="rec-desc">연도별 지방채 인수 계획·실적·인수잔액 현황.</p>
+												</article>
+												<article class="rec-card" data-reference-card data-category="similar"
+													data-score="92" data-title="광주·전남 통합 관련 추경 수요 상세">
+													<div class="rec-card-head">
+														<label class="rec-checkbox"><input
+																class="checkbox-control checkbox-control-sm"
+																type="checkbox" aria-label="관련자료 선택" /></label>
+														<strong class="rec-title">광주·전남 통합 관련 추경 수요 상세</strong>
+														<span class="rec-score">92%</span>
+													</div>
+													<span class="rec-top-badge">TOP 2</span>
+													<p class="rec-meta">참고자료 · 근거자료 · 지역발전정책국</p>
+													<p class="rec-desc">통합특별시 설치 관련 추경 규모와 지자체별 세부 수요.</p>
+												</article>
+												<article class="rec-card" data-reference-card data-category="similar"
+													data-score="84" data-title="세수추계 및 세입경정 운용 자료">
+													<div class="rec-card-head">
+														<label class="rec-checkbox"><input
+																class="checkbox-control checkbox-control-sm"
+																type="checkbox" aria-label="관련자료 선택" /></label>
+														<strong class="rec-title">세수추계 및 세입경정 운용 자료</strong>
+														<span class="rec-score">84%</span>
+													</div>
+													<span class="rec-top-badge">TOP 3</span>
+													<p class="rec-meta">참고자료 · 분석자료 · 세제실</p>
+													<p class="rec-desc">초과세수 기반 추경 편성과 세목별 규모 검증 결과.</p>
+												</article>
+												<article class="rec-card" data-reference-card data-category="similar"
+													data-score="72" data-title="세수추계 오차 분석 및 개선 방안">
+													<div class="rec-card-head">
+														<label class="rec-checkbox"><input
+																class="checkbox-control checkbox-control-sm"
+																type="checkbox" aria-label="관련자료 선택" /></label>
+														<strong class="rec-title">세수추계 오차 분석 및 개선 방안</strong>
+														<span class="rec-score">72%</span>
+													</div>
+													<p class="rec-meta">참고자료 · 분석보고서 · 세제실</p>
+													<p class="rec-desc">과거 세수추계 오차 원인과 개선 방향을 정리한 분석자료.</p>
+												</article>
+											</div>
+											<!---------- //End: 관련자료 목록 카드 리스트 ------------------>
+											<div class="rec-apply-bar">
+												<button type="button" class="btn-outline" data-apply-references>선택 자료
+													초안에 반영</button>
+											</div>
+										</div>
+
+
+										<div class="center-split-handle split-handler-handle" role="separator"
+											aria-label="관련자료 목록과 문서 미리보기 너비 조절" aria-orientation="vertical"
+											tabindex="0">
+										</div>
+										<!-------------------------------------- Start: 문서 미리보기 영역 --------------------------------------->
+										<div class="center-right split-handler-right">
+											<!--
+												[문서/페이지 구조 안내 — 개발자용]
+												- center-sub-head: 문서 미리보기, 유사도 확인
+												- doc-viewer-body: 문서 원문 전체
+													· doc-pages-track: 페이지 스택(줌·다운로드 대상). 페이지가 늘면 web-doc-page가 반복됨
+													· web-doc-page: A4 비율 문서 시트 = 페이지 1장. 페이지네이션은 이 단위로 처리
+														· web-doc-header: 문서 제목, 소속기관, 연도
+														· web-doc-meta-box: 문서 메타정보(문서명, 문서유형, 활용등급, 검토메모)
+														· web-doc-body: 문서 본문
+														· web-doc-page-footer: 페이지 번호
+											-->
+											<div class="center-sub-head">
+												<span class="sub-title">문서 미리보기</span>
+												<span class="sub-badge blue" data-preview-score>유사도 91%</span>
+											</div>
+											<article class="preview-body doc-viewer-body">
+												<div class="doc-pages-track">
+													<section class="web-doc-page">
+														<header class="web-doc-header">
+															<span class="web-doc-org">기획재정위원회 · 2026년</span>
+															<h3 class="web-doc-title" data-preview-title>재경위 전체 의원 질의에
+																대한 답변 통합본</h3>
+														</header>
+														<div class="web-doc-meta-box">
+															<div class="web-doc-meta-item"><span
+																	class="web-doc-meta-label">문서명</span><span>260402_재경위_전체
+																	의원 질의에 대한 답변_통합본</span></div>
+															<div class="web-doc-meta-item"><span
+																	class="web-doc-meta-label">문서유형</span><span>과거답변서 ·
+																	기획재정위원회</span></div>
+															<div class="web-doc-meta-item"><span
+																	class="web-doc-meta-label">활용등급</span><span>91% 유사도
+																	· 과거답변서</span></div>
+															<div class="web-doc-meta-item"><span
+																	class="web-doc-meta-label">검토메모</span><span>공자기금 지방채
+																	인수 제도 개요와 추경 편성 배경 포함</span></div>
+														</div>
+														<div class="web-doc-body">
+															<p class="web-doc-lead">공자기금 지방채 인수 제도 개요, 추경 편성 배경과 지원조건을
+																포함한 답변 통합본입니다.</p>
+															<section class="web-doc-section">
+																<h4 class="web-doc-section-title">질의 배경</h4>
+																<p class="web-doc-section-desc">질의 배경 항목은 답변서 초안 작성에 바로
+																	활용할 수 있는 내용을 정리한 부분입니다.</p>
+																<ul class="web-doc-list">
+																	<li>재경위 소속 의원 다수가 지방채 인수 제도와 추경 편성 배경에 대해 공통 질의를 제기함
+																	</li>
+																	<li>지방교부세와 지방채의 재원 성격 차이에 대한 설명 요청이 다수 포함됨</li>
+																</ul>
+																<p class="web-doc-note">질의 배경 관련 내용은 선택된 소스의 근거를 활용합니다.
+																</p>
+															</section>
+															<section class="web-doc-section">
+																<h4 class="web-doc-section-title">활용 가능 문단</h4>
+																<p class="web-doc-section-desc">활용 가능한 핵심 문단과 검토 포인트를 함께
+																	확인할 수 있습니다.</p>
+																<ul class="web-doc-list">
+																	<li>공자기금은 지방자치단체가 발행하는 지방채를 장기 저리로 인수하여 자금을 지원함</li>
+																	<li>특정 자본적 지출 사업은 필요한 경우 추경을 통해 인수 예산을 편성함</li>
+																</ul>
+																<p class="web-doc-note">활용 가능 문단은 답변서 초안에 직접 반영할 수 있습니다.
+																</p>
+															</section>
+														</div>
+														<footer class="web-doc-page-footer">- 1 / 2 -</footer>
+													</section>
+													<section class="web-doc-page">
+														<header class="web-doc-header">
+															<h3 class="web-doc-title">재경위 전체 의원 질의에 대한 답변 통합본 · (계속)
+															</h3>
+														</header>
+														<div class="web-doc-body">
+															<section class="web-doc-section">
+																<h4 class="web-doc-section-title">제도 운영 현황</h4>
+																<ul class="web-doc-list">
+																	<li>인수금리는 공자기금 예탁금리와 동일하게 분기별 고정 적용</li>
+																	<li>인수기간은 5년 거치 10년 분할 상환 조건으로 운영</li>
+																</ul>
+															</section>
+															<section class="web-doc-section">
+																<h4 class="web-doc-section-title">초안 반영 제안</h4>
+																<ul class="web-doc-list">
+																	<li>제도 개요 표를 답변서에 직접 활용</li>
+																	<li>금리 수치는 답변 시점 최신 고시 기준 확인 필요</li>
+																</ul>
+															</section>
+														</div>
+														<footer class="web-doc-page-footer">- 2 / 2 -</footer>
+													</section>
+												</div>
+											</article>
+										</div>
+										<!-------------------------------------- //End: 문서 미리보기 영역 --------------------------------------->
+									</div>
+									<!--------------------------------------- Start: 페이지 줌, 글자 수 확인 바 -------------------------------------->
+									<div data-answer-recommend-status class="document-statusbar-host">
+										<footer class="document-statusbar" data-component="document-statusbar"
+											data-document-statusbar
+											data-document-target=".recommend-view-wrapper .doc-pages-track"
+											data-document-scroll-target=".recommend-view-wrapper .doc-viewer-body"
+											data-document-page-selector=".web-doc-page"
+											data-document-fullscreen-target=".recommend-view-wrapper"
+											data-document-zoom="100" data-document-min-zoom="50"
+											data-document-max-zoom="200" data-document-zoom-step="10">
+											<div class="document-statusbar-stats" data-slot="stats">
+												<span class="document-statusbar-stat">관련자료 <strong>8</strong>건</span>
+												<span class="document-statusbar-separator" aria-hidden="true">|</span>
+												<span class="document-statusbar-stat">
+													글자 수 <strong>1,310</strong>자
+												</span>
+												<span class="document-statusbar-separator" aria-hidden="true">|</span>
+												<span class="document-statusbar-stat">
+													페이지 <strong data-document-page-current>1</strong>/<strong
+														data-document-page-total>2</strong>
+												</span>
+											</div>
+											<!-- Start: 문서 확대 축소 및 전체보기 영역 -->
+											<div class="document-statusbar-controls" aria-label="문서 확대 축소 및 전체보기">
+												<button type="button"
+													class="icon-button icon-button-sm document-statusbar-button"
+													data-document-statusbar-action="zoom-out" aria-label="문서 축소"
+													title="문서 축소">−</button>
+												<strong class="document-statusbar-zoom"
+													data-document-statusbar-zoom-value>100%</strong>
+												<button type="button"
+													class="icon-button icon-button-sm document-statusbar-button"
+													data-document-statusbar-action="zoom-in" aria-label="문서 확대"
+													title="문서 확대">＋</button>
+												<button type="button"
+													class="icon-button icon-button-sm document-statusbar-button document-statusbar-fullscreen-button"
+													data-document-statusbar-action="fullscreen" aria-label="문서 전체보기"
+													title="문서 전체보기" aria-pressed="false">
+													<img class="icon icon-small document-statusbar-expand-icon"
+														src="../assets/icons/fullscreen-expand.svg" alt=""
+														aria-hidden="true" />
+													<img class="icon icon-small document-statusbar-shrink-icon"
+														src="../assets/icons/fullscreen-shrink.svg" alt=""
+														aria-hidden="true" />
+												</button>
+											</div>
+											<!-- //End: 문서 확대 축소 및 전체보기 영역 -->
+										</footer>
+									</div>
+									<!--------------------------------------- //End: 페이지 줌, 글자 수 확인 바 -------------------------------------->
+								</section>
+								<!----------------------------- //End: 관련자료추천 탭 내용 -------------------------------------- -->
+
+								<!----------------------------- Start: 답변서 초안 탭 내용 -------------------------------------- -->
+								<section class="answer-tab-panel answer-draft-panel" id="answerPanelDraft"
+									role="tabpanel" aria-labelledby="answerTabDraft" data-answer-panel="draft" hidden>
+									<!----------------------------- Start: 답변서 초안 초기화 빈 화면 -------------------------------------- -->
+									<div class="empty-state answer-draft-empty" data-answer-draft-empty role="status"
+										aria-live="polite" hidden>
+										<img class="icon answer-draft-empty-icon" data-icon="edit" alt=""
+											aria-hidden="true" />
+										<p class="empty-title">답변서 초안이 없습니다</p>
+										<p class="empty-desc">우측 AI 채팅에 질의 내용이나 검색 키워드를 입력하여 초안을 생성해 보세요</p>
+									</div>
+									<!----------------------------- //End: 답변서 초안 초기화 빈 화면 -------------------------------------- -->
+									<div class="answer-draft-versionbar" data-answer-draft-content>
+										<span class="answer-version-chip">v1.0(09:18)
+											<button type="button" class="answer-version-close"
+												aria-label="버전 탭 닫기">×</button>
+										</span>
+										<label class="answer-version-control">
+											<span>버전</span>
+											<select class="answer-version-select" aria-label="답변서 초안 버전">
+												<option>v1.0(09:18)</option>
+											</select>
+										</label>
+										<button type="button"
+											class="icon-button icon-button-ghost answer-version-download"
+											data-download-draft aria-label="답변서 초안 다운로드" title="답변서 초안 다운로드">
+											<img class="icon icon-small" data-icon="download" alt=""
+												aria-hidden="true" />
+										</button>
+									</div>
+									<div class="answer-draft-toolbar" data-answer-draft-content>
+										<label class="verify-check-label">
+											<input class="checkbox-control checkbox-control-xs" type="checkbox"
+												data-answer-highlight-toggle aria-controls="answerDraftDocument"
+												checked />
+											<span>문장별 하이라이트</span>
+										</label>
+										<label class="verify-check-label">
+											<input class="checkbox-control checkbox-control-xs" type="checkbox"
+												data-answer-source-toggle aria-controls="answerDraftDocument" checked />
+											<span>출처번호 보기</span>
+										</label>
+										<span class="verify-legend green">녹색: 근거 확인</span>
+										<span class="verify-legend yellow">노랑: 주의</span>
+										<span class="verify-legend red">빨강: 출처 누락</span>
+									</div>
+									<div class="answer-draft-split-area split-handler" data-component="split-handler"
+										data-answer-draft-content data-split-min="260">
+										<div class="answer-draft-main split-handler-left">
+											<h3 class="answer-draft-heading">답변서 초안 · v1.0(09:18)</h3>
+											<div class="answer-draft-scroll">
+												<article class="answer-draft-document" id="answerDraftDocument">
+													<div class="answer-question-block">
+														<strong>1</strong>
+														<h3>지방교부세가 지급되고 있고 지방채 인수시 지자체 채무는 증가함에도 추경을 편성해야 하는 이유는?</h3>
+													</div>
+													<div class="answer-summary-block">
+													<p class="answer-summary-line is-caution"
+															data-answer-evidence-refs="3,4">□ 지방자치단체의 특정 자본적 지출 사업 수행을
+															위해
+															공공자금관리기금이 지방채를 장기 저리로 인수하여 지방재정을 지원하기 때문입니다.
+															<sup class="answer-verification-badge">[주의]</sup>
+														</p>
+													</div>
+													<section>
+														<h4>□ 지방채 인수 추경 편성 배경</h4>
+														<p class="is-caution" data-answer-evidence-refs="1,2">
+															공공자금관리기금(공자기금)은 지방재정 지원을 목적으로 지방자치단체가 발행하는 지방채를 장기 저리로
+															인수하여 자금을 지원함 <sup class="answer-source-citation">1,2</sup>
+															<sup class="answer-verification-badge">[주의]</sup>
+														</p>
+														<p class="is-grounded">도로, 지하철 건설, 공공용 시설 설치 등 특정 자본적 지출 사업의 원활한
+															추진을 위해
+															추경을 통해 인수 예산을 편성함 <sup
+																class="answer-source-citation">1,3</sup>
+															<sup class="answer-verification-badge">[3]</sup>
+														</p>
+													</section>
+													<section>
+														<h4>□ 공자기금 지방채 인수 제도 개요</h4>
+														<p class="is-grounded">○ 지방채 인수의 구체적인 지원 대상 및 조건은 다음과 같음
+															<sup class="answer-source-citation">1,3</sup>
+															<sup class="answer-verification-badge">[4]</sup>
+														</p>
+														<table class="draft-table">
+															<thead>
+																<tr>
+																	<th>구분</th>
+																	<th>내용</th>
+																</tr>
+															</thead>
+															<tbody>
+																<tr>
+																	<td>지원대상</td>
+																	<td>지방자치단체(시·도)</td>
+																</tr>
+																<tr>
+																	<td>지원사업</td>
+																	<td>도로, 지하철건설, 공공용 시설의 설치, 지역개발사업 등 특정 자본적 지출 사업
+																	</td>
+																</tr>
+																<tr>
+																	<td>지원조건</td>
+																	<td>공자기금 예탁금리와 동일한 분기별 고정금리<br />5년 거치 10년 분할 상환
+																	</td>
+																</tr>
+																<tr>
+																	<td>집행절차</td>
+																	<td>행안부 발행계획 마련 및 협의 → 지자체별 계획 승인 → 지방의회 의결 후 인수 요청
+																	</td>
+																</tr>
+															</tbody>
+														</table>
+													</section>
+													<section>
+														<h4>□ 추경 편성의 구체적 사례</h4>
+														<p class="is-grounded">광주·전남 통합특별시 출범과 관련하여 통합전산망 구축, 안내표지판 설치 등
+															지방채 인수
+															수요를 반영하여 추경을 편성함 <sup>[1]</sup></p>
+													</section>
+													<section>
+														<h3>공자기금 지방채 인수 제도</h3>
+														<h4>(1) 제도 개요 및 목적</h4>
+														<p class="is-caution">지방재정 지원을 목적으로 지방자치단체가 발행하는 지방채를 장기 저리로 인수
+															<sup>[주의]</sup>
+														</p>
+														<p class="is-missing">기타 운영 사항은 최신 기금운용계획 확인 후 반영 필요 <sup>[출처
+																누락]</sup>
+														</p>
+													</section>
+												</article>
+											</div>
+										</div>
+									</div>
+									<div class="document-statusbar-host" data-answer-draft-content>
+										<footer class="document-statusbar" data-component="document-statusbar"
+											data-document-statusbar
+											data-document-target=".answer-draft-panel .answer-draft-document"
+											data-document-scroll-target=".answer-draft-panel .answer-draft-scroll"
+											data-document-page-selector=""
+											data-document-fullscreen-target=".answer-draft-panel"
+											data-document-zoom="100" data-document-min-zoom="50"
+											data-document-max-zoom="200" data-document-zoom-step="10">
+											<div class="document-statusbar-stats" data-slot="stats">
+												<span class="document-statusbar-stat">
+													글자 수 <strong>2,237</strong>자
+												</span>
+												<span class="document-statusbar-separator" aria-hidden="true">|</span>
+												<span class="document-statusbar-stat">
+													페이지 <strong>1</strong>/<strong>2</strong>
+												</span>
+											</div>
+											<div class="document-statusbar-controls" aria-label="문서 확대 축소 및 전체보기">
+												<button type="button"
+													class="icon-button icon-button-sm document-statusbar-button"
+													data-document-statusbar-action="zoom-out" aria-label="문서 축소"
+													title="문서 축소">−</button>
+												<strong class="document-statusbar-zoom"
+													data-document-statusbar-zoom-value>100%</strong>
+												<button type="button"
+													class="icon-button icon-button-sm document-statusbar-button"
+													data-document-statusbar-action="zoom-in" aria-label="문서 확대"
+													title="문서 확대">＋</button>
+												<button type="button"
+													class="icon-button icon-button-sm document-statusbar-button document-statusbar-fullscreen-button"
+													data-document-statusbar-action="fullscreen" aria-label="문서 전체보기"
+													title="문서 전체보기" aria-pressed="false">
+													<img class="icon icon-small document-statusbar-expand-icon"
+														src="../assets/icons/fullscreen-expand.svg" alt=""
+														aria-hidden="true" />
+													<img class="icon icon-small document-statusbar-shrink-icon"
+														src="../assets/icons/fullscreen-shrink.svg" alt=""
+														aria-hidden="true" />
+												</button>
+											</div>
+										</footer>
+									</div>
+								</section>
+								<!----------------------------- //End: 답변서 초안 탭 내용 -------------------------------------- -->
+
+							</div>
+							<!------------------ //End: 관련자료,답변서 초안 생성 영역 -------------------------->
+						</div>
+					</section>
+					<!-----------------------//End: 관련자료,답변서 초안 생성 영역 -------------------------->
+					<div class="panel-resize-handle" data-resize="1" role="separator" aria-label="오른쪽 패널 크기 조절"
+						aria-orientation="vertical" tabindex="0"></div>
+					<!-----------------------Start: AI채팅 영역----------------------->
+					<section class="three-panel-slot three-panel-side large" data-slot="right">
+						<div class="panel panel-component panel-chat answer-chat-panel" data-panel="chat"
+							aria-labelledby="answerChatTitle">
+							<header class="panel-head">
+								<h2 class="panel-title" id="answerChatTitle">
+									<svg viewBox="0 0 24 24" aria-hidden="true">
+										<path d="M21 15a2 2 0 0 1-2 2H8l-5 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
+										<path d="M8 10h.01M12 10h.01M16 10h.01" />
+									</svg>
+									AI 채팅
+								</h2>
+							</header>
+							<div class="chat-messages" id="answerChatMessages" data-chat-message-list
+								data-variant="answer" data-message-actions="none" aria-live="polite">
+								<div class="chat-msg ai" data-component="chat-message" data-variant="answer"
+									data-role="ai" data-status="complete" data-message-actions="none" data-chat-intro>
+									<span class="chat-ai-avatar"><svg viewBox="0 0 24 24" aria-hidden="true">
+											<path
+												d="M12 2.8l1.45 3.75L17.2 8l-3.75 1.45L12 13.2l-1.45-3.75L6.8 8l3.75-1.45L12 2.8z">
+											</path>
+											<path
+												d="M18.4 12.3l.78 2.02 2.02.78-2.02.78-.78 2.02-.78-2.02-2.02-.78 2.02-.78.78-2.02z">
+											</path>
+											<path
+												d="M6 14.1l.92 2.18 2.18.92-2.18.92L6 20.3l-.92-2.18-2.18-.92 2.18-.92L6 14.1z">
+											</path>
+										</svg></span>
+									<div class="msg-text">국회 질의를 입력해 보세요!<br />AI가 지능형 검색을 통해 관련자료를 추천하고 국회 답변서 초안 생성을
+										시작합니다.<br />① (선택) 좌측 AI 참조소스에서 첨부파일을 업로드하고<br />② 이 채팅에 국회질의를 입력하시면<br />과거
+										유사답변서나 관련자료 추천하고 초안을 생성합니다.</div>
+									<span class="msg-time">11:41</span>
+								</div>
+								<div class="chat-msg user" data-component="chat-message" data-variant="answer"
+									data-role="user" data-status="complete">
+									<div class="msg-text">지방교부세가 지급되고 있고 지방채 인수시 지자체 채무는 증가함에도 추경을 편성해야 하는 이유는?</div>
+									<span class="msg-time">11:42</span>
+								</div>
+								<div class="chat-msg ai" data-component="chat-message" data-variant="answer"
+									data-role="ai" data-status="complete">
+									<span class="chat-ai-avatar"><svg viewBox="0 0 24 24" aria-hidden="true">
+											<path
+												d="M12 2.8l1.45 3.75L17.2 8l-3.75 1.45L12 13.2l-1.45-3.75L6.8 8l3.75-1.45L12 2.8z">
+											</path>
+											<path
+												d="M18.4 12.3l.78 2.02 2.02.78-2.02.78-.78 2.02-.78-2.02-2.02-.78 2.02-.78.78-2.02z">
+											</path>
+											<path
+												d="M6 14.1l.92 2.18 2.18.92-2.18.92L6 20.3l-.92-2.18-2.18-.92 2.18-.92L6 14.1z">
+											</path>
+										</svg></span>
+									<div class="msg-text">유사 과거답변서 5건을 문서 단위로 추천했습니다. (최고 유사도 38%)<br />좌측 "유사답변서 추천
+										목록"에서 확인·선택할 수 있습니다.</div>
+									<span class="msg-time">11:42</span>
+								</div>
+								<div class="chat-msg ai" data-component="chat-message" data-variant="answer"
+									data-role="ai" data-status="complete">
+									<span class="chat-ai-avatar"><svg viewBox="0 0 24 24" aria-hidden="true">
+											<path
+												d="M12 2.8l1.45 3.75L17.2 8l-3.75 1.45L12 13.2l-1.45-3.75L6.8 8l3.75-1.45L12 2.8z">
+											</path>
+											<path
+												d="M18.4 12.3l.78 2.02 2.02.78-2.02.78-.78 2.02-.78-2.02-2.02-.78 2.02-.78.78-2.02z">
+											</path>
+											<path
+												d="M6 14.1l.92 2.18 2.18.92-2.18.92L6 20.3l-.92-2.18-2.18-.92 2.18-.92L6 14.1z">
+											</path>
+										</svg></span>
+									<div class="msg-text">답변서 초안을 생성했습니다. 과거답변 5건, 첨부 7건을 청크 단위로 반영했습니다.<br />"답변서 초안
+										분석" 탭에서 편집하거나, 채팅으로 수정 지시를 내릴 수 있습니다.</div>
+									<span class="msg-time">11:42</span>
+								</div>
+								<div class="chat-msg ai" data-component="chat-message" data-variant="answer"
+									data-role="ai" data-status="complete">
+									<span class="chat-ai-avatar"><svg viewBox="0 0 24 24" aria-hidden="true">
+											<path
+												d="M12 2.8l1.45 3.75L17.2 8l-3.75 1.45L12 13.2l-1.45-3.75L6.8 8l3.75-1.45L12 2.8z">
+											</path>
+											<path
+												d="M18.4 12.3l.78 2.02 2.02.78-2.02.78-.78 2.02-.78-2.02-2.02-.78 2.02-.78.78-2.02z">
+											</path>
+											<path
+												d="M6 14.1l.92 2.18 2.18.92-2.18.92L6 20.3l-.92-2.18-2.18-.92 2.18-.92L6 14.1z">
+											</path>
+										</svg></span>
+									<div class="msg-text">답변서 초안 작성을 시작합니다. 지방채 인수 및 추경 관련 참조자료 7건을 분석
+										완료했습니다.<br /><br />📌 분석 결과 요약:<br />• 최고 유사도: 95% (지방채 인수 추경 편성 사유 답변)<br />•
+										인용 가능 문단: 5개<br />• 수치 업데이트 필요: 1건 (금리 최신 고시)</div>
+									<span class="msg-time">10:45</span>
+								</div>
+								<div class="chat-msg user" data-component="chat-message" data-variant="answer"
+									data-role="user" data-status="complete">
+									<div class="msg-text">공자기금 지방채 인수 제도 개요와 추경 편성 배경을 중심으로 답변서 초안을 작성해줘.</div>
+									<span class="msg-time">10:50</span>
+								</div>
+								<div class="chat-msg ai" data-component="chat-message" data-variant="answer"
+									data-role="ai" data-status="complete">
+									<span class="chat-ai-avatar"><svg viewBox="0 0 24 24" aria-hidden="true">
+											<path
+												d="M12 2.8l1.45 3.75L17.2 8l-3.75 1.45L12 13.2l-1.45-3.75L6.8 8l3.75-1.45L12 2.8z">
+											</path>
+											<path
+												d="M18.4 12.3l.78 2.02 2.02.78-2.02.78-.78 2.02-.78-2.02-2.02-.78 2.02-.78.78-2.02z">
+											</path>
+											<path
+												d="M6 14.1l.92 2.18 2.18.92-2.18.92L6 20.3l-.92-2.18-2.18-.92 2.18-.92L6 14.1z">
+											</path>
+										</svg></span>
+									<div class="msg-text">참조자료를 기반으로 초안을 작성했습니다.<br /><br />✅ 반영 내용:<br />• 답변 요약: "특정
+										자본적 지출 사업 수행을 위해 공자기금이 지방채를 장기 저리로 인수"<br />• 제도 개요 표: 지원대상/사업/조건/절차<br />•
+										인수금리: 공자기금 예탁금리와 동일(분기별 고정), '26.2분기 3.435%<br />• 인수기간: 5년 거치 10년 분할
+										상환<br /><br />⚠️ 확인 필요:<br />• 금리는 분기별 변동이므로 답변 시점 기준 최신 고시 확인 필요</div>
+									<span class="msg-time">10:55</span>
+								</div>
+								<div class="chat-msg user" data-component="chat-message" data-variant="answer"
+									data-role="user" data-status="complete">
+									<div class="msg-text">광주·전남 통합특별시 관련 추경 사례도 추가해줘. 지자체별 수요도 포함해서.</div>
+									<span class="msg-time">11:00</span>
+								</div>
+								<div class="chat-msg ai" data-component="chat-message" data-variant="answer"
+									data-role="ai" data-status="complete">
+									<span class="chat-ai-avatar"><svg viewBox="0 0 24 24" aria-hidden="true">
+											<path
+												d="M12 2.8l1.45 3.75L17.2 8l-3.75 1.45L12 13.2l-1.45-3.75L6.8 8l3.75-1.45L12 2.8z">
+											</path>
+											<path
+												d="M18.4 12.3l.78 2.02 2.02.78-2.02.78-.78 2.02-.78-2.02-2.02-.78 2.02-.78.78-2.02z">
+											</path>
+											<path
+												d="M6 14.1l.92 2.18 2.18.92-2.18.92L6 20.3l-.92-2.18-2.18-.92 2.18-.92L6 14.1z">
+											</path>
+										</svg></span>
+									<div class="msg-text">추경 편성 사례를 추가했습니다.<br /><br />추가 내용:<br />• 광주·전남 통합특별시
+										출범(2026.7.1. 예정)<br />• 지방채 인수 수요: 약 1,000억 원 규모<br />• 전남: 안내표지판 설치, 통합전산망
+										구축(300억) 등 총 700억 원<br />• 광주: 재난관리기금, 재해구호기금 조성 등 총 195억 원<br /><br />예산 현황표도
+										반영 완료:<br />• '25년 예산 12,100억 / 결산 10,712억<br />• '26년 본예산 1,000억 → 추경안 2,000억
+										(증감 +1,000, 100%)</div>
+									<span class="msg-time">11:03</span>
+								</div>
+							</div>
+							<!--------------------Start: 메세지 입력 영역 --------------------------------------->
+							<div class="chat-input-area">
+								<form class="chat-input-row" data-answer-chat-form>
+									<label class="sr-only" for="answerChatInput">국회 질의 입력</label>
+									<input type="text" class="chat-input" id="answerChatInput"
+										placeholder="국회질의를 입력해 주세요..." autocomplete="off" />
+									<button type="submit"
+										class="icon-button icon-button-primary icon-button-send chat-send"
+										aria-label="전송" title="전송" disabled>
+										<img class="icon icon-text" data-icon="send" alt="" aria-hidden="true" />
+									</button>
+								</form>
+							</div>
+							<!--------------------//End: 메세지 입력 영역 --------------------------------------->
+						</div>
+					</section>
+					<!-----------------------//End: AI채팅 영역----------------------->
+				</main>
+			</div>
+		</div>
+
+		<!-----------------------Start: 참조소스 파일 삭제 모달--------------------->
+		<div class="modal-host">
+			<div class="custom-modal-backdrop" id="answerSourceFileDeleteModal" data-component="modal" data-modal
+				hidden>
+				<section class="custom-modal modal-medium modal-variant-content" role="dialog" aria-modal="true"
+					data-modal-variant="content" aria-label="파일 삭제 확인">
+					<div class="modal-variant-panel" data-modal-panel="content">
+						<div class="custom-modal-icon danger" data-modal-icon="default" aria-hidden="true">⚠</div>
+						<div class="custom-modal-title" id="answerSourceFileDeleteModal-title">파일 삭제</div>
+						<div class="custom-modal-msg" id="answerSourceFileDeleteModal-description">
+							<strong class="file-delete-name" data-file-delete-name></strong><br />
+							참조소스 목록에서 삭제하시겠습니까?
+						</div>
+						<div class="custom-modal-actions">
+							<button type="button" class="btn-cancel" data-modal-close>취소</button>
+							<button type="button" class="btn-confirm danger" data-file-delete-confirm>삭제</button>
+						</div>
+					</div>
+				</section>
+			</div>
+		</div>
+		<!-----------------------//End: 참조소스 파일 삭제 모달--------------------->
+
+
+		<!-----------------------Start: 채팅 이름 변경 모달--------------------->
+		<div class="modal-host">
+			<div class="custom-modal-backdrop" id="answerChatRenameModal" data-component="modal" data-modal hidden>
+				<section class="custom-modal modal-medium modal-variant-rename" role="dialog" aria-modal="true"
+					data-modal-variant="rename" aria-label="채팅 이름 변경">
+					<div class="modal-variant-panel" data-modal-panel="content">
+						<div class="custom-modal-icon rename" data-modal-icon="rename" aria-hidden="true">
+							<img src="../assets/icons/edit.svg" alt="" />
+						</div>
+						<div class="custom-modal-title" id="answerChatRenameModal-title">채팅 이름 변경</div>
+						<div class="custom-modal-msg" id="answerChatRenameModal-description">
+							<p class="modal-rename-helper">목록에서 구분하기 쉬운 제목으로 변경할 수 있습니다.</p>
+							<label class="modal-rename-field" for="answerChatRenameInput">
+								<span class="modal-rename-label">대화 이름</span>
+								<input type="text" class="form-input" id="answerChatRenameInput" maxlength="60"
+									autocomplete="off" data-sidepop-rename-input />
+							</label>
+							<p class="modal-rename-error" data-sidepop-rename-error hidden>대화 이름을 입력해 주세요.</p>
+						</div>
+						<div class="custom-modal-actions">
+							<button type="button" class="btn-cancel" data-modal-close>취소</button>
+							<button type="button" class="btn-confirm" data-sidepop-rename-confirm>저장</button>
+						</div>
+					</div>
+				</section>
+			</div>
+		</div>
+		<!-----------------------//End: 채팅 이름 변경 모달--------------------->
+
+
+		<!-----------------------Start: 채팅 삭제 모달--------------------->
+		<div class="modal-host">
+			<div class="custom-modal-backdrop" id="answerChatDeleteModal" data-component="modal" data-modal hidden>
+				<section class="custom-modal modal-medium modal-variant-content" role="dialog" aria-modal="true"
+					data-modal-variant="content" aria-label="대화 삭제 확인">
+					<div class="modal-variant-panel" data-modal-panel="content">
+						<div class="custom-modal-icon danger" data-modal-icon="default" aria-hidden="true">⚠</div>
+						<div class="custom-modal-title" id="answerChatDeleteModal-title">대화 삭제</div>
+						<div class="custom-modal-msg" id="answerChatDeleteModal-description">
+							<strong data-sidepop-delete-title>선택한 대화</strong>를 삭제하시겠습니까?
+						</div>
+						<div class="custom-modal-actions">
+							<button type="button" class="btn-cancel" data-modal-close>취소</button>
+							<button type="button" class="btn-confirm danger" data-sidepop-delete-confirm>삭제</button>
+						</div>
+					</div>
+				</section>
+			</div>
+		</div>
+		<!-----------------------//End: 채팅 삭제 모달--------------------->
+
+		<!-----------------------Start: 채팅 작업 메뉴 모달--------------------->
+		<div class="custom-modal-backdrop modal-menu-backdrop" id="answerChatActionModal" data-component="modal"
+			data-modal hidden>
+			<section class="custom-modal modal-small" role="dialog" aria-modal="true" aria-label="대화 작업 메뉴">
+				<div class="modal-action-menu" role="menu">
+					<button type="button" class="modal-action-item" role="menuitem" data-sidepop-list-action="share">
+						<img class="modal-action-icon" src="../assets/icons/share.svg" alt="" aria-hidden="true" />
+						<span data-sidepop-action-label>대화 공유</span>
+					</button>
+					<button type="button" class="modal-action-item" role="menuitem" data-sidepop-list-action="pin"
+						aria-pressed="false">
+						<img class="modal-action-icon" src="../assets/icons/pin.svg" alt="" aria-hidden="true" />
+						<span data-sidepop-action-label>고정</span>
+					</button>
+					<button type="button" class="modal-action-item" role="menuitem" data-sidepop-list-action="rename">
+						<img class="modal-action-icon" src="../assets/icons/edit.svg" alt="" aria-hidden="true" />
+						<span data-sidepop-action-label>이름 변경</span>
+					</button>
+					<button type="button" class="modal-action-item danger" role="menuitem"
+						data-sidepop-list-action="delete">
+						<img class="modal-action-icon" src="../assets/icons/delete.svg" alt="" aria-hidden="true" />
+						<span data-sidepop-action-label>삭제</span>
+					</button>
+				</div>
+			</section>
+		</div>
+		<!-----------------------//End: 채팅 작업 메뉴 모달--------------------->
+
+
+		<!-----------------------Start:채팅목록 사이드팝업------------------->
+		<div class="sidepop-host">
+			<div class="sidepop-layer" id="answerChatListSidepop" data-component="sidepop" data-sidepop
+				data-sidepop-action-modal="answerChatActionModal" data-sidepop-rename-modal="answerChatRenameModal"
+				data-sidepop-delete-modal="answerChatDeleteModal" hidden>
+				<button type="button" class="sidepop-backdrop" data-sidepop-close aria-label="사이드 팝업 닫기"></button>
+				<aside class="sidepop sidepop-medium sidepop-variant-chat-list" role="dialog" aria-modal="true"
+					data-sidepop-size="medium" data-sidepop-variant="chat-list" aria-label="보조 작업 Drawer">
+					<section class="sidepop-variant-panel" data-sidepop-panel="chat-list">
+						<header class="sidepop-header">
+							<div class="sidepop-heading">
+								<h2 class="sidepop-title">채팅 목록</h2>
+								<p class="sidepop-description">AI 채팅 대화 이력을 확인하고 전환합니다.</p>
+							</div>
+							<button type="button" class="icon-button icon-button-ghost" data-sidepop-close
+								aria-label="채팅 목록 닫기">×</button>
+						</header>
+						<div class="sidepop-list-position">
+							<button type="button" class="sidepop-position-button" data-sidepop-position-toggle
+								aria-label="Drawer를 왼쪽으로 이동">
+								<svg viewBox="0 0 24 24" aria-hidden="true">
+									<rect x="3.5" y="4" width="17" height="16" rx="2" />
+									<path d="M16 5.5V18.5M14 12H7M9.5 9.5 7 12l2.5 2.5" />
+								</svg>
+								<span>좌측으로 이동</span>
+							</button>
+						</div>
+						<div class="sidepop-list-body">
+							<label class="sidepop-list-search">
+								<svg viewBox="0 0 24 24" aria-hidden="true">
+									<circle cx="11" cy="11" r="7" />
+									<path d="m20 20-3.6-3.6" />
+								</svg>
+								<input type="search" placeholder="채팅 목록 검색" aria-label="채팅 목록 검색" />
+							</label>
+							<div class="sidepop-list-meta">
+								<span>전체 <strong>12건</strong></span>
+								<select class="sidepop-list-sort" aria-label="채팅 목록 정렬">
+									<option>최신순</option>
+									<option>과거순</option>
+								</select>
+							</div>
+							<div class="sidepop-chat-list sidepop-scroll-list" aria-label="채팅 목록">
+								<div class="sidepop-chat-item is-active">
+									<button type="button" class="sidepop-chat-select">
+										<span class="sidepop-chat-name"><span class="sidepop-chat-icon"
+												aria-hidden="true">💬</span>지방채 인수 추경 답변서 초안 작성</span>
+										<time class="sidepop-chat-time"><span
+												class="sidepop-chat-date">2026.07.20</span><span>11:05</span></time>
+									</button>
+									<button type="button" class="btn-more" aria-label="더보기" title="더보기"
+										aria-haspopup="menu" aria-expanded="false"><svg viewBox="0 0 24 24"
+											aria-hidden="true">
+											<circle cx="12" cy="5" r="1.7"></circle>
+											<circle cx="12" cy="12" r="1.7"></circle>
+											<circle cx="12" cy="19" r="1.7"></circle>
+										</svg></button>
+								</div>
+								<div class="sidepop-chat-item">
+									<button type="button" class="sidepop-chat-select">
+										<span class="sidepop-chat-name"><span class="sidepop-chat-icon"
+												aria-hidden="true">💬</span>공자기금 인수금리 조건 정리</span>
+										<time class="sidepop-chat-time"><span
+												class="sidepop-chat-date">2026.07.20</span><span>10:22</span></time>
+									</button>
+									<button type="button" class="btn-more" aria-label="더보기" title="더보기"
+										aria-haspopup="menu" aria-expanded="false"><svg viewBox="0 0 24 24"
+											aria-hidden="true">
+											<circle cx="12" cy="5" r="1.7"></circle>
+											<circle cx="12" cy="12" r="1.7"></circle>
+											<circle cx="12" cy="19" r="1.7"></circle>
+										</svg></button>
+								</div>
+								<div class="sidepop-chat-item">
+									<button type="button" class="sidepop-chat-select">
+										<span class="sidepop-chat-name"><span class="sidepop-chat-icon"
+												aria-hidden="true">💬</span>광주·전남 통합특별시 추경 수요</span>
+										<time class="sidepop-chat-time"><span
+												class="sidepop-chat-date">2026.07.19</span><span>16:40</span></time>
+									</button>
+									<button type="button" class="btn-more" aria-label="더보기" title="더보기"
+										aria-haspopup="menu" aria-expanded="false"><svg viewBox="0 0 24 24"
+											aria-hidden="true">
+											<circle cx="12" cy="5" r="1.7"></circle>
+											<circle cx="12" cy="12" r="1.7"></circle>
+											<circle cx="12" cy="19" r="1.7"></circle>
+										</svg></button>
+								</div>
+								<div class="sidepop-chat-item">
+									<button type="button" class="sidepop-chat-select">
+										<span class="sidepop-chat-name"><span class="sidepop-chat-icon"
+												aria-hidden="true">💬</span>세수결손 대응계획 답변서 검토</span>
+										<time class="sidepop-chat-time"><span
+												class="sidepop-chat-date">2026.07.18</span><span>15:12</span></time>
+									</button>
+									<button type="button" class="btn-more" aria-label="더보기" title="더보기"
+										aria-haspopup="menu" aria-expanded="false"><svg viewBox="0 0 24 24"
+											aria-hidden="true">
+											<circle cx="12" cy="5" r="1.7"></circle>
+											<circle cx="12" cy="12" r="1.7"></circle>
+											<circle cx="12" cy="19" r="1.7"></circle>
+										</svg></button>
+								</div>
+								<div class="sidepop-chat-item">
+									<button type="button" class="sidepop-chat-select">
+										<span class="sidepop-chat-name"><span class="sidepop-chat-icon"
+												aria-hidden="true">💬</span>국가채무비율 전망 근거자료 정리</span>
+										<time class="sidepop-chat-time"><span
+												class="sidepop-chat-date">2026.07.18</span><span>09:35</span></time>
+									</button>
+									<button type="button" class="btn-more" aria-label="더보기" title="더보기"
+										aria-haspopup="menu" aria-expanded="false"><svg viewBox="0 0 24 24"
+											aria-hidden="true">
+											<circle cx="12" cy="5" r="1.7"></circle>
+											<circle cx="12" cy="12" r="1.7"></circle>
+											<circle cx="12" cy="19" r="1.7"></circle>
+										</svg></button>
+								</div>
+								<div class="sidepop-chat-item">
+									<button type="button" class="sidepop-chat-select">
+										<span class="sidepop-chat-name"><span class="sidepop-chat-icon"
+												aria-hidden="true">💬</span>공공기관 경영평가 개선 질의</span>
+										<time class="sidepop-chat-time"><span
+												class="sidepop-chat-date">2026.07.17</span><span>14:08</span></time>
+									</button>
+									<button type="button" class="btn-more" aria-label="더보기" title="더보기"
+										aria-haspopup="menu" aria-expanded="false"><svg viewBox="0 0 24 24"
+											aria-hidden="true">
+											<circle cx="12" cy="5" r="1.7"></circle>
+											<circle cx="12" cy="12" r="1.7"></circle>
+											<circle cx="12" cy="19" r="1.7"></circle>
+										</svg></button>
+								</div>
+								<div class="sidepop-chat-item">
+									<button type="button" class="sidepop-chat-select">
+										<span class="sidepop-chat-name"><span class="sidepop-chat-icon"
+												aria-hidden="true">💬</span>종합부동산세 세율 조정 영향</span>
+										<time class="sidepop-chat-time"><span
+												class="sidepop-chat-date">2026.07.16</span><span>11:26</span></time>
+									</button>
+									<button type="button" class="btn-more" aria-label="더보기" title="더보기"
+										aria-haspopup="menu" aria-expanded="false"><svg viewBox="0 0 24 24"
+											aria-hidden="true">
+											<circle cx="12" cy="5" r="1.7"></circle>
+											<circle cx="12" cy="12" r="1.7"></circle>
+											<circle cx="12" cy="19" r="1.7"></circle>
+										</svg></button>
+								</div>
+								<div class="sidepop-chat-item">
+									<button type="button" class="sidepop-chat-select">
+										<span class="sidepop-chat-name"><span class="sidepop-chat-icon"
+												aria-hidden="true">💬</span>간이과세 기준금액 상향 검토</span>
+										<time class="sidepop-chat-time"><span
+												class="sidepop-chat-date">2026.07.15</span><span>17:42</span></time>
+									</button>
+									<button type="button" class="btn-more" aria-label="더보기" title="더보기"
+										aria-haspopup="menu" aria-expanded="false"><svg viewBox="0 0 24 24"
+											aria-hidden="true">
+											<circle cx="12" cy="5" r="1.7"></circle>
+											<circle cx="12" cy="12" r="1.7"></circle>
+											<circle cx="12" cy="19" r="1.7"></circle>
+										</svg></button>
+								</div>
+								<div class="sidepop-chat-item">
+									<button type="button" class="sidepop-chat-select">
+										<span class="sidepop-chat-name"><span class="sidepop-chat-icon"
+												aria-hidden="true">💬</span>외국환거래법 개정 답변자료</span>
+										<time class="sidepop-chat-time"><span
+												class="sidepop-chat-date">2026.07.14</span><span>13:18</span></time>
+									</button>
+									<button type="button" class="btn-more" aria-label="더보기" title="더보기"
+										aria-haspopup="menu" aria-expanded="false"><svg viewBox="0 0 24 24"
+											aria-hidden="true">
+											<circle cx="12" cy="5" r="1.7"></circle>
+											<circle cx="12" cy="12" r="1.7"></circle>
+											<circle cx="12" cy="19" r="1.7"></circle>
+										</svg></button>
+								</div>
+								<div class="sidepop-chat-item">
+									<button type="button" class="sidepop-chat-select">
+										<span class="sidepop-chat-name"><span class="sidepop-chat-icon"
+												aria-hidden="true">💬</span>청년 일자리 재정사업 성과</span>
+										<time class="sidepop-chat-time"><span
+												class="sidepop-chat-date">2026.07.11</span><span>10:04</span></time>
+									</button>
+									<button type="button" class="btn-more" aria-label="더보기" title="더보기"
+										aria-haspopup="menu" aria-expanded="false"><svg viewBox="0 0 24 24"
+											aria-hidden="true">
+											<circle cx="12" cy="5" r="1.7"></circle>
+											<circle cx="12" cy="12" r="1.7"></circle>
+											<circle cx="12" cy="19" r="1.7"></circle>
+										</svg></button>
+								</div>
+								<div class="sidepop-chat-item">
+									<button type="button" class="sidepop-chat-select">
+										<span class="sidepop-chat-name"><span class="sidepop-chat-icon"
+												aria-hidden="true">💬</span>물가안정 정책 공조 현황</span>
+										<time class="sidepop-chat-time"><span
+												class="sidepop-chat-date">2026.07.10</span><span>16:55</span></time>
+									</button>
+									<button type="button" class="btn-more" aria-label="더보기" title="더보기"
+										aria-haspopup="menu" aria-expanded="false"><svg viewBox="0 0 24 24"
+											aria-hidden="true">
+											<circle cx="12" cy="5" r="1.7"></circle>
+											<circle cx="12" cy="12" r="1.7"></circle>
+											<circle cx="12" cy="19" r="1.7"></circle>
+										</svg></button>
+								</div>
+								<div class="sidepop-chat-item">
+									<button type="button" class="sidepop-chat-select">
+										<span class="sidepop-chat-name"><span class="sidepop-chat-icon"
+												aria-hidden="true">💬</span>재정준칙 도입 필요성 검토</span>
+										<time class="sidepop-chat-time"><span
+												class="sidepop-chat-date">2026.07.09</span><span>09:48</span></time>
+									</button>
+									<button type="button" class="btn-more" aria-label="더보기" title="더보기"
+										aria-haspopup="menu" aria-expanded="false"><svg viewBox="0 0 24 24"
+											aria-hidden="true">
+											<circle cx="12" cy="5" r="1.7"></circle>
+											<circle cx="12" cy="12" r="1.7"></circle>
+											<circle cx="12" cy="19" r="1.7"></circle>
+										</svg></button>
+								</div>
+							</div>
+						</div>
+					</section>
+
+					<section class="sidepop-content-panel" data-sidepop-panel="content">
+						<header class="sidepop-header">
+							<div class="sidepop-heading">
+								<h2 class="sidepop-title" id="answerChatListSidepop-title" data-slot="title">작업 상세</h2>
+								<p class="sidepop-description" id="answerChatListSidepop-description"
+									data-slot="description">선택한 작업의 정보를 확인합니다.</p>
+							</div>
+							<button type="button" class="icon-button icon-button-ghost" data-sidepop-close
+								aria-label="닫기">×</button>
+						</header>
+						<div class="sidepop-body" data-slot="body"></div>
+						<footer class="sidepop-footer" data-slot="footer">
+							<button type="button" class="button button-outline" data-sidepop-close>닫기</button>
+						</footer>
+					</section>
+				</aside>
+			</div>
+		</div>
+		<!-----------------------//End: 채팅목록 사이드 팝업--------------------->
+
+		<!-----------------------Start: 준비중 안내 모달--------------------->
+		<div class="custom-modal-backdrop" id="preparingServiceModal" data-component="modal" data-modal hidden>
+			<section class="custom-modal modal-medium modal-variant-alert" role="dialog" aria-modal="true"
+				data-modal-variant="alert" aria-labelledby="preparingServiceModal-title"
+				aria-describedby="preparingServiceModal-description">
+				<div class="modal-variant-panel" data-modal-panel="content">
+					<div class="custom-modal-icon alert" data-modal-icon="alert" aria-hidden="true">!</div>
+					<div class="custom-modal-title" id="preparingServiceModal-title" data-slot="title">준비중</div>
+					<div class="custom-modal-msg" id="preparingServiceModal-description" data-slot="description">
+						이 화면은 프로토타입에 아직 포함되어 있지 않습니다.
+					</div>
+					<div class="custom-modal-actions" data-slot="actions">
+						<button type="button" class="btn-confirm" data-modal-close>확인</button>
+					</div>
+				</div>
+			</section>
+		</div>
+		<!-----------------------//End: 준비중 안내 모달--------------------->
+
+		<ul hidden aria-hidden="true">
+			<li id="answerSelectedReferenceItemPrototype" data-dom-prototype hidden>
+				<span class="ref-score"></span>
+				<span class="ref-name"></span>
+				<button type="button" class="ref-remove" data-selected-reference-remove aria-label="선택 해제">×</button>
+			</li>
+		</ul>
+
+		<ul hidden aria-hidden="true">
+			<li id="answerSourceFileItemPrototype" class="file-item-simple" data-dom-prototype hidden>
+				<span class="file-type-dot" aria-hidden="true"></span>
+				<span class="file-icon file-icon-collapsed" aria-hidden="true"></span>
+				<span class="file-name-simple"></span>
+				<span class="status-badge type1 blue" data-file-status="done">청킹 완료</span>
+				<button class="file-remove-simple" type="button" aria-label="파일 삭제">×</button>
+			</li>
+		</ul>
+
+		<div id="answerEvidenceSplitHandlePrototype" class="split-handler-handle answer-evidence-split-handle"
+			data-dom-prototype hidden role="separator" aria-label="근거 상세 패널 크기 조절" aria-orientation="vertical"
+			tabindex="0"></div>
+
+		<aside id="answerEvidenceDetailPrototype" class="verify-detail-panel split-handler-right" data-dom-prototype
+			data-instance-id="answerVerifyDetail" hidden aria-label="근거 상세 확인">
+			<div class="vd-header">
+				<div class="vd-header-left">
+					<div class="vd-title-row">
+						<span class="vd-title">근거 상세 확인</span>
+						<span class="status-badge" data-vd-status></span>
+					</div>
+					<span class="vd-desc">선택 문장의 출처, 원문, 검토 의견</span>
+				</div>
+				<button class="vd-close" type="button" aria-label="근거 상세 확인 닫기">×</button>
+			</div>
+			<div class="vd-tabs" role="tablist" aria-label="근거 상세 범주">
+				<button class="vd-tab active" id="answerEvidenceReferenceTab" type="button" role="tab"
+					aria-selected="true" aria-controls="answerEvidenceReferencePanel">근거자료</button>
+			</div>
+			<div class="vd-body">
+				<div class="vd-tab-content" id="answerEvidenceReferencePanel" role="tabpanel"
+					aria-labelledby="answerEvidenceReferenceTab">
+					<div class="vd-section">
+						<div class="vd-section-head">
+							<span class="vd-section-title">선택 문장</span>
+							<span class="vd-sentence-num" data-vd-sentence-number></span>
+						</div>
+						<div class="vd-sentence-box" data-vd-sentence></div>
+					</div>
+					<div class="vd-section">
+						<div class="vd-section-head"><span class="vd-section-title">참조자료 매핑</span></div>
+						<div class="vd-ref-card" data-vd-reference="0">
+							<div class="vd-ref-head">
+								<span class="vd-ref-file" data-vd-reference-file>260402_재경위*전체 의원 질의에 대한
+									답변*통합본.hwp</span>
+								<button class="vd-ref-btn" type="button" data-vd-reference-action>원문</button>
+							</div>
+							<div class="vd-ref-meta" data-vd-reference-meta>재정경제부 · 2026.04 · p.3</div>
+							<div class="vd-ref-quote" data-vd-reference-quote>“공공자금관리기금은 지방재정 지원을 목적으로 지방자치단체가 발행하는 지방채를
+								장기 저리로 인수하여 자금을 지원함”</div>
+						</div>
+						<div class="vd-ref-card" data-vd-reference="1">
+							<div class="vd-ref-head">
+								<span class="vd-ref-file" data-vd-reference-file>지방채 인수를 해야 하는 법적 의무.hwpx</span>
+								<button class="vd-ref-btn" type="button" data-vd-reference-action>원문</button>
+							</div>
+							<div class="vd-ref-meta" data-vd-reference-meta>재정정책국 · 법령분석 · p.1</div>
+							<div class="vd-ref-quote" data-vd-reference-quote>“지방재정법 시행령 제11조, 공공자금관리기금법 시행령 제2조에 의거하여
+								지방채 인수를 집행한다”</div>
+						</div>
+						<div class="vd-ref-card" data-vd-reference="2">
+							<div class="vd-ref-head">
+								<span class="vd-ref-file" data-vd-reference-file>지방교부세가 지급되고 있고 지방채 인수시 추경 편성
+									이유.hwpx</span>
+								<button class="vd-ref-btn" type="button" data-vd-reference-action>원문</button>
+							</div>
+							<div class="vd-ref-meta" data-vd-reference-meta>기획재정위원회 · 2026년 · p.2</div>
+							<div class="vd-ref-quote" data-vd-reference-quote>“특정 자본적 지출 사업의 원활한 추진을 위해 필요한 경우 추경을 통해 인수
+								예산을 편성함”</div>
+						</div>
+						<div class="vd-ref-card" data-vd-reference="3">
+							<div class="vd-ref-head">
+								<span class="vd-ref-file" data-vd-reference-file>민주당 반대로 무산된 TK통합법 관련 견해.hwpx</span>
+								<button class="vd-ref-btn" type="button" data-vd-reference-action>원문</button>
+							</div>
+							<div class="vd-ref-meta" data-vd-reference-meta>기획재정위원회 · 2026년 · p.1</div>
+							<div class="vd-ref-quote" data-vd-reference-quote>“광주·전남 통합특별시 출범과 관련하여 통합전산망 구축 등 실제 수요가
+								발생함에 따라 추경을 편성함”</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</aside>
+
+		<div id="commonAnswerPendingMessagePrototype" class="chat-msg ai is-pending chat-typing" data-dom-prototype
+			hidden data-component="chat-message" data-variant="answer" data-role="ai" data-status="pending"
+			aria-busy="true">
+			<div class="typing-avatar" aria-hidden="true"><img src="../assets/icons/ai-answer-sparkles.svg" alt="" />
+			</div>
+			<div class="typing-content" role="status">
+				<div class="typing-text-wrap"><span class="typing-title"></span><span class="typing-desc"></span></div>
+				<div class="typing-dots" aria-hidden="true"><span></span><span></span><span></span></div>
+			</div>
+		</div>
+		<div id="commonChatPendingMessagePrototype" class="chat-msg ai is-pending" data-dom-prototype hidden
+			data-component="chat-message" data-variant="chatbot" data-role="ai" data-status="pending" aria-busy="true">
+			<div class="msg-avatar"><svg viewBox="0 0 24 24" aria-hidden="true">
+					<path d="M12 2L2 7l10 5 10-5-10-5z" />
+					<path d="M2 17l10 5 10-5" />
+					<path d="M2 12l10 5 10-5" />
+				</svg></div>
+			<div class="msg-content" role="status"><span class="chat-typing-ellipsis" aria-hidden="true">...</span>
+			</div>
+		</div>
+
+		<div class="toast-host">
+			<div class="ai-one-toast" id="answerPageToast" data-component="toast" data-toast role="status"
+				aria-live="polite" aria-atomic="true" hidden>
+				<span class="ai-one-toast-message" data-toast-message data-slot="message">작업이 완료되었습니다.</span>
+			</div>
+		</div>
+	</div>
+	<div id="commonMessageActionsPrototype" class="msg-actions" data-dom-prototype hidden>
+		<button type="button" class="icon-button icon-button-ghost icon-button-message msg-action-btn"
+			data-action="like" aria-label="좋아요" title="좋아요" aria-pressed="false"><img class="icon icon-small"
+				src="../assets/icons/thumbs-up.svg" alt="" /></button>
+		<button type="button" class="icon-button icon-button-ghost icon-button-message msg-action-btn"
+			data-action="dislike" aria-label="싫어요" title="싫어요" aria-pressed="false"><img class="icon icon-small"
+				src="../assets/icons/thumbs-down.svg" alt="" /></button>
+		<button type="button" class="icon-button icon-button-ghost icon-button-message msg-action-btn"
+			data-action="retry" aria-label="다시 생성" title="다시 생성"><img class="icon icon-small"
+				src="../assets/icons/regenerate.svg" alt="" /></button>
+		<button type="button" class="icon-button icon-button-ghost icon-button-message msg-action-btn"
+			data-action="copy" aria-label="복사" title="복사"><img class="icon icon-small" src="../assets/icons/copy.svg"
+				alt="" /></button>
+		<button type="button" class="icon-button icon-button-ghost icon-button-message msg-action-btn msg-report-btn"
+			data-action="report" aria-label="오류 신고" title="오류 신고"><svg viewBox="0 0 24 24" width="14" height="14">
+				<path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z" />
+				<line x1="4" y1="22" x2="4" y2="15" />
+			</svg></button>
+		<button type="button" class="icon-button icon-button-ghost icon-button-message msg-action-btn"
+			data-action="more" data-answer-action-only aria-label="더보기" title="더보기"><img class="icon icon-small"
+				src="../assets/icons/more-horizontal.svg" alt="" /></button>
+	</div>
+	<div id="commonSidepopActionPrototype" class="sidepop-list-action dropdown-menu-component" data-dom-prototype
+		hidden>
+		<div class="dropdown-menu sidepop-list-action-menu" role="menu" hidden>
+			<button type="button" class="dropdown-menu-item" data-menu-value="pin" role="menuitem" aria-pressed="false">
+				<img class="icon sidepop-list-action-icon" src="../assets/icons/pin.svg" alt="" aria-hidden="true" />
+				<span class="sidepop-list-action-label">고정</span>
+			</button>
+			<button type="button" class="dropdown-menu-item" data-menu-value="rename" role="menuitem">
+				<img class="icon sidepop-list-action-icon" src="../assets/icons/edit.svg" alt="" aria-hidden="true" />
+				<span class="sidepop-list-action-label">이름 변경</span>
+			</button>
+			<button type="button" class="dropdown-menu-item danger" data-menu-value="delete" role="menuitem">
+				<img class="icon sidepop-list-action-icon" src="../assets/icons/delete.svg" alt="" aria-hidden="true" />
+				<span class="sidepop-list-action-label">삭제</span>
+			</button>
+		</div>
+	</div>
+	<div class="ai-one-notification-toast" aria-live="polite">
+		<div class="ai-one-notification-icon">✓</div>
+		<div class="ai-one-notification-copy"><strong></strong><span></span></div><button type="button"
+			aria-label="알림 닫기">×</button>
+	</div>
+	<div id="aiOneTooltip" class="ai-one-tooltip" role="tooltip" hidden></div>
+	<div id="userProfileHoverTooltip" class="user-profile-hover-tooltip hidden" role="tooltip"><strong>담당자
+			기본정보</strong><span data-profile-name></span><span data-profile-department></span><em data-profile-role></em>
+	</div>
+	<script src="../js/common.js"></script>
+	<script src="../js/ai-answer.js"></script>
+</body>
+
+</html>

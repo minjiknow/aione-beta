@@ -1,0 +1,941 @@
+(() => {
+    "use strict";
+
+    /* 파일 구성: 페이지 수명주기와 탭 -> 참조/소스 상태 -> 근거 검증 -> 채팅/초기화 동작. */
+
+    /* ============================ 시작: 화면 초기화와 공통 도우미 ============================ */
+
+    let initialized = false;
+    const pendingWorkspaceTasks = new Set();
+    const AI_CHAT_INTRO =
+        "국회 질의를 입력해 보세요!\n" +
+        "AI가 지능형 검색을 통해 관련자료를 추천하고 국회 답변서 초안 생성을 시작합니다.\n" +
+        "① (선택) 좌측 AI 참조소스에서 첨부파일을 업로드하고\n" +
+        "② 이 채팅에 국회질의를 입력하시면\n" +
+        "과거 유사답변서나 관련자료 추천하고 초안을 생성합니다.";
+
+    const requiredSelectors = [
+        ".answer-workspace-app",
+        ".answer-three-panel-host > .three-panel",
+        ".answer-workspace-page .app-sidebar",
+        ".answer-workspace-page .app-topbar",
+        ".answer-upload-component [data-file-upload-zone]",
+        "#answerChatMessages",
+        "#answerChatListSidepop[data-sidepop]",
+        "#answerPageToast",
+    ];
+
+    // 공통 컴포넌트 준비 상태 확인
+    function allComponentsReady() {
+        return requiredSelectors.every((selector) => document.querySelector(selector));
+    }
+
+    // 토스트 메시지 표시
+    function showToast(message) {
+        window.AIOneToast?.show(message, {
+            target: "#answerPageToast",
+            duration: 1800,
+        });
+    }
+
+    // 워크스페이스 Task 예약
+    function scheduleWorkspaceTask(callback, delay) {
+        const taskId = window.setTimeout(() => {
+            pendingWorkspaceTasks.delete(taskId);
+            callback();
+        }, delay);
+        pendingWorkspaceTasks.add(taskId);
+        return taskId;
+    }
+
+    // 대기 워크스페이스 Tasks 정리
+    function clearPendingWorkspaceTasks() {
+        pendingWorkspaceTasks.forEach((taskId) => window.clearTimeout(taskId));
+        pendingWorkspaceTasks.clear();
+    }
+
+    // 아이콘 경로 보정
+    function hydrateIcons(root = document) {
+        root.querySelectorAll?.("img[data-icon]").forEach((icon) => {
+            if (icon.src) return;
+            icon.src = new URL(`../assets/icons/${icon.dataset.icon}.svg`, document.baseURI).href;
+        });
+    }
+
+    // Prototype Element 복제
+    function clonePrototypeElement(prototypeId) {
+        const prototype = document.getElementById(prototypeId);
+        if (!prototype) return null;
+        const clone = prototype.cloneNode(true);
+        clone.id = prototype.dataset.instanceId || "";
+        clone.removeAttribute("hidden");
+        clone.removeAttribute("data-dom-prototype");
+        clone.removeAttribute("data-instance-id");
+        return clone;
+    }
+
+    // configure 상단바 동작 처리
+    function configureTopbar() {
+        const newChatButton = document.querySelector("#newClassifyBtn");
+        const chatListButton = document.querySelector("#runDrawerBtn");
+
+        if (newChatButton) {
+            newChatButton.dataset.workspaceAction = "new-chat";
+        }
+
+        if (chatListButton) {
+            chatListButton.dataset.sidepopOpen = "answerChatListSidepop";
+            chatListButton.dataset.sidepopVariant = "chat-list";
+            chatListButton.setAttribute("aria-controls", "answerChatListSidepop");
+            chatListButton.setAttribute("aria-haspopup", "dialog");
+            chatListButton.setAttribute("aria-expanded", "false");
+        }
+    }
+
+    // 사이드바 초기화
+    function initSidebar() {
+        const sidebar = document.querySelector(".answer-workspace-page .app-sidebar");
+        if (!sidebar) return;
+
+        window.AIOneSidebar?.configure(sidebar, {
+            activePage: "answer",
+            initialCollapsed: true,
+        });
+    }
+
+    // 패널 크기 조절 레이아웃 일시 중지
+    function suspendPanelResizeLayout(layout) {
+        if (!layout?.style.gridTemplateColumns) return;
+        layout.dataset.answerGridTemplate = layout.style.gridTemplateColumns;
+        layout.style.removeProperty("grid-template-columns");
+        window.AIOneSplitHandler?.init(layout);
+    }
+
+    // 패널 크기 조절 레이아웃 복원
+    function restorePanelResizeLayout(layout) {
+        const columns = layout?.dataset.answerGridTemplate;
+        if (!layout || !columns) return;
+        layout.style.gridTemplateColumns = columns;
+        delete layout.dataset.answerGridTemplate;
+        window.AIOneSplitHandler?.init(layout);
+    }
+
+    // 패널 크기 조절 레이아웃 초기화
+    function resetPanelResizeLayout(layout) {
+        if (!layout) return;
+        delete layout.dataset.answerGridTemplate;
+        window.AIOneSplitHandler?.reset(layout);
+        document.querySelectorAll('[data-component="split-handler"]').forEach((split) => {
+            window.AIOneSplitHandler?.reset(split);
+        });
+    }
+
+    /* ============================ 끝: 화면 초기화와 공통 도우미 ============================== */
+
+    /* ============================ 시작: 탭과 관련자료 ============================ */
+
+    // Active 탭 설정
+    function setActiveTab(tabName, shouldFocus = false) {
+        const tabs = Array.from(document.querySelectorAll("[data-answer-tab]:not([hidden])"));
+        const panels = Array.from(document.querySelectorAll("[data-answer-panel]"));
+
+        if (!tabs.some((tab) => tab.dataset.answerTab === tabName)) return;
+
+        tabs.forEach((tab) => {
+            const isActive = tab.dataset.answerTab === tabName;
+            tab.classList.toggle("active", isActive);
+            tab.classList.toggle("is-active", isActive);
+            tab.setAttribute("aria-selected", String(isActive));
+            tab.tabIndex = isActive ? 0 : -1;
+            if (isActive && shouldFocus) tab.focus();
+        });
+        panels.forEach((panel) => {
+            panel.hidden = panel.dataset.answerPanel !== tabName;
+        });
+        const activePanel = panels.find((panel) => panel.dataset.answerPanel === tabName);
+        window.requestAnimationFrame(() => window.AIOneSplitHandler?.init(activePanel));
+    }
+
+    // 탭 초기화
+    function initTabs() {
+        const tabs = Array.from(document.querySelectorAll("[data-answer-tab]:not([hidden])"));
+        tabs.forEach((tab, index) => {
+            tab.addEventListener("click", () => setActiveTab(tab.dataset.answerTab));
+            tab.addEventListener("keydown", (event) => {
+                if (!["ArrowLeft", "ArrowRight", "Home", "End"].includes(event.key)) return;
+                event.preventDefault();
+
+                let nextIndex = index;
+                if (event.key === "ArrowLeft") nextIndex = (index - 1 + tabs.length) % tabs.length;
+                if (event.key === "ArrowRight") nextIndex = (index + 1) % tabs.length;
+                if (event.key === "Home") nextIndex = 0;
+                if (event.key === "End") nextIndex = tabs.length - 1;
+                setActiveTab(tabs[nextIndex].dataset.answerTab, true);
+            });
+        });
+        setActiveTab("recommend");
+    }
+
+    // 탭 개수 설정
+    function setTabCount(tabName, count) {
+        const countElement = document.querySelector(`[data-answer-tab="${tabName}"] .tab-count`);
+        if (countElement) countElement.textContent = String(count);
+    }
+
+    // 참고자료 필터 개수 설정
+    function setReferenceFilterCounts(cards, isEmpty = false) {
+        document.querySelectorAll("[data-reference-filter]").forEach((button) => {
+            const filter = button.dataset.referenceFilter;
+            const count = isEmpty ? 0 : filter === "all" ? cards.length : cards.filter((card) => card.dataset.category === filter).length;
+            const countElement = button.querySelector("span");
+            if (countElement) countElement.textContent = String(count);
+        });
+    }
+
+    // 추천자료 빈 상태 설정
+    function setRecommendationEmptyState(isEmpty) {
+        const results = document.querySelector("[data-answer-recommend-results]");
+        const empty = document.querySelector("[data-answer-recommend-empty]");
+        const status = document.querySelector("[data-answer-recommend-status]");
+        const cards = Array.from(document.querySelectorAll("[data-reference-card]"));
+
+        if (results) results.hidden = isEmpty;
+        if (empty) empty.hidden = !isEmpty;
+        if (status) status.hidden = isEmpty;
+        setReferenceFilterCounts(cards, isEmpty);
+        setTabCount("recommend", isEmpty ? 0 : cards.length);
+    }
+
+    // 답변서 초안 결과와 초기화 빈 화면 표시 상태 설정
+    function setDraftEmptyState(isEmpty) {
+        const empty = document.querySelector("[data-answer-draft-empty]");
+        const draftContents = document.querySelectorAll("[data-answer-draft-content]");
+
+        if (empty) empty.hidden = !isEmpty;
+        draftContents.forEach((content) => {
+            content.hidden = isEmpty;
+        });
+    }
+
+    // 추천자료 Results 복원
+    function restoreRecommendationResults() {
+        const cards = Array.from(document.querySelectorAll("[data-reference-card]"));
+        document.body.classList.remove("is-new-chat");
+        cards.forEach((card) => {
+            card.hidden = false;
+        });
+        setRecommendationEmptyState(false);
+        setTabCount("draft", 1);
+        setDraftEmptyState(false);
+        if (cards[0]) selectReferenceCard(cards[0]);
+    }
+
+    // 소스 파일 상태 동기화
+    function syncSourceFileState() {
+        const list = document.querySelector(".answer-source-files");
+        const count = document.querySelector("[data-source-file-count]");
+        const emptyGuide = document.querySelector("[data-source-empty-guide]");
+        const search = document.querySelector(".answer-source-search");
+        const fileCount = list?.children.length || 0;
+
+        if (count) count.textContent = String(fileCount);
+        if (emptyGuide) emptyGuide.hidden = fileCount > 0;
+        if (search) search.hidden = fileCount === 0;
+    }
+
+    // 참고자료 제목 조회
+    function getReferenceTitle(card) {
+        const authoredTitle = card.querySelector(".rec-title")?.textContent.replace(/\s+/g, " ").trim();
+        return authoredTitle || card.dataset.title || "선택한 관련자료";
+    }
+
+    // 선택 참고자료 동기화
+    function syncSelectedReferences(cards) {
+        const selectedCards = cards.filter((card) => card.querySelector('input[type="checkbox"]')?.checked);
+        document.querySelectorAll("[data-selected-reference-count]").forEach((count) => {
+            count.textContent = String(selectedCards.length);
+        });
+
+        const list = document.querySelector(".selected-refs-list");
+        if (list) {
+            const authoredItems = Array.from(list.children);
+            const items = selectedCards
+                .map((card, selectedIndex) => {
+                    const item = authoredItems[selectedIndex] || clonePrototypeElement("answerSelectedReferenceItemPrototype");
+                    if (!item) return null;
+                    const score = item.querySelector(".ref-score");
+                    const name = item.querySelector(".ref-name");
+                    const removeButton = item.querySelector("[data-selected-reference-remove]");
+                    const cardIndex = cards.indexOf(card);
+                    const referenceName = getReferenceTitle(card);
+
+                    score.textContent = `${card.dataset.score || 0}%`;
+                    name.textContent = referenceName;
+                    removeButton.dataset.referenceIndex = String(cardIndex);
+                    removeButton.setAttribute("aria-label", `${referenceName} 선택 해제`);
+                    return item;
+                })
+                .filter(Boolean);
+            list.replaceChildren(...items);
+        }
+
+        const emptyGuide = document.querySelector("[data-selected-references-empty]");
+        const footer = document.querySelector(".selected-refs-footer");
+        if (emptyGuide) emptyGuide.hidden = selectedCards.length > 0;
+        if (footer) footer.hidden = selectedCards.length === 0;
+
+        const selectAll = document.querySelector("[data-select-all-references]");
+        if (selectAll) {
+            selectAll.checked = cards.length > 0 && selectedCards.length === cards.length;
+            selectAll.indeterminate = selectedCards.length > 0 && selectedCards.length < cards.length;
+        }
+    }
+
+    // 참고자료 카드 선택
+    function selectReferenceCard(card) {
+        document.querySelectorAll("[data-reference-card]").forEach((item) => {
+            item.classList.toggle("active", item === card);
+        });
+        const previewTitle = document.querySelector("[data-preview-title]");
+        const previewScore = document.querySelector("[data-preview-score]");
+        if (previewTitle) previewTitle.textContent = card.dataset.title || "";
+        if (previewScore) previewScore.textContent = `유사도 ${card.dataset.score || 0}%`;
+    }
+
+    // 참고자료 초기화
+    function initReferences() {
+        const cards = Array.from(document.querySelectorAll("[data-reference-card]"));
+        cards.forEach((card) => {
+            card.addEventListener("click", (event) => {
+                if (event.target.closest("input, label")) return;
+                selectReferenceCard(card);
+            });
+            card.querySelector('input[type="checkbox"]')?.addEventListener("change", () => {
+                syncSelectedReferences(cards);
+                if (card.querySelector('input[type="checkbox"]').checked) selectReferenceCard(card);
+            });
+        });
+
+        document.querySelector("[data-select-all-references]")?.addEventListener("change", (event) => {
+            cards.forEach((card) => {
+                const checkbox = card.querySelector('input[type="checkbox"]');
+                if (checkbox) checkbox.checked = event.target.checked;
+            });
+            syncSelectedReferences(cards);
+        });
+
+        document.querySelectorAll("[data-reference-filter]").forEach((button) => {
+            button.addEventListener("click", () => {
+                const filter = button.dataset.referenceFilter;
+                document.querySelectorAll("[data-reference-filter]").forEach((item) => {
+                    const isActive = item === button;
+                    item.classList.toggle("active", isActive);
+                    item.setAttribute("aria-pressed", String(isActive));
+                });
+                cards.forEach((card) => {
+                    card.hidden = filter !== "all" && card.dataset.category !== filter;
+                });
+            });
+        });
+
+        document.querySelector("[data-apply-references]")?.addEventListener("click", (event) => {
+            const button = event.currentTarget;
+            const selectedCards = cards.filter((card) => card.querySelector('input[type="checkbox"]')?.checked);
+            if (!selectedCards.length || button.dataset.applying === "true") {
+                if (!selectedCards.length) showToast("초안에 반영할 관련자료를 선택해 주세요.");
+                return;
+            }
+
+            const selectedCount = selectedCards.length;
+            const selectedReferences = selectedCards.map((card) => ({
+                title: getReferenceTitle(card),
+                score: card.dataset.score || 0,
+            }));
+            const prompt = `다음 자료를 참고하여 답변서 초안을 생성해 주세요:\n${selectedReferences.map((reference, index) => `${index + 1}. ${reference.title} (유사도 ${reference.score}%)`).join("\n")}`;
+            const completionMessage =
+                `선택하신 ${selectedCount}건의 자료를 분석하여 답변서 초안에 반영했습니다.\n\n` + `📋 반영 자료:\n${selectedReferences.map((reference) => `• ${reference.title}`).join("\n")}\n\n` + '"답변서 초안" 탭에서 결과를 확인하세요.';
+            const messages = document.querySelector("#answerChatMessages");
+            const pendingMessage = window.ChatMessage?.createPending({
+                variant: "answer",
+                title: `선택 자료 ${selectedCount}건 분석 중`,
+                description: "답변서 초안에 반영하고 있습니다...",
+            });
+
+            button.dataset.applying = "true";
+            button.disabled = true;
+            setTabCount("draft", 1);
+            setDraftEmptyState(false);
+            setActiveTab("draft");
+            appendChatMessage("user", prompt);
+            if (messages && pendingMessage) messages.append(pendingMessage);
+            scrollChatToBottom();
+            showToast(`${selectedCount}건의 자료를 답변서 초안에 반영하고 있습니다.`);
+
+            scheduleWorkspaceTask(() => {
+                const aiMessage = createChatMessage("ai", completionMessage);
+                if (aiMessage && pendingMessage?.isConnected) {
+                    pendingMessage.replaceWith(aiMessage);
+                } else if (aiMessage) {
+                    messages?.append(aiMessage);
+                } else {
+                    pendingMessage?.remove();
+                }
+                delete button.dataset.applying;
+                button.disabled = false;
+                scrollChatToBottom();
+                showToast(`선택한 ${selectedCount}건의 자료가 답변서 초안에 반영되었습니다.`);
+            }, 800);
+        });
+
+        document.querySelector(".selected-refs-list")?.addEventListener("click", (event) => {
+            const removeButton = event.target.closest("[data-selected-reference-remove]");
+            if (!removeButton) return;
+            const card = cards[Number(removeButton.dataset.referenceIndex)];
+            const checkbox = card?.querySelector('input[type="checkbox"]');
+            if (!checkbox) return;
+            checkbox.checked = false;
+            syncSelectedReferences(cards);
+            showToast("선택한 관련자료를 해제했습니다.");
+        });
+
+        setReferenceFilterCounts(cards);
+        syncSelectedReferences(cards);
+    }
+
+    /* ============================ 끝: 탭과 관련자료 ============================== */
+
+    /* ============================ 시작: 참조소스 업로드 ============================ */
+
+    // 참조 소스 업로드 초기화
+    function initSourceUpload() {
+        const zone = document.querySelector(".answer-upload-component [data-file-upload-zone]");
+        const list = document.querySelector(".answer-source-files");
+        const count = document.querySelector("[data-source-file-count]");
+        if (!zone || !list || !count) return;
+
+        // 파일 유형 조회
+        const getFileType = (file) => {
+            const extension = String(file?.name || "")
+                .split(".")
+                .pop()
+                ?.toLowerCase();
+            if (extension === "pdf") return { type: "pdf", label: "PDF" };
+            if (["hwp", "hwpx"].includes(extension)) return { type: "hwp", label: "HWP" };
+            if (extension === "docx") return { type: "docx", label: "DOCX" };
+            if (extension === "txt") return { type: "txt", label: "TXT" };
+            return { type: "txt", label: "FILE" };
+        };
+
+        // 파일 항목 생성
+        const createFileItem = (file) => {
+            const { type, label } = getFileType(file);
+            const item = clonePrototypeElement("answerSourceFileItemPrototype");
+            if (!item) return null;
+            const dot = item.querySelector(".file-type-dot");
+            const collapsedIcon = item.querySelector(".file-icon-collapsed");
+            const name = item.querySelector(".file-name-simple");
+            const remove = item.querySelector(".file-remove-simple");
+
+            dot.classList.add(type);
+            collapsedIcon.classList.add(type);
+            collapsedIcon.textContent = label;
+            name.textContent = file.name;
+            name.title = file.name;
+            remove.setAttribute("aria-label", `${file.name} 삭제`);
+            return item;
+        };
+
+        zone.addEventListener("app:file-upload", (event) => {
+            Array.from(event.detail?.files || []).forEach((file) => {
+                const item = createFileItem(file);
+                if (item) list.append(item);
+            });
+            syncSourceFileState();
+            showToast("참조소스를 추가했습니다.");
+        });
+
+        list.addEventListener("fileitem:delete", () => {
+            syncSourceFileState();
+            showToast("참조소스를 삭제했습니다.");
+        });
+
+        document.querySelector("[data-source-reset]")?.addEventListener("click", () => {
+            list.replaceChildren();
+            syncSourceFileState();
+            showToast("참조소스를 초기화했습니다.");
+        });
+
+        document.querySelector("[data-source-collapse]")?.addEventListener("click", () => {
+            const panel = document.querySelector(".answer-source-panel");
+            const button = document.querySelector("[data-source-collapse]");
+            const collapsed = !panel.classList.contains("panel-collapsed");
+            panel.classList.toggle("panel-collapsed", collapsed);
+            panel.querySelector(".answer-source-file-section")?.classList.toggle("is-collapsed", collapsed);
+            panel.closest(".three-panel")?.classList.toggle("is-source-collapsed", collapsed);
+            if (collapsed) suspendPanelResizeLayout(panel.closest(".three-panel"));
+            else restorePanelResizeLayout(panel.closest(".three-panel"));
+            button?.setAttribute("aria-expanded", String(!collapsed));
+            button?.setAttribute("aria-label", collapsed ? "참조소스 패널 펼치기" : "참조소스 패널 접기");
+            if (button) button.title = collapsed ? "참조소스 패널 펼치기" : "참조소스 패널 접기";
+            showToast(collapsed ? "참조소스 패널을 접었습니다." : "참조소스 패널을 펼쳤습니다.");
+        });
+
+        document.querySelector("[data-source-file-add]")?.addEventListener("click", () => {
+            document.querySelector("#answerSourceFileInput")?.click();
+        });
+
+        syncSourceFileState();
+    }
+
+    /* ============================ 끝: 참조소스 업로드 ============================== */
+
+    /* ============================ 시작: 문서와 패널 동작 ============================ */
+
+    // 문서 동작 초기화
+    function initDocumentActions() {
+        document.querySelector("[data-download-draft]")?.addEventListener("click", () => {
+            const documentText = document.querySelector(".answer-draft-document")?.innerText.trim();
+            if (!documentText) {
+                showToast("다운로드할 답변서 초안이 없습니다.");
+                return;
+            }
+
+            const blob = new Blob([documentText], { type: "text/plain;charset=utf-8" });
+            const url = URL.createObjectURL(blob);
+            const link = Object.assign(document.createElement("a"), {
+                href: url,
+                download: "국회_답변서_초안_v1.0.txt",
+            });
+            document.body.append(link);
+            link.click();
+            link.remove();
+            window.setTimeout(() => URL.revokeObjectURL(url), 0);
+            showToast("답변서 초안을 다운로드했습니다.");
+        });
+    }
+
+    let activeDraftEvidenceTrigger = null;
+
+    // 초안 문장 근거 상태 조회
+    function getDraftEvidenceStatus(sentence) {
+        if (sentence.classList.contains("is-grounded")) {
+            return { label: "근거 확인", tone: "green" };
+        }
+        if (sentence.classList.contains("is-caution")) {
+            return { label: "주의", tone: "yellow" };
+        }
+        return { label: "출처 누락", tone: "red" };
+    }
+
+    // 초안 문장 근거자료 조회
+    function getDraftEvidenceReferences(sentence, sentenceIndex) {
+        const references = Array.from(document.querySelectorAll("#answerEvidenceDetailPrototype [data-vd-reference]"))
+            .map((card) => ({
+                index: Number.parseInt(card.dataset.vdReference || "", 10),
+                file: card.querySelector("[data-vd-reference-file]")?.textContent.trim() || "",
+                meta: card.querySelector("[data-vd-reference-meta]")?.textContent.trim() || "",
+                quote: card.querySelector("[data-vd-reference-quote]")?.textContent.trim() || "",
+            }))
+            .filter((reference) => Number.isInteger(reference.index) && reference.file);
+        if (!references.length) return [];
+
+        const explicitReferences = (sentence.dataset.answerEvidenceRefs || "")
+            .split(",")
+            .map((value) => Number.parseInt(value.trim(), 10) - 1)
+            .filter((index) => Number.isInteger(index) && references.some((reference) => reference.index === index));
+        if (explicitReferences.length) {
+            const primaryIndex = explicitReferences[0];
+            const secondaryIndex = explicitReferences[1] ?? (primaryIndex + 1) % references.length;
+            return [references.find((reference) => reference.index === primaryIndex), references.find((reference) => reference.index === secondaryIndex)].filter(Boolean);
+        }
+
+        const sourceMatch = sentence.querySelector("sup")?.textContent.match(/\d+/);
+        const sourceNumber = Number.parseInt(sourceMatch?.[0] || "", 10);
+        const primaryIndex = Number.isFinite(sourceNumber) ? (sourceNumber - 1) % references.length : (sentenceIndex - 1) % references.length;
+
+        return [references[primaryIndex], references[(primaryIndex + 1) % references.length]];
+    }
+
+    // 초안 문장 본문 추출
+    function getDraftEvidenceSentenceText(sentence) {
+        const sentenceClone = sentence.cloneNode(true);
+        sentenceClone.querySelectorAll("sup").forEach((source) => source.remove());
+        return sentenceClone.textContent.replace(/\s+/g, " ").trim();
+    }
+
+    // 초안 근거 상세 패널 닫기
+    function closeDraftEvidenceDetail(splitArea, restoreFocus = false) {
+        const triggerToRestore = activeDraftEvidenceTrigger;
+        window.AIOneSplitHandler?.reset(splitArea);
+        splitArea.querySelector(".verify-detail-panel")?.remove();
+        splitArea.querySelector(".answer-evidence-split-handle")?.remove();
+        splitArea.classList.remove("is-evidence-open");
+
+        const draftPane = splitArea.querySelector(".answer-draft-main");
+        draftPane?.style.removeProperty("flex");
+        draftPane?.style.removeProperty("width");
+        activeDraftEvidenceTrigger?.setAttribute("aria-expanded", "false");
+        activeDraftEvidenceTrigger = null;
+
+        if (restoreFocus) triggerToRestore?.focus();
+    }
+
+    // 초안 근거 분할 핸들 생성
+    function createDraftEvidenceSplitHandle() {
+        return clonePrototypeElement("answerEvidenceSplitHandlePrototype");
+    }
+
+    // 초안 근거 상세 패널 생성 및 이벤트 연결
+    function createDraftEvidenceDetail(splitArea) {
+        const detailPanel = clonePrototypeElement("answerEvidenceDetailPrototype");
+        if (!detailPanel) return null;
+
+        detailPanel.querySelector(".vd-close")?.addEventListener("click", () => {
+            closeDraftEvidenceDetail(splitArea, true);
+        });
+        detailPanel.addEventListener("keydown", (event) => {
+            if (event.key !== "Escape") return;
+            closeDraftEvidenceDetail(splitArea, true);
+        });
+        detailPanel.querySelectorAll("[data-vd-reference-action]").forEach((button) => {
+            button.addEventListener("click", () => {
+                const fileName = button.closest("[data-vd-reference]")?.querySelector("[data-vd-reference-file]")?.textContent;
+                if (fileName) showToast(`'${fileName}' 원문을 확인합니다.`);
+            });
+        });
+
+        return detailPanel;
+    }
+
+    // 초안 근거 확인 패널 열기
+    function openDraftEvidenceDetail(sentence, splitArea) {
+        const sentenceIndex = Number.parseInt(sentence.dataset.answerEvidenceIndex || "1", 10);
+        const status = getDraftEvidenceStatus(sentence);
+        const references = getDraftEvidenceReferences(sentence, sentenceIndex);
+        let detailPanel = splitArea.querySelector(".verify-detail-panel");
+
+        if (!detailPanel) {
+            detailPanel = createDraftEvidenceDetail(splitArea);
+            const resizeHandle = createDraftEvidenceSplitHandle();
+            if (!detailPanel || !resizeHandle) return;
+            splitArea.append(resizeHandle, detailPanel);
+            window.AIOneSplitHandler?.init(splitArea);
+        }
+
+        activeDraftEvidenceTrigger?.setAttribute("aria-expanded", "false");
+        activeDraftEvidenceTrigger = sentence;
+        sentence.setAttribute("aria-expanded", "true");
+        splitArea.classList.add("is-evidence-open");
+
+        const statusBadge = detailPanel.querySelector("[data-vd-status]");
+        statusBadge?.classList.remove("green", "yellow", "red");
+        statusBadge?.classList.add(status.tone);
+        if (statusBadge) statusBadge.textContent = status.label;
+        const sentenceNumber = detailPanel.querySelector("[data-vd-sentence-number]");
+        if (sentenceNumber) sentenceNumber.textContent = `문장 ${String(sentenceIndex).padStart(2, "0")}`;
+        const sentenceText = detailPanel.querySelector("[data-vd-sentence]");
+        if (sentenceText) sentenceText.textContent = getDraftEvidenceSentenceText(sentence);
+
+        const visibleReferenceIndexes = new Set(references.map((reference) => reference.index));
+        detailPanel.querySelectorAll("[data-vd-reference]").forEach((card) => {
+            card.hidden = !visibleReferenceIndexes.has(Number.parseInt(card.dataset.vdReference || "", 10));
+        });
+        detailPanel.querySelector(".vd-body")?.scrollTo({ top: 0 });
+    }
+
+    // 초안 근거 검증 초기화
+    function initDraftVerification() {
+        const draftDocument = document.querySelector(".answer-draft-document");
+        const splitArea = document.querySelector(".answer-draft-split-area");
+        const highlightToggle = document.querySelector("[data-answer-highlight-toggle]");
+        const sourceToggle = document.querySelector("[data-answer-source-toggle]");
+        if (!draftDocument || !splitArea || !highlightToggle || !sourceToggle) return;
+
+        const highlightedSentences = draftDocument.querySelectorAll("p.is-grounded, p.is-caution, p.is-missing");
+        highlightedSentences.forEach((sentence, index) => {
+            sentence.dataset.answerEvidenceIndex = String(index + 1);
+            sentence.addEventListener("click", () => {
+                if (highlightToggle.checked) openDraftEvidenceDetail(sentence, splitArea);
+            });
+            sentence.addEventListener("keydown", (event) => {
+                if (!highlightToggle.checked || !["Enter", " "].includes(event.key)) return;
+                event.preventDefault();
+                openDraftEvidenceDetail(sentence, splitArea);
+            });
+        });
+
+        // 검증 Mode 동기화
+        const syncVerificationMode = () => {
+            const isHighlightEnabled = highlightToggle.checked;
+            draftDocument.classList.toggle("is-highlight-hidden", !isHighlightEnabled);
+            draftDocument.classList.toggle("is-source-hidden", !sourceToggle.checked);
+            highlightedSentences.forEach((sentence) => {
+                sentence.classList.toggle("is-evidence-interactive", isHighlightEnabled);
+                if (isHighlightEnabled) {
+                    sentence.tabIndex = 0;
+                    sentence.setAttribute("role", "button");
+                    sentence.setAttribute("aria-controls", "answerVerifyDetail");
+                    sentence.setAttribute("aria-expanded", String(sentence === activeDraftEvidenceTrigger));
+                } else {
+                    sentence.removeAttribute("tabindex");
+                    sentence.removeAttribute("role");
+                    sentence.removeAttribute("aria-controls");
+                    sentence.removeAttribute("aria-expanded");
+                }
+            });
+            if (!isHighlightEnabled) closeDraftEvidenceDetail(splitArea);
+        };
+
+        highlightToggle.addEventListener("change", syncVerificationMode);
+        sourceToggle.addEventListener("change", syncVerificationMode);
+        syncVerificationMode();
+    }
+
+    // 소스 패널 펼치기
+    function expandSourcePanel() {
+        const layout = document.querySelector(".answer-three-panel-host > .three-panel");
+        const panel = document.querySelector(".answer-source-panel");
+        const button = document.querySelector("[data-source-collapse]");
+        panel?.classList.remove("panel-collapsed");
+        panel?.querySelector(".answer-source-file-section")?.classList.remove("is-collapsed");
+        layout?.classList.remove("is-source-collapsed");
+        restorePanelResizeLayout(layout);
+        button?.setAttribute("aria-expanded", "true");
+        button?.setAttribute("aria-label", "참조소스 패널 접기");
+        if (button) button.title = "참조소스 패널 접기";
+    }
+
+    // 패널 도구 초기화
+    function initPanelTools() {
+        const layout = document.querySelector(".answer-three-panel-host > .three-panel");
+        const swapButton = document.querySelector("#panelSwapBtn");
+        const resetButton = document.querySelector("#layoutResetBtn");
+        if (!layout || !swapButton || !resetButton) return;
+
+        swapButton.addEventListener("click", () => {
+            expandSourcePanel();
+            const swapped = layout.classList.toggle("is-panel-swapped");
+            window.AIOneSplitHandler?.init(layout);
+            showToast(swapped ? "참조소스와 AI 채팅 위치를 변경했습니다." : "패널 위치를 기본 순서로 되돌렸습니다.");
+        });
+
+        resetButton.addEventListener("click", () => {
+            layout.classList.remove("is-panel-swapped");
+            expandSourcePanel();
+            resetPanelResizeLayout(layout);
+            showToast("패널 레이아웃을 초기화했습니다.");
+        });
+    }
+
+    /* ============================ 끝: 문서와 패널 동작 ============================== */
+
+    /* ============================ 시작: 채팅 ============================ */
+
+    // 현재 시각 조회
+    function getCurrentTime() {
+        return new Intl.DateTimeFormat("ko-KR", {
+            hour: "2-digit",
+            minute: "2-digit",
+            hour12: false,
+        }).format(new Date());
+    }
+
+    // 기존 ChatMessage 마크업으로 채팅 메시지 생성
+    function createChatMessage(role, text) {
+        const messages = document.querySelector("#answerChatMessages");
+        const template = messages?.querySelector(`[data-component="chat-message"][data-role="${role}"][data-status="complete"]`);
+        if (!template) return null;
+
+        const message = template.cloneNode(true);
+        const textElement = message.querySelector(".msg-text");
+        const timeElement = message.querySelector(".msg-time");
+        if (!textElement || !timeElement) return null;
+
+        message.className = `chat-msg ${role}`;
+        message.dataset.component = "chat-message";
+        message.dataset.variant = "answer";
+        message.dataset.role = role;
+        message.dataset.status = "complete";
+        message.removeAttribute("id");
+        message.removeAttribute("aria-busy");
+        message.removeAttribute("data-message-actions");
+        message.querySelector(":scope > .msg-actions")?.remove();
+        textElement.textContent = text;
+        timeElement.textContent = getCurrentTime();
+        return message;
+    }
+
+    // 채팅 메시지 추가
+    function appendChatMessage(role, text) {
+        const messages = document.querySelector("#answerChatMessages");
+        const message = createChatMessage(role, text);
+        if (!messages || !message) return null;
+        messages.append(message);
+        return message;
+    }
+
+    // 채팅 목록 하단으로 스크롤
+    function scrollChatToBottom() {
+        const messages = document.querySelector("#answerChatMessages");
+        if (messages) messages.scrollTop = messages.scrollHeight;
+    }
+
+    // 채팅 기능 초기화
+    function initChat() {
+        const messages = document.querySelector("#answerChatMessages");
+        const form = document.querySelector("[data-answer-chat-form]");
+        const input = document.querySelector("#answerChatInput");
+        const submit = form?.querySelector('[type="submit"]');
+        if (!messages || !form || !input || !submit) return;
+
+        window.ChatMessage?.bind(messages, {
+            onFeedback: () => showToast("피드백이 반영되었습니다."),
+            onCopy: ({ copied }) => showToast(copied ? "복사되었습니다." : "복사하지 못했습니다."),
+            onMore: () => showToast("추가옵션"),
+        });
+
+        input.addEventListener("input", () => {
+            submit.disabled = input.value.trim().length === 0;
+        });
+        form.addEventListener("submit", (event) => {
+            event.preventDefault();
+            const question = input.value.trim();
+            if (!question) return;
+            input.value = "";
+            submit.disabled = true;
+            restoreRecommendationResults();
+            showToast("요청 내용을 기준으로 관련자료와 답변서 초안을 갱신했습니다.");
+        });
+
+        document.querySelectorAll(".chat-tag").forEach((tag) => {
+            tag.addEventListener("click", () => {
+                input.value = tag.textContent.trim();
+                input.dispatchEvent(new Event("input", { bubbles: true }));
+                input.focus();
+            });
+        });
+
+        scrollChatToBottom();
+    }
+
+    // 답변 워크스페이스 초기화
+    function resetAnswerWorkspace() {
+        clearPendingWorkspaceTasks();
+        document.body.classList.add("is-new-chat");
+
+        const layout = document.querySelector(".answer-three-panel-host > .three-panel");
+        const sourceFiles = document.querySelector(".answer-source-files");
+        const sourceInput = document.querySelector("#answerSourceFileInput");
+        const cards = Array.from(document.querySelectorAll("[data-reference-card]"));
+        const messages = document.querySelector("#answerChatMessages");
+        const chatInput = document.querySelector("#answerChatInput");
+        const chatSubmit = document.querySelector('[data-answer-chat-form] [type="submit"]');
+        const applyButton = document.querySelector("[data-apply-references]");
+
+        sourceFiles?.replaceChildren();
+        if (sourceInput) sourceInput.value = "";
+        syncSourceFileState();
+
+        cards.forEach((card) => {
+            card.classList.remove("active");
+            card.hidden = false;
+            const checkbox = card.querySelector('input[type="checkbox"]');
+            if (checkbox) checkbox.checked = false;
+        });
+        document.querySelectorAll("[data-reference-filter]").forEach((button) => {
+            const isAll = button.dataset.referenceFilter === "all";
+            button.classList.toggle("active", isAll);
+            button.setAttribute("aria-pressed", String(isAll));
+        });
+        syncSelectedReferences(cards);
+        setRecommendationEmptyState(true);
+        setTabCount("draft", 0);
+        setDraftEmptyState(true);
+
+        if (applyButton) {
+            delete applyButton.dataset.applying;
+            applyButton.disabled = false;
+        }
+
+        document.querySelectorAll("[data-answer-highlight-toggle], [data-answer-source-toggle]").forEach((toggle) => {
+            toggle.checked = true;
+            toggle.dispatchEvent(new Event("change", { bubbles: true }));
+        });
+
+        const introMessage = messages?.querySelector(":scope > [data-chat-intro]");
+        if (messages && introMessage) {
+            messages.replaceChildren(introMessage);
+            const introText = introMessage.querySelector(".msg-text");
+            const introTime = introMessage.querySelector(".msg-time");
+            if (introText) introText.textContent = AI_CHAT_INTRO;
+            if (introTime) introTime.textContent = getCurrentTime();
+        }
+        if (chatInput) chatInput.value = "";
+        if (chatSubmit) chatSubmit.disabled = true;
+
+        layout?.classList.remove("is-panel-swapped");
+        expandSourcePanel();
+        resetPanelResizeLayout(layout);
+        setActiveTab("recommend");
+        scrollChatToBottom();
+        chatInput?.focus();
+    }
+
+    /* ============================ 끝: 채팅 ============================== */
+
+    /* ============================ 시작: 상단바와 화면 시작 ============================ */
+
+    // 상단바 동작 초기화
+    function initTopbarActions() {
+        document.querySelector("#newClassifyBtn")?.addEventListener("click", () => {
+            resetAnswerWorkspace();
+            showToast("새 채팅을 시작했습니다.");
+        });
+
+        const chatListSidepop = document.querySelector("#answerChatListSidepop");
+        chatListSidepop?.querySelectorAll(".sidepop-chat-select").forEach((select) => {
+            select.addEventListener("click", () => {
+                const topic = select.closest(".sidepop-chat-item");
+                if (!topic) return;
+                document.querySelectorAll("#answerChatListSidepop .sidepop-chat-item").forEach((item) => item.classList.toggle("is-active", item === topic));
+                window.AIOneSidePop?.close("#answerChatListSidepop");
+                showToast("선택한 채팅으로 전환했습니다.");
+            });
+        });
+        chatListSidepop?.addEventListener("sidepop:chat-action", (event) => {
+            const { action, completed, pinned, title } = event.detail || {};
+            if (!completed) return;
+            if (action === "share") {
+                showToast("대화 공유 링크가 복사되었습니다.");
+            }
+            if (action === "delete") {
+                showToast("대화가 삭제되었습니다.");
+            }
+            if (action === "pin") {
+                showToast(pinned ? `'${title}' 대화를 목록 상단에 고정했습니다.` : `'${title}' 대화 고정을 해제했습니다.`);
+            }
+        });
+    }
+
+    // 화면 초기화
+    function init() {
+        if (initialized || !allComponentsReady()) return;
+        initialized = true;
+
+        configureTopbar();
+        initSidebar();
+        initTabs();
+        initReferences();
+        initSourceUpload();
+        initDocumentActions();
+        initDraftVerification();
+        initPanelTools();
+        initChat();
+        initTopbarActions();
+        hydrateIcons();
+    }
+
+    document.addEventListener("DOMContentLoaded", init);
+
+    /* ============================ 끝: 상단바와 화면 시작 ============================== */
+})();

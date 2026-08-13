@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+	<meta charset="UTF-8" />
+	<meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1" />
+	<title>파일리스트</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<meta name="keywords" content="" />
+	<meta name="description" content="" />
+	<meta name="author" content="" />
+	<style>
+		* {
+			-webkit-text-size-adjust: none;
+		}
+
+		html,
+		body {
+			width: 100%;
+			height: 100%;
+			min-width: 800px;
+		}
+
+		html,
+		body,
+		div,
+		h1,
+		h4,
+		table,
+		tbody {
+			margin: 0;
+			padding: 0;
+			outline: 0;
+			font-family: NanumGothic, "나눔고딕", Dotum, "돋움", applegothic, sans-serif;
+			font-size: 13px;
+			color: #555;
+		}
+
+		body {
+			line-height: 1.2em;
+			border: 0;
+		}
+
+		strong,
+		span,
+		a {
+			display: inline-block;
+		}
+
+		span {
+			margin: 0;
+			padding: 0;
+			outline: 0;
+		}
+
+		table,
+		tbody,
+		thead,
+		tr,
+		th,
+		td {
+			border: 0;
+		}
+
+		strong,
+		th {
+			font-style: normal;
+		}
+
+		a {
+			cursor: pointer;
+			text-decoration: none;
+			color: #666;
+		}
+
+		table {
+			border-collapse: collapse;
+		}
+
+		#wrap {
+			padding: 12px;
+		}
+
+		#header {
+			margin-bottom: 20px;
+		}
+
+		#header::after {
+			content: "";
+			clear: both;
+			display: block;
+		}
+
+		#header>h1 {
+			float: left;
+			display: flex;
+			align-items: baseline;
+			gap: 8px;
+			font-size: 28px;
+			color: #1a1a1a;
+			padding-top: 15px;
+		}
+
+		h4 {
+			font-size: 14px;
+			color: #333;
+			margin: 25px 0 8px 5px;
+		}
+
+		table.htmllist th,
+		table.htmllist td {
+			border: 1px solid #ccc;
+		}
+
+		table.htmllist tr:first-child td {
+			text-align: center;
+			font-weight: bold;
+			border-bottom: 1px solid #111 !important;
+			height: 30px;
+			color: #000 !important;
+			font-size: 13px !important;
+		}
+
+		table.htmllist th {
+			padding: 5px 6px;
+			text-align: left;
+			border-bottom: 2px solid #0088ff !important;
+			height: 32px;
+			background-color: #f3f4f8;
+		}
+
+		table.htmllist td {
+			padding: 5px 6px;
+		}
+
+		table.htmllist td:first-child {
+			text-align: center;
+		}
+
+		table.htmllist td:last-child {
+			color: #888;
+			font-size: 12px;
+		}
+
+		table.htmllist td:nth-child(6) {
+			text-align: center;
+		}
+
+		table.htmllist td>a {
+			display: block;
+			width: 100%;
+			height: 26px;
+			line-height: 26px;
+			text-align: center;
+			color: #fff;
+			font-size: 11px;
+			font-weight: bold;
+			vertical-align: middle;
+			background-color: #0088ff;
+			border: 1px solid #0088ff;
+			border-radius: 3px;
+		}
+
+		table.htmllist tr td {
+			background-color: #fff;
+		}
+
+		.cntTotal {
+			position: static;
+			margin: 0;
+			color: #6e7781;
+			font-size: 13px;
+			font-weight: 400;
+		}
+
+		.cntTotal strong {
+			color: #0969da;
+			font-size: 16px;
+		}
+
+		.section-count {
+			margin-left: 6px;
+			color: #6e7781;
+			font-size: 12px;
+			font-weight: 400;
+		}
+
+		.htmllist .page-row {
+			cursor: pointer;
+			transition: background-color 0.15s ease, color 0.15s ease;
+		}
+
+		.htmllist .page-row>td {
+			transition: background-color 0.15s ease, border-color 0.15s ease, color 0.15s ease;
+		}
+
+		.htmllist .page-row:hover>td {
+			border-top-color: #8cbeef;
+			border-bottom-color: #8cbeef;
+			background-color: #eef6ff;
+			color: #1f2328;
+		}
+
+		.htmllist .page-row.is-selected>td {
+			border-top-color: #0969da;
+			border-bottom-color: #0969da;
+			background-color: #dbeafe;
+			color: #074c9c;
+		}
+
+		.htmllist .page-row:focus-visible {
+			outline: 2px solid #0969da;
+			outline-offset: -2px;
+		}
+
+		.version-badge {
+			min-width: 30px;
+			padding: 3px 7px;
+			border: 1px solid #8cbeef;
+			border-radius: 999px;
+			background: #eef6ff;
+			color: #0757b7;
+			font-size: 11px;
+			font-weight: 700;
+			line-height: 1;
+			text-align: center;
+		}
+
+		.v2 .version-badge {
+			border-color: #c7b5f4;
+			background: #f3efff;
+			color: #6639ba;
+		}
+
+		.htmllist td>a:hover,
+		.htmllist td>a:focus-visible {
+			border-color: #0550ae;
+			background-color: #0550ae;
+			box-shadow: 0 2px 6px rgba(9, 105, 218, 0.24);
+			line-height: 26px;
+			transform: translateY(-1px);
+		}
+
+		.htmllist td>a:focus-visible {
+			outline: 2px solid #0969da;
+			outline-offset: 2px;
+		}
+
+		.htmllist td>a:active,
+		.htmllist .page-row.is-selected td>a {
+			border-color: #033d8b;
+			background-color: #033d8b;
+			box-shadow: none;
+			transform: translateY(0);
+		}
+	</style>
+</head>
+
+<body>
+	<div id="wrap">
+		<div id="header">
+			<h1>
+				파일리스트 <span class="cntTotal">(총 <strong data-total-page-count>0</strong> pages)</span>
+			</h1>
+		</div>
+		<h4>코딩 목록 <span class="section-count" data-section-count></span></h4>
+		<table width="100%" border="0" cellspacing="0" cellpadding="0" class="htmllist">
+			<thead>
+				<tr class="head">
+					<td>No</td>
+					<td>Depth 1</td>
+					<td>Depth 2</td>
+					<td>Type</td>
+					<td>FileName</td>
+					<td>업체 업로드</td>
+					<td>다운로드</td>
+					<td>작업 완료 예정</td>
+					<td>View</td>
+				</tr>
+			</thead>
+
+			<tbody>
+				<tr>
+					<th colspan="11">재정경제부</th>
+				</tr>
+				<tr class="page-row v1" data-page="pages/ai-home.html">
+					<td></td>
+					<td>메인</td>
+					<td></td>
+					<td><span class="version-badge">v1</span></td>
+					<td>pages/ai-home.html</td>
+					<td>2026.07.28</td>
+					<td>2026.07.28</td>
+					<td>2026.08.13</td>
+					<td><a href="pages/ai-home.html" target="_blank">View</a></td>
+				</tr>
+				<tr class="page-row v1" data-page="pages/ai-workspace.html">
+					<td></td>
+					<td>국회질의분류</td>
+					<td></td>
+					<td><span class="version-badge">v1</span></td>
+					<td>pages/ai-workspace.html</td>
+					<td>2026.07.28</td>
+					<td>2026.07.28</td>
+					<td>2026.08.13</td>
+					<td><a href="pages/ai-workspace.html" target="_blank">View</a></td>
+				</tr>
+				<tr class="page-row v1" data-page="pages/ai-answer.html">
+					<td></td>
+					<td>국회 답변서 초안</td>
+					<td></td>
+					<td><span class="version-badge">v1</span></td>
+					<td>pages/ai-answer.html</td>
+					<td>2026.07.31</td>
+					<td>2026.07.31</td>
+					<td>2026.08.13</td>
+					<td><a href="pages/ai-answer.html" target="_blank">View</a></td>
+				</tr>
+				<!-- <tr class="page-row v2" data-page="pages/ai-answer-after.html">
+					<td></td>
+					<td></td>
+					<td>9월 15일 이후</td>
+					<td><span class="version-badge">v2</span></td>
+					<td>pages/ai-answer-after.html</td>
+					<td>2026.08.04</td>
+					<td>2026.08.04</td>
+					<td>2026.08.06</td>
+					<td><a href="pages/ai-answer-after.html" target="_blank">View</a></td>
+				</tr> -->
+				<tr class="page-row v1" data-page="pages/login.html">
+					<td></td>
+					<td>로그인</td>
+					<td></td>
+					<td><span class="version-badge">v1</span></td>
+					<td>pages/login.html</td>
+					<td>2026.07.28</td>
+					<td>2026.07.29</td>
+					<td>2026.08.13</td>
+					<td><a href="pages/login.html" target="_blank">View</a></td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+
+	<script>
+		(() => {
+			'use strict';
+
+			const rows = Array.from(document.querySelectorAll('.htmllist .page-row'));
+			const totalCount = document.querySelector('[data-total-page-count]');
+			const sectionCount = document.querySelector('[data-section-count]');
+
+			rows.forEach((row, index) => {
+				row.querySelector('td:first-child').textContent = String(index + 1);
+				row.tabIndex = 0;
+
+				const selectRow = () => {
+					rows.forEach(item => item.classList.toggle('is-selected', item === row));
+				};
+
+				row.addEventListener('click', selectRow);
+				row.addEventListener('keydown', event => {
+					if (!['Enter', ' '].includes(event.key)) return;
+					event.preventDefault();
+					selectRow();
+				});
+			});
+
+			if (totalCount) totalCount.textContent = String(rows.length);
+			if (sectionCount) sectionCount.textContent = `${rows.length}개 화면`;
+		})();
+	</script>
+</body>
+
+</html>

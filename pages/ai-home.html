@@ -1,0 +1,909 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+	<meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<title>AI-ONE 홈</title>
+	<link rel="icon" href="../assets/icons/ai-one-logo.svg" type="image/svg+xml" />
+	<script src="../js/ai-theme.js"></script>
+	<link rel="stylesheet" href="../css/ai-theme.css" />
+	<link rel="stylesheet" href="../css/common.css" />
+	<link rel="stylesheet" href="../css/ai-home.css" />
+</head>
+
+<body class="ai-home-page" data-page="home">
+	<div class="ai-home-app">
+		<div class="home-sidebar-host sidebar-host sidebar-expanded">
+			<!---------------------------------------- Start: 사이드 바 ---------------------------------------------->
+			<aside class="sidebar app-sidebar" id="sidebar">
+				<!---------------------------------------- Start: 사이드 바 컨텐츠---------------------------------------------->
+				<!--
+						  [문서/페이지 구조 안내 — 개발자용]
+						  -  sidebar-top-bar: 사이드바 상단 브랜드 영역(로고, 사이드바 접기 버튼)
+						  -  sidebar-nav: 사이드바 메인 내비게이션(메뉴) 영역
+						  -  sidebar-footer: 사이드바 하단 영역(계정 메뉴 등)
+			-->
+				<div class="sidebar-top-bar">
+					<a class="sidebar-brand" id="sidebarBrandButton" href="ai-home.html" aria-label="AI-ONE 홈"
+						title="AI-ONE 홈">
+						<span class="brand-logo">
+							<img class="brand-symbol" alt="AI-ONE" data-icon="ai-one-logo" />
+						</span>
+						<span class="brand-text">
+							<span class="brand-name">AI-ONE</span>
+							<span class="brand-sub">재정경제부 AI 플랫폼</span>
+						</span>
+					</a>
+					<button type="button" class="icon-button icon-button-ghost sidebar-collapse-btn"
+						id="sidebarCollapseBtn" aria-label="사이드바 접기/펼치기" aria-expanded="true" title="사이드바 접기">
+						<img class="collapse-icon icon icon-text" data-icon="sidebar-collapse" alt=""
+							aria-hidden="true" />
+					</button>
+				</div>
+				<!------------------------------------ Start: 사이드바 메뉴 영역 ------------------------------------>
+				<nav class="sidebar-nav" aria-label="메인 네비게이션">
+					<div class="nav-group">
+						<a class="nav-link" href="ai-home.html" data-route="home" data-page="home"
+							data-tooltip="AI-ONE 홈" aria-label="AI-ONE 홈">
+							<img data-icon="home" alt="" aria-hidden="true" />
+							<span class="nav-text">AI-ONE 홈</span>
+						</a>
+					</div>
+					<div class="nav-group">
+						<span class="nav-group-label">AI 서비스</span>
+						<a class="nav-link" href="ai-workspace.html" data-route="intake" data-page="intake"
+							data-tooltip="국회질의분류" aria-label="국회질의분류">
+							<svg viewBox="0 0 24 24" aria-hidden="true">
+								<path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+								<polyline points="14 2 14 8 20 8"></polyline>
+							</svg>
+						<span class="nav-text">국회질의분류</span>
+						<span class="nav-complete-dot hidden" aria-label="완료된 작업 있음" title="완료된 작업이 있습니다."></span>
+						</a>
+						<a class="nav-link" href="ai-answer.html" data-route="answer" data-page="answer"
+							data-tooltip="국회 답변서 초안 생성" aria-label="국회 답변서 초안 생성">
+							<svg viewBox="0 0 24 24" aria-hidden="true">
+								<path d="M12 20h9"></path>
+								<path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path>
+							</svg>
+						<span class="nav-text">국회 답변서 초안 생성</span>
+						<span class="nav-complete-dot hidden" aria-label="완료된 작업 있음" title="완료된 작업이 있습니다."></span>
+						</a>
+						<a class="nav-link hidden" href="ai-answer-after.html" data-route="answer-after-9" hidden
+							data-page="answer-after-9" data-tooltip="국회답변서 9월이후" aria-label="국회답변서 9월이후">
+							<svg viewBox="0 0 24 24" aria-hidden="true">
+								<path d="M12 20h9"></path>
+								<path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path>
+							</svg>
+							<span class="nav-text">국회답변서 9월이후</span>
+						</a>
+						<a class="nav-link" data-page="asset" data-modal-open="preparingServiceModal"
+							data-tooltip="국유재산 업무 관리" aria-label="국유재산 업무 관리 (준비중)">
+							<svg viewBox="0 0 24 24" aria-hidden="true">
+								<path d="M3 10 12 4l9 6"></path>
+								<path d="M5 10v9"></path>
+								<path d="M10 10v9"></path>
+								<path d="M14 10v9"></path>
+								<path d="M19 10v9"></path>
+								<path d="M3 19h18"></path>
+							</svg>
+							<span class="nav-text">국유재산 업무 관리</span>
+							<span class="nav-badge-soon">준비중</span>
+						</a>
+						<a class="nav-link" data-page="policy" data-modal-open="preparingServiceModal"
+							data-tooltip="정책 안내서" aria-label="정책 안내서 (준비중)">
+							<svg viewBox="0 0 24 24" aria-hidden="true">
+								<path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+								<polyline points="14 2 14 8 20 8"></polyline>
+								<line x1="8" y1="13" x2="16" y2="13"></line>
+								<line x1="8" y1="17" x2="16" y2="17"></line>
+							</svg>
+							<span class="nav-text">정책 안내서</span>
+							<span class="nav-badge-soon">준비중</span>
+						</a>
+					</div>
+					<div class="nav-group">
+						<a class="nav-link" data-page="chatbot" data-modal-open="preparingServiceModal"
+							data-tooltip="AI-ONE 챗봇" aria-label="AI-ONE 챗봇 (준비중)">
+							<svg viewBox="0 0 24 24" aria-hidden="true">
+								<path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+							</svg>
+						<span class="nav-text">AI-ONE 챗봇</span>
+						<span class="nav-complete-dot hidden" aria-label="완료된 작업 있음" title="완료된 작업이 있습니다."></span>
+							<span class="nav-badge-soon">준비중</span>
+						</a>
+					</div>
+				</nav>
+				<!------------------------------------ //End: 사이드바 메뉴 영역 ------------------------------------>
+				<div class="sidebar-footer">
+					<div class="user-card">
+						<button type="button" class="user-avatar" data-sidebar-account-toggle aria-label="사용자 계정 메뉴"
+							aria-haspopup="menu" aria-expanded="false" aria-controls="sidebarAccountMenu">
+							<img class="icon icon-text" data-icon="user" alt="" aria-hidden="true" />
+						</button>
+						<button type="button" class="user-info" data-sidebar-account-toggle aria-label="사용자 계정 메뉴"
+							title="사용자 계정 메뉴" aria-haspopup="menu" aria-expanded="false"
+							aria-controls="sidebarAccountMenu">
+							<span class="user-name">박재정 주무관</span>
+							<span class="user-meta-row">
+								<span class="user-dept">재정분석과</span>
+								<span class="user-role-badge">국회담당자</span>
+							</span>
+						</button>
+						<button type="button" class="icon-button icon-button-ghost settings-btn hidden" id="settingsBtn"
+							aria-label="환경설정" title="환경설정" data-sidebar-account-toggle aria-haspopup="menu"
+							aria-expanded="false" aria-controls="sidebarAccountMenu">
+							<img class="icon icon-small" data-icon="settings-alt" alt="" aria-hidden="true" />
+						</button>
+
+					</div>
+				</div>
+				<!---------------------------------------- //End: 사이드 바 컨텐츠---------------------------------------------->
+
+
+				<!--
+						  [문서/페이지 구조 안내 — 개발자용]
+						  - 사이드바 오버레이의 종류는 총 4개
+							· 사이드바 하단 사용자 정보 클릭 시 나오는 계정 메뉴(아이디: sidebarAccountMenu)
+							· 내 정보 클릭 시 나오는 프로필 모달(아이디: sidebarProfileModal)
+							· 환경설정 클릭 시 나오는 프로필 모달(아이디: sidebarSettingsModal)
+							· 로그아웃 클릭 시 나오는 프로필 모달(아이디: sidebarLogoutModal)
+
+				-->
+
+				<!---------------------------------------- Start: 내 정보 클릭 시 나오는 프로필 모달---------------------------------------------->
+				<div class="custom-modal-backdrop" id="sidebarProfileModal" data-component="modal" data-modal hidden>
+					<section class="custom-modal modal-medium modal-variant-account-profile account-profile-modal"
+						role="dialog" aria-modal="true" data-modal-variant="account-profile" aria-label="내 정보">
+						<div class="modal-variant-panel" data-modal-panel="account-profile" data-account-modal-panel>
+							<div class="account-modal-head">
+								<p class="custom-modal-title">내 정보</p>
+								<button type="button" class="query-edit-modal-close" data-modal-close
+									aria-label="닫기">×</button>
+							</div>
+							<div class="account-modal-body account-profile-content">
+								<div class="account-profile-summary">
+									<span class="account-profile-avatar" aria-hidden="true">
+										<svg viewBox="0 0 24 24">
+											<circle cx="12" cy="8" r="4"></circle>
+											<path d="M5 21a7 7 0 0 1 14 0"></path>
+										</svg>
+									</span>
+									<div>
+										<strong data-account-profile-name>박재정 주무관</strong>
+										<span data-account-profile-dept>재정분석과</span>
+									</div>
+								</div>
+								<dl class="account-profile-list">
+									<div>
+										<dt>이름·직위</dt>
+										<dd data-account-profile-name>박재정 주무관</dd>
+									</div>
+									<div>
+										<dt>소속 부서</dt>
+										<dd data-account-profile-dept>재정분석과</dd>
+									</div>
+									<div>
+										<dt>사용자 권한</dt>
+										<dd><span class="account-role-tag" data-account-profile-role>국회담당자</span>
+										</dd>
+									</div>
+									<div>
+										<dt>로그인 방식</dt>
+										<dd>통합 ID · SSO</dd>
+									</div>
+								</dl>
+							</div>
+							<div class="custom-modal-actions account-modal-actions">
+								<button type="button" class="btn-confirm" data-modal-close>확인</button>
+							</div>
+						</div>
+					</section>
+				</div>
+				<!---------------------------------------- //End: 내 정보 클릭 시 나오는 프로필 모달---------------------------------------------->
+
+
+
+				<!---------------------------------------- Start: 환경설정 클릭 시 나오는 프로필 모달---------------------------------------------->
+				<div class="custom-modal-backdrop" id="sidebarSettingsModal" data-component="modal" data-modal hidden>
+					<section class="custom-modal modal-medium modal-variant-account-settings account-settings-modal"
+						role="dialog" aria-modal="true" data-modal-variant="account-settings" aria-label="환경설정">
+						<div class="modal-variant-panel" data-modal-panel="account-settings" data-account-modal-panel>
+							<div class="account-modal-head">
+								<p class="custom-modal-title">환경설정</p>
+								<button type="button" class="query-edit-modal-close" data-modal-close
+									aria-label="닫기">×</button>
+							</div>
+							<div class="account-modal-body account-settings-content" data-settings-panel>
+								<section class="account-settings-section">
+									<div class="settings-section-title">화면 모드</div>
+									<div class="theme-option-list" role="radiogroup" aria-label="화면 모드 선택">
+										<button type="button" class="theme-option" data-theme-value="system"
+											role="radio">
+											<span class="theme-option-icon">
+												<svg viewBox="0 0 24 24" aria-hidden="true">
+													<rect x="3" y="4" width="18" height="14" rx="2"></rect>
+													<path d="M8 21h8M12 18v3"></path>
+												</svg>
+											</span>
+											<span class="theme-option-text"><strong>시스템</strong><small>기기 설정에
+													맞춤</small></span>
+											<span class="theme-option-check" aria-hidden="true"></span>
+										</button>
+										<button type="button" class="theme-option" data-theme-value="dark" role="radio">
+											<span class="theme-option-icon">
+												<svg viewBox="0 0 24 24" aria-hidden="true">
+													<path d="M21 12.8A8.5 8.5 0 1 1 11.2 3 6.5 6.5 0 0 0 21 12.8z">
+													</path>
+												</svg>
+											</span>
+											<span class="theme-option-text"><strong>다크 모드</strong><small>어두운
+													화면</small></span>
+											<span class="theme-option-check" aria-hidden="true"></span>
+										</button>
+										<button type="button" class="theme-option" data-theme-value="light"
+											role="radio">
+											<span class="theme-option-icon">
+												<svg viewBox="0 0 24 24" aria-hidden="true">
+													<circle cx="12" cy="12" r="4"></circle>
+													<path
+														d="M12 2v2M12 20v2M4.93 4.93l1.42 1.42M17.65 17.65l1.42 1.42M2 12h2M20 12h2M4.93 19.07l1.42-1.42M17.65 6.35l1.42-1.42">
+													</path>
+												</svg>
+											</span>
+											<span class="theme-option-text"><strong>라이트 모드</strong><small>밝은
+													화면</small></span>
+											<span class="theme-option-check" aria-hidden="true"></span>
+										</button>
+									</div>
+								</section>
+								<section class="account-settings-section">
+									<div class="settings-section-title">강조 컬러</div>
+									<div class="settings-accent-control" data-accent-control>
+										<button type="button" class="settings-accent-trigger" data-accent-trigger
+											aria-haspopup="listbox" aria-expanded="false" aria-label="강조 컬러 선택">
+											<span class="settings-accent-swatch" aria-hidden="true"></span>
+											<span data-accent-label>기본값</span>
+											<span class="settings-accent-arrow" aria-hidden="true"></span>
+										</button>
+										<div class="settings-accent-options" data-accent-listbox role="listbox"
+											aria-label="강조 컬러 옵션" hidden>
+											<button type="button" class="settings-accent-option" role="option"
+												data-accent-value="default" aria-selected="true">
+												<span class="settings-accent-option-dot"
+													aria-hidden="true"></span><span>기본값</span><span
+													class="settings-accent-option-check" aria-hidden="true">✓</span>
+											</button>
+											<button type="button" class="settings-accent-option" role="option"
+												data-accent-value="blue" aria-selected="false">
+												<span class="settings-accent-option-dot"
+													aria-hidden="true"></span><span>블루</span><span
+													class="settings-accent-option-check" aria-hidden="true">✓</span>
+											</button>
+											<button type="button" class="settings-accent-option" role="option"
+												data-accent-value="green" aria-selected="false">
+												<span class="settings-accent-option-dot"
+													aria-hidden="true"></span><span>그린</span><span
+													class="settings-accent-option-check" aria-hidden="true">✓</span>
+											</button>
+											<button type="button" class="settings-accent-option" role="option"
+												data-accent-value="yellow" aria-selected="false">
+												<span class="settings-accent-option-dot"
+													aria-hidden="true"></span><span>옐로</span><span
+													class="settings-accent-option-check" aria-hidden="true">✓</span>
+											</button>
+											<button type="button" class="settings-accent-option" role="option"
+												data-accent-value="pink" aria-selected="false">
+												<span class="settings-accent-option-dot"
+													aria-hidden="true"></span><span>핑크</span><span
+													class="settings-accent-option-check" aria-hidden="true">✓</span>
+											</button>
+											<button type="button" class="settings-accent-option" role="option"
+												data-accent-value="orange" aria-selected="false">
+												<span class="settings-accent-option-dot"
+													aria-hidden="true"></span><span>오렌지</span><span
+													class="settings-accent-option-check" aria-hidden="true">✓</span>
+											</button>
+											<button type="button" class="settings-accent-option" role="option"
+												data-accent-value="purple" aria-selected="false">
+												<span class="settings-accent-option-dot"
+													aria-hidden="true"></span><span>퍼플</span><span
+													class="settings-accent-option-check" aria-hidden="true">✓</span>
+											</button>
+										</div>
+									</div>
+								</section>
+								<section class="account-settings-section">
+									<div class="settings-section-title">알림</div>
+									<div class="notification-setting-row">
+										<div class="notification-setting-text">
+											<strong>응답 완료 알림</strong>
+											<small>시간이 걸리는 요청에 응답할 때 알림을 받습니다.</small>
+											<span class="notification-setting-status" aria-live="polite"></span>
+										</div>
+										<button type="button" class="notification-toggle" role="switch"
+											aria-checked="false" aria-label="응답 완료 알림 설정"><span></span></button>
+									</div>
+								</section>
+							</div>
+						</div>
+					</section>
+				</div>
+				<!---------------------------------------- //End: 환경설정 클릭 시 나오는 프로필 모달-------------------------------------->
+
+
+				<!---------------------------------------- Start: 로그아웃 클릭 시 나오는 프로필 모달---------------------------------------------->
+				<div class="custom-modal-backdrop" id="sidebarLogoutModal" data-component="modal" data-modal hidden>
+					<section class="custom-modal modal-medium modal-variant-logout" role="dialog" aria-modal="true"
+						data-modal-variant="logout" aria-label="로그아웃 확인">
+						<div class="modal-variant-panel" data-modal-panel="content">
+							<div class="custom-modal-icon logout" data-modal-icon="logout" aria-hidden="true">
+								<img src="../assets/icons/logout.svg" alt="" />
+							</div>
+							<p class="custom-modal-title" id="sidebarLogoutModal-title" data-slot="title">로그아웃</p>
+							<p class="custom-modal-msg" id="sidebarLogoutModal-description" data-slot="description">
+								AI-ONE에서 로그아웃하시겠습니까?
+							</p>
+							<div class="custom-modal-actions" data-slot="actions">
+								<button type="button" class="btn-cancel" data-modal-close>취소</button>
+								<button type="button" class="btn-confirm danger" data-sidebar-logout-confirm
+									data-modal-close>로그아웃</button>
+							</div>
+						</div>
+					</section>
+				</div>
+				<!---------------------------------------- //End: 로그아웃 클릭 시 나오는 프로필 모달---------------------------------------------->
+
+				<!---------------------------------------- Start: 사이드 바 하단 클릭 시 나오는 프로필 메뉴---------------------------------------------->
+
+				<div class="user-account-menu" id="sidebarAccountMenu" role="menu" aria-label="사용자 계정 메뉴"
+					data-sidebar-account-menu="detached" hidden>
+					<div class="user-account-summary">
+						<strong>박재정 주무관</strong>
+						<span>재정분석과</span>
+					</div>
+					<button type="button" role="menuitem" data-sidebar-account-action="profile"
+						data-modal-open="sidebarProfileModal">
+						<img data-icon="user" alt="" aria-hidden="true" />
+						<span>내 정보</span>
+					</button>
+					<button type="button" role="menuitem" data-sidebar-account-action="settings"
+						data-modal-open="sidebarSettingsModal">
+						<img data-icon="settings-alt" alt="" aria-hidden="true" />
+						<span>환경설정</span>
+					</button>
+					<button type="button" class="danger" role="menuitem" data-sidebar-account-action="logout"
+						data-modal-open="sidebarLogoutModal">
+						<img data-icon="logout" alt="" aria-hidden="true" />
+						<span>로그아웃</span>
+					</button>
+				</div>
+				<!---------------------------------------- //End: 사이드 바 하단 클릭 시 나오는 프로필 메뉴---------------------------------------------->
+
+			</aside>
+			<!---------------------------------------- //End: 사이드 바 ---------------------------------------------->
+		</div>
+
+		<main class="ai-home-main">
+			<div class="ai-one-background ai-one-background-home" aria-hidden="true">
+				<span class="ai-one-background-part ai-one-background-home-orb ai-one-background-home-orb-one"></span>
+				<span class="ai-one-background-part ai-one-background-home-orb ai-one-background-home-orb-two"></span>
+				<span class="ai-one-background-part ai-one-background-home-orb ai-one-background-home-orb-three"></span>
+				<span class="ai-one-background-part ai-one-background-home-shape ai-one-background-home-shape-one"></span>
+				<span class="ai-one-background-part ai-one-background-home-shape ai-one-background-home-shape-two"></span>
+				<span class="ai-one-background-part ai-one-background-home-shape ai-one-background-home-shape-three"></span>
+				<span class="ai-one-background-part ai-one-background-home-shape ai-one-background-home-shape-four"></span>
+				<span class="ai-one-background-part ai-one-background-home-shape ai-one-background-home-shape-five"></span>
+				<span class="ai-one-background-part ai-one-background-home-dots"></span>
+			</div>
+
+			<div class="home-content">
+				<header class="home-header">
+					<p class="home-eyebrow">AI-ONE PLATFORM</p>
+					<h1>환영합니다, 박재정 주무관님!</h1>
+					<p class="home-description">무엇을 도와드릴까요?</p>
+				</header>
+
+				<!------------------------------------------ Start: Home Prompt Composer---------------------------------------->
+				<!--
+						  [문서/페이지 구조 안내 — 개발자용]
+						  - home-prompt-composer: 홈 화면에서 사용자에게 질문을 입력받는 컴포넌트
+						  -현재 페이지 주석처리 + hidden 클래스를 이용하여 화면에서 숨김 처리함. 9월 15일 이후 주석 해제 필요 & hidden 클래스 제거 필요
+				-->
+
+				<!-- <div class="home-prompt-composer hidden">
+					<div class="prompt-composer-shell" data-prompt-composer>
+						<form class="prompt-composer">
+							<div class="prompt-composer-tools">
+								<input class="prompt-composer-file-input" id="promptComposerFiles" type="file"
+									data-prompt-file-input multiple />
+								<button type="button" class="icon-button icon-button-ghost prompt-composer-attach"
+									data-prompt-attach aria-label="파일 첨부" title="파일 첨부">
+									<img class="icon icon-small" data-icon="plus" alt="" aria-hidden="true" />
+								</button>
+							</div>
+							<label for="promptComposerInput" class="prompt-composer-file-input">프롬프트</label>
+							<input class="prompt-composer-input" id="promptComposerInput" name="prompt"
+								data-prompt-input type="text" maxlength="2000" placeholder="AI-ONE에게 물어보기" />
+							<div class="prompt-composer-actions">
+								<div class="dropdown-menu-component" data-dropdown-menu>
+									<button type="button" class="button dropdown-menu-model-trigger"
+										data-dropdown-trigger aria-haspopup="menu" aria-expanded="false"
+										aria-controls="promptModelMenu">
+										<span data-dropdown-label>기본</span>
+										<img class="icon icon-xsmall" data-icon="chevron-down" alt=""
+											aria-hidden="true" />
+									</button>
+									<div class="dropdown-menu dropdown-menu-model" id="promptModelMenu" role="menu"
+										data-placement="top-end" hidden>
+										<span class="dropdown-menu-label">모델 선택</span>
+										<button type="button" class="dropdown-menu-item" role="menuitemradio"
+											aria-checked="true" data-menu-value="default" data-menu-label="기본">
+											<span class="dropdown-model-name">기본</span>
+											<span class="dropdown-model-desc">추천</span>
+											<span class="dropdown-model-check" aria-hidden="true">✓</span>
+										</button>
+										<button type="button" class="dropdown-menu-item" role="menuitemradio"
+											aria-checked="false" data-menu-value="ai-one-flash"
+											data-menu-label="AI-ONE Flash">
+											<span class="dropdown-model-name">AI-ONE Flash</span>
+											<span class="dropdown-model-desc">빠르고 반복적인 모델</span>
+											<span class="dropdown-model-check" aria-hidden="true">✓</span>
+										</button>
+										<button type="button" class="dropdown-menu-item" role="menuitemradio"
+											aria-checked="false" data-menu-value="ai-one-pro"
+											data-menu-label="AI-ONE Pro">
+											<span class="dropdown-model-name">AI-ONE Pro</span>
+											<span class="dropdown-model-desc">심도 있고 창의적인 모델</span>
+											<span class="dropdown-model-check" aria-hidden="true">✓</span>
+										</button>
+										<button type="button" class="dropdown-menu-item" role="menuitemradio"
+											aria-checked="false" data-menu-value="gov-flash"
+											data-menu-label="범정부 AI Flash">
+											<span class="dropdown-model-name">범정부 AI Flash</span>
+											<span class="dropdown-model-desc">균형과 효율성 겸비</span>
+											<span class="dropdown-model-check" aria-hidden="true">✓</span>
+										</button>
+										<button type="button" class="dropdown-menu-item" role="menuitemradio"
+											aria-checked="false" data-menu-value="gov-pro" data-menu-label="범정부 AI Pro">
+											<span class="dropdown-model-name">범정부 AI Pro</span>
+											<span class="dropdown-model-desc">능력 있고 빠릅니다</span>
+											<span class="dropdown-model-check" aria-hidden="true">✓</span>
+										</button>
+									</div>
+								</div>
+								<button type="submit" class="icon-button icon-button-primary prompt-composer-submit"
+									data-prompt-submit aria-label="프롬프트 전송" title="프롬프트 전송" disabled>
+									<img class="icon icon-text" data-icon="send" alt="" aria-hidden="true" />
+								</button>
+							</div>
+						</form>
+						<div class="prompt-composer-files" data-prompt-files aria-live="polite"></div>
+					</div>
+				</div> -->
+
+
+				<!------------------------------------------ //End: Home Prompt Composer---------------------------------------->
+
+
+				<!------------------------------------------ Start: AI 서비스 카드 영역---------------------------------------->
+
+				<section class="home-services" aria-label="AI 서비스">
+					<!------------------------------------------ Start: Service Cards----------------------------------------->
+					<!--
+						  [문서/페이지 구조 안내 — 개발자용]
+								- service-cards: AI 서비스 카드 목록 / 각 페이지 링크 연결됨 (국유재산,정책 안내서는 준비 중 모달로 연결)
+								- service-item: AI 서비스 카드
+						-->
+					<ul class="service-cards" aria-label="AI 서비스 목록">
+						<li class="service-item">
+							<a class="service-card" data-service-tone="blue" data-service-version="1"
+								href="ai-workspace.html" target="_top">
+								<div class="service-card-top">
+									<h3 class="service-title">국회 질의 분류</h3>
+									<span class="service-arrow" aria-hidden="true">›</span>
+								</div>
+								<p class="service-desc">질의 업로드 · OCR/파싱 · 질의 분류 · 추천실국 확인</p>
+								<div class="service-icon service-icon-inline blue">
+									<svg viewBox="0 0 24 24" aria-hidden="true">
+										<path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+										<polyline points="14 2 14 8 20 8"></polyline>
+									</svg>
+								</div>
+							</a>
+						</li>
+						<li class="service-item">
+							<a class="service-card" data-service-tone="green" data-service-version="1"
+								href="ai-answer.html" target="_top">
+								<div class="service-card-top">
+									<h3 class="service-title">국회 답변서 초안 생성</h3>
+									<span class="service-arrow" aria-hidden="true">›</span>
+								</div>
+								<p class="service-desc">자료 분석 · 유사답변서 추천 · 초안 생성 · 편집</p>
+								<div class="service-icon service-icon-inline green">
+									<svg viewBox="0 0 24 24" aria-hidden="true">
+										<path d="M12 20h9"></path>
+										<path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path>
+									</svg>
+								</div>
+							</a>
+						</li>
+						<li class="service-item">
+							<a class="service-card" data-service-tone="orange" data-service-version="1" href="#"
+								data-modal-open="preparingServiceModal" aria-controls="preparingServiceModal"
+								aria-haspopup="dialog" data-service-status="preparing" aria-label="국유재산 업무 관리 (준비중)">
+								<div class="service-card-top">
+									<h3 class="service-title">국유재산 업무 관리</h3>
+									<span class="service-soon-badge">준비중</span>
+								</div>
+								<p class="service-desc">국유재산 관리전문 챗봇 · 종합계획 동향분석 · 개발 가능 재산 추천</p>
+								<div class="service-icon service-icon-inline orange">
+									<svg viewBox="0 0 24 24" aria-hidden="true">
+										<path d="M5 21V8.5L12 4L19 8.5V21H5Z"></path>
+										<path d="M9 21V13H15V21"></path>
+										<path d="M9 9H10.5V10.5H9Z"></path>
+										<path d="M13.5 9H15V10.5H13.5Z"></path>
+										<path d="M9 13.5H10.5V15H9Z"></path>
+										<path d="M13.5 13.5H15V15H13.5Z"></path>
+									</svg>
+								</div>
+							</a>
+						</li>
+						<li class="service-item">
+							<a class="service-card" data-service-tone="purple" data-service-version="1" href="#"
+								data-modal-open="preparingServiceModal" aria-controls="preparingServiceModal"
+								aria-haspopup="dialog" data-service-status="preparing" aria-label="정책 안내서 (준비중)">
+								<div class="service-card-top">
+									<h3 class="service-title">정책 안내서</h3>
+									<span class="service-soon-badge">준비중</span>
+								</div>
+								<p class="service-desc">정책안내 관리전문 챗봇 · 정책분석 관련자료 · 정책 추천</p>
+								<div class="service-icon service-icon-inline purple">
+									<svg viewBox="0 0 24 24" aria-hidden="true">
+										<path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+										<polyline points="14 2 14 8 20 8"></polyline>
+										<line x1="8" y1="13" x2="16" y2="13"></line>
+										<line x1="8" y1="17" x2="16" y2="17"></line>
+									</svg>
+								</div>
+							</a>
+						</li>
+					</ul>
+				</section>
+				<!------------------------------------------ //End: Service Cards ----------------------------------------->
+
+				<!---------------------------------------- Start: AI-HOME 카드 메뉴에서 준비중 모달---------------------------------------------->
+				<div class="custom-modal-backdrop" id="preparingServiceModal" data-component="modal" data-modal hidden>
+					<section class="custom-modal modal-medium modal-variant-alert" role="dialog" aria-modal="true"
+						data-modal-variant="alert" aria-label="준비중 안내">
+						<div class="modal-variant-panel" data-modal-panel="content">
+							<div class="custom-modal-icon alert" data-modal-icon="alert" aria-hidden="true">!</div>
+							<p class="custom-modal-title" id="preparingServiceModal-title" data-slot="title">준비중</p>
+							<p class="custom-modal-msg" id="preparingServiceModal-description" data-slot="description">
+								이 화면은 프로토타입에 아직 포함되어 있지 않습니다.
+							</p>
+							<div class="custom-modal-actions" data-slot="actions">
+								<button type="button" class="btn-confirm" data-modal-close>확인</button>
+							</div>
+						</div>
+					</section>
+				</div>
+				<!---------------------------------------- //End: AI-HOME 카드 메뉴에서 준비중 모달---------------------------------------------->
+
+
+				<!------------------------------------------ //End: AI 서비스 카드 영역---------------------------------------->
+
+
+
+				<!------------------------------------------ Start: 최근 사용 이력조회 테이블 영역---------------------------------------->
+				<section class="home-history" aria-labelledby="homeHistoryTitle">
+					<section class="data-table-container"
+						style="--data-table-max-width: 100%; --data-table-max-height: 316px;">
+						<header class="data-table-header">
+							<h2 class="data-table-title" id="homeHistoryTitle">최근 사용 이력</h2>
+							<a class="data-table-more" href="#">전체 이력 보기 ›</a>
+						</header>
+						<div class="data-table-scroll">
+							<!-- 최근 사용 이력 테이블 -->
+							<!--
+						  [문서/페이지 구조 안내 — 개발자용]
+								- thead: 서비스명, 유형,최근 작업명,최근 이용일, 상태, 등록일
+								- tbody: 최근 사용 이력 데이터
+						-->
+							<table class="data-table" data-home-datatable>
+								<caption>AI-ONE 최근 사용 이력</caption>
+								<thead>
+									<tr>
+										<th class="data-table-col-service" scope="col">서비스명</th>
+										<th class="data-table-col-type" scope="col">유형</th>
+										<th class="data-table-col-task" scope="col">최근 작업명</th>
+										<th class="data-table-col-updated" scope="col">최근 이용일</th>
+										<th class="data-table-col-status" scope="col">상태</th>
+										<th class="data-table-col-created" scope="col">등록일</th>
+										<th class="data-table-col-actions" scope="col"><span class="sr-only">작업</span>
+										</th>
+									</tr>
+								</thead>
+								<!------------------------------------------ Start: 최근 사용 이력데이터---------------------------------------->
+								<tbody>
+									<tr data-history-target="ai-answer.html"
+										data-history-title="2025년 청년 고용 정책 관련 답변 초안">
+										<td>
+											<span class="data-table-service">
+												<img class="icon" data-icon="document" alt="" aria-hidden="true" />
+												<span class="data-table-service-name">국회 답변서 초안 작성</span>
+											</span>
+										</td>
+										<td><span class="status-badge ai">AI초안</span></td>
+										<td>2025년 청년 고용 정책 관련 답변 초안</td>
+										<td>2025.05.20 10:24</td>
+										<td><span class="status-dot done">완료</span></td>
+										<td>2025.05.19</td>
+										<td class="data-table-actions">
+											<button type="button" class="data-table-action-trigger"
+												aria-label="국회 답변서 초안 작성 더보기">⋮</button>
+										</td>
+									</tr>
+									<tr data-history-target="ai-answer.html" data-history-title="반도체 산업 지원 관련 질의">
+										<td>
+											<span class="data-table-service">
+												<img class="icon" data-icon="search" alt="" aria-hidden="true" />
+												<span class="data-table-service-name">국회 질의 자료 검색</span>
+											</span>
+										</td>
+										<td><span class="status-badge search">검색</span></td>
+										<td>반도체 산업 지원 관련 질의</td>
+										<td>2025.05.20 09:15</td>
+										<td><span class="status-dot done">완료</span></td>
+										<td>2025.05.18</td>
+										<td class="data-table-actions">
+											<button type="button" class="data-table-action-trigger"
+												aria-label="국회 질의 자료 검색 더보기">⋮</button>
+										</td>
+									</tr>
+									<tr data-history-target="ai-answer.html" data-history-title="2025년 4월 경제동향 분석">
+										<td>
+											<span class="data-table-service">
+												<img class="icon" data-icon="chart-line" alt="" aria-hidden="true" />
+												<span class="data-table-service-name">경제동향 분석 보고서</span>
+											</span>
+										</td>
+										<td><span class="status-badge report">보고서</span></td>
+										<td>2025년 4월 경제동향 분석</td>
+										<td>2025.05.19 18:40</td>
+										<td><span class="status-dot progress">진행 중</span></td>
+										<td>2025.05.17</td>
+										<td class="data-table-actions">
+											<button type="button" class="data-table-action-trigger"
+												aria-label="경제동향 분석 보고서 더보기">⋮</button>
+										</td>
+									</tr>
+									<tr data-history-target="ai-answer.html" data-history-title="국정 현안 보고자료 202505">
+										<td>
+											<span class="data-table-service">
+												<img class="icon" data-icon="folder" alt="" aria-hidden="true" />
+												<span class="data-table-service-name">내부자료 자산화 관리</span>
+											</span>
+										</td>
+										<td><span class="status-badge doc">문서관리</span></td>
+										<td>국정 현안 보고자료 202505</td>
+										<td>2025.05.19 14:05</td>
+										<td><span class="status-dot done">완료</span></td>
+										<td>2025.05.16</td>
+										<td class="data-table-actions">
+											<button type="button" class="data-table-action-trigger"
+												aria-label="내부자료 자산화 관리 더보기">⋮</button>
+										</td>
+									</tr>
+									<tr data-history-target="ai-answer.html" data-history-title="디지털 전환 추진 정책 관련 답변 초안">
+										<td>
+											<span class="data-table-service">
+												<img class="icon" data-icon="document" alt="" aria-hidden="true" />
+												<span class="data-table-service-name">국회 답변서 초안 작성</span>
+											</span>
+										</td>
+										<td><span class="status-badge ai">AI초안</span></td>
+										<td>디지털 전환 추진 정책 관련 답변 초안</td>
+										<td>2025.05.19 11:32</td>
+										<td><span class="status-dot done">완료</span></td>
+										<td>2025.05.15</td>
+										<td class="data-table-actions">
+											<button type="button" class="data-table-action-trigger"
+												aria-label="디지털 전환 답변 초안 더보기">⋮</button>
+										</td>
+									</tr>
+								</tbody>
+								<!------------------------------------------//End: 최근 사용 이력데이터---------------------------------------->
+							</table>
+						</div>
+					</section>
+				</section>
+				<!------------------------------------------ //End: 최근 사용 이력조회 테이블 영역---------------------------------------->
+			</div>
+		</main>
+
+		<!------------------------------------------ Start: 최근 사용 이력조회 테이블 모달---------------------------------------->
+		<div class="history-modal-backdrop" id="homeHistoryModal" data-home-history-modal aria-hidden="true" hidden>
+			<section class="history-modal" role="dialog" aria-modal="true" aria-labelledby="homeHistoryModalTitle">
+				<header class="history-modal-header">
+					<h3 id="homeHistoryModalTitle">전체 사용 이력</h3>
+					<button type="button" class="history-modal-close" data-home-history-close
+						aria-label="전체 사용 이력 닫기">×</button>
+				</header>
+				<div class="history-modal-search">
+					<div class="history-search-box">
+						<label class="sr-only" for="homeHistorySearch">전체 사용 이력 검색</label>
+						<img src="../assets/icons/search.svg" alt="" aria-hidden="true" />
+						<input type="search" id="homeHistorySearch" data-home-history-search
+							placeholder="서비스, 유형, 작업 내용, 상태, 일시 검색" autocomplete="off" />
+						<button type="button" class="history-search-clear" data-home-history-clear aria-label="검색어 지우기"
+							hidden>×</button>
+					</div>
+					<span class="history-search-result" data-home-history-result>총 10건</span>
+				</div>
+				<div class="history-modal-body">
+					<div class="history-table-scroll">
+						<table class="data-table history-table full" data-datatable>
+							<caption class="sr-only">AI-ONE 전체 사용 이력</caption>
+							<thead>
+								<tr>
+									<th class="data-table-col-service" scope="col">서비스</th>
+									<th class="data-table-col-type" scope="col">유형</th>
+									<th class="data-table-col-task" scope="col">작업 내용</th>
+									<th class="data-table-col-updated" scope="col">작업일시</th>
+									<th class="data-table-col-status" scope="col">상태</th>
+									<th class="data-table-col-created" scope="col">등록일</th>
+								</tr>
+							</thead>
+							<tbody data-home-history-rows>
+								<tr class="history-row-link" data-full-history-row
+									data-history-target="ai-answer.html"
+									data-history-title="2026년 청년 고용 정책 관련 답변 초안" tabindex="0"
+									role="link" aria-label="2026년 청년 고용 정책 관련 답변 초안 열기">
+									<td><span class="data-table-service"><img class="icon" data-icon="document"
+											alt="" aria-hidden="true" /><span class="data-table-service-name">국회 답변서 초안
+											작성</span></span></td>
+									<td><span class="status-badge ai">AI초안</span></td>
+									<td>2026년 청년 고용 정책 관련 답변 초안</td>
+									<td>2026.05.20 10:24</td>
+									<td><span class="status-dot done">완료</span></td>
+									<td>2026.05.19</td>
+								</tr>
+								<tr class="history-row-link" data-full-history-row
+									data-history-target="ai-answer.html" data-history-title="반도체 산업 지원 관련 질의"
+									tabindex="0" role="link" aria-label="반도체 산업 지원 관련 질의 열기">
+									<td><span class="data-table-service"><img class="icon" data-icon="search" alt=""
+											aria-hidden="true" /><span class="data-table-service-name">국회 질의 자료
+											검색</span></span></td>
+									<td><span class="status-badge search">검색</span></td>
+									<td>반도체 산업 지원 관련 질의</td>
+									<td>2026.05.20 09:15</td>
+									<td><span class="status-dot done">완료</span></td>
+									<td>2026.05.18</td>
+								</tr>
+								<tr class="history-row-link" data-full-history-row
+									data-history-target="ai-answer.html" data-history-title="2026년 4월 경제동향 분석"
+									tabindex="0" role="link" aria-label="2026년 4월 경제동향 분석 열기">
+									<td><span class="data-table-service"><img class="icon" data-icon="chart-line"
+											alt="" aria-hidden="true" /><span class="data-table-service-name">경제동향 분석
+											보고서</span></span></td>
+									<td><span class="status-badge report">보고서</span></td>
+									<td>2026년 4월 경제동향 분석</td>
+									<td>2026.05.19 18:40</td>
+									<td><span class="status-dot progress">진행 중</span></td>
+									<td>2026.05.17</td>
+								</tr>
+								<tr class="history-row-link" data-full-history-row
+									data-history-target="ai-answer.html" data-history-title="국정 현안 보고자료 202605"
+									tabindex="0" role="link" aria-label="국정 현안 보고자료 202605 열기">
+									<td><span class="data-table-service"><img class="icon" data-icon="folder" alt=""
+											aria-hidden="true" /><span class="data-table-service-name">내부자료 자산화
+											관리</span></span></td>
+									<td><span class="status-badge doc">문서관리</span></td>
+									<td>국정 현안 보고자료 202605</td>
+									<td>2026.05.19 14:05</td>
+									<td><span class="status-dot done">완료</span></td>
+									<td>2026.05.16</td>
+								</tr>
+								<tr class="history-row-link" data-full-history-row
+									data-history-target="ai-answer.html"
+									data-history-title="디지털 전환 추진 정책 관련 답변 초안" tabindex="0" role="link"
+									aria-label="디지털 전환 추진 정책 관련 답변 초안 열기">
+									<td><span class="data-table-service"><img class="icon" data-icon="document"
+											alt="" aria-hidden="true" /><span class="data-table-service-name">국회 답변서 초안
+											작성</span></span></td>
+									<td><span class="status-badge ai">AI초안</span></td>
+									<td>디지털 전환 추진 정책 관련 답변 초안</td>
+									<td>2026.05.19 11:32</td>
+									<td><span class="status-dot done">완료</span></td>
+									<td>2026.05.15</td>
+								</tr>
+								<tr class="history-row-link" data-full-history-row
+									data-history-target="ai-answer.html"
+									data-history-title="지방채 인수 추경 편성 사유 답변 초안" tabindex="0" role="link"
+									aria-label="지방채 인수 추경 편성 사유 답변 초안 열기">
+									<td><span class="data-table-service"><img class="icon" data-icon="document"
+											alt="" aria-hidden="true" /><span class="data-table-service-name">국회 답변서 초안
+											작성</span></span></td>
+									<td><span class="status-badge ai">AI초안</span></td>
+									<td>지방채 인수 추경 편성 사유 답변 초안</td>
+									<td>2026.05.18 16:20</td>
+									<td><span class="status-dot done">완료</span></td>
+									<td>2026.05.14</td>
+								</tr>
+								<tr class="history-row-link" data-full-history-row
+									data-history-target="ai-answer.html" data-history-title="세수추계 오차 분석 자료 검색"
+									tabindex="0" role="link" aria-label="세수추계 오차 분석 자료 검색 열기">
+									<td><span class="data-table-service"><img class="icon" data-icon="search" alt=""
+											aria-hidden="true" /><span class="data-table-service-name">국회 질의 자료
+											검색</span></span></td>
+									<td><span class="status-badge search">검색</span></td>
+									<td>세수추계 오차 분석 자료 검색</td>
+									<td>2026.05.18 14:10</td>
+									<td><span class="status-dot done">완료</span></td>
+									<td>2026.05.13</td>
+								</tr>
+								<tr class="history-row-link" data-full-history-row
+									data-history-target="ai-answer.html" data-history-title="2026년 3월 경제동향 분석"
+									tabindex="0" role="link" aria-label="2026년 3월 경제동향 분석 열기">
+									<td><span class="data-table-service"><img class="icon" data-icon="chart-line"
+											alt="" aria-hidden="true" /><span class="data-table-service-name">경제동향 분석
+											보고서</span></span></td>
+									<td><span class="status-badge report">보고서</span></td>
+									<td>2026년 3월 경제동향 분석</td>
+									<td>2026.05.17 11:00</td>
+									<td><span class="status-dot done">완료</span></td>
+									<td>2026.05.12</td>
+								</tr>
+								<tr class="history-row-link" data-full-history-row
+									data-history-target="ai-answer.html" data-history-title="공공기관 경영평가 관련 답변 초안"
+									tabindex="0" role="link" aria-label="공공기관 경영평가 관련 답변 초안 열기">
+									<td><span class="data-table-service"><img class="icon" data-icon="document"
+											alt="" aria-hidden="true" /><span class="data-table-service-name">국회 답변서 초안
+											작성</span></span></td>
+									<td><span class="status-badge ai">AI초안</span></td>
+									<td>공공기관 경영평가 관련 답변 초안</td>
+									<td>2026.05.16 09:30</td>
+									<td><span class="status-dot done">완료</span></td>
+									<td>2026.05.11</td>
+								</tr>
+								<tr class="history-row-link" data-full-history-row
+									data-history-target="ai-answer.html" data-history-title="재정건전성 보고자료 정리"
+									tabindex="0" role="link" aria-label="재정건전성 보고자료 정리 열기">
+									<td><span class="data-table-service"><img class="icon" data-icon="folder" alt=""
+											aria-hidden="true" /><span class="data-table-service-name">내부자료 자산화
+											관리</span></span></td>
+									<td><span class="status-badge doc">문서관리</span></td>
+									<td>재정건전성 보고자료 정리</td>
+									<td>2026.05.15 17:45</td>
+									<td><span class="status-dot done">완료</span></td>
+									<td>2026.05.10</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+					<!------------------------------------------ Start: 검색 결과 없을 시 표시되는 영역---------------------------------------->
+					<div class="history-search-empty" data-home-history-empty hidden>
+						<img src="../assets/icons/search.svg" alt="" aria-hidden="true" />
+						<strong>검색 결과가 없습니다.</strong>
+						<span>다른 검색어를 입력해 보세요.</span>
+					</div>
+					<!------------------------------------------ //End: 검색 결과 없을 시 표시되는 영역---------------------------------------->
+				</div>
+			</section>
+		</div>
+		<!------------------------------------------ //End: 최근 사용 이력조회 테이블 모달---------------------------------------->
+
+	</div>
+
+
+
+	<div class="ai-one-notification-toast" aria-live="polite"><div class="ai-one-notification-icon">✓</div><div class="ai-one-notification-copy"><strong></strong><span></span></div><button type="button" aria-label="알림 닫기">×</button></div>
+	<div id="aiOneTooltip" class="ai-one-tooltip" role="tooltip" hidden></div>
+	<div id="userProfileHoverTooltip" class="user-profile-hover-tooltip hidden" role="tooltip"><strong>담당자 기본정보</strong><span data-profile-name></span><span data-profile-department></span><em data-profile-role></em></div>
+	<script src="../js/common.js"></script>
+	<script src="../js/ai-home.js"></script>
+</body>
+
+</html>

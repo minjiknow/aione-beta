@@ -1,0 +1,361 @@
+@charset "utf-8";
+
+/* 파일 역할: login 화면 전용 스타일을 정의합니다. */
+
+/* ==================== Start: 기본 스타일 ==================== */
+
+.ai-one-background-login {
+    position: fixed;
+    background: #f0f4fa;
+}
+
+.ai-one-background-login::before,
+.ai-one-background-login::after {
+    position: absolute;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.8);
+    content: "";
+    animation: login-background-particle 20s linear infinite;
+}
+
+.ai-one-background-login::before {
+    top: 30%;
+    left: 20%;
+    width: 4px;
+    height: 4px;
+    box-shadow:
+        120px 80px 0 rgba(var(--primary-rgb), 0.3),
+        250px -40px 0 rgba(77, 217, 192, 0.4),
+        400px 120px 0 rgba(130, 80, 223, 0.3),
+        80px 200px 0 rgba(56, 189, 248, 0.4),
+        320px 250px 0 rgba(255, 255, 255, 0.6),
+        500px 50px 0 rgba(var(--primary-rgb), 0.2),
+        180px 300px 0 rgba(77, 217, 192, 0.3);
+}
+
+.ai-one-background-login::after {
+    top: 60%;
+    left: 70%;
+    width: 3px;
+    height: 3px;
+    box-shadow:
+        60px -100px 0 rgba(130, 80, 223, 0.3),
+        -80px 60px 0 rgba(var(--primary-rgb), 0.3),
+        150px 80px 0 rgba(56, 189, 248, 0.4),
+        -120px -50px 0 rgba(77, 217, 192, 0.3),
+        200px -30px 0 rgba(255, 255, 255, 0.5);
+    animation-delay: -10s;
+    animation-direction: reverse;
+}
+
+.ai-one-background-login-orb {
+    border-radius: 50%;
+    opacity: 0.7;
+    filter: blur(60px);
+    animation: login-background-float 16s ease-in-out infinite;
+}
+
+.ai-one-background-login-orb-one {
+    top: -200px;
+    left: -150px;
+    width: 700px;
+    height: 700px;
+    background: radial-gradient(circle, rgba(77, 217, 192, 0.4) 0%, rgba(77, 217, 192, 0.1) 40%, transparent 70%);
+}
+
+.ai-one-background-login-orb-two {
+    right: -100px;
+    bottom: -150px;
+    width: 600px;
+    height: 600px;
+    background: radial-gradient(circle, rgba(var(--primary-rgb), 0.35) 0%, rgba(var(--primary-rgb), 0.08) 40%, transparent 70%);
+    animation-delay: -5s;
+    animation-duration: 20s;
+}
+
+.ai-one-background-login-orb-three {
+    top: 50%;
+    left: 60%;
+    width: 500px;
+    height: 500px;
+    background: radial-gradient(circle, rgba(130, 80, 223, 0.3) 0%, rgba(130, 80, 223, 0.08) 40%, transparent 70%);
+    filter: blur(70px);
+    animation-delay: -10s;
+    animation-duration: 22s;
+}
+
+.ai-one-background-login-orb-four {
+    top: 10%;
+    left: 20%;
+    width: 550px;
+    height: 550px;
+    background: radial-gradient(circle, rgba(56, 189, 248, 0.35) 0%, rgba(56, 189, 248, 0.1) 40%, transparent 70%);
+    filter: blur(50px);
+    animation-delay: -3s;
+    animation-duration: 18s;
+}
+
+.ai-one-background-login-ring {
+    top: 50%;
+    left: 50%;
+    width: 200px;
+    height: 200px;
+    margin-top: -100px;
+    margin-left: -100px;
+    border: 1.5px solid rgba(var(--primary-rgb), 0.2);
+    border-radius: 50%;
+    opacity: 0;
+    animation: login-background-ring 6s ease-out infinite;
+}
+
+.ai-one-background-login-ring-two {
+    border-color: rgba(77, 217, 192, 0.2);
+    animation-delay: -2s;
+}
+
+.ai-one-background-login-ring-three {
+    border-color: rgba(130, 80, 223, 0.15);
+    animation-delay: -4s;
+}
+
+.ai-one-background-login-flare {
+    top: 20%;
+    left: 60%;
+    width: 300px;
+    height: 300px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(255, 255, 255, 0.7) 0%, rgba(255, 255, 255, 0.2) 30%, transparent 60%);
+    filter: blur(30px);
+    animation: login-background-flare 12s ease-in-out infinite;
+}
+
+@keyframes login-background-float {
+    0%,
+    100% {
+        transform: translate(0, 0) scale(1) rotate(0deg);
+    }
+
+    25% {
+        transform: translate(40px, -30px) scale(1.1) rotate(3deg);
+    }
+
+    50% {
+        transform: translate(-30px, 50px) scale(0.9) rotate(-2deg);
+    }
+
+    75% {
+        transform: translate(30px, 20px) scale(1.05) rotate(1deg);
+    }
+}
+
+@keyframes login-background-ring {
+    0% {
+        transform: scale(0.5);
+        opacity: 0.6;
+    }
+
+    100% {
+        transform: scale(3.5);
+        opacity: 0;
+    }
+}
+
+@keyframes login-background-flare {
+    0%,
+    100% {
+        transform: translate(0, 0);
+        opacity: 0.4;
+    }
+
+    33% {
+        transform: translate(-80px, 40px);
+        opacity: 0.7;
+    }
+
+    66% {
+        transform: translate(50px, -30px);
+        opacity: 0.3;
+    }
+}
+
+@keyframes login-background-particle {
+    to {
+        transform: translateY(-20px) rotate(360deg);
+    }
+}
+
+html,
+body {
+    font-size: calc(14px * var(--ui-font-scale));
+    overflow: hidden;
+}
+
+/* ==================== End: 기본 스타일 ==================== */
+
+/* ==================== Start: Login Layout ==================== */
+
+.login-wrap {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    padding: 24px;
+}
+
+/* ==================== End: Login Layout ==================== */
+
+/* ==================== Start: Glass Card ==================== */
+
+.login-card {
+    width: 100%;
+    max-width: 380px;
+    background: color-mix(in srgb, var(--surface) 72%, transparent);
+    backdrop-filter: blur(24px);
+    -webkit-backdrop-filter: blur(24px);
+    border-radius: 20px;
+    padding: 40px 32px;
+    border: 1px solid rgba(255, 255, 255, 0.6);
+    box-shadow:
+        0 8px 40px rgba(var(--primary-rgb), 0.06),
+        0 1px 3px rgba(0, 0, 0, 0.04),
+        inset 0 1px 0 rgba(255, 255, 255, 0.8);
+}
+
+/* ==================== End: Glass Card ==================== */
+
+/* ==================== Start: Logo ==================== */
+
+.login-logo {
+    text-align: center;
+    margin-bottom: 28px;
+}
+.login-symbol {
+    width: 44px;
+    height: 44px;
+    margin-bottom: 10px;
+}
+.login-title {
+    font-size: calc(26px * var(--ui-font-scale));
+    font-weight: 800;
+    color: var(--text);
+    letter-spacing: -0.5px;
+}
+.login-subtitle {
+    font-size: calc(12px * var(--ui-font-scale));
+    color: var(--text-sub);
+    margin-top: 4px;
+    font-weight: 400;
+}
+
+/* ==================== End: Logo ==================== */
+
+/* ==================== Start: Form ==================== */
+
+.login-form {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+}
+.form-input {
+    padding: 11px 14px;
+    background: rgba(255, 255, 255, 0.7);
+    border: 1px solid rgba(209, 217, 224, 0.8);
+    border-radius: var(--radius);
+    font-size: calc(14px * var(--ui-font-scale));
+    color: var(--text);
+    transition:
+        background 0.15s,
+        border-color 0.15s;
+}
+.form-input:focus {
+    outline: none;
+    border-color: var(--primary) !important;
+    box-shadow: 0 0 0 3px rgba(var(--primary-rgb), 0.08);
+    background-color: var(--surface);
+}
+
+/* ==================== End: Form ==================== */
+
+/* ==================== Start: Options ==================== */
+
+.form-options {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 16px;
+}
+.login-form .checkbox-label {
+    display: flex;
+    align-items: center;
+    min-height: 17px;
+    gap: 6px;
+    font-size: calc(11px * var(--ui-font-scale));
+    color: var(--text-sub);
+    cursor: pointer;
+}
+.forgot-link {
+    font-size: calc(11px * var(--ui-font-scale));
+    color: var(--primary);
+    font-weight: 500;
+}
+.forgot-link:hover {
+    text-decoration: underline;
+}
+
+/* ==================== End: Options ==================== */
+
+/* ==================== Start: Button ==================== */
+
+.login-btn {
+    padding: 12px;
+    border: none;
+    border-radius: var(--radius);
+    background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+    color: #fff;
+    font-size: calc(14px * var(--ui-font-scale));
+    font-weight: 700;
+    cursor: pointer;
+    transition:
+        transform 0.15s,
+        box-shadow 0.15s;
+}
+.login-btn:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 6px 24px rgba(var(--primary-rgb), 0.2);
+}
+.login-btn:active {
+    transform: translateY(0);
+    box-shadow: none;
+}
+
+/* ==================== End: Button ==================== */
+
+/* ==================== Start: Footer ==================== */
+
+.login-footer {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    gap: 9px;
+    margin-top: 20px;
+    min-height: 20px;
+    text-align: center;
+    flex-wrap: nowrap;
+    font-size: calc(10px * var(--ui-font-scale));
+    color: var(--text-muted);
+}
+
+.login-footer-mofe {
+    display: block;
+    order: 2;
+    width: auto;
+    height: 17px;
+    max-width: 112px;
+    object-fit: contain;
+    flex: 0 0 auto;
+}
+
+/* ==================== End: Footer ==================== */
