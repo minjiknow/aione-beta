@@ -4,6 +4,30 @@
     {
       "source": "/",
       "destination": "/pages/ai-home.html"
+    },
+    {
+      "source": "/ai-home.html",
+      "destination": "/pages/ai-home.html"
+    },
+    {
+      "source": "/ai-workspace.html",
+      "destination": "/pages/ai-workspace.html"
+    },
+    {
+      "source": "/ai-answer.html",
+      "destination": "/pages/ai-answer.html"
+    },
+    {
+      "source": "/ai-answer-after.html",
+      "destination": "/pages/ai-answer-after.html"
+    },
+    {
+      "source": "/ai-chatbot.html",
+      "destination": "/pages/ai-chatbot.html"
+    },
+    {
+      "source": "/login.html",
+      "destination": "/pages/login.html"
     }
   ]
 }
