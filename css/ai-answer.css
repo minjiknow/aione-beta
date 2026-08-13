@@ -1604,6 +1604,16 @@ html[data-theme="dark"] .rec-score {
         overflow: visible;
     }
 
+    .answer-center-panel:has(.answer-draft-panel:not([hidden])) {
+        height: var(--three-panel-stacked-min-height);
+        overflow: hidden;
+    }
+
+    .answer-center-panel:has(.answer-draft-panel:not([hidden])) > .answer-center-body {
+        flex: 1 1 0;
+        overflow: hidden;
+    }
+
     .answer-center-panel .recommend-view-wrapper:not(.doc-viewer-fullscreen):not(.document-statusbar-fullscreen) :is(.center-left, .center-right) {
         overflow: visible;
     }
@@ -1666,8 +1676,12 @@ html[data-theme="dark"] .rec-score {
         margin-top: 8px;
     }
 
+    .answer-center-panel:has(.answer-draft-panel:not([hidden])) {
+        height: 680px;
+    }
+
     .answer-draft-split-area {
-        flex-direction: column;
+        position: relative;
         overflow: hidden;
     }
 
@@ -1676,21 +1690,19 @@ html[data-theme="dark"] .rec-score {
         flex: 1 1 auto !important;
     }
 
-    .answer-draft-split-area:has(> .verify-detail-panel) {
-        overflow-y: auto;
-    }
-
-    .answer-draft-split-area:has(> .verify-detail-panel) > .answer-draft-main {
-        min-height: 620px;
-        flex: 0 0 auto !important;
-    }
-
     .answer-draft-split-area > .verify-detail-panel {
-        width: 100% !important;
-        min-width: 0;
-        min-height: 420px;
-        flex: 0 0 auto;
-        border-top: 1px solid var(--border);
+        position: absolute;
+        z-index: 2;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        width: min(88%, 320px) !important;
+        min-width: min(260px, 100%);
+        min-height: 0;
+        flex: none;
+        border-top: 0;
+        border-left: 1px solid var(--border);
+        box-shadow: -8px 0 24px rgba(31, 35, 40, 0.14);
     }
 
     .answer-draft-split-area > .answer-evidence-split-handle {
