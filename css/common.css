@@ -92,6 +92,13 @@ textarea {
     margin-left: 56px;
 }
 
+.app-sidebar[data-sidebar-responsive-sync="true"],
+.sidebar-host[data-sidebar-responsive-sync="true"] .app-sidebar,
+.app-sidebar[data-sidebar-responsive-sync="true"] ~ .main-wrap,
+.sidebar-host[data-sidebar-responsive-sync="true"] ~ .main-wrap {
+    transition: none;
+}
+
 /* ==================== End: App Layout ==================== */
 
 html,
@@ -8205,8 +8212,106 @@ body.is-component-layer-open {
         overflow: visible;
     }
 
+    .three-panel > [data-slot]:has(.panel-component.panel-collapsed) {
+        height: 54px;
+        min-height: 54px;
+    }
+
+    .three-panel > [data-slot] .panel-component.panel-collapsed {
+        width: 100%;
+        height: 54px;
+        min-width: 0 !important;
+        max-width: none !important;
+        min-height: 54px;
+        align-items: stretch;
+    }
+
+    .three-panel > [data-slot] .panel-component.panel-collapsed .panel-head {
+        width: 100%;
+        min-height: 54px;
+        justify-content: flex-end;
+        padding: 10px 12px;
+    }
+
+    .three-panel > [data-slot] .panel-component.panel-collapsed .panel-actions {
+        flex-direction: row;
+    }
+
+    .three-panel > [data-slot].upload-panel-host .panel-component.panel-collapsed {
+        height: 54px;
+        min-height: 54px;
+        flex-direction: row;
+    }
+
+    .three-panel > [data-slot].upload-panel-host .panel-component.panel-collapsed .panel-head {
+        order: 2;
+        width: 52px;
+        height: 52px;
+        min-height: 52px;
+        flex: 0 0 52px;
+        justify-content: center;
+        padding: 0;
+        border-bottom: 0;
+        border-left: 1px solid var(--border, #d1d9e0);
+    }
+
+    .three-panel > [data-slot].upload-panel-host .panel-component.panel-collapsed .file-list-section.is-collapsed {
+        order: 1;
+        width: auto;
+        min-width: 0;
+        height: 52px;
+        flex: 1 1 auto;
+        flex-direction: row;
+        align-items: center;
+        gap: 6px;
+        padding: 6px 8px;
+        overflow: hidden;
+    }
+
+    .three-panel > [data-slot].upload-panel-host .panel-component.panel-collapsed .file-list-collapsed-add {
+        margin-bottom: 0;
+    }
+
+    .three-panel > [data-slot].upload-panel-host .panel-component.panel-collapsed .upload-panel-scroll-list {
+        display: flex;
+        width: 0;
+        min-width: 0;
+        max-width: none;
+        height: 32px;
+        max-height: 32px;
+        flex: 1 1 0;
+        flex-direction: row;
+        align-items: center;
+        gap: 5px;
+        margin: 0;
+        padding: 0;
+        overflow-x: auto;
+        overflow-y: hidden;
+        overscroll-behavior-x: contain;
+        -ms-overflow-style: none;
+        scrollbar-width: none;
+    }
+
+    .three-panel > [data-slot].upload-panel-host .panel-component.panel-collapsed .upload-panel-scroll-list > * {
+        width: 28px;
+        min-width: 28px;
+        min-height: 28px;
+        flex: 0 0 28px;
+        margin: 0;
+    }
+
+    .three-panel > [data-slot].upload-panel-host .panel-component.panel-collapsed .upload-panel-scroll-list::-webkit-scrollbar {
+        display: none;
+    }
+
     .three-panel > .panel-resize-handle {
         display: none;
+    }
+    .file-list-section.is-collapsed .file-list.simple {
+        padding-bottom: 0;
+    }
+    .file-list-section.is-collapsed .file-list.simple .file-item-simple {
+        margin: 0;
     }
 }
 

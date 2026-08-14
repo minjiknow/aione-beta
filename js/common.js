@@ -872,376 +872,6 @@
     document.addEventListener("ai-one-preferences:ready", () => init());
 })();
 
-(() => {
-    const STORAGE_KEY = "ai-one-notification-assignees-v1";
-    const staffNames = [
-        "이수빈",
-        "정우진",
-        "문가영",
-        "김민지",
-        "박도윤",
-        "이서현",
-        "최지훈",
-        "정하윤",
-        "오세진",
-        "한유진",
-        "송민재",
-        "윤서아",
-        "장현우",
-        "배지민",
-        "임수호",
-        "이준호",
-        "정민지",
-        "강현우",
-        "김하린",
-        "백승우",
-        "조서윤",
-        "최예원",
-        "김성민",
-        "장다은",
-        "박준서",
-        "이하연",
-        "윤민호",
-        "서지원",
-        "한승민",
-        "임유나",
-        "강지호",
-        "송혜진",
-        "우민석",
-        "김도현",
-        "박하늘",
-        "조유진",
-        "정하연",
-        "박성진",
-        "이예원",
-        "최민준",
-    ];
-
-    function createStaff(department, offset) {
-        const safeKey = department.replace(/[^가-힣a-zA-Z0-9]/g, "-");
-        return [0, 1, 2].map((index) => ({
-            id: `${safeKey}-${offset + index}`,
-            name: staffNames[(offset + index) % staffNames.length],
-            position: index === 0 ? "사무관" : "주무관",
-        }));
-    }
-
-    const departmentDirectory = [
-        { organization: "부총리 직속", department: "대변인", subunits: ["홍보담당관"], staff: createStaff("대변인", 0) },
-        { organization: "부총리 직속", department: "감사관", subunits: ["감사담당관"], staff: createStaff("감사관", 3) },
-        { organization: "부총리 직속", department: "입법심의관", subunits: [], staff: createStaff("입법심의관", 6) },
-        { organization: "부총리 직속", department: "전략기획관", subunits: [], staff: createStaff("전략기획관", 9) },
-        { organization: "부총리 직속", department: "장관정책보좌관", subunits: [], staff: createStaff("장관정책보좌관", 12) },
-        { organization: "제1차관 직속", department: "인사과", subunits: [], staff: createStaff("인사과", 15) },
-        { organization: "제1차관 직속", department: "운영지원과", subunits: [], staff: createStaff("운영지원과", 18) },
-        { organization: "제1차관 직속", department: "차관보", subunits: [], staff: createStaff("차관보", 21) },
-        { organization: "제1차관 소관", department: "경제정책국", subunits: ["거시경제심의관", "종합정책과", "경제분석과"], staff: createStaff("경제정책국", 24) },
-        { organization: "제1차관 소관", department: "민생경제국", subunits: ["물가정책과", "인력정책과", "복지경제과"], staff: createStaff("민생경제국", 27) },
-        { organization: "제1차관 소관", department: "경제구조개혁국", subunits: ["노동시장경제과", "연금보건경제과", "청년정책과"], staff: createStaff("경제구조개혁국", 30) },
-        { organization: "제1차관 소관", department: "혁신성장실", subunits: ["정책조정관", "산업경제과", "서비스경제과"], staff: createStaff("혁신성장실", 33) },
-        { organization: "제1차관 소관", department: "세제실", subunits: ["조세정책과", "소득세제과", "법인세제과"], staff: createStaff("세제실", 36) },
-        { organization: "제1차관 추진단", department: "초혁신경제추진단", subunits: ["기획총괄과", "전략지원과"], staff: createStaff("초혁신경제추진단", 39) },
-        { organization: "제1차관 추진단", department: "조세개혁추진단", subunits: ["총괄기획팀", "보유세개편팀"], staff: createStaff("조세개혁추진단", 42) },
-        { organization: "제1차관 추진단", department: "수출플러스지원단", subunits: ["총괄기획팀", "글로벌진출팀"], staff: createStaff("수출플러스지원단", 45) },
-        { organization: "제2차관 직속", department: "정책금융기획관", subunits: [], staff: createStaff("정책금융기획관", 48) },
-        { organization: "제2차관 직속", department: "금융입법담당관", subunits: [], staff: createStaff("금융입법담당관", 51) },
-        { organization: "제2차관 직속", department: "공공금융담당관", subunits: [], staff: createStaff("공공금융담당관", 54) },
-        { organization: "제2차관 소관", department: "기획조정실", subunits: ["정책기획관", "기획재정담당관"], staff: createStaff("기획조정실", 57) },
-        { organization: "제2차관 소관", department: "국고실", subunits: ["국고정책관", "국채정책과", "회계결산과"], staff: createStaff("국고실", 60) },
-        { organization: "제2차관 소관", department: "국제경제관리관", subunits: ["국제금융국", "대외경제국"], staff: createStaff("국제경제관리관", 63) },
-        { organization: "제2차관 소관", department: "국제금융국", subunits: ["국제금융과", "외화자금과", "외환제도과"], staff: createStaff("국제금융국", 66) },
-        { organization: "제2차관 소관", department: "대외경제국", subunits: ["대외경제총괄과", "통상정책과"], staff: createStaff("대외경제국", 69) },
-        { organization: "제2차관 소관", department: "개발금융국", subunits: ["개발금융총괄과", "국제기구과"], staff: createStaff("개발금융국", 72) },
-        { organization: "제2차관 소관", department: "공공정책국", subunits: ["공공정책총괄과", "평가분석과"], staff: createStaff("공공정책국", 75) },
-    ];
-    const organizationOrder = [...new Set(departmentDirectory.map((group) => group.organization))];
-
-    function escapeHtml(value) {
-        return String(value).replaceAll("&", "&amp;").replaceAll("<", "&lt;").replaceAll(">", "&gt;").replaceAll('"', "&quot;").replaceAll("'", "&#039;");
-    }
-
-    function createDefaultAssignments() {
-        return new Map(departmentDirectory.map((group) => [group.department, new Set(group.staff.slice(0, 2).map((person) => person.id))]));
-    }
-
-    function cloneAssignments(source) {
-        return new Map(Array.from(source, ([department, ids]) => [department, new Set(ids)]));
-    }
-
-    function loadAssignments() {
-        const defaults = createDefaultAssignments();
-        try {
-            const stored = JSON.parse(localStorage.getItem(STORAGE_KEY) || "{}");
-            if (!stored || typeof stored !== "object" || Array.isArray(stored)) return defaults;
-            departmentDirectory.forEach((group) => {
-                if (!Array.isArray(stored[group.department])) return;
-                const validIds = new Set(group.staff.map((person) => person.id));
-                defaults.set(group.department, new Set(stored[group.department].filter((id) => validIds.has(id))));
-            });
-        } catch (error) {
-            return defaults;
-        }
-        return defaults;
-    }
-
-    let savedAssignments = loadAssignments();
-
-    function persistAssignments() {
-        try {
-            localStorage.setItem(STORAGE_KEY, JSON.stringify(Object.fromEntries(Array.from(savedAssignments, ([department, ids]) => [department, [...ids]]))));
-        } catch (error) {
-            /* localStorage를 사용할 수 없는 환경에서는 현재 화면 상태만 유지합니다. */
-        }
-    }
-
-    function getRecipients(department) {
-        const group = departmentDirectory.find((item) => item.department === department);
-        const selectedIds = savedAssignments.get(department) || new Set();
-        return group ? group.staff.filter((person) => selectedIds.has(person.id)).map((person) => `${person.name} ${person.position}`) : [];
-    }
-
-    function getAssignments() {
-        return Object.fromEntries(departmentDirectory.map((group) => [group.department, getRecipients(group.department)]));
-    }
-
-    function updateTriggerState(layer) {
-        if (!layer.id) return;
-        const configuredCount = departmentDirectory.filter((group) => getRecipients(group.department).length > 0).length;
-        document.querySelectorAll("[data-modal-open]").forEach((button) => {
-            if (button.dataset.modalOpen !== layer.id) return;
-            button.classList.toggle("has-assignee", configuredCount > 0);
-            button.title = "실국별 알림 담당자 설정";
-        });
-    }
-
-    function initializeModal(panel) {
-        if (panel.dataset.notificationAssigneeReady === "true") return;
-
-        const layer = panel.closest("[data-modal]") || panel;
-        const orgList = panel.querySelector("[data-notification-org-list]");
-        const deptSearch = panel.querySelector("[data-notification-dept-search]");
-        const searchClear = panel.querySelector("[data-notification-search-clear]");
-        const deptResult = panel.querySelector("[data-notification-dept-result]");
-        const grid = panel.querySelector("[data-notification-dept-grid]");
-        const feedback = panel.querySelector("[data-notification-feedback]");
-        if (!orgList || !deptSearch || !searchClear || !deptResult || !grid) return;
-        const hasAuthoredDirectory = orgList.children.length > 0 && grid.children.length > 0;
-
-        let workingAssignments = cloneAssignments(savedAssignments);
-        let selectedOrganization = "all";
-        let searchTerm = "";
-        const expandedOrganizations = new Set(organizationOrder.slice(0, 1));
-
-        function setFeedback(message = "", type = "") {
-            if (!feedback) return;
-            feedback.textContent = message;
-            feedback.className = `notification-dept-feedback${type ? ` ${type}` : ""}`;
-        }
-
-        function getVisibleDepartments() {
-            const normalizedTerm = searchTerm.trim().toLocaleLowerCase("ko-KR");
-            return departmentDirectory.filter((group) => {
-                const organizationMatched =
-                    selectedOrganization === "all" ||
-                    (selectedOrganization.startsWith("org:") && group.organization === selectedOrganization.slice(4)) ||
-                    (selectedOrganization.startsWith("dept:") && group.department === selectedOrganization.slice(5));
-                if (!organizationMatched) return false;
-                if (!normalizedTerm) return true;
-                return [group.organization, group.department, ...group.subunits, ...group.staff.flatMap((person) => [person.name, person.position])].join(" ").toLocaleLowerCase("ko-KR").includes(normalizedTerm);
-            });
-        }
-
-        function renderOrganizationList() {
-            const allSelected = selectedOrganization === "all";
-            const allItem = `<button type="button" class="notification-org-item${allSelected ? " selected" : ""}"
-				data-notification-organization="all" aria-pressed="${allSelected}">
-				<span>전체 조직</span><strong>${departmentDirectory.length}</strong>
-			</button>`;
-            const tree = organizationOrder
-                .map((organization) => {
-                    const groups = departmentDirectory.filter((group) => group.organization === organization);
-                    const organizationKey = `org:${organization}`;
-                    const expanded = expandedOrganizations.has(organization);
-                    const selected = selectedOrganization === organizationKey;
-                    return `<div class="notification-tree-group${expanded ? " expanded" : ""}">
-					<button type="button" class="notification-tree-parent${selected ? " selected" : ""}"
-						data-notification-tree-org="${escapeHtml(organization)}" aria-expanded="${expanded}" aria-pressed="${selected}">
-						<svg viewBox="0 0 24 24" aria-hidden="true"><path d="m9 6 6 6-6 6"/></svg>
-						<span>${escapeHtml(organization)}</span><strong>${groups.length}</strong>
-					</button>
-					<div class="notification-tree-children${expanded ? "" : " hidden"}">
-						${groups
-                            .map((group) => {
-                                const selectedDepartment = selectedOrganization === `dept:${group.department}`;
-                                return `<button type="button" class="notification-tree-leaf${selectedDepartment ? " selected" : ""}"
-								data-notification-tree-dept="${escapeHtml(group.department)}" aria-pressed="${selectedDepartment}">
-								<span>${escapeHtml(group.department)}</span>
-							</button>`;
-                            })
-                            .join("")}
-					</div>
-				</div>`;
-                })
-                .join("");
-            orgList.innerHTML = allItem + tree;
-        }
-
-        function renderDepartmentSettings() {
-            renderOrganizationList();
-            const visibleDepartments = getVisibleDepartments();
-            const organizationLabel = selectedOrganization === "all" ? "전체 조직" : selectedOrganization.slice(selectedOrganization.indexOf(":") + 1);
-            deptResult.textContent = `${organizationLabel} · ${visibleDepartments.length}개 조직`;
-            searchClear.hidden = !searchTerm;
-
-            if (!visibleDepartments.length) {
-                grid.innerHTML = `<div class="notification-dept-empty">
-					<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.6-3.6"/></svg>
-					<strong>조건에 맞는 실국이 없습니다.</strong>
-					<span>다른 조직을 선택하거나 검색어를 변경해 주세요.</span>
-				</div>`;
-                return;
-            }
-
-            grid.innerHTML = visibleDepartments
-                .map((group) => {
-                    const selectedIds = workingAssignments.get(group.department) || new Set();
-                    return `<section class="notification-dept-card" data-notification-department="${escapeHtml(group.department)}">
-					<div class="notification-dept-card-head">
-						<div class="notification-dept-heading">
-							<span class="notification-dept-org">${escapeHtml(group.organization)}</span>
-							<div class="notification-dept-name">${escapeHtml(group.department)}</div>
-						</div>
-						<span class="notification-dept-count">${selectedIds.size}명</span>
-					</div>
-					${
-                        group.subunits.length
-                            ? `<div class="notification-dept-subunits">
-						<div class="notification-subunit-head"><span>소속 과</span><strong>${group.subunits.length}</strong></div>
-						<div class="notification-subunit-list">${group.subunits.map((unit) => `<span title="${escapeHtml(unit)}">${escapeHtml(unit)}</span>`).join("")}</div>
-					</div>`
-                            : ""
-                    }
-					<div class="notification-dept-staff-list">
-						${group.staff
-                            .map((person) => {
-                                const selected = selectedIds.has(person.id);
-                                return `<button type="button" class="notification-dept-staff${selected ? " selected" : ""}"
-								data-notification-person-id="${escapeHtml(person.id)}" aria-pressed="${selected}">
-								<span class="notification-assignee-avatar">${escapeHtml(person.name.slice(0, 1))}</span>
-								<span class="notification-assignee-info">
-									<span class="notification-assignee-name">${escapeHtml(person.name)} ${escapeHtml(person.position)}</span>
-									<span class="notification-assignee-meta">${escapeHtml(group.department)}${selected ? " · 실국담당자" : ""}</span>
-								</span>
-								<span class="notification-check" aria-hidden="true">${selected ? "✓" : ""}</span>
-							</button>`;
-                            })
-                            .join("")}
-					</div>
-				</section>`;
-                })
-                .join("");
-        }
-
-        orgList.addEventListener("click", (event) => {
-            const allButton = event.target.closest('[data-notification-organization="all"]');
-            if (allButton) {
-                selectedOrganization = "all";
-                setFeedback();
-                renderDepartmentSettings();
-                return;
-            }
-
-            const organizationButton = event.target.closest("[data-notification-tree-org]");
-            if (organizationButton) {
-                const organization = organizationButton.dataset.notificationTreeOrg;
-                if (expandedOrganizations.has(organization)) expandedOrganizations.delete(organization);
-                else expandedOrganizations.add(organization);
-                selectedOrganization = `org:${organization}`;
-                setFeedback();
-                renderDepartmentSettings();
-                return;
-            }
-
-            const departmentButton = event.target.closest("[data-notification-tree-dept]");
-            if (!departmentButton) return;
-            selectedOrganization = `dept:${departmentButton.dataset.notificationTreeDept}`;
-            setFeedback();
-            renderDepartmentSettings();
-        });
-
-        grid.addEventListener("click", (event) => {
-            const personButton = event.target.closest("[data-notification-person-id]");
-            const card = personButton?.closest("[data-notification-department]");
-            if (!personButton || !card) return;
-            const department = card.dataset.notificationDepartment;
-            const selectedIds = workingAssignments.get(department) || new Set();
-            const personId = personButton.dataset.notificationPersonId;
-            if (selectedIds.has(personId)) selectedIds.delete(personId);
-            else selectedIds.add(personId);
-            workingAssignments.set(department, selectedIds);
-            setFeedback(`${department} 담당자 ${selectedIds.size}명이 지정되었습니다.`, "success");
-            renderDepartmentSettings();
-        });
-
-        deptSearch.addEventListener("input", () => {
-            searchTerm = deptSearch.value;
-            renderDepartmentSettings();
-        });
-
-        searchClear.addEventListener("click", () => {
-            searchTerm = "";
-            deptSearch.value = "";
-            deptSearch.focus();
-            renderDepartmentSettings();
-        });
-
-        panel.querySelector("[data-notification-save]")?.addEventListener("click", () => {
-            savedAssignments = cloneAssignments(workingAssignments);
-            persistAssignments();
-            updateTriggerState(layer);
-            const assigneeCount = departmentDirectory.reduce((count, group) => count + getRecipients(group.department).length, 0);
-            panel.dispatchEvent(
-                new CustomEvent("notification-assignee:save", {
-                    bubbles: true,
-                    detail: {
-                        departmentCount: departmentDirectory.length,
-                        assigneeCount,
-                        assignments: getAssignments(),
-                    },
-                }),
-            );
-        });
-
-        function resetWorkingState({ preserveAuthoredDirectory = false } = {}) {
-            workingAssignments = cloneAssignments(savedAssignments);
-            selectedOrganization = "all";
-            searchTerm = "";
-            expandedOrganizations.clear();
-            if (organizationOrder[0]) expandedOrganizations.add(organizationOrder[0]);
-            deptSearch.value = "";
-            setFeedback();
-            if (!preserveAuthoredDirectory) renderDepartmentSettings();
-            updateTriggerState(layer);
-        }
-
-        layer.addEventListener("modal:open", resetWorkingState);
-        panel.dataset.notificationAssigneeReady = "true";
-        resetWorkingState({ preserveAuthoredDirectory: hasAuthoredDirectory });
-    }
-
-    function init(root = document) {
-        if (root.matches?.("[data-notification-assignee]")) initializeModal(root);
-        root.querySelectorAll?.("[data-notification-assignee]").forEach(initializeModal);
-    }
-
-    window.AIOneNotificationAssignee = Object.freeze({
-        init,
-        getRecipients,
-        getAssignments,
-    });
-    document.addEventListener("DOMContentLoaded", () => init());
-    document.addEventListener("app:includes-ready", (event) => init(event.target));
-})();
 
 /* ============================ End: 모달 (Modal) ============================== */
 
@@ -1620,7 +1250,7 @@
             }
             state.responsiveRailActive = true;
             sidebar.dataset.sidebarResponsiveRail = "true";
-            setSidebarCollapsed(sidebar, true, { persist: false });
+            setSidebarResponsiveCollapsed(sidebar, true);
             return;
         }
 
@@ -1628,7 +1258,27 @@
         if (!state.responsiveRailActive) return;
 
         state.responsiveRailActive = false;
-        setSidebarCollapsed(sidebar, Boolean(state.desktopCollapsed), { persist: false });
+        setSidebarResponsiveCollapsed(sidebar, Boolean(state.desktopCollapsed));
+    }
+
+    function setSidebarResponsiveCollapsed(sidebar, collapsed) {
+        const state = sidebarControllerStates.get(sidebar);
+        const transitionTarget = state?.config?.stateTarget || sidebar;
+
+        if (!(transitionTarget instanceof Element)) {
+            setSidebarCollapsed(sidebar, collapsed, { persist: false });
+            return;
+        }
+
+        if (state.responsiveSyncFrame) window.cancelAnimationFrame(state.responsiveSyncFrame);
+        transitionTarget.dataset.sidebarResponsiveSync = "true";
+        setSidebarCollapsed(sidebar, collapsed, { persist: false });
+        transitionTarget.getBoundingClientRect();
+        transitionTarget.nextElementSibling?.getBoundingClientRect();
+        state.responsiveSyncFrame = window.requestAnimationFrame(() => {
+            delete transitionTarget.dataset.sidebarResponsiveSync;
+            state.responsiveSyncFrame = 0;
+        });
     }
 
     function bindSidebarResponsiveRail(sidebar) {
@@ -2997,6 +2647,7 @@
     const DEFAULT_SPLIT_MIN_WIDTH = 160;
     const DEFAULT_PANEL_MIN_WIDTH = 220;
     const PANEL_HANDLE_WIDTH = 2;
+    const threePanelResizeStates = new WeakMap();
 
     function getDirectChildren(container, predicate) {
         return Array.from(container?.children || []).filter(predicate);
@@ -3062,12 +2713,18 @@
         const beforeSize = Math.round(getPaneSize(parts.left, orientation));
         const afterSize = Math.round(getPaneSize(parts.right, orientation));
         const totalSize = beforeSize + afterSize;
-        const fallback = parts.kind === "three-panel" ? DEFAULT_PANEL_MIN_WIDTH : DEFAULT_SPLIT_MIN_WIDTH;
-        const minimum = getMinimum(parts.container, totalSize, fallback);
+        const beforeMinimum =
+            parts.kind === "three-panel"
+                ? Math.min(getThreePanelMinimum(parts.left, parts.container), Math.floor(totalSize / 2))
+                : getMinimum(parts.container, totalSize, DEFAULT_SPLIT_MIN_WIDTH);
+        const afterMinimum =
+            parts.kind === "three-panel"
+                ? Math.min(getThreePanelMinimum(parts.right, parts.container), Math.floor(totalSize / 2))
+                : beforeMinimum;
 
         parts.handle.setAttribute("aria-orientation", orientation === "vertical" ? "horizontal" : "vertical");
-        parts.handle.setAttribute("aria-valuemin", String(minimum));
-        parts.handle.setAttribute("aria-valuemax", String(Math.max(minimum, totalSize - minimum)));
+        parts.handle.setAttribute("aria-valuemin", String(beforeMinimum));
+        parts.handle.setAttribute("aria-valuemax", String(Math.max(beforeMinimum, totalSize - afterMinimum)));
         parts.handle.setAttribute("aria-valuenow", String(beforeSize));
     }
 
@@ -3113,18 +2770,154 @@
         return new Map(parts.panels.map((panel) => [panel, Math.round(panel.getBoundingClientRect().width)]));
     }
 
-    function applyThreePanelWidths(parts, requestedLeftWidth, totalWidth, startWidths) {
-        const minimum = getMinimum(parts.container, totalWidth, DEFAULT_PANEL_MIN_WIDTH);
-        const leftWidth = Math.min(Math.max(Math.round(requestedLeftWidth), minimum), totalWidth - minimum);
-        const widths = new Map(startWidths);
-        widths.set(parts.left, leftWidth);
-        widths.set(parts.right, totalWidth - leftWidth);
+    function getThreePanelHandles(container) {
+        return getDirectChildren(container, (element) => element.classList.contains("panel-resize-handle"));
+    }
 
-        parts.container.style.gridTemplateColumns = parts.panels.flatMap((panel, index) => (index < parts.panels.length - 1 ? [`${widths.get(panel)}px`, `${PANEL_HANDLE_WIDTH}px`] : [`${widths.get(panel)}px`])).join(" ");
-        getDirectChildren(parts.container, (element) => element.classList.contains("panel-resize-handle")).forEach((handle) => {
+    function getThreePanelAvailableWidth(container) {
+        const styles = getComputedStyle(container);
+        const horizontalPadding = Number.parseFloat(styles.paddingLeft) + Number.parseFloat(styles.paddingRight);
+        const handleWidth = getThreePanelHandles(container).reduce((total, handle) => total + handle.getBoundingClientRect().width, 0);
+        return Math.max(0, Math.round(container.clientWidth - horizontalPadding - handleWidth));
+    }
+
+    function isCollapsedPanel(panel) {
+        return panel.classList.contains("panel-collapsed") || Boolean(panel.querySelector(":scope > .panel-collapsed"));
+    }
+
+    function getThreePanelMinimum(panel, container) {
+        if (isCollapsedPanel(panel)) return 44;
+        const configured = Number.parseFloat(panel.dataset.panelMin || container.dataset.splitMin);
+        return Number.isFinite(configured) ? Math.max(0, configured) : DEFAULT_PANEL_MIN_WIDTH;
+    }
+
+    function getFlexiblePanelIndex(panels) {
+        const centerIndex = panels.findIndex(
+            (panel) =>
+                panel.dataset.slot === "center" ||
+                panel.classList.contains("three-panel-center") ||
+                panel.querySelector(":scope > .panel-center, :scope > .answer-center-panel"),
+        );
+        return centerIndex >= 0 ? centerIndex : Math.floor(panels.length / 2);
+    }
+
+    function fitThreePanelWidths(container, panels, preferredWidths) {
+        const minimums = panels.map((panel) => getThreePanelMinimum(panel, container));
+        const widths = panels.map((panel, index) => {
+            if (isCollapsedPanel(panel)) return minimums[index];
+            const preferred = preferredWidths?.get(panel);
+            const current = Math.round(panel.getBoundingClientRect().width);
+            return Math.max(minimums[index], Number.isFinite(preferred) ? preferred : current);
+        });
+        const flexibleIndex = getFlexiblePanelIndex(panels);
+        const delta = getThreePanelAvailableWidth(container) - widths.reduce((sum, width) => sum + width, 0);
+
+        if (delta > 0) {
+            widths[flexibleIndex] += delta;
+        } else if (delta < 0) {
+            let deficit = -delta;
+            const shrinkOrder = [flexibleIndex, ...widths.map((_, index) => index).filter((index) => index !== flexibleIndex)];
+            shrinkOrder.forEach((index) => {
+                if (deficit <= 0) return;
+                const reduction = Math.min(deficit, Math.max(0, widths[index] - minimums[index]));
+                widths[index] -= reduction;
+                deficit -= reduction;
+            });
+
+            // 반응형 전환 직전 최소 너비의 합도 담을 수 없으면 중앙 패널부터 남은 폭에 맞춥니다.
+            shrinkOrder.forEach((index) => {
+                if (deficit <= 0) return;
+                const reduction = Math.min(deficit, widths[index]);
+                widths[index] -= reduction;
+                deficit -= reduction;
+            });
+        }
+
+        return new Map(panels.map((panel, index) => [panel, widths[index]]));
+    }
+
+    function applyThreePanelTracks(container, panels, widths) {
+        const flexibleIndex = getFlexiblePanelIndex(panels);
+        container.style.gridTemplateColumns = panels
+            .flatMap((panel, index) => {
+                const track = index === flexibleIndex ? "minmax(0, 1fr)" : `${Math.round(widths.get(panel))}px`;
+                return index < panels.length - 1 ? [track, `${PANEL_HANDLE_WIDTH}px`] : [track];
+            })
+            .join(" ");
+        getThreePanelHandles(container).forEach((handle) => {
             const nextParts = getThreePanelParts(handle);
             if (nextParts) syncAria(nextParts);
         });
+    }
+
+    function setPanelToMinimum(panel) {
+        if (!(panel instanceof Element) || window.matchMedia("(max-width: 1024px)").matches) return false;
+
+        const slot = panel.matches("[data-slot]") ? panel : panel.closest("[data-slot]");
+        const container = slot?.parentElement;
+        if (!slot || !container?.matches(".three-panel") || getComputedStyle(container).display !== "grid") return false;
+
+        const compareHorizontalPosition = (first, second) => first.getBoundingClientRect().left - second.getBoundingClientRect().left;
+        const panels = getDirectChildren(container, (element) => element.hasAttribute("data-slot")).sort(compareHorizontalPosition);
+        if (!panels.includes(slot)) return false;
+
+        const preferredWidths = new Map(panels.map((item) => [item, Math.round(item.getBoundingClientRect().width)]));
+        preferredWidths.set(slot, getThreePanelMinimum(slot, container));
+
+        const widths = fitThreePanelWidths(container, panels, preferredWidths);
+        const state = ensureThreePanelResizeState(container);
+        state.preferredWidths = new Map(widths);
+        state.lastContainerWidth = container.clientWidth;
+        applyThreePanelTracks(container, panels, widths);
+        return true;
+    }
+
+    function normalizeThreePanel(container, state) {
+        if (!container.isConnected || container.clientWidth <= 0 || getComputedStyle(container).display !== "grid") return;
+        if (!container.style.gridTemplateColumns) return;
+
+        const panels = getDirectChildren(container, (element) => element.hasAttribute("data-slot"));
+        if (panels.length < 2) return;
+        const widths = fitThreePanelWidths(container, panels, state.preferredWidths);
+        applyThreePanelTracks(container, panels, widths);
+    }
+
+    function ensureThreePanelResizeState(container) {
+        let state = threePanelResizeStates.get(container);
+        if (state) return state;
+
+        const panels = getDirectChildren(container, (element) => element.hasAttribute("data-slot"));
+        state = {
+            preferredWidths: container.style.gridTemplateColumns
+                ? new Map(panels.map((panel) => [panel, Math.round(panel.getBoundingClientRect().width)]))
+                : null,
+            lastContainerWidth: container.clientWidth,
+            observer: null,
+        };
+        if ("ResizeObserver" in window) {
+            state.observer = new ResizeObserver(() => {
+                if (container.clientWidth === state.lastContainerWidth) return;
+                state.lastContainerWidth = container.clientWidth;
+                normalizeThreePanel(container, state);
+            });
+            state.observer.observe(container);
+        }
+        threePanelResizeStates.set(container, state);
+        return state;
+    }
+
+    function applyThreePanelWidths(parts, requestedLeftWidth, totalWidth, startWidths) {
+        const leftMinimum = getThreePanelMinimum(parts.left, parts.container);
+        const rightMinimum = getThreePanelMinimum(parts.right, parts.container);
+        const leftWidth = Math.min(Math.max(Math.round(requestedLeftWidth), leftMinimum), totalWidth - rightMinimum);
+        const widths = new Map(startWidths);
+        widths.set(parts.left, leftWidth);
+        widths.set(parts.right, totalWidth - leftWidth);
+        const fittedWidths = fitThreePanelWidths(parts.container, parts.panels, widths);
+        const state = ensureThreePanelResizeState(parts.container);
+        state.preferredWidths = new Map(fittedWidths);
+        state.lastContainerWidth = parts.container.clientWidth;
+        applyThreePanelTracks(parts.container, parts.panels, fittedWidths);
     }
 
     function applyWidths(parts, requestedLeftWidth, totalWidth, startWidths) {
@@ -3137,18 +2930,25 @@
 
     function init(root = document) {
         const handles = [];
+        const threePanels = new Set();
         if (root instanceof Element && root.matches(HANDLE_SELECTOR)) handles.push(root);
         root.querySelectorAll?.(HANDLE_SELECTOR).forEach((handle) => handles.push(handle));
         handles.forEach((handle) => {
             const parts = getResizeParts(handle);
-            if (parts) syncAria(parts);
+            if (!parts) return;
+            syncAria(parts);
+            if (parts.kind === "three-panel") threePanels.add(parts.container);
         });
+        threePanels.forEach((container) => ensureThreePanelResizeState(container));
     }
 
     function reset(container) {
         if (!(container instanceof Element)) return;
         if (container.matches(".three-panel")) {
             container.style.removeProperty("grid-template-columns");
+            const state = ensureThreePanelResizeState(container);
+            state.preferredWidths = null;
+            state.lastContainerWidth = container.clientWidth;
         } else {
             getDirectChildren(container, (element) => element.classList.contains("split-handler-left") || element.classList.contains("split-handler-right") || element.classList.contains("split-handler-pane")).forEach((panel) => {
                 panel.style.removeProperty("flex");
@@ -3221,7 +3021,7 @@
         });
     }
 
-    window.AIOneSplitHandler = Object.freeze({ init, reset });
+    window.AIOneSplitHandler = Object.freeze({ init, reset, setPanelToMinimum });
     document.addEventListener("component:ready", (event) => init(event.target));
     document.addEventListener("app:includes-ready", (event) => init(event.target));
     document.addEventListener("DOMContentLoaded", () => init());

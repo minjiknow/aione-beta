@@ -1693,6 +1693,8 @@
                         }
                     }
 
+                    renderCollapsedAnswerSources();
+
                     // 선택 자료가 있을 때 AI 참조소스 패널 하단의 반영 버튼을 노출합니다.
                     updateApplyToChatVisibility();
                 }
@@ -1718,11 +1720,24 @@
                             return chatConversations[activeChatTopic]?.[messageIndex]?.text ?? message?.querySelector(".msg-content, .msg-text")?.innerText ?? "";
                         },
                         onFeedback: () => showToast("피드백이 반영되었습니다."),
-                        onRetry: () => showToast("답변을 다시 생성합니다."),
                         onCopy: ({ copied }) => showToast(copied ? "복사되었습니다." : "복사하지 못했습니다."),
                         onMore: () => showToast("추가옵션"),
                         onReport: ({ button }) => openReportDrawer(button),
                     });
+                }
+
+                // 동적 메시지의 높이가 확정된 뒤에도 채팅 목록의 마지막 메시지를 노출
+                function scrollChatMessagesToBottom(messageList, message) {
+                    if (!messageList) return;
+                    const scrollToBottom = () => {
+                        if (messageList.isConnected) messageList.scrollTop = messageList.scrollHeight;
+                    };
+                    scrollToBottom();
+                    window.requestAnimationFrame(() => {
+                        scrollToBottom();
+                        window.requestAnimationFrame(scrollToBottom);
+                    });
+                    message?.querySelector("img")?.addEventListener("load", scrollToBottom, { once: true });
                 }
 
                 // 채팅 메시지 렌더링
@@ -2065,6 +2080,7 @@
                     if (btn.dataset.applyBound === "true") return;
                     btn.dataset.applyBound = "true";
                     btn.addEventListener("click", () => {
+                        if (btn.dataset.applying === "true") return;
                         const selectedRecommended = recommendations.filter((item) => selectedRecIds.includes(item.id) && !smartImportedSourceIds.includes(item.id));
                         const selectedAdditional = getSelectedReferenceSources("all");
                         const selected = [...selectedRecommended, ...selectedAdditional];
@@ -2079,8 +2095,27 @@
                         const time = now.getHours() + ":" + String(now.getMinutes()).padStart(2, "0");
                         chatConversations[chatTopicIndex].push({ role: "user", text: prompt, time });
                         renderChatMessages();
+
+                        const messageList = $("#chatMessages");
+                        const pendingMessage = window.ChatMessage?.createPending({
+                            variant: "answer",
+                            title: `선택 자료 ${selected.length}건 분석 중`,
+                            description: "답변서 초안에 반영하고 있습니다...",
+                        });
+                        if (messageList && pendingMessage) {
+                            messageList.append(pendingMessage);
+                            scrollChatMessagesToBottom(messageList, pendingMessage);
+                        }
+
+                        btn.dataset.applying = "true";
+                        btn.disabled = true;
                         setTimeout(() => {
-                            if (runId !== workspaceRunSeq) return;
+                            if (runId !== workspaceRunSeq) {
+                                pendingMessage?.remove();
+                                delete btn.dataset.applying;
+                                updateApplyToChatVisibility();
+                                return;
+                            }
                             chatConversations[chatTopicIndex].push({
                                 role: "ai",
                                 text: `선택하신 ${selected.length}건의 자료를 분석하여 답변서 초안에 반영합니다.\n\n📋 반영 자료:\n${selected.map((item) => "• " + item.title).join("\n")}\n\n초안 생성을 시작합니다. "답변서 초안" 탭에서 결과를 확인하세요.`,
@@ -2088,8 +2123,10 @@
                                 typing: true,
                             });
                             if (activeChatTopic === chatTopicIndex) renderChatMessages();
+                            pendingMessage?.remove();
+                            delete btn.dataset.applying;
+                            updateApplyToChatVisibility();
                         }, 800);
-                        showToast(`${selected.length}건의 자료가 초안에 반영됩니다.`);
                     });
                 }
 
@@ -2773,7 +2810,7 @@
                         description: typingDesc,
                     });
                     msgEl.appendChild(typing);
-                    msgEl.scrollTop = msgEl.scrollHeight;
+                    scrollChatMessagesToBottom(msgEl, typing);
 
                     // AI 에이전트 API 연계 지점 ④ 채팅 프롬프트 전송
                     window.AIOneAgentBridge.sendChatPrompt(
@@ -2787,7 +2824,10 @@
                         1500,
                     )
                         .then(() => {
-                            if (runId !== workspaceRunSeq) return;
+                            if (runId !== workspaceRunSeq) {
+                                typing.remove();
+                                return;
+                            }
                             hideAnswerSkeleton();
                             // 입력 중 표시를 제거합니다.
                             typing.remove();
@@ -2853,7 +2893,10 @@
                             if (window.AIOneNotifications) window.AIOneNotifications.notifyLongTask("답변서 초안 생성 완료", "답변서 초안 " + vLabel + "이 생성되었습니다.", "answer");
                         })
                         .catch((error) => {
-                            if (runId !== workspaceRunSeq) return;
+                            if (runId !== workspaceRunSeq) {
+                                typing.remove();
+                                return;
+                            }
                             console.error("[AI-ONE] 채팅 프롬프트 API 오류", error);
                             hideAnswerSkeleton();
                             typing.remove();
@@ -2909,12 +2952,6 @@
                         panel.style.maxWidth = "";
                         panel.style.minWidth = "";
                         panel.style.flex = "";
-                        panel.classList.remove("panel-collapsed");
-                        panel.querySelector(".file-list-section")?.classList.remove("is-collapsed");
-                        const collapseButton = panel.querySelector(".panel-collapse-btn");
-                        collapseButton?.setAttribute("aria-expanded", "true");
-                        collapseButton?.setAttribute("aria-label", "패널 접기");
-                        if (collapseButton) collapseButton.title = "패널 접기";
                     });
                     compareAutoCollapsedLeftPanel = false;
                 }
@@ -3081,10 +3118,28 @@
                     };
                 }
 
+                // 패널 접힘 UI 상태 동기화
+                function syncPanelCollapsedUi(panel, shouldCollapse) {
+                    panel.classList.toggle("panel-collapsed", shouldCollapse);
+                    panel.querySelector(".file-list-section")?.classList.toggle("is-collapsed", shouldCollapse);
+
+                    const collapseButton = panel.querySelector(".panel-collapse-btn");
+                    const collapseLabel = shouldCollapse ? "패널 펼치기" : "패널 접기";
+                    collapseButton?.setAttribute("aria-expanded", String(!shouldCollapse));
+                    collapseButton?.setAttribute("aria-label", collapseLabel);
+                    if (collapseButton) collapseButton.title = collapseLabel;
+                }
+
                 // 패널 접힘 상태 설정
                 function setPanelCollapsed(panel, shouldCollapse) {
                     const container = $(ANSWER_PANEL_SELECTOR);
-                    if (!panel || !container || isResponsiveAnswerMode()) return;
+                    if (!panel || !container) return;
+
+                    if (isResponsiveAnswerMode()) {
+                        syncPanelCollapsedUi(panel, shouldCollapse);
+                        return;
+                    }
+
                     const state = getCurrentPanelLayoutState(container);
                     if (!state) return;
                     const key = getPanelKey(panel);
@@ -3093,21 +3148,14 @@
                     if (shouldCollapse) {
                         if (!panel.classList.contains("panel-collapsed")) {
                             panel.dataset.expandedPanelWidth = String(state.widthsByPanel[key] || defaultWidths[key] || 220);
-                            panel.classList.add("panel-collapsed");
                         }
                         state.widthsByPanel[key] = 44;
                     } else {
-                        panel.classList.remove("panel-collapsed");
-                        state.widthsByPanel[key] = Math.max(PANEL_MIN_WIDTHS[key] || 140, Number(panel.dataset.expandedPanelWidth) || defaultWidths[key] || 220);
+                        state.widthsByPanel[key] = PANEL_MIN_WIDTHS[key] || 140;
+                        delete panel.dataset.expandedPanelWidth;
                     }
 
-                    panel.querySelector(".file-list-section")?.classList.toggle("is-collapsed", shouldCollapse);
-
-                    const collapseButton = panel.querySelector(".panel-collapse-btn");
-                    const collapseLabel = shouldCollapse ? "패널 펼치기" : "패널 접기";
-                    collapseButton?.setAttribute("aria-expanded", String(!shouldCollapse));
-                    collapseButton?.setAttribute("aria-label", collapseLabel);
-                    if (collapseButton) collapseButton.title = collapseLabel;
+                    syncPanelCollapsedUi(panel, shouldCollapse);
 
                     applyPanelLayoutState(container, state);
                     savePanelLayoutState(container);
@@ -3131,8 +3179,7 @@
 
                     localStorage.removeItem(LAYOUT_KEY);
                     getPanels(container).forEach((panel) => {
-                        panel.classList.remove("panel-collapsed");
-                        panel.querySelector(".file-list-section")?.classList.remove("is-collapsed");
+                        syncPanelCollapsedUi(panel, false);
                     });
                     applyPanelLayoutState(container, getDefaultPanelLayoutState(container));
                     showToast("레이아웃이 기본값으로 초기화되었습니다.");
@@ -3151,60 +3198,74 @@
                 function initPanelDragDrop() {
                     const container = $(ANSWER_PANEL_SELECTOR);
                     if (!container) return;
-                    let draggedPanel = null;
+                    const interactiveSelector = "button, input, select, textarea, a, label, [contenteditable], [role='button'], [role='tab']";
 
                     getPanels(container).forEach((panel) => {
-                        const dragHandle = panel.querySelector(".panel-head .panel-title") || panel.querySelector(".center-header-title");
+                        const dragHandle = panel.querySelector(":scope > .panel-head, :scope > .center-header");
                         if (!dragHandle) return;
+
                         dragHandle.style.cursor = "grab";
-                        dragHandle.setAttribute("draggable", "true");
+                        dragHandle.style.touchAction = "none";
+                        panel.querySelectorAll(".panel-title, .center-header-title").forEach((title) => title.removeAttribute("draggable"));
 
-                        dragHandle.addEventListener("dragstart", (e) => {
-                            draggedPanel = panel;
-                            panel.style.opacity = "0.5";
-                            e.dataTransfer.effectAllowed = "move";
-                            e.dataTransfer.setData("text/plain", "");
+                        dragHandle.addEventListener("pointerdown", (event) => {
+                            if (event.button !== 0 || event.target.closest(interactiveSelector)) return;
+
+                            const pointerId = event.pointerId;
+                            const startX = event.clientX;
+                            const startY = event.clientY;
+                            let isDragging = false;
+                            let targetPanel = null;
+
+                            const clearDragState = () => {
+                                panel.style.removeProperty("opacity");
+                                dragHandle.style.cursor = "grab";
+                                document.body.style.userSelect = "";
+                                getPanels(container).forEach((item) => item.classList.remove("drag-over"));
+                            };
+
+                            const onPointerMove = (moveEvent) => {
+                                if (moveEvent.pointerId !== pointerId) return;
+                                if (!isDragging && Math.hypot(moveEvent.clientX - startX, moveEvent.clientY - startY) < 6) return;
+
+                                isDragging = true;
+                                moveEvent.preventDefault();
+                                panel.style.opacity = "0.5";
+                                dragHandle.style.cursor = "grabbing";
+                                document.body.style.userSelect = "none";
+
+                                const hoveredPanel = document.elementFromPoint(moveEvent.clientX, moveEvent.clientY)?.closest(".panel");
+                                const hoveredSlot = hoveredPanel?.closest("[data-slot]");
+                                targetPanel = hoveredSlot?.parentElement === container && hoveredPanel !== panel ? hoveredPanel : null;
+                                getPanels(container).forEach((item) => item.classList.toggle("drag-over", item === targetPanel));
+                            };
+
+                            const onPointerEnd = (endEvent) => {
+                                if (endEvent.pointerId !== pointerId) return;
+                                document.removeEventListener("pointermove", onPointerMove);
+                                document.removeEventListener("pointerup", onPointerEnd);
+                                document.removeEventListener("pointercancel", onPointerEnd);
+
+                                const dropTarget = endEvent.type === "pointerup" ? targetPanel : null;
+                                clearDragState();
+                                if (!isDragging || !dropTarget) return;
+
+                                const state = getCurrentPanelLayoutState(container);
+                                const nextOrder = [...state.order];
+                                const dragIndex = nextOrder.indexOf(getPanelKey(panel));
+                                const targetIndex = nextOrder.indexOf(getPanelKey(dropTarget));
+                                if (dragIndex < 0 || targetIndex < 0 || dragIndex === targetIndex) return;
+                                [nextOrder[dragIndex], nextOrder[targetIndex]] = [nextOrder[targetIndex], nextOrder[dragIndex]];
+
+                                applyPanelLayoutState(container, { order: nextOrder, widthsByPanel: state.widthsByPanel });
+                                savePanelLayoutState(container);
+                                showToast("패널 위치가 변경되었습니다.");
+                            };
+
+                            document.addEventListener("pointermove", onPointerMove, { passive: false });
+                            document.addEventListener("pointerup", onPointerEnd);
+                            document.addEventListener("pointercancel", onPointerEnd);
                         });
-
-                        dragHandle.addEventListener("dragend", () => {
-                            panel.style.opacity = "";
-                            draggedPanel = null;
-                            getPanels(container).forEach((item) => item.classList.remove("drag-over"));
-                        });
-                    });
-
-                    container.addEventListener("dragover", (e) => {
-                        if (!draggedPanel) return;
-                        e.preventDefault();
-                        e.dataTransfer.dropEffect = "move";
-                        const target = e.target.closest(".panel");
-                        if (target && target !== draggedPanel) {
-                            getPanels(container).forEach((item) => item.classList.remove("drag-over"));
-                            target.classList.add("drag-over");
-                        }
-                    });
-
-                    container.addEventListener("dragleave", (e) => {
-                        if (!draggedPanel) return;
-                        e.target.closest(".panel")?.classList.remove("drag-over");
-                    });
-
-                    container.addEventListener("drop", (e) => {
-                        if (!draggedPanel) return;
-                        e.preventDefault();
-                        const target = e.target.closest(".panel");
-                        if (!target || target === draggedPanel) return;
-                        target.classList.remove("drag-over");
-
-                        const state = getCurrentPanelLayoutState(container);
-                        const nextOrder = [...state.order];
-                        const dragIndex = nextOrder.indexOf(getPanelKey(draggedPanel));
-                        const targetIndex = nextOrder.indexOf(getPanelKey(target));
-                        [nextOrder[dragIndex], nextOrder[targetIndex]] = [nextOrder[targetIndex], nextOrder[dragIndex]];
-
-                        applyPanelLayoutState(container, { order: nextOrder, widthsByPanel: state.widthsByPanel });
-                        savePanelLayoutState(container);
-                        showToast("패널 위치가 변경되었습니다.");
                     });
                 }
 
@@ -3292,7 +3353,6 @@
                             const state = getCurrentPanelLayoutState(container);
                             if (!state) return;
                             applyPanelLayoutState(container, state);
-                            savePanelLayoutState(container);
                         });
                         observer.observe(container);
                     }
@@ -3669,7 +3729,19 @@
                             if (!sentence || !editor.contains(sentence)) return;
                             openVerifyDetail(sentence);
                         });
+                        editor.addEventListener("keydown", (event) => {
+                            if (!["Enter", " "].includes(event.key)) return;
+                            const sentence = event.target.closest(".verify-sentence");
+                            if (!sentence || !editor.contains(sentence)) return;
+                            event.preventDefault();
+                            openVerifyDetail(sentence);
+                        });
                     }
+
+                    $$(".verify-sentence", editor).forEach((sentence) => {
+                        sentence.tabIndex = 0;
+                        sentence.setAttribute("role", "button");
+                    });
 
                     syncDraftVerifyDisplay();
 
@@ -3687,8 +3759,8 @@
                 function syncDraftVerifyDisplay() {
                     const editor = $(".draft-editor");
                     if (!editor) return;
-                    const highlightOn = $('.verify-check[data-mode="highlight"]')?.checked ?? true;
-                    const sourceOn = $('.verify-check[data-mode="source"]')?.checked ?? true;
+                    const highlightOn = $('.verify-check[data-mode="highlight"]')?.checked ?? false;
+                    const sourceOn = $('.verify-check[data-mode="source"]')?.checked ?? false;
 
                     $$("[data-verify-tone]", editor).forEach((sentence) => {
                         ["verify-green", "verify-yellow", "verify-red"].forEach((tone) => sentence.classList.remove(tone));
@@ -4002,6 +4074,43 @@ ${lines.join("\n")}
                     if (section) section.classList.toggle("hidden", searchCount + uploadCount === 0);
                 }
 
+                // 접힌 왼쪽 패널의 관련자료 및 참조소스 요약 렌더링
+                function renderCollapsedAnswerSources() {
+                    const collapsedIcons = $("#collapsedSmartSourceIcons");
+                    if (!collapsedIcons) return;
+
+                    const importedIds = new Set(smartImportedSourceIds);
+                    const selectedRecommendations = selectedRecIds
+                        .filter((id) => !importedIds.has(id))
+                        .map((id) => recommendations.find((item) => item.id === id))
+                        .filter(Boolean)
+                        .map((item) => ({
+                            name: item.title,
+                            type: item.category === "similar" ? "docx" : "pdf",
+                            status: "done",
+                        }));
+                    const importedSources = smartImportedSourceIds
+                        .map((id) => recommendations.find((item) => item.id === id))
+                        .filter(Boolean)
+                        .map((item) => ({
+                            name: item.title,
+                            type: item.category === "similar" ? "docx" : "pdf",
+                            status: smartImportedStatus.get(item.id) || "done",
+                        }));
+                    const uploadedSources = files.map((file) => ({
+                        name: file.name,
+                        type: file.type || "file",
+                        status: file.status || "waiting",
+                    }));
+
+                    collapsedIcons.innerHTML = [...selectedRecommendations, ...importedSources, ...uploadedSources]
+                        .map(
+                            (source) =>
+                                `<span class="collapsed-smart-source-item" title="${escapeHtml(source.name)}" aria-label="${escapeHtml(source.name)}">${renderReferenceFileIcon(source)}</span>`,
+                        )
+                        .join("");
+                }
+
                 // 지능형 가져온 소스 렌더링
                 function renderSmartImportedSources() {
                     keepSmartSourceDropzoneVisible();
@@ -4044,6 +4153,7 @@ ${lines.join("\n")}
                         labelButton.setAttribute("aria-pressed", String(smartGroupMode));
                         labelButton.title = smartGroupMode ? "자동 라벨 분류 해제" : "주제를 소스에 자동 라벨 지정";
                     }
+                    renderCollapsedAnswerSources();
                     if (!unified.length) {
                         list.innerHTML = "";
                         return;
@@ -4111,18 +4221,6 @@ ${lines.join("\n")}
         <div class="smart-topic-files">${entries.map(rowHtml).join("")}</div>
       </div>`,
                             )
-                            .join("");
-                    }
-
-                    const collapsedIcons = $("#collapsedSmartSourceIcons");
-                    if (collapsedIcons) {
-                        collapsedIcons.innerHTML = unified
-                            .map((entry) => {
-                                const name = entryName(entry);
-                                const status = entry.kind === "search" ? smartImportedStatus.get(entry.id) || "done" : entry.item.status || "waiting";
-                                const sourceFile = { name, type: getReferenceFileType(name, entry.item.type || "file"), status };
-                                return `<span class="collapsed-smart-source-item" title="${escapeHtml(name)}" aria-label="${escapeHtml(name)}">${renderReferenceFileIcon(sourceFile)}</span>`;
-                            })
                             .join("");
                     }
 

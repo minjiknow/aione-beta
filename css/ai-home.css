@@ -694,6 +694,11 @@ body.ai-home-page {
     padding-left: var(--sidebar-w);
 }
 
+.home-sidebar-host[data-sidebar-responsive-sync="true"] ~ .ai-home-main,
+.home-sidebar-host[data-sidebar-responsive-sync="true"] ~ .ai-home-main .ai-one-background-home {
+    transition: none;
+}
+
 .component-catalog-preview .ai-home-main,
 .component-catalog-preview .home-sidebar-host.sidebar-expanded ~ .ai-home-main {
     padding-left: 0;

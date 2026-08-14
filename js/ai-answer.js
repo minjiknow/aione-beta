@@ -112,11 +112,20 @@
     }
 
     // 패널 크기 조절 레이아웃 복원
-    function restorePanelResizeLayout(layout) {
+    function restorePanelResizeLayout(layout, panel) {
         const columns = layout?.dataset.answerGridTemplate;
-        if (!layout || !columns) return;
-        layout.style.gridTemplateColumns = columns;
+        if (!layout) return;
         delete layout.dataset.answerGridTemplate;
+
+        if (window.matchMedia("(max-width: 1024px)").matches) {
+            if (columns) layout.style.gridTemplateColumns = columns;
+            window.AIOneSplitHandler?.init(layout);
+            return;
+        }
+
+        layout.style.removeProperty("grid-template-columns");
+        const openedAtMinimum = window.AIOneSplitHandler?.setPanelToMinimum(panel);
+        if (!openedAtMinimum && columns) layout.style.gridTemplateColumns = columns;
         window.AIOneSplitHandler?.init(layout);
     }
 
@@ -369,7 +378,6 @@
             appendChatMessage("user", prompt);
             if (messages && pendingMessage) messages.append(pendingMessage);
             scrollChatToBottom();
-            showToast(`${selectedCount}건의 자료를 답변서 초안에 반영하고 있습니다.`);
 
             scheduleWorkspaceTask(() => {
                 const aiMessage = createChatMessage("ai", completionMessage);
@@ -473,7 +481,7 @@
             panel.querySelector(".answer-source-file-section")?.classList.toggle("is-collapsed", collapsed);
             panel.closest(".three-panel")?.classList.toggle("is-source-collapsed", collapsed);
             if (collapsed) suspendPanelResizeLayout(panel.closest(".three-panel"));
-            else restorePanelResizeLayout(panel.closest(".three-panel"));
+            else restorePanelResizeLayout(panel.closest(".three-panel"), panel);
             button?.setAttribute("aria-expanded", String(!collapsed));
             button?.setAttribute("aria-label", collapsed ? "참조소스 패널 펼치기" : "참조소스 패널 접기");
             if (button) button.title = collapsed ? "참조소스 패널 펼치기" : "참조소스 패널 접기";
@@ -655,10 +663,10 @@
         highlightedSentences.forEach((sentence, index) => {
             sentence.dataset.answerEvidenceIndex = String(index + 1);
             sentence.addEventListener("click", () => {
-                if (highlightToggle.checked) openDraftEvidenceDetail(sentence, splitArea);
+                openDraftEvidenceDetail(sentence, splitArea);
             });
             sentence.addEventListener("keydown", (event) => {
-                if (!highlightToggle.checked || !["Enter", " "].includes(event.key)) return;
+                if (!["Enter", " "].includes(event.key)) return;
                 event.preventDefault();
                 openDraftEvidenceDetail(sentence, splitArea);
             });
@@ -670,20 +678,12 @@
             draftDocument.classList.toggle("is-highlight-hidden", !isHighlightEnabled);
             draftDocument.classList.toggle("is-source-hidden", !sourceToggle.checked);
             highlightedSentences.forEach((sentence) => {
-                sentence.classList.toggle("is-evidence-interactive", isHighlightEnabled);
-                if (isHighlightEnabled) {
-                    sentence.tabIndex = 0;
-                    sentence.setAttribute("role", "button");
-                    sentence.setAttribute("aria-controls", "answerVerifyDetail");
-                    sentence.setAttribute("aria-expanded", String(sentence === activeDraftEvidenceTrigger));
-                } else {
-                    sentence.removeAttribute("tabindex");
-                    sentence.removeAttribute("role");
-                    sentence.removeAttribute("aria-controls");
-                    sentence.removeAttribute("aria-expanded");
-                }
+                sentence.classList.add("is-evidence-interactive");
+                sentence.tabIndex = 0;
+                sentence.setAttribute("role", "button");
+                sentence.setAttribute("aria-controls", "answerVerifyDetail");
+                sentence.setAttribute("aria-expanded", String(sentence === activeDraftEvidenceTrigger));
             });
-            if (!isHighlightEnabled) closeDraftEvidenceDetail(splitArea);
         };
 
         highlightToggle.addEventListener("change", syncVerificationMode);
@@ -696,13 +696,130 @@
         const layout = document.querySelector(".answer-three-panel-host > .three-panel");
         const panel = document.querySelector(".answer-source-panel");
         const button = document.querySelector("[data-source-collapse]");
+        const wasCollapsed = panel?.classList.contains("panel-collapsed") || Boolean(layout?.dataset.answerGridTemplate);
         panel?.classList.remove("panel-collapsed");
         panel?.querySelector(".answer-source-file-section")?.classList.remove("is-collapsed");
         layout?.classList.remove("is-source-collapsed");
-        restorePanelResizeLayout(layout);
+        if (wasCollapsed) restorePanelResizeLayout(layout, panel);
         button?.setAttribute("aria-expanded", "true");
         button?.setAttribute("aria-label", "참조소스 패널 접기");
         if (button) button.title = "참조소스 패널 접기";
+    }
+
+    const answerPanelInitialOrders = new WeakMap();
+
+    // 패널 슬롯 조회
+    function getAnswerPanelSlots(layout) {
+        return layout ? Array.from(layout.children).filter((element) => element.hasAttribute("data-slot")) : [];
+    }
+
+    // 패널 크기 조절 핸들 조회
+    function getAnswerPanelResizeHandles(layout) {
+        return layout ? Array.from(layout.querySelectorAll(":scope > .panel-resize-handle")) : [];
+    }
+
+    // 패널 순서 재구성
+    function rebuildAnswerPanelOrder(layout, slots) {
+        const handles = getAnswerPanelResizeHandles(layout);
+        layout.replaceChildren();
+        slots.forEach((slot, index) => {
+            layout.append(slot);
+            if (index < slots.length - 1 && handles[index]) layout.append(handles[index]);
+        });
+    }
+
+    // 패널 위치 교환
+    function swapAnswerPanelPositions(layout, sourceSlot, targetSlot) {
+        const slots = getAnswerPanelSlots(layout);
+        const sourceIndex = slots.indexOf(sourceSlot);
+        const targetIndex = slots.indexOf(targetSlot);
+        if (sourceIndex < 0 || targetIndex < 0 || sourceIndex === targetIndex) return false;
+
+        const widths = new Map(slots.map((slot) => [slot, Math.round(slot.getBoundingClientRect().width)]));
+        [slots[sourceIndex], slots[targetIndex]] = [slots[targetIndex], slots[sourceIndex]];
+        layout.classList.remove("is-panel-swapped");
+        rebuildAnswerPanelOrder(layout, slots);
+
+        if (window.matchMedia("(max-width: 1024px)").matches) {
+            layout.style.removeProperty("grid-template-columns");
+        } else {
+            const tracks = slots.map((slot) => (slot.dataset.slot === "center" ? "minmax(0, 1fr)" : `${widths.get(slot)}px`));
+            layout.style.gridTemplateColumns = tracks.flatMap((track, index) => (index < tracks.length - 1 ? [track, "2px"] : [track])).join(" ");
+        }
+
+        window.AIOneSplitHandler?.init(layout);
+        return true;
+    }
+
+    // 패널 순서 초기화
+    function resetAnswerPanelOrder(layout) {
+        const initialOrder = answerPanelInitialOrders.get(layout);
+        if (!layout || !initialOrder) return;
+        layout.classList.remove("is-panel-swapped");
+        rebuildAnswerPanelOrder(layout, initialOrder);
+    }
+
+    // 패널 헤더 드래그 앤 드롭 초기화
+    function initAnswerPanelDragDrop(layout) {
+        const interactiveSelector = "button, input, select, textarea, a, label, [contenteditable], [role='button'], [role='tab']";
+
+        getAnswerPanelSlots(layout).forEach((slot) => {
+            const panel = slot.querySelector(":scope > .panel");
+            const dragHandle = panel?.querySelector(":scope > .panel-head, :scope > .center-header");
+            if (!panel || !dragHandle) return;
+
+            dragHandle.style.cursor = "grab";
+            dragHandle.style.touchAction = "none";
+
+            dragHandle.addEventListener("pointerdown", (event) => {
+                if (event.button !== 0 || event.target.closest(interactiveSelector)) return;
+
+                const pointerId = event.pointerId;
+                const startX = event.clientX;
+                const startY = event.clientY;
+                let isDragging = false;
+                let targetSlot = null;
+
+                const clearDragState = () => {
+                    panel.style.removeProperty("opacity");
+                    dragHandle.style.cursor = "grab";
+                    document.body.style.userSelect = "";
+                    getAnswerPanelSlots(layout).forEach((item) => item.querySelector(":scope > .panel")?.classList.remove("drag-over"));
+                };
+
+                const onPointerMove = (moveEvent) => {
+                    if (moveEvent.pointerId !== pointerId) return;
+                    if (!isDragging && Math.hypot(moveEvent.clientX - startX, moveEvent.clientY - startY) < 6) return;
+
+                    isDragging = true;
+                    moveEvent.preventDefault();
+                    panel.style.opacity = "0.5";
+                    dragHandle.style.cursor = "grabbing";
+                    document.body.style.userSelect = "none";
+
+                    const hoveredSlot = document.elementFromPoint(moveEvent.clientX, moveEvent.clientY)?.closest("[data-slot]");
+                    targetSlot = hoveredSlot?.parentElement === layout && hoveredSlot !== slot ? hoveredSlot : null;
+                    getAnswerPanelSlots(layout).forEach((item) => item.querySelector(":scope > .panel")?.classList.toggle("drag-over", item === targetSlot));
+                };
+
+                const onPointerEnd = (endEvent) => {
+                    if (endEvent.pointerId !== pointerId) return;
+                    document.removeEventListener("pointermove", onPointerMove);
+                    document.removeEventListener("pointerup", onPointerEnd);
+                    document.removeEventListener("pointercancel", onPointerEnd);
+
+                    const dropTarget = endEvent.type === "pointerup" ? targetSlot : null;
+                    clearDragState();
+                    if (isDragging && dropTarget && swapAnswerPanelPositions(layout, slot, dropTarget)) {
+                        showToast("패널 위치가 변경되었습니다.");
+                    }
+                };
+
+                document.addEventListener("pointermove", onPointerMove, { passive: false });
+                document.addEventListener("pointerup", onPointerEnd);
+                document.addEventListener("pointercancel", onPointerEnd);
+            });
+        });
     }
 
     // 패널 도구 초기화
@@ -710,17 +827,22 @@
         const layout = document.querySelector(".answer-three-panel-host > .three-panel");
         const swapButton = document.querySelector("#panelSwapBtn");
         const resetButton = document.querySelector("#layoutResetBtn");
-        if (!layout || !swapButton || !resetButton) return;
+        if (!layout) return;
 
-        swapButton.addEventListener("click", () => {
+        answerPanelInitialOrders.set(layout, getAnswerPanelSlots(layout));
+        initAnswerPanelDragDrop(layout);
+
+        swapButton?.addEventListener("click", () => {
             expandSourcePanel();
-            const swapped = layout.classList.toggle("is-panel-swapped");
-            window.AIOneSplitHandler?.init(layout);
-            showToast(swapped ? "참조소스와 AI 채팅 위치를 변경했습니다." : "패널 위치를 기본 순서로 되돌렸습니다.");
+            const sourceSlot = document.querySelector(".answer-source-panel")?.closest("[data-slot]");
+            const chatSlot = document.querySelector(".answer-chat-panel")?.closest("[data-slot]");
+            if (swapAnswerPanelPositions(layout, sourceSlot, chatSlot)) {
+                showToast("참조소스와 AI 채팅 위치를 변경했습니다.");
+            }
         });
 
-        resetButton.addEventListener("click", () => {
-            layout.classList.remove("is-panel-swapped");
+        resetButton?.addEventListener("click", () => {
+            resetAnswerPanelOrder(layout);
             expandSourcePanel();
             resetPanelResizeLayout(layout);
             showToast("패널 레이아웃을 초기화했습니다.");
@@ -738,6 +860,53 @@
             minute: "2-digit",
             hour12: false,
         }).format(new Date());
+    }
+
+    // 현재 초안 다음 버전을 생성하고 버전 UI를 동기화
+    function createNextDraftVersion() {
+        const versionSelect = document.querySelector(".answer-version-select");
+        const currentLabel = versionSelect?.selectedOptions?.[0]?.textContent?.trim() || "v1.0(00:00)";
+        const currentVersion = currentLabel.match(/v(\d+)\.(\d+)/);
+        const major = Number(currentVersion?.[1] || 1);
+        const minor = Number(currentVersion?.[2] || 0) + 1;
+        const versionName = `v${major}.${minor}`;
+        const versionLabel = `${versionName}(${getCurrentTime()})`;
+
+        if (versionSelect) {
+            const option = document.createElement("option");
+            option.value = versionName;
+            option.textContent = versionLabel;
+            option.selected = true;
+            versionSelect.append(option);
+        }
+
+        const versionChip = document.querySelector(".answer-version-chip");
+        const closeButton = versionChip?.querySelector(".answer-version-close");
+        if (versionChip && closeButton) {
+            versionChip.replaceChildren(document.createTextNode(versionLabel), closeButton);
+        }
+
+        const heading = document.querySelector(".answer-draft-heading");
+        if (heading) heading.textContent = `답변서 초안 · ${versionLabel}`;
+        return versionName;
+    }
+
+    // 새 채팅에서는 HTML에 선언된 최초 버전만 유지
+    function resetDraftVersions() {
+        const versionSelect = document.querySelector(".answer-version-select");
+        if (!versionSelect?.options.length) return;
+        while (versionSelect.options.length > 1) versionSelect.remove(versionSelect.options.length - 1);
+        versionSelect.selectedIndex = 0;
+
+        const versionLabel = versionSelect.options[0].textContent.trim();
+        const versionChip = document.querySelector(".answer-version-chip");
+        const closeButton = versionChip?.querySelector(".answer-version-close");
+        if (versionChip && closeButton) {
+            versionChip.replaceChildren(document.createTextNode(versionLabel), closeButton);
+        }
+
+        const heading = document.querySelector(".answer-draft-heading");
+        if (heading) heading.textContent = `답변서 초안 · ${versionLabel}`;
     }
 
     // 기존 ChatMessage 마크업으로 채팅 메시지 생성
@@ -781,6 +950,62 @@
     }
 
     // 채팅 기능 초기화
+    // 답변 생성 결과 영역에 스켈레톤을 표시합니다.
+    function showAnswerSkeleton(message = "AI 응답 데이터를 불러오고 있습니다...") {
+        hideAnswerSkeleton();
+
+        const panel = document.querySelector(".answer-center-panel");
+        if (!panel) return;
+
+        const overlay = document.createElement("div");
+        overlay.className = "api-skeleton-overlay answer-api-skeleton";
+        overlay.setAttribute("role", "status");
+        overlay.setAttribute("aria-live", "polite");
+        overlay.innerHTML = `
+            <div class="skeleton-loading-label"></div>
+            <div class="answer-skeleton-columns">
+                <div class="answer-skeleton-list">
+                    ${Array.from(
+                        { length: 4 },
+                        () => `
+                            <div class="skeleton-card">
+                                <div class="skeleton-card-row">
+                                    <div class="ai-skeleton skeleton-circle"></div>
+                                    <div class="ai-skeleton skeleton-line lg"></div>
+                                </div>
+                                <div class="ai-skeleton skeleton-line full"></div>
+                                <div class="ai-skeleton skeleton-line md"></div>
+                            </div>`,
+                    ).join("")}
+                </div>
+                <div class="answer-skeleton-preview">
+                    <div class="ai-skeleton skeleton-line sm"></div>
+                    ${Array.from(
+                        { length: 3 },
+                        () => `
+                            <div class="skeleton-card">
+                                <div class="ai-skeleton skeleton-line lg"></div>
+                                <div class="ai-skeleton skeleton-line full"></div>
+                                <div class="ai-skeleton skeleton-line full"></div>
+                                <div class="ai-skeleton skeleton-line md"></div>
+                            </div>`,
+                    ).join("")}
+                </div>
+            </div>`;
+        overlay.querySelector(".skeleton-loading-label").textContent = message;
+        panel.setAttribute("aria-busy", "true");
+        panel.append(overlay);
+    }
+
+    // 답변 생성 결과 영역의 스켈레톤을 제거합니다.
+    function hideAnswerSkeleton() {
+        document.querySelectorAll(".answer-api-skeleton").forEach((overlay) => {
+            const panel = overlay.closest(".answer-center-panel");
+            overlay.remove();
+            panel?.removeAttribute("aria-busy");
+        });
+    }
+
     function initChat() {
         const messages = document.querySelector("#answerChatMessages");
         const form = document.querySelector("[data-answer-chat-form]");
@@ -801,10 +1026,40 @@
             event.preventDefault();
             const question = input.value.trim();
             if (!question) return;
+
+            appendChatMessage("user", question);
             input.value = "";
             submit.disabled = true;
-            restoreRecommendationResults();
-            showToast("요청 내용을 기준으로 관련자료와 답변서 초안을 갱신했습니다.");
+
+            const pendingMessage = window.ChatMessage?.createPending({
+                variant: "answer",
+                title: "생성 중",
+                description: "답변서 초안을 생성하고 있습니다...",
+            });
+            if (pendingMessage) messages.append(pendingMessage);
+            scrollChatToBottom();
+
+            const isSearchRequest = /검색|찾아|추천/.test(question);
+            showAnswerSkeleton(isSearchRequest ? "관련자료를 검색하고 있습니다..." : "답변서 초안 데이터를 생성하고 있습니다...");
+
+            scheduleWorkspaceTask(() => {
+                hideAnswerSkeleton();
+                restoreRecommendationResults();
+                const aiMessage = createChatMessage(
+                    "ai",
+                    "요청하신 내용을 기준으로 관련자료와 답변서 초안을 갱신했습니다. 답변서 초안 탭에서 근거 문장과 확인 필요 항목을 검토해 주세요.",
+                );
+                if (aiMessage && pendingMessage?.isConnected) {
+                    pendingMessage.replaceWith(aiMessage);
+                } else if (aiMessage) {
+                    messages.append(aiMessage);
+                } else {
+                    pendingMessage?.remove();
+                }
+                scrollChatToBottom();
+                const versionName = createNextDraftVersion();
+                showToast(`${versionName} 버전으로 생성되었습니다.`);
+            }, 1500);
         });
 
         document.querySelectorAll(".chat-tag").forEach((tag) => {
@@ -821,6 +1076,8 @@
     // 답변 워크스페이스 초기화
     function resetAnswerWorkspace() {
         clearPendingWorkspaceTasks();
+        hideAnswerSkeleton();
+        resetDraftVersions();
         document.body.classList.add("is-new-chat");
 
         const layout = document.querySelector(".answer-three-panel-host > .three-panel");
@@ -873,7 +1130,7 @@
         if (chatInput) chatInput.value = "";
         if (chatSubmit) chatSubmit.disabled = true;
 
-        layout?.classList.remove("is-panel-swapped");
+        resetAnswerPanelOrder(layout);
         expandSourcePanel();
         resetPanelResizeLayout(layout);
         setActiveTab("recommend");

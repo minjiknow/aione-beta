@@ -60,15 +60,25 @@
     const questionSelector = ".orig-query-box[data-question-index]";
     const workspaceSampleData = { files, fileData, defaultMeta };
     const workspaceRunListItems = [];
+    let workspaceSkeletonTimer = null;
     const after9Workspace = {
         data: {
             classifyRules: readAuthoredWorkspaceRules(),
+            notificationAssigneeStorageKey: "ai-one-notification-assignees-v1",
         },
         state: {
             confirmedQuestions: [],
             confirmationState: "draft",
             currentRuleId: null,
             isCreatingRule: false,
+            notificationAssignee: {
+                directory: [],
+                savedAssignments: new Map(),
+                workingAssignments: new Map(),
+                selectedOrganization: "all",
+                searchTerm: "",
+                expandedOrganizations: new Set(),
+            },
         },
     };
 
@@ -78,6 +88,7 @@
     let currentQuestionFilter = "all";
     let activeWorkspaceRunId = workspaceRunListItems[0]?.id ?? null;
     const panelMinWidth = 220;
+    const panelMinWidths = Object.freeze({ left: 280, center: 340, right: 300 });
     const panelHandleWidth = 2;
     const panelStates = new WeakMap();
     let pendingDeleteFileItem = null;
@@ -102,6 +113,34 @@
             target: "#workspaceToast",
             duration: 1800,
         });
+    }
+
+    // 선택한 OCR 원문 또는 AI 질의 요약 복사
+    async function copyResult(type) {
+        const selector = type === "summary" ? "[data-result-summary]" : "[data-result-original]";
+        const source = document.querySelector(selector);
+        const text = source?.textContent?.replace(/\s+/g, " ").trim();
+        if (!text) return;
+
+        try {
+            if (navigator.clipboard && window.isSecureContext) {
+                await navigator.clipboard.writeText(text);
+            } else {
+                const textarea = document.createElement("textarea");
+                textarea.value = text;
+                textarea.setAttribute("readonly", "");
+                textarea.style.position = "fixed";
+                textarea.style.opacity = "0";
+                document.body.appendChild(textarea);
+                textarea.select();
+                const copied = document.execCommand("copy");
+                textarea.remove();
+                if (!copied) throw new Error("Clipboard copy failed");
+            }
+            showToast("복사되었습니다.");
+        } catch (error) {
+            showToast("복사하지 못했습니다.");
+        }
     }
 
     // AFTER-9 부분 구현: 폼/목록 UI는 구현되어 있지만 트리거가 주석 처리되어 있으며
@@ -383,10 +422,279 @@
 
     /* ============================ 끝: 화면 규칙 설정 ============================== */
 
-    /* ============================ 시작: 알림 라우팅과 공통 레이아웃 ============================ */
+    /* ============================ 시작: 9월 이후 알림 담당자와 라우팅 ============================ */
 
     // AFTER-9 부분 구현: 이 블록은 숨겨진 알림 라우팅을 준비하며
     // 부서 알림 흐름을 위한 것입니다. 백엔드 알림 클라이언트는 아닙니다.
+    // 실국별 알림 담당자 설정은 ai-workspace.html에 작성된 조직/담당자 목록을 원본으로 사용합니다.
+    function normalizeWorkspaceNotificationText(element) {
+        return String(element?.textContent || "")
+            .replace(/\s+/g, " ")
+            .trim();
+    }
+
+    // HTML에 작성된 실국/담당자 목록 조회
+    function readAuthoredWorkspaceNotificationDirectory(panel) {
+        return Array.from(panel.querySelectorAll("[data-notification-department]"), (card) => {
+            const department = card.dataset.notificationDepartment || normalizeWorkspaceNotificationText(card.querySelector(".notification-dept-name"));
+            const organization = normalizeWorkspaceNotificationText(card.querySelector(".notification-dept-org"));
+            const staff = Array.from(card.querySelectorAll("[data-notification-person-id]"), (button) => ({
+                id: button.dataset.notificationPersonId,
+                name: normalizeWorkspaceNotificationText(button.querySelector(".notification-assignee-name")),
+                selected: button.getAttribute("aria-pressed") === "true",
+                button,
+            })).filter((person) => person.id);
+
+            return {
+                organization,
+                department,
+                searchText: normalizeWorkspaceNotificationText(card).toLocaleLowerCase("ko-KR"),
+                card,
+                staff,
+            };
+        }).filter((group) => group.department);
+    }
+
+    function cloneWorkspaceNotificationAssignments(source) {
+        return new Map(Array.from(source, ([department, ids]) => [department, new Set(ids)]));
+    }
+
+    function createAuthoredWorkspaceNotificationAssignments(directory) {
+        return new Map(directory.map((group) => [group.department, new Set(group.staff.filter((person) => person.selected).map((person) => person.id))]));
+    }
+
+    function loadWorkspaceNotificationAssignments(directory) {
+        const assignments = createAuthoredWorkspaceNotificationAssignments(directory);
+        try {
+            const stored = JSON.parse(localStorage.getItem(after9Workspace.data.notificationAssigneeStorageKey) || "{}");
+            if (!stored || typeof stored !== "object" || Array.isArray(stored)) return assignments;
+
+            directory.forEach((group) => {
+                if (!Array.isArray(stored[group.department])) return;
+                const validIds = new Set(group.staff.map((person) => person.id));
+                assignments.set(group.department, new Set(stored[group.department].filter((id) => validIds.has(id))));
+            });
+        } catch (error) {
+            /* localStorage를 사용할 수 없는 환경에서는 HTML의 초기 선택 상태를 사용합니다. */
+        }
+        return assignments;
+    }
+
+    function persistWorkspaceNotificationAssignments() {
+        const state = after9Workspace.state.notificationAssignee;
+        try {
+            const payload = Object.fromEntries(state.directory.map((group) => [group.department, [...(state.savedAssignments.get(group.department) || [])]]));
+            localStorage.setItem(after9Workspace.data.notificationAssigneeStorageKey, JSON.stringify(payload));
+        } catch (error) {
+            /* localStorage를 사용할 수 없는 환경에서는 현재 화면 상태만 유지합니다. */
+        }
+    }
+
+    function getSavedWorkspaceNotificationRecipients(department) {
+        const state = after9Workspace.state.notificationAssignee;
+        const group = state.directory.find((item) => item.department === department);
+        if (!group) return null;
+        const selectedIds = state.savedAssignments.get(department) || new Set();
+        return group.staff.filter((person) => selectedIds.has(person.id)).map((person) => person.name);
+    }
+
+    function getWorkspaceNotificationAssignmentsSnapshot() {
+        const state = after9Workspace.state.notificationAssignee;
+        return Object.fromEntries(state.directory.map((group) => [group.department, getSavedWorkspaceNotificationRecipients(group.department) || []]));
+    }
+
+    function setWorkspaceNotificationFeedback(panel, message = "", type = "") {
+        const feedback = panel.querySelector("[data-notification-feedback]");
+        if (!feedback) return;
+        feedback.textContent = message;
+        feedback.className = `notification-dept-feedback${type ? ` ${type}` : ""}`;
+    }
+
+    function syncWorkspaceNotificationAssigneeCards() {
+        const state = after9Workspace.state.notificationAssignee;
+        state.directory.forEach((group) => {
+            const selectedIds = state.workingAssignments.get(group.department) || new Set();
+            group.card.querySelector(".notification-dept-count")?.replaceChildren(`${selectedIds.size}명`);
+            group.staff.forEach((person) => {
+                const selected = selectedIds.has(person.id);
+                person.button.classList.toggle("selected", selected);
+                person.button.setAttribute("aria-pressed", String(selected));
+                person.button.querySelector(".notification-assignee-meta")?.replaceChildren(`${group.department}${selected ? " · 실국담당자" : ""}`);
+                person.button.querySelector(".notification-check")?.replaceChildren(selected ? "✓" : "");
+            });
+        });
+    }
+
+    function syncWorkspaceNotificationNavigation(panel) {
+        const state = after9Workspace.state.notificationAssignee;
+        const allSelected = state.selectedOrganization === "all";
+        const allButton = panel.querySelector('[data-notification-organization="all"]');
+        allButton?.classList.toggle("selected", allSelected);
+        allButton?.setAttribute("aria-pressed", String(allSelected));
+
+        panel.querySelectorAll("[data-notification-tree-org]").forEach((button) => {
+            const organization = button.dataset.notificationTreeOrg;
+            const selected = state.selectedOrganization === `org:${organization}`;
+            const expanded = state.expandedOrganizations.has(organization);
+            button.classList.toggle("selected", selected);
+            button.setAttribute("aria-pressed", String(selected));
+            button.setAttribute("aria-expanded", String(expanded));
+            const group = button.closest(".notification-tree-group");
+            group?.classList.toggle("expanded", expanded);
+            group?.querySelector(".notification-tree-children")?.classList.toggle("hidden", !expanded);
+        });
+
+        panel.querySelectorAll("[data-notification-tree-dept]").forEach((button) => {
+            const selected = state.selectedOrganization === `dept:${button.dataset.notificationTreeDept}`;
+            button.classList.toggle("selected", selected);
+            button.setAttribute("aria-pressed", String(selected));
+        });
+    }
+
+    function applyWorkspaceNotificationFilters(panel) {
+        const state = after9Workspace.state.notificationAssignee;
+        const searchTerm = state.searchTerm.trim().toLocaleLowerCase("ko-KR");
+        let visibleCount = 0;
+
+        state.directory.forEach((group) => {
+            const organizationMatched =
+                state.selectedOrganization === "all" ||
+                state.selectedOrganization === `org:${group.organization}` ||
+                state.selectedOrganization === `dept:${group.department}`;
+            const visible = organizationMatched && (!searchTerm || group.searchText.includes(searchTerm));
+            group.card.hidden = !visible;
+            if (visible) visibleCount += 1;
+        });
+
+        const organizationLabel = state.selectedOrganization === "all" ? "전체 조직" : state.selectedOrganization.slice(state.selectedOrganization.indexOf(":") + 1);
+        panel.querySelector("[data-notification-dept-result]")?.replaceChildren(`${organizationLabel} · ${visibleCount}개 조직`);
+        const searchClear = panel.querySelector("[data-notification-search-clear]");
+        if (searchClear) searchClear.hidden = !state.searchTerm;
+        const empty = panel.querySelector("[data-notification-dept-empty]");
+        if (empty) empty.hidden = visibleCount > 0;
+        syncWorkspaceNotificationNavigation(panel);
+    }
+
+    function updateWorkspaceNotificationTriggerState(layer) {
+        const state = after9Workspace.state.notificationAssignee;
+        const configuredCount = state.directory.filter((group) => (state.savedAssignments.get(group.department) || new Set()).size > 0).length;
+        document.querySelectorAll("[data-modal-open]").forEach((button) => {
+            if (button.dataset.modalOpen !== layer.id) return;
+            button.classList.toggle("has-assignee", configuredCount > 0);
+            button.title = "실국별 알림 담당자 설정";
+        });
+    }
+
+    function resetWorkspaceNotificationAssignee(panel, layer) {
+        const state = after9Workspace.state.notificationAssignee;
+        state.workingAssignments = cloneWorkspaceNotificationAssignments(state.savedAssignments);
+        state.selectedOrganization = "all";
+        state.searchTerm = "";
+        state.expandedOrganizations.clear();
+        if (state.directory[0]?.organization) state.expandedOrganizations.add(state.directory[0].organization);
+        const search = panel.querySelector("[data-notification-dept-search]");
+        if (search) search.value = "";
+        setWorkspaceNotificationFeedback(panel);
+        syncWorkspaceNotificationAssigneeCards();
+        applyWorkspaceNotificationFilters(panel);
+        updateWorkspaceNotificationTriggerState(layer);
+    }
+
+    function initWorkspaceNotificationAssignee(root = document) {
+        const panels = [];
+        if (root.matches?.("[data-notification-assignee]")) panels.push(root);
+        panels.push(...(root.querySelectorAll?.("[data-notification-assignee]") || []));
+
+        panels.forEach((panel) => {
+            if (panel.dataset.notificationAssigneeReady === "true") return;
+            const layer = panel.closest("[data-modal]");
+            const orgList = panel.querySelector("[data-notification-org-list]");
+            const grid = panel.querySelector("[data-notification-dept-grid]");
+            const search = panel.querySelector("[data-notification-dept-search]");
+            const searchClear = panel.querySelector("[data-notification-search-clear]");
+            if (!layer || !orgList || !grid || !search || !searchClear) return;
+
+            const state = after9Workspace.state.notificationAssignee;
+            state.directory = readAuthoredWorkspaceNotificationDirectory(panel);
+            state.savedAssignments = loadWorkspaceNotificationAssignments(state.directory);
+            state.workingAssignments = cloneWorkspaceNotificationAssignments(state.savedAssignments);
+
+            orgList.addEventListener("click", (event) => {
+                const allButton = event.target.closest('[data-notification-organization="all"]');
+                if (allButton) {
+                    state.selectedOrganization = "all";
+                    setWorkspaceNotificationFeedback(panel);
+                    applyWorkspaceNotificationFilters(panel);
+                    return;
+                }
+
+                const organizationButton = event.target.closest("[data-notification-tree-org]");
+                if (organizationButton) {
+                    const organization = organizationButton.dataset.notificationTreeOrg;
+                    if (state.expandedOrganizations.has(organization)) state.expandedOrganizations.delete(organization);
+                    else state.expandedOrganizations.add(organization);
+                    state.selectedOrganization = `org:${organization}`;
+                    setWorkspaceNotificationFeedback(panel);
+                    applyWorkspaceNotificationFilters(panel);
+                    return;
+                }
+
+                const departmentButton = event.target.closest("[data-notification-tree-dept]");
+                if (!departmentButton) return;
+                state.selectedOrganization = `dept:${departmentButton.dataset.notificationTreeDept}`;
+                setWorkspaceNotificationFeedback(panel);
+                applyWorkspaceNotificationFilters(panel);
+            });
+
+            grid.addEventListener("click", (event) => {
+                const personButton = event.target.closest("[data-notification-person-id]");
+                const card = personButton?.closest("[data-notification-department]");
+                if (!personButton || !card) return;
+                const department = card.dataset.notificationDepartment;
+                const selectedIds = state.workingAssignments.get(department) || new Set();
+                const personId = personButton.dataset.notificationPersonId;
+                if (selectedIds.has(personId)) selectedIds.delete(personId);
+                else selectedIds.add(personId);
+                state.workingAssignments.set(department, selectedIds);
+                setWorkspaceNotificationFeedback(panel, `${department} 담당자 ${selectedIds.size}명이 지정되었습니다.`, "success");
+                syncWorkspaceNotificationAssigneeCards();
+            });
+
+            search.addEventListener("input", () => {
+                state.searchTerm = search.value;
+                applyWorkspaceNotificationFilters(panel);
+            });
+
+            searchClear.addEventListener("click", () => {
+                state.searchTerm = "";
+                search.value = "";
+                search.focus();
+                applyWorkspaceNotificationFilters(panel);
+            });
+
+            panel.querySelector("[data-notification-save]")?.addEventListener("click", () => {
+                state.savedAssignments = cloneWorkspaceNotificationAssignments(state.workingAssignments);
+                persistWorkspaceNotificationAssignments();
+                updateWorkspaceNotificationTriggerState(layer);
+                const assigneeCount = state.directory.reduce((count, group) => count + (state.savedAssignments.get(group.department) || new Set()).size, 0);
+                panel.dispatchEvent(
+                    new CustomEvent("notification-assignee:save", {
+                        bubbles: true,
+                        detail: {
+                            departmentCount: state.directory.length,
+                            assigneeCount,
+                            assignments: getWorkspaceNotificationAssignmentsSnapshot(),
+                        },
+                    }),
+                );
+            });
+
+            layer.addEventListener("modal:open", () => resetWorkspaceNotificationAssignee(panel, layer));
+            panel.dataset.notificationAssigneeReady = "true";
+            resetWorkspaceNotificationAssignee(panel, layer);
+        });
+    }
+
     // 워크스페이스 알림 부서 분리
     function splitWorkspaceNotificationDepartments(value) {
         return String(value || "")
@@ -417,8 +725,8 @@
 
     // 워크스페이스 알림 수신자 조회
     function getWorkspaceNotificationRecipients(department) {
-        const configuredRecipients = window.AIOneNotificationAssignee?.getRecipients(department);
-        if (Array.isArray(configuredRecipients)) return configuredRecipients;
+        const configuredRecipients = getSavedWorkspaceNotificationRecipients(department);
+        if (configuredRecipients) return configuredRecipients;
 
         const authoredDepartment = Array.from(document.querySelectorAll("[data-notification-department]")).find((item) => item.dataset.notificationDepartment === department);
         const authoredRecipients = Array.from(authoredDepartment?.querySelectorAll('.notification-dept-staff[aria-pressed="true"] .notification-assignee-name') || [], (item) => item.textContent.trim()).filter(Boolean);
@@ -536,6 +844,7 @@
         window.AIOneSidebar?.configure(sidebar, {
             activePage: "intake",
             initialCollapsed: false,
+            responsiveRailQuery: "(max-width: 1280px)",
         });
 
         sidebar.querySelectorAll(".nav-link").forEach((link) => {
@@ -655,33 +964,6 @@
         activeWorkspaceRunId = Number(getRunItems().find((item) => item.classList.contains("is-active"))?.dataset.workspaceRunId) || workspaceRunListItems[0]?.id || null;
         const authoredRunItems = new Map(getRunItems().map((item) => [Number(item.dataset.workspaceRunId), item]));
 
-        // 실행 항목 생성
-        const createRunItem = (run) => {
-            const authoredItem = authoredRunItems.get(run.id);
-            if (authoredItem) return authoredItem;
-            const isPending = run.status === "pending";
-            const item = cloneWorkspacePrototype("workspaceRunItemPrototype");
-            if (!item) return null;
-            const state = item.querySelector(".sidepop-run-state");
-            const main = item.querySelector(".sidepop-run-main");
-
-            item.classList.toggle("is-active", run.id === activeWorkspaceRunId);
-            item.classList.toggle("is-pinned", Boolean(run.pinned));
-            item.dataset.workspaceRunId = String(run.id);
-            item.dataset.pinned = String(Boolean(run.pinned));
-            state.classList.toggle("pending", isPending);
-            state.setAttribute("aria-label", isPending ? "진행 중" : "완료");
-            main.querySelector(".sidepop-run-title").textContent = run.title;
-            main.querySelector("[data-run-date]").textContent = `${run.date} ${run.time}`;
-            const status = main.querySelector(".sidepop-run-status");
-            status.classList.toggle("pending", isPending);
-            status.textContent = isPending ? "진행중" : "완료";
-            main.querySelector("[data-run-file-count]").textContent = `파일 ${run.fileCount}건`;
-            main.querySelector("[data-run-member-count]").textContent = `의원 ${run.memberCount}명`;
-            main.querySelector("[data-run-query-count]").textContent = `질의 ${run.queryCount}건`;
-            return item;
-        };
-
         // 실행 선택
         const selectRun = (selectedItem, { focus = false, notify = false } = {}) => {
             const items = getRunItems();
@@ -728,7 +1010,7 @@
                 return;
             }
 
-            list.replaceChildren(...visibleRuns.map(createRunItem).filter(Boolean));
+            list.replaceChildren(...visibleRuns.map((run) => authoredRunItems.get(run.id)).filter(Boolean));
             window.AIOneSidePop?.initListActionMenus(list);
             const activeItem = getRunItems().find((item) => Number(item.dataset.workspaceRunId) === activeWorkspaceRunId);
             if (activeItem) selectRun(activeItem);
@@ -771,11 +1053,101 @@
         });
     }
 
-    /* ============================ 끝: 알림 라우팅과 공통 레이아웃 ============================== */
+    /* ============================ 끝: 9월 이후 알림 담당자와 라우팅 ============================== */
 
     /* ============================ 시작: 파일 업로드와 목록 ============================ */
 
     // 파일 업로드 기능 초기화
+    // 질의 분석 결과 패널의 스켈레톤을 제거합니다.
+    function hideWorkspaceSkeleton() {
+        document.querySelectorAll(".workspace-api-skeleton").forEach((overlay) => overlay.remove());
+        document.querySelectorAll('[data-workspace-skeleton-busy="true"]').forEach((panel) => {
+            panel.removeAttribute("aria-busy");
+            delete panel.dataset.workspaceSkeletonBusy;
+        });
+    }
+
+    // 진행 중인 스켈레톤 작업을 취소하고 화면을 원래 상태로 복원합니다.
+    function cancelWorkspaceSkeleton() {
+        if (workspaceSkeletonTimer !== null) {
+            window.clearTimeout(workspaceSkeletonTimer);
+            workspaceSkeletonTimer = null;
+        }
+        hideWorkspaceSkeleton();
+    }
+
+    // 질의 원문·분류 결과 패널에 페이지 전용 스켈레톤을 표시합니다.
+    function showWorkspaceSkeleton(message = "문서를 분석하고 있습니다...") {
+        cancelWorkspaceSkeleton();
+
+        const comparisonPanel = document.querySelector(".comparison-panel-host .panel-component");
+        const questionPanel = document.querySelector(".question-panel-host .panel-component");
+
+        if (comparisonPanel) {
+            const overlay = document.createElement("div");
+            overlay.className = "api-skeleton-overlay workspace-api-skeleton";
+            overlay.setAttribute("role", "status");
+            overlay.setAttribute("aria-live", "polite");
+            overlay.innerHTML = `
+                <div class="skeleton-loading-label"></div>
+                <div class="workspace-skeleton-grid">
+                    <div class="workspace-skeleton-column">
+                        <div class="ai-skeleton skeleton-line md"></div>
+                        <div class="ai-skeleton workspace-skeleton-document"></div>
+                    </div>
+                    <div class="workspace-skeleton-column">
+                        <div class="ai-skeleton skeleton-line sm"></div>
+                        ${Array.from(
+                            { length: 4 },
+                            () => `
+                                <div class="skeleton-card">
+                                    <div class="ai-skeleton skeleton-line lg"></div>
+                                    <div class="ai-skeleton skeleton-line full"></div>
+                                    <div class="ai-skeleton skeleton-line md"></div>
+                                </div>`,
+                        ).join("")}
+                    </div>
+                </div>`;
+            overlay.querySelector(".skeleton-loading-label").textContent = message;
+            comparisonPanel.dataset.workspaceSkeletonBusy = "true";
+            comparisonPanel.setAttribute("aria-busy", "true");
+            comparisonPanel.append(overlay);
+        }
+
+        if (questionPanel) {
+            const overlay = document.createElement("div");
+            overlay.className = "api-skeleton-overlay workspace-api-skeleton";
+            overlay.setAttribute("role", "status");
+            overlay.setAttribute("aria-live", "polite");
+            overlay.innerHTML = `
+                <div class="skeleton-loading-label">분류 결과를 불러오고 있습니다...</div>
+                ${Array.from(
+                    { length: 4 },
+                    () => `
+                        <div class="skeleton-card">
+                            <div class="skeleton-card-row">
+                                <div class="ai-skeleton skeleton-circle"></div>
+                                <div class="ai-skeleton skeleton-line lg"></div>
+                            </div>
+                            <div class="ai-skeleton skeleton-line full"></div>
+                            <div class="ai-skeleton skeleton-line md"></div>
+                        </div>`,
+                ).join("")}`;
+            questionPanel.dataset.workspaceSkeletonBusy = "true";
+            questionPanel.setAttribute("aria-busy", "true");
+            questionPanel.append(overlay);
+        }
+    }
+
+    // 프로토타입 분석 지연이 끝나면 스켈레톤을 닫고 완료 동작을 실행합니다.
+    function finishWorkspaceSkeleton(delay, onComplete) {
+        workspaceSkeletonTimer = window.setTimeout(() => {
+            workspaceSkeletonTimer = null;
+            hideWorkspaceSkeleton();
+            onComplete?.();
+        }, delay);
+    }
+
     function initFileUpload(host) {
         const zone = host.querySelector("[data-file-upload-zone]");
         if (!zone || zone.dataset.workspaceReady === "true") return;
@@ -793,8 +1165,10 @@
                     emptyState.hidden = true;
                 });
                 syncUploadSummary();
+                showWorkspaceSkeleton("OCR·파싱 및 질의 분류 결과를 불러오고 있습니다...");
+                finishWorkspaceSkeleton(1500, () => showToast("AI 분석 및 추천실국 분류가 완료되었습니다."));
             }
-            if (count) showToast(`${count}개 파일을 업로드 목록에 추가했습니다.`);
+            if (count) showToast(`${count}개 파일이 업로드되었습니다. AI 분석을 시작합니다.`);
         });
     }
 
@@ -1322,9 +1696,25 @@
         return new Map(getPanelSlots(container).map((panel) => [panel, Math.round(panel.getBoundingClientRect().width)]));
     }
 
+    // 펼쳐진 패널별 최소 너비 조회
+    function getExpandedPanelMinimum(panel) {
+        return panelMinWidths[panel?.dataset.slot] || panelMinWidth;
+    }
+
+    // 패널별 최소 너비 조회
+    function getPanelMinimum(panel) {
+        if (panel?.classList.contains("panel-collapsed")) return 44;
+        return getExpandedPanelMinimum(panel);
+    }
+
     // 패널 Columns 생성
     function createPanelColumns(panels, widths) {
-        return panels.flatMap((panel, index) => (index < panels.length - 1 ? [`${Math.round(widths.get(panel))}px`, `${panelHandleWidth}px`] : [`${Math.round(widths.get(panel))}px`])).join(" ");
+        return panels
+            .flatMap((panel, index) => {
+                const track = panel.dataset.slot === "center" ? "minmax(0, 1fr)" : `${Math.round(widths.get(panel))}px`;
+                return index < panels.length - 1 ? [track, `${panelHandleWidth}px`] : [track];
+            })
+            .join(" ");
     }
 
     // 패널 Handle Aria 동기화
@@ -1338,9 +1728,10 @@
 
             const leftWidth = Math.round(leftPanel.getBoundingClientRect().width);
             const adjacentWidth = leftWidth + Math.round(rightPanel.getBoundingClientRect().width);
-            const minimum = Math.min(panelMinWidth, Math.floor(adjacentWidth / 2));
-            handle.setAttribute("aria-valuemin", String(minimum));
-            handle.setAttribute("aria-valuemax", String(Math.max(minimum, adjacentWidth - minimum)));
+            const leftMinimum = Math.min(getPanelMinimum(leftPanel), Math.floor(adjacentWidth / 2));
+            const rightMinimum = Math.min(getPanelMinimum(rightPanel), Math.floor(adjacentWidth / 2));
+            handle.setAttribute("aria-valuemin", String(leftMinimum));
+            handle.setAttribute("aria-valuemax", String(Math.max(leftMinimum, adjacentWidth - rightMinimum)));
             handle.setAttribute("aria-valuenow", String(leftWidth));
         });
     }
@@ -1381,13 +1772,17 @@
 
         if (isCollapsed) {
             panel.dataset.panelExpandedWidth = String(currentWidth);
-        } else {
-            panel.querySelector(".panel-component")?.classList.remove("panel-collapsed");
-            panel.classList.remove("panel-collapsed");
         }
 
         const expandedWidth = Number(panel.dataset.panelExpandedWidth);
-        const nextWidth = isCollapsed ? 44 : Number.isFinite(expandedWidth) ? expandedWidth : currentWidth;
+        const shouldOpenAtMinimum = !isCollapsed && window.matchMedia("(min-width: 1025px)").matches;
+        const nextWidth = isCollapsed
+            ? 44
+            : shouldOpenAtMinimum
+              ? getExpandedPanelMinimum(panel)
+              : Number.isFinite(expandedWidth)
+                ? expandedWidth
+                : currentWidth;
         const flexiblePanel = panels.find((item) => item !== panel && item.dataset.slot === "center");
         const widthDifference = currentWidth - nextWidth;
         widths.set(panel, nextWidth);
@@ -1398,8 +1793,8 @@
             if (nextFlexibleWidth >= panelMinWidth) widths.set(flexiblePanel, nextFlexibleWidth);
         }
 
-        applyPanelWidths(container, widths);
         syncPanelCollapsedState(panel, isCollapsed);
+        applyPanelWidths(container, widths);
         if (!isCollapsed) delete panel.dataset.panelExpandedWidth;
     }
 
@@ -1651,12 +2046,14 @@
         panels.forEach((panel, index) => {
             panel.dataset.panelSlot = panel.dataset.slot || `panel-${index}`;
             panel.dataset.panelInitialIndex = String(index);
+            panel.dataset.panelMin = String(panelMinWidths[panel.dataset.slot] || panelMinWidth);
         });
         panelStates.set(container, { initialOrder: panels.slice() });
         container.dataset.workspacePanelsReady = "true";
         bindPanelCollapse(container);
         bindPanelDragDrop(container);
         bindPanelHeaderSwitch(container);
+        window.AIOneSplitHandler?.init(container);
         syncPanelHandleAria(container);
     }
 
@@ -2081,6 +2478,7 @@
     function startNewQuestionClassification() {
         pendingDeleteFileItem = null;
         pendingRenameFileItem = null;
+        cancelWorkspaceSkeleton();
         setWorkspaceEmptyState(true);
         showToast("새 질의분류를 시작합니다. 파일과 질의 분류 결과가 초기화되었습니다.");
     }
@@ -2282,7 +2680,9 @@
         if (reclassifyConfirmButton) {
             after9Workspace.state.confirmedQuestions = [];
             setQuestionConfirmationState(false);
-            showToast("AI 재분류를 실행했습니다.");
+            showWorkspaceSkeleton("AI가 질의와 실국 정보를 다시 분류하고 있습니다...");
+            showToast("AI 재분류를 실행 중입니다.");
+            finishWorkspaceSkeleton(1100, () => showToast("AI 재분류가 완료되었습니다."));
             return;
         }
         //질의확정  토스트
@@ -2343,6 +2743,12 @@
             return;
         }
 
+        const copyButton = event.target.closest("[data-copy-target]");
+        if (copyButton) {
+            copyResult(copyButton.dataset.copyTarget);
+            return;
+        }
+
         const moveButton = event.target.closest("[data-question-move]");
         if (moveButton && !moveButton.disabled) {
             moveQuestion(Number(moveButton.dataset.questionMove));
@@ -2399,6 +2805,7 @@
     // 완료 답변 화면 기능 초기화
     function initAfter9WorkspaceFeatures(root = document) {
         initWorkspaceRuleSettings(root);
+        initWorkspaceNotificationAssignee(root);
 
         root.querySelector?.("[data-accessory-tools]")?.addEventListener("topbar:accessory-action", handleAccessoryAction);
     }

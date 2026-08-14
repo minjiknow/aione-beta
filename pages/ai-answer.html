@@ -426,7 +426,8 @@
 				-->
 				<main class="three-panel left-small right-large" data-component="three-panel">
 					<!-----------------------Start: 참조 소스 업로드 영역 -------------------------->
-					<section class="three-panel-slot three-panel-side small" data-slot="left">
+					<section class="three-panel-slot three-panel-side small upload-panel-host" data-slot="left"
+						data-panel-min="280">
 						<!-- Start: 참조소스 패널 -->
 						<div class="panel panel-component panel-folder answer-source-panel split-handler type2"
 							data-component="split-handler" data-split-min="80" data-panel="folder"
@@ -490,7 +491,8 @@
 									<img src="../assets/icons/plus.svg" alt="" aria-hidden="true" />
 								</button>
 								<!-- Start: 업로드한 파일 리스트 사례 -->
-								<ul class="file-list simple answer-source-files" aria-live="polite">
+								<ul class="file-list simple answer-source-files upload-panel-scroll-list"
+									aria-live="polite">
 									<li class="file-item-simple">
 										<span class="file-type-dot hwp" aria-hidden="true"></span>
 										<span class="file-icon file-icon-collapsed hwp" aria-hidden="true">HWP</span>
@@ -986,7 +988,7 @@
 														<h3>지방교부세가 지급되고 있고 지방채 인수시 지자체 채무는 증가함에도 추경을 편성해야 하는 이유는?</h3>
 													</div>
 													<div class="answer-summary-block">
-													<p class="answer-summary-line is-caution"
+														<p class="answer-summary-line is-caution"
 															data-answer-evidence-refs="3,4">□ 지방자치단체의 특정 자본적 지출 사업 수행을
 															위해
 															공공자금관리기금이 지방채를 장기 저리로 인수하여 지방재정을 지원하기 때문입니다.
@@ -1743,7 +1745,12 @@
 		<div id="commonAnswerPendingMessagePrototype" class="chat-msg ai is-pending chat-typing" data-dom-prototype
 			hidden data-component="chat-message" data-variant="answer" data-role="ai" data-status="pending"
 			aria-busy="true">
-			<div class="typing-avatar" aria-hidden="true"><img src="../assets/icons/ai-answer-sparkles.svg" alt="" />
+			<div class="typing-avatar" aria-hidden="true">
+				<svg viewBox="0 0 24 24">
+					<path d="M12 2L2 7l10 5 10-5-10-5z" />
+					<path d="M2 17l10 5 10-5" />
+					<path d="M2 12l10 5 10-5" />
+				</svg>
 			</div>
 			<div class="typing-content" role="status">
 				<div class="typing-text-wrap"><span class="typing-title"></span><span class="typing-desc"></span></div>
@@ -1770,10 +1777,10 @@
 	</div>
 	<div id="commonMessageActionsPrototype" class="msg-actions" data-dom-prototype hidden>
 		<button type="button" class="icon-button icon-button-ghost icon-button-message msg-action-btn"
-			data-action="like" aria-label="좋아요" title="좋아요" aria-pressed="false"><img class="icon icon-small"
+			data-action="like" aria-label="좋아요" title="좋아요" aria-pressed="false"><img class="icon icon-small" data-icon="thumbs-up"
 				src="../assets/icons/thumbs-up.svg" alt="" /></button>
 		<button type="button" class="icon-button icon-button-ghost icon-button-message msg-action-btn"
-			data-action="dislike" aria-label="싫어요" title="싫어요" aria-pressed="false"><img class="icon icon-small"
+			data-action="dislike" aria-label="싫어요" title="싫어요" aria-pressed="false"><img class="icon icon-small" data-icon="thumbs-down"
 				src="../assets/icons/thumbs-down.svg" alt="" /></button>
 		<button type="button" class="icon-button icon-button-ghost icon-button-message msg-action-btn"
 			data-action="retry" aria-label="다시 생성" title="다시 생성"><img class="icon icon-small"
@@ -1813,9 +1820,14 @@
 			aria-label="알림 닫기">×</button>
 	</div>
 	<div id="aiOneTooltip" class="ai-one-tooltip" role="tooltip" hidden></div>
-	<div id="userProfileHoverTooltip" class="user-profile-hover-tooltip hidden" role="tooltip"><strong>담당자
-			기본정보</strong><span data-profile-name></span><span data-profile-department></span><em data-profile-role></em>
+	<!-- Start: 아바타 버튼 호버 시 나오는 사용자 툴팁 -->
+	<div id="userProfileHoverTooltip" class="user-profile-hover-tooltip hidden" role="tooltip">
+		<strong>담당자 기본정보</strong>
+		<span data-profile-name>박재정 주무관</span>
+		<span data-profile-department>재정분석과</span>
+		<em data-profile-role>국회담당자</em>
 	</div>
+	<!-- //End: 아바타 버튼 호버 시 나오는 사용자 툴팁 -->
 	<script src="../js/common.js"></script>
 	<script src="../js/ai-answer.js"></script>
 </body>
