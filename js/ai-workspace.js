@@ -850,7 +850,7 @@
         sidebar.dataset.workspaceReady = "true";
         window.AIOneSidebar?.configure(sidebar, {
             activePage: "intake",
-            initialCollapsed: false,
+            initialCollapsed: true,
             responsiveRailQuery: "(max-width: 1280px)",
         });
 
