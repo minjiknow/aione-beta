@@ -8,7 +8,9 @@
 .upload-zone.compact {
     margin: 10px 12px 8px;
 }
-
+.sidepop-run-item {
+    background: var(--bg, #f6f8fa);
+}
 /* ==================== Start: Workspace loading skeleton ==================== */
 
 .comparison-panel-host .panel-component,
@@ -1861,6 +1863,31 @@ html[data-theme="dark"] .orig-form-info-label {
 /* ==================== End: 질의요지서 원문 및 추출 결과 ==================== */
 
 /* ==================== Start: 9월 이후 워크스페이스 기능 ==================== */
+
+/* ==================== Start: 질의 제외 필터 상태 ==================== */
+
+.question-workspace-page .filter-btn-excluded {
+    --filter-color: var(--red, #cf222e);
+    --filter-bg: color-mix(in srgb, var(--red, #cf222e) 6%, var(--surface, #fff));
+}
+
+.question-workspace-page .filter-btn-excluded:not(.active, [aria-pressed="true"]) .filter-count {
+    background: var(--surface-elevated, #f0f3f6);
+    color: var(--text-muted, #8b949e);
+}
+
+.question-workspace-page .filter-btn-excluded:is(.active, [aria-pressed="true"]) {
+    border-color: color-mix(in srgb, var(--red, #cf222e) 35%, var(--border, #d1d9e0));
+    background: var(--filter-bg);
+    color: var(--red, #cf222e);
+}
+
+.question-workspace-page .filter-btn-excluded:is(.active, [aria-pressed="true"]) .filter-count {
+    background: color-mix(in srgb, var(--red, #cf222e) 12%, var(--surface, #fff));
+    color: var(--red, #cf222e);
+}
+
+/* ==================== End: 질의 제외 필터 상태 ==================== */
 
 /* ==================== Start: 실국별 알림 담당자 설정 ==================== */
 

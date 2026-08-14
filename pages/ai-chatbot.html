@@ -40,7 +40,7 @@
 					</a>
 				</div>
 				<div class="nav-group">
-					<button class="nav-link active" id="newChatLink" type="button">
+					<button class="nav-link active" id="newChatLink" type="button" data-page="chatbot">
 						<img class="icon icon-text" data-icon="add-circle" alt="" aria-hidden="true" /><span
 							class="nav-text">새 채팅</span>
 					</button>
@@ -186,6 +186,7 @@
 								</dl>
 							</div>
 							<div class="custom-modal-actions account-modal-actions">
+								<button type="button" class="btn-cancel" data-modal-close hidden>취소</button>
 								<button type="button" class="btn-confirm" data-modal-close>확인</button>
 							</div>
 						</div>
@@ -887,7 +888,8 @@
 			</div>
 			<!-- //End: 채팅 시작 화면 및 중앙 입력창 -->
 			<!-- Start: 채팅 메시지 목록 -->
-			<div class="chat-messages" id="chatMessages"></div>
+			<div class="chat-messages" id="chatMessages" data-chat-message-list data-variant="chatbot"
+				aria-live="polite"></div>
 			<!-- //End: 채팅 메시지 목록 -->
 		</div>
 		<!-- //End: 채팅 대화 영역 -->
@@ -970,8 +972,8 @@
 	<!---------------------------------------- //End: 챗봇 메인 영역 ---------------------------------------->
 
 	<!---------------------------------------- Start: 오류 신고 사이드 패널 ---------------------------------------->
-	<div class="drawer-backdrop hidden" id="reportDrawerBackdrop"></div>
-	<aside class="report-drawer hidden" id="reportDrawer" aria-label="오류 신고">
+	<div class="drawer-backdrop hidden" id="reportDrawerBackdrop" hidden></div>
+	<aside class="report-drawer hidden" id="reportDrawer" aria-label="오류 신고" hidden>
 		<div class="drawer-header">
 			<div>
 				<h3 class="drawer-title">오류 신고</h3>
@@ -1058,7 +1060,7 @@
 				<path d="M2 12l10 5 10-5" />
 			</svg></div>
 		<div class="msg-content chatbot-message-copy" data-chat-message-text></div>
-		<div class="msg-actions">
+		<div class="msg-actions hidden">
 			<button type="button" class="msg-action-btn" data-action="like" aria-label="좋아요" aria-pressed="false"
 				title="좋아요"><svg viewBox="0 0 24 24" width="14" height="14">
 					<path
@@ -1086,7 +1088,7 @@
 				</svg></button>
 			<div class="msg-more-wrap">
 				<button type="button" class="msg-action-btn msg-more-btn" aria-label="더보기">···</button>
-				<div class="msg-more-menu hidden">
+				<div class="msg-more-menu hidden" hidden>
 					<button type="button" class="msg-more-item" data-action="branch"><svg viewBox="0 0 24 24" width="16"
 							height="16">
 							<path d="M6 3v12" />
@@ -1129,7 +1131,7 @@
 		</div>
 	</div>
 	<!---------------------------------------- //End: 실행 시 추가 항목 HTML 원형 ---------------------------------------->
-	<div id="commonMessageActionsPrototype" class="msg-actions" data-dom-prototype hidden>
+	<div id="commonMessageActionsPrototype" class="msg-actions hidden" data-dom-prototype hidden>
 		<button type="button" class="icon-button icon-button-ghost icon-button-message msg-action-btn"
 			data-action="like" aria-label="좋아요" title="좋아요" aria-pressed="false"><img class="icon icon-small" data-icon="thumbs-up"
 				src="../assets/icons/thumbs-up.svg" alt="" /></button>

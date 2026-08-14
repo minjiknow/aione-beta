@@ -1746,15 +1746,14 @@
                     const msgs = chatConversations[activeChatTopic] || [];
                     const messageElements = msgs
                         .map((m, i) => {
-                            const isTyping = m.role === "ai" && m.typing;
+                            const isTyping = m.role === "ai" && m.typing === true;
                             const templateId = m.role === "ai" ? "afterChatAiMessagePrototype" : "afterChatUserMessagePrototype";
                             const message = cloneAfterPrototype(templateId);
                             if (!message) return null;
                             message.classList.toggle("is-typing", isTyping);
-                            message.dataset.status = isTyping ? "pending" : "complete";
+                            message.dataset.status = "complete";
                             if (m.role === "ai" && i === 0) message.dataset.messageActions = "none";
-                            if (isTyping) message.setAttribute("aria-busy", "true");
-                            message.querySelector(".msg-text").textContent = isTyping ? "" : m.text;
+                            message.querySelector(".msg-text").textContent = m.text;
                             const time = message.querySelector(".msg-time");
                             time.hidden = !m.time;
                             time.textContent = m.time || "";
@@ -1769,22 +1768,15 @@
                     if (typingMsg) {
                         const wraps = el.querySelectorAll(".chat-msg.ai.is-typing");
                         const wrap = wraps[wraps.length - 1];
-                        const target = wrap && wrap.querySelector(".msg-text");
-                        if (target) {
-                            typeWriterEffect(
-                                target,
-                                typingMsg.text,
-                                () => {
-                                    typingMsg.typing = false;
-                                    if (wrap) {
-                                        wrap.classList.remove("is-typing");
-                                        wrap.dataset.status = "complete";
-                                        wrap.removeAttribute("aria-busy");
-                                    }
+                        if (wrap) {
+                            typingMsg.typing = false;
+                            window.ChatMessage?.typewrite(wrap, {
+                                text: typingMsg.text,
+                                scrollContainer: el,
+                                onComplete: () => {
                                     el.scrollTop = el.scrollHeight;
                                 },
-                                el,
-                            );
+                            });
                         }
                     }
                 }
@@ -1817,37 +1809,6 @@
                     syncChatListSelection(sidepop);
                     renderChatMessages();
                     showToast(`'${chatTopics[topicIndex].title}' 채팅으로 전환했습니다.`);
-                }
-
-                // 텍스트를 일정 시간 동안 점진적으로 노출시켜 타이핑 효과를 구현
-                // 채팅 메시지 타이핑 효과 실행
-                function typeWriterEffect(target, fullText, onDone, scrollEl) {
-                    const total = fullText.length;
-                    if (total === 0) {
-                        target.replaceChildren();
-                        onDone && onDone();
-                        return;
-                    }
-                    const duration = Math.min(2400, Math.max(400, total * 10));
-                    const start = performance.now();
-                    // 비동기 처리 다음 단계 실행
-                    function step(now) {
-                        const elapsed = now - start;
-                        const progress = Math.min(1, elapsed / duration);
-                        const len = Math.floor(total * progress);
-                        const isDone = progress >= 1;
-                        target.textContent = fullText.slice(0, len);
-                        target.classList.toggle("has-typing-cursor", !isDone);
-                        if (scrollEl) scrollEl.scrollTop = scrollEl.scrollHeight;
-                        if (!isDone) {
-                            requestAnimationFrame(step);
-                        } else {
-                            target.textContent = fullText;
-                            target.classList.remove("has-typing-cursor");
-                            onDone && onDone();
-                        }
-                    }
-                    requestAnimationFrame(step);
                 }
 
                 // 탭 전환
@@ -2880,6 +2841,8 @@
                             activeDraftVersion = draftVersions.length - 1;
                             draftCompareRightVersion = activeDraftVersion;
                             draftCompareLeftVersion = Math.max(0, activeDraftVersion - 1);
+                            openDraftVersionTab(activeDraftVersion);
+                            renderDocTabs();
                             // 초안 탭에 있으면 버전 선택 상자를 갱신합니다.
                             const vSelect = $("#versionSelect");
                             if (vSelect) {
@@ -3616,10 +3579,11 @@
                         .map((tab) => {
                             const version = draftVersions[tab.versionIdx];
                             const label = version ? formatDraftVersionTab(version) : tab.label;
-                            return `<button class="draft-doc-tab${tab.id === activeDocTab ? " active" : ""}" data-dtab="${tab.id}" type="button" title="${label}">
-        <span class="draft-doc-tab-label">${label}</span>
-        <span class="draft-doc-tab-close" data-dtab-close="${tab.id}" role="button" aria-label="${label} 탭 닫기">×</span>
-      </button>`;
+                            const safeLabel = escapeHtml(label);
+                            return `<div class="draft-doc-tab${tab.id === activeDocTab ? " active" : ""}" data-dtab="${tab.id}" title="${safeLabel}">
+        <button class="draft-doc-tab-open" data-dtab-open="${tab.id}" type="button" aria-label="${safeLabel} 버전 열기"><span class="draft-doc-tab-label">${safeLabel}</span></button>
+        <button class="draft-doc-tab-close" data-dtab-close="${tab.id}" type="button" aria-label="${safeLabel} 탭 닫기">×</button>
+      </div>`;
                         })
                         .join("");
 
@@ -3633,24 +3597,13 @@
                 // 문서 탭 이벤트 연결
                 function bindDocTabEvents() {
                     const container = $("#draftDocTabs");
-                    if (!container) return;
+                    if (!container || container.dataset.draftTabEventsBound === "true") return;
+                    container.dataset.draftTabEventsBound = "true";
 
-                    $$(".draft-doc-tab", container).forEach((tab) => {
-                        tab.addEventListener("click", (event) => {
-                            if (event.target.closest(".draft-doc-tab-close")) return;
-                            const tabId = Number.parseInt(tab.dataset.dtab, 10);
-                            const selectedTab = openDocTabs.find((item) => item.id === tabId);
-                            if (!selectedTab) return;
-                            activeDocTab = selectedTab.id;
-                            activeDraftVersion = selectedTab.versionIdx;
-                            switchTab("draft");
-                        });
-                    });
-
-                    $$(".draft-doc-tab-close", container).forEach((button) => {
-                        button.addEventListener("click", (event) => {
-                            event.stopPropagation();
-                            const id = Number.parseInt(button.dataset.dtabClose, 10);
+                    container.addEventListener("click", (event) => {
+                        const closeButton = event.target.closest("[data-dtab-close]");
+                        if (closeButton) {
+                            const id = Number.parseInt(closeButton.dataset.dtabClose, 10);
                             if (openDocTabs.length <= 1) {
                                 showToast("최소 한 개의 버전 탭은 열어 두어야 합니다.");
                                 return;
@@ -3672,7 +3625,17 @@
                                 activeDraftVersion = activeTab.versionIdx;
                             }
                             renderDocTabs();
-                        });
+                            return;
+                        }
+
+                        const openButton = event.target.closest("[data-dtab-open]");
+                        if (!openButton) return;
+                        const tabId = Number.parseInt(openButton.dataset.dtabOpen, 10);
+                        const selectedTab = openDocTabs.find((item) => item.id === tabId);
+                        if (!selectedTab) return;
+                        activeDocTab = selectedTab.id;
+                        activeDraftVersion = selectedTab.versionIdx;
+                        switchTab("draft");
                     });
                 }
 

@@ -71,6 +71,7 @@
             confirmationState: "draft",
             currentRuleId: null,
             isCreatingRule: false,
+            pendingQueryExclusion: null,
             notificationAssignee: {
                 directory: [],
                 savedAssignments: new Map(),
@@ -79,6 +80,12 @@
                 searchTerm: "",
                 expandedOrganizations: new Set(),
             },
+        },
+        features: {
+            queryExclusion: Object.freeze({
+                prepare: prepareWorkspaceQueryExclusion,
+                confirm: confirmWorkspaceQueryExclusion,
+            }),
         },
     };
 
@@ -1416,6 +1423,18 @@
     // AFTER-9 부분 구현: 이 렌더러는 이미 폼 형태의 소스 레이아웃을 지원하지만,
     // 대체 번호형 문서는 HTML에서 여전히 주석 처리되어 있으며
     // 전용 화면 전환 계약이 없습니다.
+    // 원문 질의 제외 라벨 보장
+    function ensureWorkspaceExcludedLabel(questionText) {
+        let label = questionText?.querySelector(".orig-excluded-label");
+        if (!label && questionText) {
+            label = document.createElement("span");
+            label.className = "orig-excluded-label";
+            label.textContent = "제외됨";
+            questionText.append(label);
+        }
+        return label;
+    }
+
     // 워크스페이스 원문 문서 렌더링
     function renderWorkspaceOriginalDocument(fileData) {
         const meta = { ...workspaceSampleData.defaultMeta, ...(fileData.meta || {}) };
@@ -1446,9 +1465,9 @@
                 number.classList.toggle("hidden", isSubmissionVersion);
                 number.textContent = String(index + 1);
                 const text = box.querySelector(".orig-query-box-text");
-                const excludedLabel = text.querySelector(".orig-excluded-label");
-                excludedLabel.hidden = true;
-                text.replaceChildren(query.text, excludedLabel);
+                const excludedLabel = ensureWorkspaceExcludedLabel(text);
+                if (excludedLabel) excludedLabel.hidden = query.excluded !== true;
+                text.replaceChildren(query.text, excludedLabel || "");
                 return group;
             })
             .filter(Boolean);
@@ -1464,8 +1483,8 @@
         originalQuestion.classList.toggle("excluded", query.excluded === true);
         const questionText = originalQuestion.querySelector(".orig-query-box-text");
         if (!questionText) return;
-        const label = questionText.querySelector(".orig-excluded-label");
-        if (label) label.hidden = true;
+        const label = ensureWorkspaceExcludedLabel(questionText);
+        if (label) label.hidden = query.excluded !== true;
     }
 
     // 워크스페이스 상세 Exclusion 동기화
@@ -1517,6 +1536,13 @@
 
         const reviewBadge = card.querySelector("[data-query-review]");
         if (reviewBadge) reviewBadge.hidden = confidence >= 80;
+        const excludeButton = card.querySelector(".query-exclude-btn");
+        if (excludeButton) {
+            excludeButton.dataset.qid = String(query.id);
+            excludeButton.classList.toggle("restore", excluded);
+            excludeButton.textContent = excluded ? "복구" : "제외";
+            excludeButton.setAttribute("aria-label", `질의 Q${query.id} ${excluded ? "복구" : "제외"}`);
+        }
         const editButton = card.querySelector(".query-edit-btn");
         if (editButton) editButton.hidden = excluded;
 
@@ -1542,15 +1568,77 @@
     // 워크스페이스 질의 Excluded 설정
     function setWorkspaceQueryExcluded(query, excluded) {
         if (!query) return;
+        const wasSelected = query.selected === true;
         query.excluded = excluded === true;
         persistWorkspaceQueryState(query);
         syncWorkspaceOriginalExclusion(query);
         syncWorkspaceQueryCard(query);
         syncWorkspaceQuestionCounts();
-        filterQuestions(currentQuestionFilter);
-        if (query.selected) syncWorkspaceDetailExclusion(query);
+
+        const excludedCount = workspaceQuestionCards.filter((item) => item.excluded).length;
+        let nextSelectedQuery = null;
+        if (query.excluded && currentQuestionFilter !== "excluded" && wasSelected) {
+            const queryIndex = workspaceQuestionCards.indexOf(query);
+            nextSelectedQuery = workspaceQuestionCards.slice(queryIndex + 1).find((item) => !item.excluded)
+                || workspaceQuestionCards.slice(0, queryIndex).reverse().find((item) => !item.excluded)
+                || null;
+        }
+
+        if (!query.excluded && currentQuestionFilter === "excluded" && excludedCount === 0) {
+            filterQuestions("all");
+            nextSelectedQuery = query;
+        } else {
+            filterQuestions(currentQuestionFilter);
+        }
+
+        if (nextSelectedQuery) {
+            const nextQuestion = document.querySelector(`${questionSelector}[data-question-index="${nextSelectedQuery.id}"]`);
+            if (nextQuestion) selectQuestion(nextQuestion);
+        } else if (query.selected) {
+            syncWorkspaceDetailExclusion(query);
+        }
         showToast(query.excluded ? "질의를 제외했습니다. 제외 목록에서 다시 복구할 수 있습니다." : "질의를 복구했습니다.");
     }
+
+    /* ============================ 시작: 9월 이후 질의 제외 확인 ============================ */
+
+    // QueryCard 제외/복구 팝업 준비
+    function prepareWorkspaceQueryExclusion(trigger) {
+        const query = workspaceQuestionCards.find((item) => String(item.id) === String(trigger?.dataset.qid));
+        const modal = document.getElementById("workspaceQueryDeleteModal");
+        if (!query || !modal) {
+            after9Workspace.state.pendingQueryExclusion = null;
+            return;
+        }
+
+        const nextExcluded = !query.excluded;
+        after9Workspace.state.pendingQueryExclusion = {
+            queryId: String(query.id),
+            nextExcluded,
+        };
+
+        modal.querySelector("[data-query-exclusion-title]")?.replaceChildren(nextExcluded ? "질의를 제외할까요?" : "질의를 복구할까요?");
+        modal.querySelector("[data-query-exclusion-description]")?.replaceChildren(
+            nextExcluded ? "제외한 질의는 제외 목록에서 다시 복구할 수 있습니다." : "선택한 질의를 다시 분류 대상에 포함합니다.",
+        );
+
+        const confirmButton = modal.querySelector('[data-workspace-confirm="query-exclusion"]');
+        confirmButton?.classList.toggle("danger", nextExcluded);
+        confirmButton?.replaceChildren(nextExcluded ? "제외" : "복구");
+    }
+
+    // QueryCard 제외/복구 팝업 확인
+    function confirmWorkspaceQueryExclusion() {
+        const pending = after9Workspace.state.pendingQueryExclusion;
+        const query = workspaceQuestionCards.find((item) => String(item.id) === pending?.queryId);
+        if (!pending || !query) return;
+
+        after9Workspace.state.pendingQueryExclusion = null;
+        setWorkspaceQueryExcluded(query, pending.nextExcluded);
+        window.AIOneModal?.close("#workspaceQueryDeleteModal");
+    }
+
+    /* ============================ 끝: 9월 이후 질의 제외 확인 ============================== */
 
     // 워크스페이스 질문 개수 동기화
     function syncWorkspaceQuestionCounts() {
@@ -2221,6 +2309,7 @@
             card.dataset.excluded = String(Boolean(query.excluded));
             card.setAttribute("aria-label", `질의 Q${query.id}: ${query.text || ""}`);
             card.querySelector(".query-num")?.replaceChildren(`Q${query.id}`);
+            card.querySelector(".query-exclude-btn")?.setAttribute("data-qid", String(query.id));
             card.querySelector(".query-edit-btn")?.setAttribute("data-qid", String(query.id));
             return card;
         });
@@ -2568,6 +2657,18 @@
         showToast("수정되었습니다.");
     });
 
+    // 질의 업로드 목록 순서 설정
+    document.addEventListener("change", (event) => {
+        const fileSortSelect = event.target.closest(".file-list-sort");
+        if (!fileSortSelect) return;
+
+        const list = fileSortSelect.closest(".file-list-section")?.querySelector(".workspace-file-list");
+        if (!list) return;
+
+        list.dataset.sortOrder = fileSortSelect.value === "oldest" ? "oldest" : "latest";
+        sortFileItems(list);
+    });
+
     document.addEventListener("click", (event) => {
         const applyButton = event.target.closest("[data-query-edit-apply]");
         if (!applyButton) return;
@@ -2601,6 +2702,7 @@
 
     document.addEventListener("modal:close", (event) => {
         if (event.target.id === "workspaceFileDeleteModal") pendingDeleteFileItem = null;
+        if (event.target.id === "workspaceQueryDeleteModal") after9Workspace.state.pendingQueryExclusion = null;
         if (event.target.id === "workspaceFileRenameModal") {
             pendingRenameFileItem = null;
             const error = event.target.querySelector("[data-file-rename-error]");
@@ -2628,6 +2730,12 @@
     });
 
     document.addEventListener("click", (event) => {
+        const queryExcludeButton = event.target.closest("[data-query-card-list] .query-exclude-btn");
+        if (queryExcludeButton) {
+            after9Workspace.features.queryExclusion.prepare(queryExcludeButton);
+            return;
+        }
+
         const queryEditButton = event.target.closest("[data-query-card-list] .query-edit-btn");
         if (queryEditButton) {
             const query = workspaceQuestionCards.find((item) => String(item.id) === String(queryEditButton.dataset.qid));
@@ -2655,16 +2763,9 @@
             return;
         }
 
-        //질의 업로드 목록 순서 설정
-        const fileSortButton = event.target.closest(".file-list-sort");
-        if (fileSortButton) {
-            const list = fileSortButton.closest(".file-list-section")?.querySelector(".workspace-file-list");
-            if (!list) return;
-            list.dataset.sortOrder = list.dataset.sortOrder === "oldest" ? "latest" : "oldest";
-            sortFileItems(list);
-            const label = list.dataset.sortOrder === "oldest" ? "오래된순" : "최신순";
-            fileSortButton.querySelector("[data-file-sort-label]").textContent = label;
-            fileSortButton.setAttribute("aria-label", `파일 목록 정렬: ${label}`);
+        const queryExclusionConfirmButton = event.target.closest('[data-workspace-confirm="query-exclusion"]');
+        if (queryExclusionConfirmButton) {
+            after9Workspace.features.queryExclusion.confirm();
             return;
         }
 

@@ -131,6 +131,16 @@ body.chat-popup-mode .chat-window-open-btn {
     pointer-events: none;
     animation: bgFloat 12s ease-in-out infinite;
 }
+html[data-theme="dark"] .ai-chatbot-page .main-wrap {
+    background-color: var(--bg);
+}
+html[data-theme="dark"] .ai-chatbot-page .main-wrap::before {
+    background:
+        radial-gradient(620px 620px at 10% 20%, rgba(77, 217, 192, 0.11) 0%, transparent 62%),
+        radial-gradient(540px 540px at 82% 10%, rgba(var(--primary-rgb), 0.12) 0%, transparent 62%),
+        radial-gradient(480px 480px at 60% 80%, rgba(163, 113, 247, 0.1) 0%, transparent 62%),
+        radial-gradient(420px 420px at 30% 70%, rgba(56, 189, 248, 0.09) 0%, transparent 62%);
+}
 @keyframes bgPulse {
     0%,
     100% {
@@ -201,6 +211,18 @@ body.chat-popup-mode .chat-window-open-btn {
     background: radial-gradient(circle, rgba(26, 127, 55, 0.06) 0%, transparent 60%);
     animation: orbDrift1 20s ease-in-out infinite reverse;
 }
+html[data-theme="dark"] .ai-chatbot-page .bg-orb {
+    opacity: 0.9;
+}
+html[data-theme="dark"] .ai-chatbot-page .bg-orb-1 {
+    background: radial-gradient(circle, rgba(77, 217, 192, 0.24) 0%, transparent 66%);
+}
+html[data-theme="dark"] .ai-chatbot-page .bg-orb-2 {
+    background: radial-gradient(circle, rgba(var(--primary-rgb), 0.22) 0%, transparent 66%);
+}
+html[data-theme="dark"] .ai-chatbot-page .bg-orb-3 {
+    background: radial-gradient(circle, rgba(163, 113, 247, 0.2) 0%, transparent 66%);
+}
 @keyframes orbDrift1 {
     0%,
     100% {
@@ -263,7 +285,7 @@ body.chat-popup-mode .chat-window-open-btn {
     font-size: calc(32px * var(--ui-font-scale));
     font-weight: 700;
     color: var(--text);
-    background: linear-gradient(135deg, var(--primary) 0%, var(--cyan) 50%, #4dd9c0 100%);
+    background: linear-gradient(135deg, #0969da 0%, #1b7c83 50%, #4dd9c0 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     animation: titleShimmer 4s ease-in-out infinite;

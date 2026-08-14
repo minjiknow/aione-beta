@@ -145,6 +145,19 @@
 
     /* ============================ 시작: 화면 이벤트 연결 ============================ */
 
+    // 챗봇 사이드바 활성 메뉴 전환
+    function setActiveChatbotNavLink(activeLink) {
+        const sidebar = activeLink?.closest(".chatbot-sidebar");
+        if (!sidebar) return;
+
+        $$(".nav-link", sidebar).forEach((link) => {
+            const isActive = link === activeLink;
+            link.classList.toggle("active", isActive);
+            if (isActive) link.setAttribute("aria-current", "page");
+            else link.removeAttribute("aria-current");
+        });
+    }
+
     // 화면 주요 이벤트 연결
     function bindEvents() {
         // 최소 브라우저 창에서 챗봇을 엽니다.
@@ -157,11 +170,26 @@
             else if (event.target.closest("#chatPromptBottom")) sendMessage(value);
         });
 
+        const sidebarNav = $(".chatbot-sidebar .sidebar-nav");
+        if (sidebarNav) {
+            sidebarNav.addEventListener("click", (event) => {
+                const navLink = event.target.closest(".nav-link");
+                if (!navLink || !sidebarNav.contains(navLink) || navLink.dataset.page === "home" || navLink.getAttribute("aria-disabled") === "true") return;
+                if (navLink.matches('a[href="#"]')) event.preventDefault();
+                setActiveChatbotNavLink(navLink);
+            });
+        }
+
         // 새 대화
         const newChatBtn = $("#newChatBtn");
-        if (newChatBtn) newChatBtn.addEventListener("click", resetChat);
         const newChatLink = $("#newChatLink");
         if (newChatLink) newChatLink.addEventListener("click", resetChat);
+        if (newChatBtn) {
+            newChatBtn.addEventListener("click", () => {
+                resetChat();
+                setActiveChatbotNavLink(newChatLink);
+            });
+        }
 
         // 보고서 드로어
         const reportDrawerClose = $("#reportDrawerClose");
@@ -276,7 +304,7 @@
     // 메시지 렌더링
     function renderMessages() {
         const container = $("#chatMessages");
-        const messageElements = messages
+        const renderedMessages = messages
             .map((message, index) => {
                 const templateId = message.role === "user" ? "chatbotUserMessagePrototype" : message.pending ? "chatbotPendingMessagePrototype" : "chatbotAiMessagePrototype";
                 const element = clonePrototypeElement(templateId);
@@ -289,9 +317,10 @@
                 });
                 const menu = element.querySelector(".msg-more-menu");
                 if (menu) menu.dataset.menuIdx = String(index);
-                return element;
+                return { element, index, message };
             })
             .filter(Boolean);
+        const messageElements = renderedMessages.map(({ element }) => element);
         container.replaceChildren(...messageElements);
         const scrollContainer = $("#chatContainer");
         if (scrollContainer) scrollContainer.scrollTop = scrollContainer.scrollHeight;

@@ -91,6 +91,17 @@ body[data-page="answer-after-9"] {
 /* ==================== End: 문서 미리보기 ==================== */
 
 /* ==================== Start: AI 채팅 ==================== */
+[data-chat-message-list][data-variant="answer"] > .chat-msg.ai:not(.chat-typing) {
+    position: relative;
+    margin-left: 34px;
+}
+
+[data-chat-message-list][data-variant="answer"] > .chat-msg.ai > .chat-ai-avatar {
+    position: absolute;
+    top: 3px;
+    left: -34px;
+}
+
 .chat-send {
     display: flex;
     align-items: center;
@@ -568,6 +579,140 @@ html[data-theme="dark"] .draft-editor {
 }
 
 /* ==================== End: 채팅 패널 헤더 및 배지 ==================== */
+
+/* ==================== Start: 사이드팝업 채팅 목록 ==================== */
+
+.sidepop[data-sidepop-variant="chat-list"] [data-sidepop-panel="chat-list"] {
+    display: flex;
+}
+
+.sidepop[data-sidepop-variant="chat-list"] .sidepop-header {
+    padding: 20px 20px 16px;
+}
+
+.sidepop[data-sidepop-variant="chat-list"] .sidepop-title {
+    margin-bottom: 2px;
+}
+
+.sidepop[data-sidepop-variant="chat-list"] .sidepop-description {
+    margin-top: 0;
+}
+
+.sidepop[data-sidepop-variant="chat-list"] .sidepop-list-body {
+    display: flex;
+    flex-direction: column;
+    padding: 12px 16px;
+    overflow: hidden;
+}
+
+.sidepop[data-sidepop-variant="chat-list"] .sidepop-scroll-list {
+    min-height: 0;
+    max-height: none;
+    flex: 1 1 auto;
+}
+
+.sidepop-chat-item {
+    position: relative;
+    display: grid;
+    width: 100%;
+    grid-template-columns: minmax(0, 1fr) 30px;
+    align-items: center;
+    gap: 4px;
+    margin-bottom: 8px;
+    padding: 0 6px 0 0;
+    border: 1px solid var(--border, #d1d9e0);
+    border-radius: var(--radius, 10px);
+    color: var(--text-sub, #656d76);
+    font-size: calc(12px * var(--ui-font-scale));
+    text-align: left;
+    transition: var(--transition, 0.15s ease);
+}
+
+.sidepop-chat-item.is-pinned::before {
+    position: absolute;
+    top: 3px;
+    left: 4px;
+    z-index: 1;
+    font-size: calc(9px * var(--ui-font-scale));
+    line-height: 1;
+    content: "📌";
+}
+
+.sidepop-chat-list {
+    min-height: 0;
+}
+
+.sidepop-chat-select {
+    min-width: 0;
+    min-height: 58px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 0 12px 14px;
+    border: 0;
+    background: transparent;
+    color: inherit;
+    font: inherit;
+    text-align: left;
+}
+
+.sidepop-chat-item:hover {
+    border-color: var(--primary, #0969da);
+    background: color-mix(in srgb, var(--primary, #0969da) 5%, var(--surface, #fff));
+    box-shadow: 0 2px 8px rgba(31, 35, 40, 0.06);
+}
+
+.sidepop-chat-item.is-active {
+    border-color: var(--primary, #0969da);
+    background: rgba(var(--primary-rgb, 9, 105, 218), 0.06);
+    color: var(--primary, #0969da);
+    font-weight: 600;
+    box-shadow: inset 3px 0 0 var(--primary, #0969da);
+}
+
+.sidepop-chat-name {
+    min-width: 0;
+    flex: 1;
+    overflow: hidden;
+    font-size: calc(12px * var(--ui-font-scale));
+    font-weight: 500;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.sidepop-chat-icon {
+    margin-right: 4px;
+}
+
+.sidepop-chat-time {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 2px;
+    flex: 0 0 auto;
+    color: var(--text-muted, #8b949e);
+    font-size: calc(10px * var(--ui-font-scale));
+    line-height: 1.2;
+    text-align: right;
+}
+
+.sidepop-chat-date {
+    color: var(--text-muted, #8b949e);
+    font-size: calc(9px * var(--ui-font-scale));
+    white-space: nowrap;
+}
+
+.sidepop-chat-item > .btn-more {
+    opacity: 0;
+}
+
+.sidepop-chat-item:hover > .btn-more,
+.sidepop-chat-item:focus-within > .btn-more,
+.sidepop-chat-item > .btn-more[aria-expanded="true"] {
+    opacity: 1;
+}
+
+/* ==================== End: 사이드팝업 채팅 목록 ==================== */
 
 /* ==================== Start: 공통 패널 헤더 및 주요 버튼 ==================== */
 
@@ -2263,6 +2408,7 @@ html[data-theme="dark"] .draft-editor {
 
 .draft-version-bar {
     display: flex;
+    flex-wrap: wrap;
     align-items: center;
     justify-content: space-between;
     padding: 8px 16px;
@@ -2276,7 +2422,7 @@ html[data-theme="dark"] .draft-editor {
     display: flex;
     align-items: center;
     gap: 4px;
-    flex: 1;
+    flex: 1 1 180px;
     min-width: 0;
     overflow: hidden;
 }
@@ -2375,6 +2521,17 @@ html[data-theme="dark"] .draft-editor {
     white-space: nowrap;
     max-width: 190px;
 }
+.draft-doc-tab-open {
+    display: flex;
+    min-width: 0;
+    padding: 0;
+    align-items: center;
+    border: 0;
+    background: transparent;
+    color: inherit;
+    font: inherit;
+    cursor: pointer;
+}
 .draft-doc-tab-label {
     display: block;
     overflow: hidden;
@@ -2397,11 +2554,15 @@ html[data-theme="dark"] .draft-editor {
     justify-content: center;
     width: 18px;
     height: 18px;
+    padding: 0;
+    border: 0;
+    background: transparent;
     border-radius: 50%;
     font-size: calc(13px * var(--ui-font-scale));
     color: var(--text-muted);
     transition: var(--transition);
     line-height: 1;
+    cursor: pointer;
 }
 .draft-doc-tab-close:hover {
     color: var(--red);
@@ -3858,15 +4019,4 @@ html[data-theme="dark"] .workspace-creation-loading {
 /* ==================== End: Answer After Page  반응형 ==================== */
 #chatMessages .msg-text {
     white-space: pre-line;
-}
-
-#chatMessages .msg-text.has-typing-cursor::after {
-    content: "";
-    display: inline-block;
-    width: 2px;
-    height: 12px;
-    margin-left: 1px;
-    background: currentColor;
-    vertical-align: middle;
-    animation: chat-message-cursor 0.8s steps(1) infinite;
 }

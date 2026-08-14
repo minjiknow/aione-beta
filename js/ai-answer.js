@@ -388,6 +388,7 @@
                 } else {
                     pendingMessage?.remove();
                 }
+                if (aiMessage) window.ChatMessage?.typewrite(aiMessage, { scrollContainer: messages });
                 delete button.dataset.applying;
                 button.disabled = false;
                 scrollChatToBottom();
@@ -862,13 +863,110 @@
         }).format(new Date());
     }
 
+    // 버전 선택값과 화면 레이블을 동기화
+    function setActiveDraftVersion(versionName, { openLabel = true } = {}) {
+        const versionSelect = document.querySelector(".answer-version-select");
+        const option = Array.from(versionSelect?.options || []).find((item) => item.value === versionName);
+        if (!versionSelect || !option) return;
+
+        versionSelect.value = versionName;
+        if (openLabel) openDraftVersionLabel(versionName, option.textContent.trim());
+
+        const labels = document.querySelectorAll("[data-answer-version-label]");
+        labels.forEach((label) => {
+            const isActive = label.dataset.answerVersionLabel === versionName;
+            label.classList.toggle("active", isActive);
+            if (isActive) label.setAttribute("aria-current", "true");
+            else label.removeAttribute("aria-current");
+        });
+
+        const heading = document.querySelector(".answer-draft-heading");
+        if (heading) heading.textContent = `답변서 초안 · ${option.textContent.trim()}`;
+    }
+
+    // 버전별 레이블 생성
+    function openDraftVersionLabel(versionName, versionLabel) {
+        const container = document.querySelector("[data-answer-version-labels]");
+        if (!container || container.querySelector(`[data-answer-version-label="${versionName}"]`)) return;
+
+        const label = document.createElement("span");
+        label.className = "answer-version-chip";
+        label.dataset.answerVersionLabel = versionName;
+
+        const openButton = document.createElement("button");
+        openButton.type = "button";
+        openButton.className = "answer-version-open";
+        openButton.dataset.answerVersionOpen = "";
+        openButton.textContent = versionLabel;
+
+        const closeButton = document.createElement("button");
+        closeButton.type = "button";
+        closeButton.className = "answer-version-close";
+        closeButton.dataset.answerVersionClose = "";
+        closeButton.setAttribute("aria-label", `${versionLabel} 레이블 닫기`);
+        closeButton.textContent = "×";
+
+        label.append(openButton, closeButton);
+        container.append(label);
+        label.scrollIntoView({ block: "nearest", inline: "nearest" });
+    }
+
+    // 버전 레이블 선택과 닫기 처리
+    function initDraftVersions() {
+        const container = document.querySelector("[data-answer-version-labels]");
+        const versionSelect = document.querySelector(".answer-version-select");
+        if (!container || !versionSelect) return;
+
+        const activateLabel = (target) => {
+            const openButton = target.closest("[data-answer-version-open]");
+            const label = openButton?.closest("[data-answer-version-label]");
+            if (!label || !container.contains(label)) return;
+            setActiveDraftVersion(label.dataset.answerVersionLabel);
+        };
+
+        container.addEventListener("click", (event) => {
+            const closeButton = event.target.closest("[data-answer-version-close]");
+            if (!closeButton) {
+                activateLabel(event.target);
+                return;
+            }
+
+            event.stopPropagation();
+            const label = closeButton.closest("[data-answer-version-label]");
+            if (!label) return;
+            const labels = Array.from(container.querySelectorAll("[data-answer-version-label]"));
+            if (labels.length <= 1) {
+                showToast("최소 한 개의 버전 레이블은 열어 두어야 합니다.");
+                return;
+            }
+
+            const wasActive = label.classList.contains("active");
+            const closedLabel = label.querySelector("[data-answer-version-open]")?.textContent?.trim() || "선택한 버전";
+            label.remove();
+            if (wasActive) {
+                const nextLabel = container.querySelector("[data-answer-version-label]:last-child");
+                setActiveDraftVersion(nextLabel.dataset.answerVersionLabel, { openLabel: false });
+            }
+            showToast(`${closedLabel} 레이블을 닫았습니다.`);
+        });
+
+        versionSelect.addEventListener("change", () => setActiveDraftVersion(versionSelect.value));
+        setActiveDraftVersion(versionSelect.value);
+    }
+
     // 현재 초안 다음 버전을 생성하고 버전 UI를 동기화
     function createNextDraftVersion() {
         const versionSelect = document.querySelector(".answer-version-select");
-        const currentLabel = versionSelect?.selectedOptions?.[0]?.textContent?.trim() || "v1.0(00:00)";
-        const currentVersion = currentLabel.match(/v(\d+)\.(\d+)/);
-        const major = Number(currentVersion?.[1] || 1);
-        const minor = Number(currentVersion?.[2] || 0) + 1;
+        const versions = Array.from(versionSelect?.options || [])
+            .map((option) => option.value.match(/^v(\d+)\.(\d+)$/))
+            .filter(Boolean)
+            .map((match) => ({ major: Number(match[1]), minor: Number(match[2]) }));
+        const latestVersion = versions.reduce((latest, version) => {
+            if (!latest || version.major > latest.major || (version.major === latest.major && version.minor > latest.minor)) return version;
+            return latest;
+        }, null);
+        const major = latestVersion?.major || 1;
+        const minor = (latestVersion?.minor || 0) + 1;
         const versionName = `v${major}.${minor}`;
         const versionLabel = `${versionName}(${getCurrentTime()})`;
 
@@ -876,37 +974,24 @@
             const option = document.createElement("option");
             option.value = versionName;
             option.textContent = versionLabel;
-            option.selected = true;
             versionSelect.append(option);
+            setActiveDraftVersion(versionName);
         }
 
-        const versionChip = document.querySelector(".answer-version-chip");
-        const closeButton = versionChip?.querySelector(".answer-version-close");
-        if (versionChip && closeButton) {
-            versionChip.replaceChildren(document.createTextNode(versionLabel), closeButton);
-        }
-
-        const heading = document.querySelector(".answer-draft-heading");
-        if (heading) heading.textContent = `답변서 초안 · ${versionLabel}`;
         return versionName;
     }
 
     // 새 채팅에서는 HTML에 선언된 최초 버전만 유지
     function resetDraftVersions() {
         const versionSelect = document.querySelector(".answer-version-select");
-        if (!versionSelect?.options.length) return;
+        const container = document.querySelector("[data-answer-version-labels]");
+        if (!versionSelect?.options.length || !container) return;
         while (versionSelect.options.length > 1) versionSelect.remove(versionSelect.options.length - 1);
-        versionSelect.selectedIndex = 0;
 
-        const versionLabel = versionSelect.options[0].textContent.trim();
-        const versionChip = document.querySelector(".answer-version-chip");
-        const closeButton = versionChip?.querySelector(".answer-version-close");
-        if (versionChip && closeButton) {
-            versionChip.replaceChildren(document.createTextNode(versionLabel), closeButton);
-        }
-
-        const heading = document.querySelector(".answer-draft-heading");
-        if (heading) heading.textContent = `답변서 초안 · ${versionLabel}`;
+        const firstOption = versionSelect.options[0];
+        container.replaceChildren();
+        openDraftVersionLabel(firstOption.value, firstOption.textContent.trim());
+        setActiveDraftVersion(firstOption.value, { openLabel: false });
     }
 
     // 기존 ChatMessage 마크업으로 채팅 메시지 생성
@@ -1056,6 +1141,7 @@
                 } else {
                     pendingMessage?.remove();
                 }
+                if (aiMessage) window.ChatMessage?.typewrite(aiMessage, { scrollContainer: messages });
                 scrollChatToBottom();
                 const versionName = createNextDraftVersion();
                 showToast(`${versionName} 버전으로 생성되었습니다.`);
@@ -1186,6 +1272,7 @@
         initSourceUpload();
         initDocumentActions();
         initDraftVerification();
+        initDraftVersions();
         initPanelTools();
         initChat();
         initTopbarActions();

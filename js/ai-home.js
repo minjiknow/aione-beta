@@ -9,6 +9,7 @@
     }
 
     const iconBaseUrl = new URL("../assets/icons/", document.baseURI);
+    const homeHistorySkeletonDuration = 1200;
     let historyModalReturnFocus = null;
 
     // 아이콘 경로 보정
@@ -194,6 +195,16 @@
         });
     }
 
+    function initHomeHistorySkeleton() {
+        const table = document.querySelector("[data-home-datatable]");
+        if (!table || !window.AIOneDataTable?.setLoading) return;
+
+        window.AIOneDataTable.setLoading(table, true, { rowCount: 5 });
+        window.setTimeout(() => {
+            window.AIOneDataTable.setLoading(table, false);
+        }, homeHistorySkeletonDuration);
+    }
+
     // 프롬프트 작성창 초기화
     function initPromptComposer() {
         const host = document.querySelector("[data-home-prompt-composer]");
@@ -244,6 +255,7 @@
         hydrateIcons();
         enhanceSidebar(document);
         enhanceDataTable(document.querySelector(".home-history"));
+        initHomeHistorySkeleton();
         initPromptComposer();
         initFullHistoryModal();
         initHistoryEvents();

@@ -690,6 +690,9 @@
     const MENU_GAP = 10;
     const VIEWPORT_MARGIN = 16;
     const PREPARING_SERVICE_MODAL_ID = "preparingServiceModal";
+    const DEFAULT_PREPARING_SERVICE_MESSAGE = "이 화면은 프로토타입에 아직 포함되어 있지 않습니다.";
+    const CHATBOT_PREPARING_SERVICE_MESSAGE = ["AI-ONE 챗봇은 준비중인 서비스입니다.", "확인을 누르면 프로토타입 화면으로 이동합니다."];
+    const CHATBOT_PROTOTYPE_PATH = "ai-chatbot.html";
     const menuAnchors = new WeakMap();
     const baseController = window.AIOneLayerFactory.create({
         type: "modal",
@@ -702,6 +705,24 @@
 
     function ensurePreparingServiceModal() {
         return document.getElementById(PREPARING_SERVICE_MODAL_ID);
+    }
+
+    function preparePreparingServiceModal(layer, trigger) {
+        if (layer?.id !== PREPARING_SERVICE_MODAL_ID) return;
+
+        const description = layer.querySelector('[data-slot="description"]');
+        const confirmButton = layer.querySelector('.btn-confirm[data-modal-close]');
+        const isChatbotTrigger = trigger?.dataset.page === "chatbot";
+        if (!description || !confirmButton) return;
+
+        if (isChatbotTrigger) {
+            description.replaceChildren(CHATBOT_PREPARING_SERVICE_MESSAGE[0], document.createElement("br"), CHATBOT_PREPARING_SERVICE_MESSAGE[1]);
+            confirmButton.dataset.navigateTo = new URL(CHATBOT_PROTOTYPE_PATH, document.baseURI).href;
+            return;
+        }
+
+        description.textContent = DEFAULT_PREPARING_SERVICE_MESSAGE;
+        delete confirmButton.dataset.navigateTo;
     }
 
     function resolveLayer(target) {
@@ -747,6 +768,7 @@
         },
         open(target, trigger = null) {
             const layer = resolveLayer(target);
+            preparePreparingServiceModal(layer, trigger);
             baseController.open(layer, trigger);
             if (trigger) positionActionMenu(layer, trigger);
         },
@@ -762,7 +784,13 @@
         if (!trigger) return;
 
         const layer = document.getElementById(trigger.getAttribute("data-modal-open"));
+        preparePreparingServiceModal(layer, trigger);
         if (isActionMenu(layer)) positionActionMenu(layer, trigger);
+    });
+    document.addEventListener("click", (event) => {
+        const confirmButton = event.target.closest(`#${PREPARING_SERVICE_MODAL_ID} .btn-confirm[data-navigate-to]`);
+        if (!confirmButton) return;
+        window.location.assign(confirmButton.dataset.navigateTo);
     });
     document.addEventListener("modal:close", (event) => {
         if (!isActionMenu(event.target)) return;
@@ -1897,6 +1925,95 @@
 /* ============================ Start: 데이터 테이블 (Data Table) ============================ */
 
 (() => {
+    const loadingStates = new WeakMap();
+
+    function resolveTable(target) {
+        if (typeof target === "string") return document.querySelector(target);
+        if (!(target instanceof Element)) return null;
+        return target.matches("table") ? target : target.querySelector("table");
+    }
+
+    function getColumnCount(table, tbody) {
+        const headerRow = table.tHead?.rows[table.tHead.rows.length - 1];
+        const sourceRow = headerRow || Array.from(tbody.rows).find((row) => !row.classList.contains("data-table-skeleton-row"));
+        if (!sourceRow) return 1;
+        return Array.from(sourceRow.cells).reduce((total, cell) => total + Math.max(1, cell.colSpan || 1), 0);
+    }
+
+    function createSkeletonRow(columnCount) {
+        const row = document.createElement("tr");
+        row.className = "data-table-skeleton-row";
+        row.dataset.tableSkeletonRow = "true";
+        row.setAttribute("aria-hidden", "true");
+
+        for (let columnIndex = 0; columnIndex < columnCount; columnIndex += 1) {
+            const cell = document.createElement("td");
+            const skeleton = document.createElement("span");
+            skeleton.className = "ai-skeleton data-table-skeleton-cell";
+            if (columnIndex % 3 === 0) skeleton.classList.add("wide");
+            if (columnIndex % 3 === 1) skeleton.classList.add("short");
+            cell.appendChild(skeleton);
+            row.appendChild(cell);
+        }
+        return row;
+    }
+
+    function setLoading(target, isLoading, options = {}) {
+        const table = resolveTable(target);
+        const tbody = table?.tBodies[0];
+        if (!table || !tbody) return null;
+
+        const currentState = loadingStates.get(table);
+        if (!isLoading) {
+            if (!currentState) return table;
+
+            currentState.skeletonRows.forEach((row) => row.remove());
+            currentState.dataRows.forEach(({ row, hidden, ariaHidden }) => {
+                row.hidden = hidden;
+                if (ariaHidden === null) row.removeAttribute("aria-hidden");
+                else row.setAttribute("aria-hidden", ariaHidden);
+            });
+            if (currentState.ariaBusy === null) table.removeAttribute("aria-busy");
+            else table.setAttribute("aria-busy", currentState.ariaBusy);
+            if (currentState.container) {
+                if (currentState.containerState === null) currentState.container.removeAttribute("data-state");
+                else currentState.container.setAttribute("data-state", currentState.containerState);
+            }
+            loadingStates.delete(table);
+            table.dispatchEvent(new CustomEvent("datatable:loading-change", { bubbles: true, detail: { loading: false } }));
+            return table;
+        }
+
+        if (currentState) return table;
+
+        const dataRows = Array.from(tbody.rows)
+            .filter((row) => !row.matches("[data-table-skeleton-row]"))
+            .map((row) => ({ row, hidden: row.hidden, ariaHidden: row.getAttribute("aria-hidden") }));
+        dataRows.forEach(({ row }) => {
+            row.hidden = true;
+            row.setAttribute("aria-hidden", "true");
+        });
+
+        const columnCount = getColumnCount(table, tbody);
+        const requestedRowCount = Number.parseInt(options.rowCount, 10);
+        const rowCount = Number.isFinite(requestedRowCount) ? Math.min(Math.max(requestedRowCount, 1), 20) : 5;
+        const skeletonRows = Array.from({ length: rowCount }, () => createSkeletonRow(columnCount));
+        skeletonRows.forEach((row) => tbody.appendChild(row));
+
+        const container = table.closest(".data-table-container");
+        loadingStates.set(table, {
+            ariaBusy: table.getAttribute("aria-busy"),
+            container,
+            containerState: container?.getAttribute("data-state") ?? null,
+            dataRows,
+            skeletonRows,
+        });
+        table.setAttribute("aria-busy", "true");
+        container?.setAttribute("data-state", "loading");
+        table.dispatchEvent(new CustomEvent("datatable:loading-change", { bubbles: true, detail: { loading: true } }));
+        return table;
+    }
+
     function init(root = document) {
         const tables = [];
         if (root instanceof Element && root.matches("[data-datatable]")) tables.push(root);
@@ -1989,7 +2106,7 @@
         });
     }
 
-    window.AIOneDataTable = Object.freeze({ init });
+    window.AIOneDataTable = Object.freeze({ init, setLoading });
     document.addEventListener("DOMContentLoaded", () => init());
     document.addEventListener("app:includes-ready", (event) => init(event.target));
 })();
@@ -2240,6 +2357,7 @@
     const bindings = new WeakMap();
     const retryTimers = new WeakMap();
     const copyTimers = new WeakMap();
+    const typingAnimations = new WeakMap();
     const commonScriptUrl = Array.from(document.scripts)
         .map((script) => script.src)
         .find((scriptUrl) => /\/js\/common\.js(?:[?#]|$)/.test(scriptUrl));
@@ -2295,6 +2413,78 @@
             ensureAnswerAvatar(message);
             ensureActions(message);
         });
+    }
+
+    function typewrite(message, { text, target, scrollContainer, minDuration = 400, maxDuration = 2400, characterDelay = 10, onComplete } = {}) {
+        if (!(message instanceof Element) || message.dataset.role !== "ai" || message.dataset.status === "pending") return null;
+
+        const textTarget = target instanceof Element ? target : message.querySelector("[data-chat-message-text], .msg-text, .msg-content");
+        if (!textTarget) return null;
+
+        const fullText = String(text ?? textTarget.textContent ?? "");
+        const characters = Array.from(fullText);
+        const messageList = message.closest("[data-chat-message-list]");
+        const scrollingElement = scrollContainer instanceof Element ? scrollContainer : messageList;
+        const messageWindow = message.ownerDocument?.defaultView || window;
+        const reducedMotion = messageWindow.matchMedia?.("(prefers-reduced-motion: reduce)").matches;
+        const previousAnimation = typingAnimations.get(message);
+        if (previousAnimation) previousAnimation.finish(false);
+
+        ensureActions(message);
+        const actions = message.querySelector(":scope > .msg-actions");
+        const actionsWereHidden = actions?.hidden || false;
+        const duration = Math.min(maxDuration, Math.max(minDuration, characters.length * characterDelay));
+        const state = { done: false, frameId: 0, finish: null };
+
+        const scrollToLatest = () => {
+            if (scrollingElement) scrollingElement.scrollTop = scrollingElement.scrollHeight;
+        };
+        const finish = (notify = true) => {
+            if (state.done) return;
+            state.done = true;
+            if (state.frameId) messageWindow.cancelAnimationFrame(state.frameId);
+            textTarget.textContent = fullText;
+            textTarget.classList.remove("has-typing-cursor");
+            message.classList.remove("is-typing");
+            message.removeAttribute("aria-busy");
+            if (actions) actions.hidden = actionsWereHidden;
+            if (typingAnimations.get(message) === state) typingAnimations.delete(message);
+            scrollToLatest();
+
+            if (notify) {
+                message.dispatchEvent(new CustomEvent("chat-message:typing-complete", { bubbles: true }));
+                onComplete?.({ message, target: textTarget });
+            }
+        };
+
+        state.finish = finish;
+        typingAnimations.set(message, state);
+        message.classList.add("is-typing");
+        message.setAttribute("aria-busy", "true");
+        textTarget.textContent = "";
+        textTarget.classList.add("has-typing-cursor");
+        if (actions) actions.hidden = true;
+        scrollToLatest();
+
+        if (!characters.length || reducedMotion || duration <= 0) {
+            finish();
+            return message;
+        }
+
+        const start = messageWindow.performance.now();
+        const step = (now) => {
+            if (state.done) return;
+            const progress = Math.min(1, (now - start) / duration);
+            const visibleLength = Math.floor(characters.length * progress);
+            textTarget.textContent = characters.slice(0, visibleLength).join("");
+            scrollToLatest();
+
+            if (progress < 1) state.frameId = messageWindow.requestAnimationFrame(step);
+            else finish();
+        };
+
+        state.frameId = messageWindow.requestAnimationFrame(step);
+        return message;
     }
 
     function createPending({ variant = "answer", title = "생성 중", description = "답변서 초안을 생성하고 있습니다..." } = {}) {
@@ -2423,6 +2613,7 @@
         if (activeTimer) window.clearTimeout(activeTimer);
 
         const originalContent = content.innerHTML;
+        const originalText = content.innerText;
         message.classList.add("is-pending");
         message.dataset.status = "pending";
         message.setAttribute("aria-busy", "true");
@@ -2440,6 +2631,7 @@
                 message.removeAttribute("aria-busy");
                 retryTimers.delete(message);
                 emitAction(message, "retry-complete");
+                typewrite(message, { text: originalText });
             }, 800),
         );
     }
@@ -2518,7 +2710,7 @@
         lists.forEach((messageList) => bind(messageList));
     }
 
-    window.ChatMessage = Object.freeze({ bind, autoBind, createPending, decorateActions });
+    window.ChatMessage = Object.freeze({ bind, autoBind, createPending, decorateActions, typewrite });
     document.addEventListener("DOMContentLoaded", () => autoBind());
     document.addEventListener("app:includes-ready", (event) => autoBind(event.target));
 })();

@@ -104,7 +104,7 @@
 						</a>
 					</div>
 					<div class="nav-group">
-						<a class="nav-link" data-page="chatbot" data-modal-open="preparingServiceModal"
+						<a class="nav-link" href="ai-chatbot.html" data-page="chatbot" data-modal-open="preparingServiceModal"
 							data-tooltip="AI-ONE 챗봇" aria-label="AI-ONE 챗봇 (준비중)">
 							<svg viewBox="0 0 24 24" aria-hidden="true">
 								<path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
@@ -196,6 +196,7 @@
 								</dl>
 							</div>
 							<div class="custom-modal-actions account-modal-actions">
+								<button type="button" class="btn-cancel" data-modal-close hidden>취소</button>
 								<button type="button" class="btn-confirm" data-modal-close>확인</button>
 							</div>
 						</div>
@@ -616,7 +617,7 @@
 								- thead: 서비스명, 유형,최근 작업명,최근 이용일, 상태, 등록일
 								- tbody: 최근 사용 이력 데이터
 						-->
-							<table class="data-table" data-home-datatable>
+							<table class="data-table" data-datatable data-home-datatable>
 								<caption>AI-ONE 최근 사용 이력</caption>
 								<thead>
 									<tr>

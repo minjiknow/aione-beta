@@ -102,7 +102,7 @@
 					</a>
 				</div>
 				<div class="nav-group">
-					<a class="nav-link" data-page="chatbot" data-modal-open="preparingServiceModal"
+					<a class="nav-link" href="ai-chatbot.html" data-page="chatbot" data-modal-open="preparingServiceModal"
 						data-tooltip="AI-ONE 챗봇" aria-label="AI-ONE 챗봇 (준비중)">
 						<svg viewBox="0 0 24 24" aria-hidden="true">
 							<path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
@@ -193,6 +193,7 @@
 							</dl>
 						</div>
 						<div class="custom-modal-actions account-modal-actions">
+							<button type="button" class="btn-cancel" data-modal-close hidden>취소</button>
 							<button type="button" class="btn-confirm" data-modal-close>확인</button>
 						</div>
 					</div>
@@ -598,10 +599,10 @@
 											<div class="file-list-heading">
 												<h3 class="file-list-title" id="workspaceFileTitle">질의 업로드 목록</h3>
 											</div>
-											<button type="button" class="file-list-sort" aria-label="파일 목록 정렬: 최신순">
-												<span data-file-sort-label>최신순</span>
-												<img src="../assets/icons/chevron-down.svg" alt="" aria-hidden="true" />
-											</button>
+											<select class="file-list-sort" aria-label="질의 업로드 목록 정렬">
+												<option value="latest">최신순</option>
+												<option value="oldest">과거순</option>
+											</select>
 										</div>
 										<button type="button" class="file-list-collapsed-add" data-file-list-add
 											aria-label="질의 파일 추가" title="질의 파일 추가">
@@ -1841,6 +1842,8 @@
 												<span class="progressbar-value confidence-value">94%</span>
 											</div>
 											<div class="query-card-foot">
+												<button type="button" class="query-exclude-btn hidden" data-qid="1"
+													data-modal-open="workspaceQueryDeleteModal">제외</button>
 												<button type="button"
 													class="button button-outline button-sm query-edit-btn"
 													data-qid="1">수정</button>
@@ -1896,6 +1899,8 @@
 												<span class="conflict-rule-caption">적용 룰: 세제 키워드 룰</span>
 											</div>
 											<div class="query-card-foot">
+												<button type="button" class="query-exclude-btn hidden" data-qid="2"
+													data-modal-open="workspaceQueryDeleteModal">제외</button>
 												<button type="button"
 													class="button button-outline button-sm query-edit-btn"
 													data-qid="2">수정</button>
@@ -1938,6 +1943,8 @@
 												<span class="progressbar-value confidence-value">91%</span>
 											</div>
 											<div class="query-card-foot">
+												<button type="button" class="query-exclude-btn hidden" data-qid="3"
+													data-modal-open="workspaceQueryDeleteModal">제외</button>
 												<button type="button"
 													class="button button-outline button-sm query-edit-btn"
 													data-qid="3">수정</button>
@@ -1982,6 +1989,8 @@
 												<span class="progressbar-value confidence-value">78%</span>
 											</div>
 											<div class="query-card-foot">
+												<button type="button" class="query-exclude-btn hidden" data-qid="4"
+													data-modal-open="workspaceQueryDeleteModal">제외</button>
 												<button type="button"
 													class="button button-outline button-sm query-edit-btn"
 													data-qid="4">수정</button>
@@ -2025,6 +2034,8 @@
 												<span class="progressbar-value confidence-value">96%</span>
 											</div>
 											<div class="query-card-foot">
+												<button type="button" class="query-exclude-btn hidden" data-qid="5"
+													data-modal-open="workspaceQueryDeleteModal">제외</button>
 												<button type="button"
 													class="button button-outline button-sm query-edit-btn"
 													data-qid="5">수정</button>
@@ -2198,7 +2209,7 @@
 		<!-------------------- //End: 파일 삭제 모달 --------------------->
 
 		<!-------------------- Start: 질의 업로드 파일 이름 변경 모달 --------------------->
-		<div class="hidden modal-host">
+		<div class="modal-host">
 			<div class="custom-modal-backdrop" id="workspaceFileRenameModal" data-component="modal" data-modal hidden>
 				<section class="custom-modal modal-medium modal-variant-rename" role="dialog" aria-modal="true"
 					data-modal-variant="rename" aria-labelledby="workspaceFileRenameModal-title"
@@ -2655,225 +2666,6 @@
 						</div>
 					</section>
 
-					<section class="sidepop-variant-panel" data-sidepop-panel="chat-list">
-						<header class="sidepop-header">
-							<div class="sidepop-heading">
-								<h2 class="sidepop-title">채팅 목록</h2>
-								<p class="sidepop-description">AI 채팅 대화 이력을 확인하고 전환합니다.</p>
-							</div>
-							<button type="button" class="icon-button icon-button-ghost" data-sidepop-close
-								aria-label="채팅 목록 닫기">×</button>
-						</header>
-						<div class="sidepop-list-position">
-							<button type="button" class="sidepop-position-button" data-sidepop-position-toggle
-								aria-label="Drawer를 왼쪽으로 이동">
-								<svg viewBox="0 0 24 24" aria-hidden="true">
-									<rect x="3.5" y="4" width="17" height="16" rx="2" />
-									<path d="M16 5.5V18.5M14 12H7M9.5 9.5 7 12l2.5 2.5" />
-								</svg>
-								<span>좌측으로 이동</span>
-							</button>
-						</div>
-						<div class="sidepop-list-body">
-							<label class="sidepop-list-search">
-								<svg viewBox="0 0 24 24" aria-hidden="true">
-									<circle cx="11" cy="11" r="7" />
-									<path d="m20 20-3.6-3.6" />
-								</svg>
-								<input type="search" placeholder="채팅 목록 검색" aria-label="채팅 목록 검색" />
-							</label>
-							<div class="sidepop-list-meta">
-								<span>전체 <strong>12건</strong></span>
-								<select class="sidepop-list-sort" aria-label="채팅 목록 정렬">
-									<option>최신순</option>
-									<option>과거순</option>
-								</select>
-							</div>
-							<div class="sidepop-chat-list sidepop-scroll-list" aria-label="채팅 목록">
-								<div class="sidepop-chat-item is-active">
-									<button type="button" class="sidepop-chat-select">
-										<span class="sidepop-chat-name"><span class="sidepop-chat-icon"
-												aria-hidden="true">💬</span>지방채 인수 추경 답변서 초안 작성</span>
-										<time class="sidepop-chat-time"><span
-												class="sidepop-chat-date">2026.07.20</span><span>11:05</span></time>
-									</button>
-									<button type="button" class="btn-more" aria-label="더보기" title="더보기"
-										aria-haspopup="menu" aria-expanded="false"><svg viewBox="0 0 24 24"
-											aria-hidden="true">
-											<circle cx="12" cy="5" r="1.7"></circle>
-											<circle cx="12" cy="12" r="1.7"></circle>
-											<circle cx="12" cy="19" r="1.7"></circle>
-										</svg></button>
-								</div>
-								<div class="sidepop-chat-item">
-									<button type="button" class="sidepop-chat-select">
-										<span class="sidepop-chat-name"><span class="sidepop-chat-icon"
-												aria-hidden="true">💬</span>공자기금 인수금리 조건 정리</span>
-										<time class="sidepop-chat-time"><span
-												class="sidepop-chat-date">2026.07.20</span><span>10:22</span></time>
-									</button>
-									<button type="button" class="btn-more" aria-label="더보기" title="더보기"
-										aria-haspopup="menu" aria-expanded="false"><svg viewBox="0 0 24 24"
-											aria-hidden="true">
-											<circle cx="12" cy="5" r="1.7"></circle>
-											<circle cx="12" cy="12" r="1.7"></circle>
-											<circle cx="12" cy="19" r="1.7"></circle>
-										</svg></button>
-								</div>
-								<div class="sidepop-chat-item">
-									<button type="button" class="sidepop-chat-select">
-										<span class="sidepop-chat-name"><span class="sidepop-chat-icon"
-												aria-hidden="true">💬</span>광주·전남 통합특별시 추경 수요</span>
-										<time class="sidepop-chat-time"><span
-												class="sidepop-chat-date">2026.07.19</span><span>16:40</span></time>
-									</button>
-									<button type="button" class="btn-more" aria-label="더보기" title="더보기"
-										aria-haspopup="menu" aria-expanded="false"><svg viewBox="0 0 24 24"
-											aria-hidden="true">
-											<circle cx="12" cy="5" r="1.7"></circle>
-											<circle cx="12" cy="12" r="1.7"></circle>
-											<circle cx="12" cy="19" r="1.7"></circle>
-										</svg></button>
-								</div>
-								<div class="sidepop-chat-item">
-									<button type="button" class="sidepop-chat-select">
-										<span class="sidepop-chat-name"><span class="sidepop-chat-icon"
-												aria-hidden="true">💬</span>세수결손 대응계획 답변서 검토</span>
-										<time class="sidepop-chat-time"><span
-												class="sidepop-chat-date">2026.07.18</span><span>15:12</span></time>
-									</button>
-									<button type="button" class="btn-more" aria-label="더보기" title="더보기"
-										aria-haspopup="menu" aria-expanded="false"><svg viewBox="0 0 24 24"
-											aria-hidden="true">
-											<circle cx="12" cy="5" r="1.7"></circle>
-											<circle cx="12" cy="12" r="1.7"></circle>
-											<circle cx="12" cy="19" r="1.7"></circle>
-										</svg></button>
-								</div>
-								<div class="sidepop-chat-item">
-									<button type="button" class="sidepop-chat-select">
-										<span class="sidepop-chat-name"><span class="sidepop-chat-icon"
-												aria-hidden="true">💬</span>국가채무비율 전망 근거자료 정리</span>
-										<time class="sidepop-chat-time"><span
-												class="sidepop-chat-date">2026.07.18</span><span>09:35</span></time>
-									</button>
-									<button type="button" class="btn-more" aria-label="더보기" title="더보기"
-										aria-haspopup="menu" aria-expanded="false"><svg viewBox="0 0 24 24"
-											aria-hidden="true">
-											<circle cx="12" cy="5" r="1.7"></circle>
-											<circle cx="12" cy="12" r="1.7"></circle>
-											<circle cx="12" cy="19" r="1.7"></circle>
-										</svg></button>
-								</div>
-								<div class="sidepop-chat-item">
-									<button type="button" class="sidepop-chat-select">
-										<span class="sidepop-chat-name"><span class="sidepop-chat-icon"
-												aria-hidden="true">💬</span>공공기관 경영평가 개선 질의</span>
-										<time class="sidepop-chat-time"><span
-												class="sidepop-chat-date">2026.07.17</span><span>14:08</span></time>
-									</button>
-									<button type="button" class="btn-more" aria-label="더보기" title="더보기"
-										aria-haspopup="menu" aria-expanded="false"><svg viewBox="0 0 24 24"
-											aria-hidden="true">
-											<circle cx="12" cy="5" r="1.7"></circle>
-											<circle cx="12" cy="12" r="1.7"></circle>
-											<circle cx="12" cy="19" r="1.7"></circle>
-										</svg></button>
-								</div>
-								<div class="sidepop-chat-item">
-									<button type="button" class="sidepop-chat-select">
-										<span class="sidepop-chat-name"><span class="sidepop-chat-icon"
-												aria-hidden="true">💬</span>종합부동산세 세율 조정 영향</span>
-										<time class="sidepop-chat-time"><span
-												class="sidepop-chat-date">2026.07.16</span><span>11:26</span></time>
-									</button>
-									<button type="button" class="btn-more" aria-label="더보기" title="더보기"
-										aria-haspopup="menu" aria-expanded="false"><svg viewBox="0 0 24 24"
-											aria-hidden="true">
-											<circle cx="12" cy="5" r="1.7"></circle>
-											<circle cx="12" cy="12" r="1.7"></circle>
-											<circle cx="12" cy="19" r="1.7"></circle>
-										</svg></button>
-								</div>
-								<div class="sidepop-chat-item">
-									<button type="button" class="sidepop-chat-select">
-										<span class="sidepop-chat-name"><span class="sidepop-chat-icon"
-												aria-hidden="true">💬</span>간이과세 기준금액 상향 검토</span>
-										<time class="sidepop-chat-time"><span
-												class="sidepop-chat-date">2026.07.15</span><span>17:42</span></time>
-									</button>
-									<button type="button" class="btn-more" aria-label="더보기" title="더보기"
-										aria-haspopup="menu" aria-expanded="false"><svg viewBox="0 0 24 24"
-											aria-hidden="true">
-											<circle cx="12" cy="5" r="1.7"></circle>
-											<circle cx="12" cy="12" r="1.7"></circle>
-											<circle cx="12" cy="19" r="1.7"></circle>
-										</svg></button>
-								</div>
-								<div class="sidepop-chat-item">
-									<button type="button" class="sidepop-chat-select">
-										<span class="sidepop-chat-name"><span class="sidepop-chat-icon"
-												aria-hidden="true">💬</span>외국환거래법 개정 답변자료</span>
-										<time class="sidepop-chat-time"><span
-												class="sidepop-chat-date">2026.07.14</span><span>13:18</span></time>
-									</button>
-									<button type="button" class="btn-more" aria-label="더보기" title="더보기"
-										aria-haspopup="menu" aria-expanded="false"><svg viewBox="0 0 24 24"
-											aria-hidden="true">
-											<circle cx="12" cy="5" r="1.7"></circle>
-											<circle cx="12" cy="12" r="1.7"></circle>
-											<circle cx="12" cy="19" r="1.7"></circle>
-										</svg></button>
-								</div>
-								<div class="sidepop-chat-item">
-									<button type="button" class="sidepop-chat-select">
-										<span class="sidepop-chat-name"><span class="sidepop-chat-icon"
-												aria-hidden="true">💬</span>청년 일자리 재정사업 성과</span>
-										<time class="sidepop-chat-time"><span
-												class="sidepop-chat-date">2026.07.11</span><span>10:04</span></time>
-									</button>
-									<button type="button" class="btn-more" aria-label="더보기" title="더보기"
-										aria-haspopup="menu" aria-expanded="false"><svg viewBox="0 0 24 24"
-											aria-hidden="true">
-											<circle cx="12" cy="5" r="1.7"></circle>
-											<circle cx="12" cy="12" r="1.7"></circle>
-											<circle cx="12" cy="19" r="1.7"></circle>
-										</svg></button>
-								</div>
-								<div class="sidepop-chat-item">
-									<button type="button" class="sidepop-chat-select">
-										<span class="sidepop-chat-name"><span class="sidepop-chat-icon"
-												aria-hidden="true">💬</span>물가안정 정책 공조 현황</span>
-										<time class="sidepop-chat-time"><span
-												class="sidepop-chat-date">2026.07.10</span><span>16:55</span></time>
-									</button>
-									<button type="button" class="btn-more" aria-label="더보기" title="더보기"
-										aria-haspopup="menu" aria-expanded="false"><svg viewBox="0 0 24 24"
-											aria-hidden="true">
-											<circle cx="12" cy="5" r="1.7"></circle>
-											<circle cx="12" cy="12" r="1.7"></circle>
-											<circle cx="12" cy="19" r="1.7"></circle>
-										</svg></button>
-								</div>
-								<div class="sidepop-chat-item">
-									<button type="button" class="sidepop-chat-select">
-										<span class="sidepop-chat-name"><span class="sidepop-chat-icon"
-												aria-hidden="true">💬</span>재정준칙 도입 필요성 검토</span>
-										<time class="sidepop-chat-time"><span
-												class="sidepop-chat-date">2026.07.09</span><span>09:48</span></time>
-									</button>
-									<button type="button" class="btn-more" aria-label="더보기" title="더보기"
-										aria-haspopup="menu" aria-expanded="false"><svg viewBox="0 0 24 24"
-											aria-hidden="true">
-											<circle cx="12" cy="5" r="1.7"></circle>
-											<circle cx="12" cy="12" r="1.7"></circle>
-											<circle cx="12" cy="19" r="1.7"></circle>
-										</svg></button>
-								</div>
-							</div>
-						</div>
-					</section>
-
 					<section class="sidepop-content-panel" data-sidepop-panel="content">
 						<header class="sidepop-header">
 							<div class="sidepop-heading">
@@ -3076,225 +2868,6 @@
 									</li>
 								</ul>
 							</section>
-						</div>
-					</section>
-
-					<section class="sidepop-variant-panel" data-sidepop-panel="chat-list">
-						<header class="sidepop-header">
-							<div class="sidepop-heading">
-								<h2 class="sidepop-title">채팅 목록</h2>
-								<p class="sidepop-description">AI 채팅 대화 이력을 확인하고 전환합니다.</p>
-							</div>
-							<button type="button" class="icon-button icon-button-ghost" data-sidepop-close
-								aria-label="채팅 목록 닫기">×</button>
-						</header>
-						<div class="sidepop-list-position">
-							<button type="button" class="sidepop-position-button" data-sidepop-position-toggle
-								aria-label="Drawer를 왼쪽으로 이동">
-								<svg viewBox="0 0 24 24" aria-hidden="true">
-									<rect x="3.5" y="4" width="17" height="16" rx="2" />
-									<path d="M16 5.5V18.5M14 12H7M9.5 9.5 7 12l2.5 2.5" />
-								</svg>
-								<span>좌측으로 이동</span>
-							</button>
-						</div>
-						<div class="sidepop-list-body">
-							<label class="sidepop-list-search">
-								<svg viewBox="0 0 24 24" aria-hidden="true">
-									<circle cx="11" cy="11" r="7" />
-									<path d="m20 20-3.6-3.6" />
-								</svg>
-								<input type="search" placeholder="채팅 목록 검색" aria-label="채팅 목록 검색" />
-							</label>
-							<div class="sidepop-list-meta">
-								<span>전체 <strong>12건</strong></span>
-								<select class="sidepop-list-sort" aria-label="채팅 목록 정렬">
-									<option>최신순</option>
-									<option>과거순</option>
-								</select>
-							</div>
-							<div class="sidepop-chat-list sidepop-scroll-list" aria-label="채팅 목록">
-								<div class="sidepop-chat-item is-active">
-									<button type="button" class="sidepop-chat-select">
-										<span class="sidepop-chat-name"><span class="sidepop-chat-icon"
-												aria-hidden="true">💬</span>지방채 인수 추경 답변서 초안 작성</span>
-										<time class="sidepop-chat-time"><span
-												class="sidepop-chat-date">2026.07.20</span><span>11:05</span></time>
-									</button>
-									<button type="button" class="btn-more" aria-label="더보기" title="더보기"
-										aria-haspopup="menu" aria-expanded="false"><svg viewBox="0 0 24 24"
-											aria-hidden="true">
-											<circle cx="12" cy="5" r="1.7"></circle>
-											<circle cx="12" cy="12" r="1.7"></circle>
-											<circle cx="12" cy="19" r="1.7"></circle>
-										</svg></button>
-								</div>
-								<div class="sidepop-chat-item">
-									<button type="button" class="sidepop-chat-select">
-										<span class="sidepop-chat-name"><span class="sidepop-chat-icon"
-												aria-hidden="true">💬</span>공자기금 인수금리 조건 정리</span>
-										<time class="sidepop-chat-time"><span
-												class="sidepop-chat-date">2026.07.20</span><span>10:22</span></time>
-									</button>
-									<button type="button" class="btn-more" aria-label="더보기" title="더보기"
-										aria-haspopup="menu" aria-expanded="false"><svg viewBox="0 0 24 24"
-											aria-hidden="true">
-											<circle cx="12" cy="5" r="1.7"></circle>
-											<circle cx="12" cy="12" r="1.7"></circle>
-											<circle cx="12" cy="19" r="1.7"></circle>
-										</svg></button>
-								</div>
-								<div class="sidepop-chat-item">
-									<button type="button" class="sidepop-chat-select">
-										<span class="sidepop-chat-name"><span class="sidepop-chat-icon"
-												aria-hidden="true">💬</span>광주·전남 통합특별시 추경 수요</span>
-										<time class="sidepop-chat-time"><span
-												class="sidepop-chat-date">2026.07.19</span><span>16:40</span></time>
-									</button>
-									<button type="button" class="btn-more" aria-label="더보기" title="더보기"
-										aria-haspopup="menu" aria-expanded="false"><svg viewBox="0 0 24 24"
-											aria-hidden="true">
-											<circle cx="12" cy="5" r="1.7"></circle>
-											<circle cx="12" cy="12" r="1.7"></circle>
-											<circle cx="12" cy="19" r="1.7"></circle>
-										</svg></button>
-								</div>
-								<div class="sidepop-chat-item">
-									<button type="button" class="sidepop-chat-select">
-										<span class="sidepop-chat-name"><span class="sidepop-chat-icon"
-												aria-hidden="true">💬</span>세수결손 대응계획 답변서 검토</span>
-										<time class="sidepop-chat-time"><span
-												class="sidepop-chat-date">2026.07.18</span><span>15:12</span></time>
-									</button>
-									<button type="button" class="btn-more" aria-label="더보기" title="더보기"
-										aria-haspopup="menu" aria-expanded="false"><svg viewBox="0 0 24 24"
-											aria-hidden="true">
-											<circle cx="12" cy="5" r="1.7"></circle>
-											<circle cx="12" cy="12" r="1.7"></circle>
-											<circle cx="12" cy="19" r="1.7"></circle>
-										</svg></button>
-								</div>
-								<div class="sidepop-chat-item">
-									<button type="button" class="sidepop-chat-select">
-										<span class="sidepop-chat-name"><span class="sidepop-chat-icon"
-												aria-hidden="true">💬</span>국가채무비율 전망 근거자료 정리</span>
-										<time class="sidepop-chat-time"><span
-												class="sidepop-chat-date">2026.07.18</span><span>09:35</span></time>
-									</button>
-									<button type="button" class="btn-more" aria-label="더보기" title="더보기"
-										aria-haspopup="menu" aria-expanded="false"><svg viewBox="0 0 24 24"
-											aria-hidden="true">
-											<circle cx="12" cy="5" r="1.7"></circle>
-											<circle cx="12" cy="12" r="1.7"></circle>
-											<circle cx="12" cy="19" r="1.7"></circle>
-										</svg></button>
-								</div>
-								<div class="sidepop-chat-item">
-									<button type="button" class="sidepop-chat-select">
-										<span class="sidepop-chat-name"><span class="sidepop-chat-icon"
-												aria-hidden="true">💬</span>공공기관 경영평가 개선 질의</span>
-										<time class="sidepop-chat-time"><span
-												class="sidepop-chat-date">2026.07.17</span><span>14:08</span></time>
-									</button>
-									<button type="button" class="btn-more" aria-label="더보기" title="더보기"
-										aria-haspopup="menu" aria-expanded="false"><svg viewBox="0 0 24 24"
-											aria-hidden="true">
-											<circle cx="12" cy="5" r="1.7"></circle>
-											<circle cx="12" cy="12" r="1.7"></circle>
-											<circle cx="12" cy="19" r="1.7"></circle>
-										</svg></button>
-								</div>
-								<div class="sidepop-chat-item">
-									<button type="button" class="sidepop-chat-select">
-										<span class="sidepop-chat-name"><span class="sidepop-chat-icon"
-												aria-hidden="true">💬</span>종합부동산세 세율 조정 영향</span>
-										<time class="sidepop-chat-time"><span
-												class="sidepop-chat-date">2026.07.16</span><span>11:26</span></time>
-									</button>
-									<button type="button" class="btn-more" aria-label="더보기" title="더보기"
-										aria-haspopup="menu" aria-expanded="false"><svg viewBox="0 0 24 24"
-											aria-hidden="true">
-											<circle cx="12" cy="5" r="1.7"></circle>
-											<circle cx="12" cy="12" r="1.7"></circle>
-											<circle cx="12" cy="19" r="1.7"></circle>
-										</svg></button>
-								</div>
-								<div class="sidepop-chat-item">
-									<button type="button" class="sidepop-chat-select">
-										<span class="sidepop-chat-name"><span class="sidepop-chat-icon"
-												aria-hidden="true">💬</span>간이과세 기준금액 상향 검토</span>
-										<time class="sidepop-chat-time"><span
-												class="sidepop-chat-date">2026.07.15</span><span>17:42</span></time>
-									</button>
-									<button type="button" class="btn-more" aria-label="더보기" title="더보기"
-										aria-haspopup="menu" aria-expanded="false"><svg viewBox="0 0 24 24"
-											aria-hidden="true">
-											<circle cx="12" cy="5" r="1.7"></circle>
-											<circle cx="12" cy="12" r="1.7"></circle>
-											<circle cx="12" cy="19" r="1.7"></circle>
-										</svg></button>
-								</div>
-								<div class="sidepop-chat-item">
-									<button type="button" class="sidepop-chat-select">
-										<span class="sidepop-chat-name"><span class="sidepop-chat-icon"
-												aria-hidden="true">💬</span>외국환거래법 개정 답변자료</span>
-										<time class="sidepop-chat-time"><span
-												class="sidepop-chat-date">2026.07.14</span><span>13:18</span></time>
-									</button>
-									<button type="button" class="btn-more" aria-label="더보기" title="더보기"
-										aria-haspopup="menu" aria-expanded="false"><svg viewBox="0 0 24 24"
-											aria-hidden="true">
-											<circle cx="12" cy="5" r="1.7"></circle>
-											<circle cx="12" cy="12" r="1.7"></circle>
-											<circle cx="12" cy="19" r="1.7"></circle>
-										</svg></button>
-								</div>
-								<div class="sidepop-chat-item">
-									<button type="button" class="sidepop-chat-select">
-										<span class="sidepop-chat-name"><span class="sidepop-chat-icon"
-												aria-hidden="true">💬</span>청년 일자리 재정사업 성과</span>
-										<time class="sidepop-chat-time"><span
-												class="sidepop-chat-date">2026.07.11</span><span>10:04</span></time>
-									</button>
-									<button type="button" class="btn-more" aria-label="더보기" title="더보기"
-										aria-haspopup="menu" aria-expanded="false"><svg viewBox="0 0 24 24"
-											aria-hidden="true">
-											<circle cx="12" cy="5" r="1.7"></circle>
-											<circle cx="12" cy="12" r="1.7"></circle>
-											<circle cx="12" cy="19" r="1.7"></circle>
-										</svg></button>
-								</div>
-								<div class="sidepop-chat-item">
-									<button type="button" class="sidepop-chat-select">
-										<span class="sidepop-chat-name"><span class="sidepop-chat-icon"
-												aria-hidden="true">💬</span>물가안정 정책 공조 현황</span>
-										<time class="sidepop-chat-time"><span
-												class="sidepop-chat-date">2026.07.10</span><span>16:55</span></time>
-									</button>
-									<button type="button" class="btn-more" aria-label="더보기" title="더보기"
-										aria-haspopup="menu" aria-expanded="false"><svg viewBox="0 0 24 24"
-											aria-hidden="true">
-											<circle cx="12" cy="5" r="1.7"></circle>
-											<circle cx="12" cy="12" r="1.7"></circle>
-											<circle cx="12" cy="19" r="1.7"></circle>
-										</svg></button>
-								</div>
-								<div class="sidepop-chat-item">
-									<button type="button" class="sidepop-chat-select">
-										<span class="sidepop-chat-name"><span class="sidepop-chat-icon"
-												aria-hidden="true">💬</span>재정준칙 도입 필요성 검토</span>
-										<time class="sidepop-chat-time"><span
-												class="sidepop-chat-date">2026.07.09</span><span>09:48</span></time>
-									</button>
-									<button type="button" class="btn-more" aria-label="더보기" title="더보기"
-										aria-haspopup="menu" aria-expanded="false"><svg viewBox="0 0 24 24"
-											aria-hidden="true">
-											<circle cx="12" cy="5" r="1.7"></circle>
-											<circle cx="12" cy="12" r="1.7"></circle>
-											<circle cx="12" cy="19" r="1.7"></circle>
-										</svg></button>
-								</div>
-							</div>
 						</div>
 					</section>
 
@@ -4877,27 +4450,30 @@
 		</div>
 		<!-------------------- //End: 실국별 알림 담당자 설정 모달 --------------------->
 
-		<!-------------------- Start: query-card 질의 삭제 확인 모달 --------------------->
+		<!-------------------- Start: query-card 질의 제외·복구 확인 모달 --------------------->
 		<div class="hidden modal-host" data-after-9-reference="query-card">
 			<div class="custom-modal-backdrop" id="workspaceQueryDeleteModal" data-component="modal" data-modal hidden>
 				<section class="custom-modal modal-medium modal-variant-content" role="dialog" aria-modal="true"
 					data-modal-variant="content" aria-labelledby="workspaceQueryDeleteModal-title"
 					aria-describedby="workspaceQueryDeleteModal-description">
-					<div class="modal-variant-panel" data-modal-panel="content">
+				<div class="modal-variant-panel" data-modal-panel="content">
 						<div class="custom-modal-icon danger" data-modal-icon="default" aria-hidden="true">⚠</div>
-						<div class="custom-modal-title" id="workspaceQueryDeleteModal-title">작업을 삭제할까요?</div>
-						<div class="custom-modal-msg" id="workspaceQueryDeleteModal-description">
-							삭제한 작업은 다시 복구할 수 없습니다.
+						<div class="custom-modal-title" id="workspaceQueryDeleteModal-title"
+							data-query-exclusion-title>질의를 제외할까요?</div>
+						<div class="custom-modal-msg" id="workspaceQueryDeleteModal-description"
+							data-query-exclusion-description>
+							제외한 질의는 제외 목록에서 다시 복구할 수 있습니다.
 						</div>
 						<div class="custom-modal-actions">
 							<button type="button" class="btn-cancel" data-modal-close>취소</button>
-							<button type="button" class="btn-confirm danger" data-modal-close>삭제</button>
+							<button type="button" class="btn-confirm danger"
+								data-workspace-confirm="query-exclusion">제외</button>
 						</div>
 					</div>
 				</section>
 			</div>
 		</div>
-		<!-------------------- //End: query-card 질의 삭제 확인 모달 --------------------->
+		<!-------------------- //End: query-card 질의 제외·복구 확인 모달 --------------------->
 
 		<!-- //End: 9월 이후 필요 모달 -->
 
@@ -5023,7 +4599,7 @@
 						<img class="icon sidepop-list-action-icon" data-icon="pin" alt="" aria-hidden="true" /><span
 							data-file-action-label>고정</span>
 					</button>
-					<button type="button" class="dropdown-menu-item hidden" role="menuitem" data-menu-value="rename"
+					<button type="button" class="dropdown-menu-item " role="menuitem" data-menu-value="rename"
 						data-modal-open="workspaceFileRenameModal">
 						<img class="icon sidepop-list-action-icon" data-icon="edit" alt="" aria-hidden="true" /><span>이름
 							변경</span>

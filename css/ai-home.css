@@ -606,24 +606,6 @@ body:has(.history-modal-backdrop:not([hidden])) {
 .history-table tbody tr.history-row-link:active {
     transform: translateY(1px);
 }
-.history-skeleton-row td {
-    padding-top: 15px !important;
-    padding-bottom: 15px !important;
-}
-.history-skeleton-cell {
-    height: 12px;
-    min-width: 48px;
-}
-.history-skeleton-cell.wide {
-    width: 82%;
-}
-.history-skeleton-cell.medium {
-    width: 62%;
-}
-.history-skeleton-cell.short {
-    width: 40%;
-}
-
 @media (max-width: 640px) {
     .history-modal-search {
         align-items: stretch;
