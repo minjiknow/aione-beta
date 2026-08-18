@@ -30,7 +30,7 @@
                 const $ = (s, c = document) => c.querySelector(s);
                 // DOM 요소 목록 조회
                 const $$ = (s, c = document) => [...c.querySelectorAll(s)];
-                const ANSWER_PANEL_SELECTOR = ".three-panel-host > .three-panel";
+                const ANSWER_PANEL_SELECTOR = ".three-panel-area > .three-panel";
 
                 // After Prototype 복제
                 function cloneAfterPrototype(prototypeId) {
@@ -751,7 +751,7 @@
 
                 // 문서 상태 바 구성
                 function buildDocumentStatusBar({ id = "", target, scrollTarget, pageSelector = "", fullscreenTarget, stats }) {
-                    return `<div class="document-statusbar-host">
+                    return `<div class="document-statusbar-area">
       <footer${id ? ` id="${id}"` : ""} class="document-statusbar" data-component="document-statusbar" data-document-statusbar
         data-document-target="${target}" data-document-scroll-target="${scrollTarget}"
         ${pageSelector ? `data-document-page-selector="${pageSelector}"` : ""}
@@ -780,8 +780,8 @@
 
                 // 비교 상태 바 초기화
                 function initCompareStatusBar(scope = document) {
-                    const statusBarHost = scope.querySelector("#compareStatusBar");
-                    const statusBar = statusBarHost?.querySelector("[data-document-statusbar]");
+                    const statusBarArea = scope.querySelector("#compareStatusBar");
+                    const statusBar = statusBarArea?.querySelector("[data-document-statusbar]");
                     const basePanel = scope.querySelector("#compareBasePanel");
                     const draftPanel = scope.querySelector("#compareDraftPanel");
                     if (!statusBar || !basePanel || !draftPanel) return;
@@ -1724,6 +1724,12 @@
                         onMore: () => showToast("추가옵션"),
                         onReport: ({ button }) => openReportDrawer(button),
                     });
+
+                    if (!messageList || messageList.dataset.answerAfterRetryToastBound === "true") return;
+                    messageList.dataset.answerAfterRetryToastBound = "true";
+                    messageList.addEventListener("chat-message:action", (event) => {
+                        if (event.detail?.action === "retry") showToast("답변을 다시 생성합니다.");
+                    });
                 }
 
                 // 동적 메시지의 높이가 확정된 뒤에도 채팅 목록의 마지막 메시지를 노출
@@ -1785,22 +1791,22 @@
                 function syncChatListSelection(sidepop = $("#answerReportSidepop")) {
                     if (!sidepop) return;
 
-                    const items = Array.from(sidepop.querySelectorAll(".sidepop-chat-item"));
+                    const items = Array.from(sidepop.querySelectorAll(".drawer-chat-item"));
                     items.forEach((item, fallbackIndex) => {
                         const originalIndex = Number.parseInt(item.dataset.sidepopOriginalOrder, 10);
                         const topicIndex = Number.isInteger(originalIndex) ? originalIndex : fallbackIndex;
                         const isActive = topicIndex === activeChatTopic;
                         item.classList.toggle("is-active", isActive);
-                        item.querySelector(".sidepop-chat-select")?.setAttribute("aria-pressed", String(isActive));
+                        item.querySelector(".drawer-chat-select")?.setAttribute("aria-pressed", String(isActive));
                     });
                 }
 
                 // 채팅 주제 선택
                 function selectChatTopic(select, sidepop) {
-                    const item = select?.closest(".sidepop-chat-item");
+                    const item = select?.closest(".drawer-chat-item");
                     if (!item || !sidepop?.contains(item)) return;
 
-                    const items = Array.from(sidepop.querySelectorAll(".sidepop-chat-item"));
+                    const items = Array.from(sidepop.querySelectorAll(".drawer-chat-item"));
                     const originalIndex = Number.parseInt(item.dataset.sidepopOriginalOrder, 10);
                     const topicIndex = Number.isInteger(originalIndex) ? originalIndex : items.indexOf(item);
                     if (!chatTopics[topicIndex] || !chatConversations[topicIndex]) return;
@@ -2286,7 +2292,7 @@
                     if (reportSidepop) {
                         syncChatListSelection(reportSidepop);
                         reportSidepop.addEventListener("click", (event) => {
-                            const select = event.target.closest(".sidepop-chat-select");
+                            const select = event.target.closest(".drawer-chat-select");
                             if (select) selectChatTopic(select, reportSidepop);
                         });
                         reportSidepop.addEventListener("sidepop:close", resetReportForm);
@@ -2346,34 +2352,35 @@
                 /* ============================ 시작: 파일 업로드 ============================ */
 
                 // 보안 모달 조회
-                function getSecurityModal() {
-                    return $("#customModalBackdrop");
+                function getSecurityModal(panelName) {
+                    return document.querySelector(`[data-custom-modal="${panelName}"]`);
+                }
+
+                // 모달 배경 클릭 여부 확인
+                function isModalBackgroundClick(event, modal) {
+                    return event.target === modal?.querySelector(":scope > .modal-bg");
                 }
 
                 // Custom 모달 패널 표시
                 function showCustomModalPanel(panelName) {
-                    const modal = getSecurityModal();
+                    const modal = getSecurityModal(panelName);
                     if (!modal) return null;
 
-                    let activePanel = null;
-                    modal.querySelectorAll("[data-custom-modal-panel]").forEach((panel) => {
-                        const isActive = panel.dataset.customModalPanel === panelName;
-                        panel.hidden = !isActive;
-                        if (isActive) activePanel = panel;
-                    });
-                    if (!activePanel) return null;
+                    const panel = modal.querySelector(`[data-modal-panel="${panelName}"]`);
+                    if (!panel) return null;
 
+                    panel.hidden = false;
                     modal.classList.remove("hidden");
-                    return { modal, panel: activePanel };
+                    return { modal, panel };
                 }
 
                 // Custom 모달 닫기
                 function closeCustomModal() {
-                    const modal = getSecurityModal();
-                    if (!modal) return;
-                    modal.classList.add("hidden");
-                    modal.querySelectorAll("[data-custom-modal-panel]").forEach((panel) => {
-                        panel.hidden = true;
+                    document.querySelectorAll("[data-custom-modal]").forEach((modal) => {
+                        modal.classList.add("hidden");
+                        modal.querySelectorAll("[data-modal-panel]").forEach((panel) => {
+                            panel.hidden = true;
+                        });
                     });
                 }
 
@@ -2403,7 +2410,7 @@
                     };
                     panel.querySelector("#securityBlockedOk").onclick = close;
                     modal.onclick = (event) => {
-                        if (event.target === modal) close();
+                        if (isModalBackgroundClick(event, modal)) close();
                     };
                 }
 
@@ -2420,7 +2427,7 @@
                         if (onConfirm) onConfirm(results.map((result) => result.file));
                     };
                     modal.onclick = (event) => {
-                        if (event.target === modal) close();
+                        if (isModalBackgroundClick(event, modal)) close();
                     };
                 }
 
@@ -2493,15 +2500,18 @@
                         showToast("첨부파일은 각 10MB 이내만 가능합니다.");
                         return false;
                     });
-                    allowedFiles.slice(0, remaining).forEach((file) => {
-                        const ext = file.name.split(".").pop().toLowerCase();
-                        let type = "txt";
-                        if (ext === "pdf") type = "pdf";
-                        else if (["png", "jpg", "jpeg"].includes(ext)) type = "img";
+                    const filesToAdd = allowedFiles.slice(0, remaining);
+                    filesToAdd.forEach((file) => {
+                        const detectedType = getReferenceFileType(file.name, "file");
+                        const iconType = { xlsx: "xls", pptx: "img", file: "txt" }[detectedType] || detectedType;
+                        const label = getReferenceFileExtension(file.name, detectedType);
                         const size = (file.size / 1024 / 1024).toFixed(1) + "MB";
-                        reportFiles.push({ name: file.name, size, type });
+                        reportFiles.push({ name: file.name, size, type: iconType, label });
                     });
                     renderReportFiles();
+                    if (allowedFiles.length > filesToAdd.length) {
+                        showToast("첨부파일은 최대 5개까지 가능합니다.");
+                    }
                 }
 
                 // 보고서 파일 렌더링
@@ -2511,11 +2521,17 @@
                     list.innerHTML = reportFiles
                         .map(
                             (f, i) => `
-      <li>
-        <span class="report-file-icon ${f.type}">${f.type}</span>
-        <span class="report-file-name">${f.name}</span>
-        <span class="report-file-size">${f.size}</span>
-        <button type="button" class="report-file-remove" data-idx="${i}" aria-label="파일 삭제">×</button>
+      <li class="report-file-item">
+        <span class="file-item-main">
+          <span class="file-icon ${escapeHtml(f.type)}" aria-hidden="true">${escapeHtml(f.label)}</span>
+          <span class="file-info">
+            <span class="file-name" title="${escapeHtml(f.name)}">${escapeHtml(f.name)}</span>
+          </span>
+        </span>
+        <span class="file-item-side">
+          <span class="file-meta">${escapeHtml(f.size)}</span>
+          <button type="button" class="file-remove-simple report-file-remove" data-idx="${i}" aria-label="${escapeHtml(f.name)} 삭제">×</button>
+        </span>
       </li>`,
                         )
                         .join("");
@@ -2923,22 +2939,15 @@
                 function getPanelKey(panel, index = 0) {
                     if (!panel) return `panel-${index}`;
                     if (panel.dataset?.panel) return panel.dataset.panel;
-                    if (panel.closest('[data-slot="left"]')) return "folder";
+                    if (panel.dataset.slot === "left" || panel.classList.contains("panel-left")) return "folder";
                     if (panel.classList.contains("panel-center")) return "center";
-                    if (panel.classList.contains("panel-chat")) return "chat";
+                    if (panel.classList.contains("panel-right")) return "chat";
                     return panel.id || `panel-${index}`;
-                }
-
-                // 패널 슬롯 조회
-                function getPanelSlots(container = $(ANSWER_PANEL_SELECTOR)) {
-                    return container ? Array.from(container.children).filter((element) => element.hasAttribute("data-slot")) : [];
                 }
 
                 // 패널 조회
                 function getPanels(container = $(ANSWER_PANEL_SELECTOR)) {
-                    return getPanelSlots(container)
-                        .map((slot) => slot.querySelector(":scope > .panel"))
-                        .filter(Boolean);
+                    return container ? Array.from(container.children).filter((element) => element.matches(".panel[data-slot]")) : [];
                 }
 
                 // 패널 핸들 조회
@@ -3019,18 +3028,15 @@
                     if (!container || !state || !Array.isArray(state.order) || state.order.length !== 3) return;
 
                     const handles = getPanelHandles(container);
-                    const slotMap = new Map();
-                    getPanelSlots(container).forEach((slot, index) => {
-                        const panel = slot.querySelector(":scope > .panel");
-                        if (panel) slotMap.set(getPanelKey(panel, index), slot);
-                    });
-                    const orderedSlots = state.order.map((key) => slotMap.get(key)).filter(Boolean);
-                    if (orderedSlots.length !== slotMap.size) return;
+                    const panelMap = new Map();
+                    getPanels(container).forEach((panel, index) => panelMap.set(getPanelKey(panel, index), panel));
+                    const orderedPanels = state.order.map((key) => panelMap.get(key)).filter(Boolean);
+                    if (orderedPanels.length !== panelMap.size) return;
 
                     while (container.firstChild) container.removeChild(container.firstChild);
-                    orderedSlots.forEach((slot, index) => {
-                        container.appendChild(slot);
-                        if (index < orderedSlots.length - 1 && handles[index]) container.appendChild(handles[index]);
+                    orderedPanels.forEach((panel, index) => {
+                        container.appendChild(panel);
+                        if (index < orderedPanels.length - 1 && handles[index]) container.appendChild(handles[index]);
                     });
 
                     if (isResponsiveAnswerMode()) {
@@ -3198,8 +3204,7 @@
                                 document.body.style.userSelect = "none";
 
                                 const hoveredPanel = document.elementFromPoint(moveEvent.clientX, moveEvent.clientY)?.closest(".panel");
-                                const hoveredSlot = hoveredPanel?.closest("[data-slot]");
-                                targetPanel = hoveredSlot?.parentElement === container && hoveredPanel !== panel ? hoveredPanel : null;
+                                targetPanel = hoveredPanel?.parentElement === container && hoveredPanel !== panel ? hoveredPanel : null;
                                 getPanels(container).forEach((item) => item.classList.toggle("drag-over", item === targetPanel));
                             };
 
@@ -3682,9 +3687,17 @@
                 /* ============================ 끝: 답변서 버전 바 ============================== */
 
                 /* ============================ 시작: 답변서 검증 ============================ */
+                const draftVerifyDisplayState = {
+                    highlight: true,
+                    source: true,
+                };
+
                 // 초안 근거 검증 초기화
                 function initDraftVerify() {
-                    const editor = $(".draft-editor");
+                    const wrapper = $("#centerBody .draft-view-wrapper");
+                    const editor = wrapper ? $(".draft-editor", wrapper) : null;
+                    if (!wrapper || !editor) return;
+
                     if (editor && editor.dataset.verifyClickBound !== "true") {
                         editor.dataset.verifyClickBound = "true";
                         editor.addEventListener("click", (event) => {
@@ -3706,24 +3719,26 @@
                         sentence.setAttribute("role", "button");
                     });
 
-                    syncDraftVerifyDisplay();
-
-                    $$(".verify-check").forEach((chk) => {
+                    $$(".verify-check", wrapper).forEach((chk) => {
+                        chk.checked = draftVerifyDisplayState[chk.dataset.mode] ?? false;
                         if (chk.dataset.verifyDisplayBound === "true") return;
                         chk.dataset.verifyDisplayBound = "true";
                         chk.addEventListener("change", () => {
-                            syncDraftVerifyDisplay();
+                            draftVerifyDisplayState[chk.dataset.mode] = chk.checked;
+                            syncDraftVerifyDisplay(wrapper);
                             resetDraftVerifyDetail();
                         });
                     });
+
+                    syncDraftVerifyDisplay(wrapper);
                 }
 
                 // 초안 근거 표시 상태 동기화
-                function syncDraftVerifyDisplay() {
-                    const editor = $(".draft-editor");
-                    if (!editor) return;
-                    const highlightOn = $('.verify-check[data-mode="highlight"]')?.checked ?? false;
-                    const sourceOn = $('.verify-check[data-mode="source"]')?.checked ?? false;
+                function syncDraftVerifyDisplay(wrapper = $("#centerBody .draft-view-wrapper")) {
+                    const editor = wrapper ? $(".draft-editor", wrapper) : null;
+                    if (!wrapper || !editor) return;
+                    const highlightOn = $('.verify-check[data-mode="highlight"]', wrapper)?.checked ?? false;
+                    const sourceOn = $('.verify-check[data-mode="source"]', wrapper)?.checked ?? false;
 
                     $$("[data-verify-tone]", editor).forEach((sentence) => {
                         ["verify-green", "verify-yellow", "verify-red"].forEach((tone) => sentence.classList.remove(tone));
@@ -3736,20 +3751,21 @@
 
                 // 초안 근거 상세 패널 초기화
                 function resetDraftVerifyDetail() {
-                    const splitArea = $(".draft-split-area");
+                    const wrapper = $("#centerBody .draft-view-wrapper");
+                    if (!wrapper) return;
+                    const splitArea = $(".draft-split-area", wrapper);
                     if (splitArea) window.AIOneSplitHandler?.reset(splitArea);
-                    const detail = $$(".verify-detail-panel").find((panel) => !panel.closest("[data-dom-prototype]"));
+                    const detail = splitArea ? $(".verify-detail-panel", splitArea) : null;
                     if (detail) detail.remove();
-                    const resHandle = $(".answer-after-evidence-split-handle");
+                    const resHandle = splitArea ? $(":scope > .split-handler-handle", splitArea) : null;
                     if (resHandle) resHandle.remove();
-                    const draftView = $(".draft-view");
+                    const draftView = $(".draft-view", wrapper);
                     if (splitArea && draftView) {
                         splitArea.parentNode.insertBefore(draftView, splitArea);
                         draftView.classList.remove("split-handler-left");
                         splitArea.remove();
                     }
-                    const wrapper = $(".draft-view-wrapper");
-                    if (wrapper) wrapper.classList.remove("verify-split");
+                    wrapper.classList.remove("verify-split");
                 }
 
                 // 근거 상세 확인 패널 템플릿 복제
@@ -3786,12 +3802,12 @@
                     $("#verifyDetailClose", detail)?.addEventListener("click", () => {
                         window.AIOneSplitHandler?.reset(splitArea);
                         detail.remove();
-                        const resizeHandle = $(".answer-after-evidence-split-handle");
+                        const resizeHandle = $(":scope > .split-handler-handle", splitArea);
                         if (resizeHandle) resizeHandle.remove();
                         wrapper.classList.remove("verify-split");
 
-                        const currentSplitArea = $(".draft-split-area");
-                        const draftView = $(".draft-view");
+                        const currentSplitArea = $(".draft-split-area", wrapper);
+                        const draftView = $(".draft-view", wrapper);
                         if (currentSplitArea && draftView) {
                             currentSplitArea.parentNode.insertBefore(draftView, currentSplitArea);
                             draftView.classList.remove("split-handler-left");
@@ -3816,12 +3832,12 @@
 
                 // 근거 상세 확인 패널 열기
                 function openVerifyDetail(el) {
-                    const wrapper = $(".draft-view-wrapper");
+                    const wrapper = $("#centerBody .draft-view-wrapper");
                     if (!wrapper) return;
 
                     // 분할 컨테이너가 없으면 생성합니다.
-                    let splitArea = $(".draft-split-area");
-                    const draftView = $(".draft-view");
+                    let splitArea = $(".draft-split-area", wrapper);
+                    const draftView = $(".draft-view", wrapper);
                     if (!splitArea && draftView) {
                         splitArea = document.createElement("div");
                         splitArea.className = "draft-split-area split-handler";
@@ -3831,20 +3847,21 @@
                         draftView.classList.add("split-handler-left");
                         splitArea.appendChild(draftView);
                     }
+                    if (!splitArea) return;
 
                     // 분할 모드를 추가합니다.
                     wrapper.classList.add("verify-split");
 
                     // 상세 패널을 가져오거나 생성합니다.
-                    let detail = $$(".verify-detail-panel").find((panel) => !panel.closest("[data-dom-prototype]"));
+                    let detail = $(".verify-detail-panel", splitArea);
                     if (!detail) {
                         detail = cloneVerifyDetailTemplate();
-                        if (!detail || !splitArea) return;
+                        if (!detail) return;
 
-                        let resizeHandle = $(".answer-after-evidence-split-handle");
+                        let resizeHandle = $(":scope > .split-handler-handle", splitArea);
                         if (!resizeHandle) {
                             resizeHandle = document.createElement("div");
-                            resizeHandle.className = "split-handler-handle answer-after-evidence-split-handle";
+                            resizeHandle.className = "split-handler-handle";
                             resizeHandle.setAttribute("role", "separator");
                             resizeHandle.setAttribute("aria-label", "답변서 초안과 근거 상세 패널 너비 조절");
                             resizeHandle.setAttribute("aria-orientation", "vertical");
@@ -3911,15 +3928,15 @@
                     const target = showCustomModalPanel(panelName);
                     if (!target) return;
                     const { modal, panel } = target;
-                    panel.querySelector("[data-custom-modal-strong]").textContent = strongText;
-                    const confirmButton = panel.querySelector("[data-custom-modal-confirm]");
-                    panel.querySelector("[data-custom-modal-cancel]").onclick = closeCustomModal;
+                    panel.querySelector("[data-modal-strong]").textContent = strongText;
+                    const confirmButton = panel.querySelector("[data-modal-confirm]");
+                    panel.querySelector("[data-modal-cancel]").onclick = closeCustomModal;
                     confirmButton.onclick = () => {
                         closeCustomModal();
                         if (onConfirm) onConfirm();
                     };
                     modal.onclick = (event) => {
-                        if (event.target === modal) closeCustomModal();
+                        if (isModalBackgroundClick(event, modal)) closeCustomModal();
                     };
                 }
 
@@ -4067,10 +4084,7 @@ ${lines.join("\n")}
                     }));
 
                     collapsedIcons.innerHTML = [...selectedRecommendations, ...importedSources, ...uploadedSources]
-                        .map(
-                            (source) =>
-                                `<span class="collapsed-smart-source-item" title="${escapeHtml(source.name)}" aria-label="${escapeHtml(source.name)}">${renderReferenceFileIcon(source)}</span>`,
-                        )
+                        .map((source) => `<span class="collapsed-smart-source-item" title="${escapeHtml(source.name)}" aria-label="${escapeHtml(source.name)}">${renderReferenceFileIcon(source)}</span>`)
                         .join("");
                 }
 
@@ -4375,7 +4389,7 @@ ${lines.join("\n")}
                     $("#sourceRenameCancel").onclick = close;
                     $("#sourceRenameConfirm").onclick = save;
                     modal.onclick = (event) => {
-                        if (event.target === modal) close();
+                        if (isModalBackgroundClick(event, modal)) close();
                     };
                     input.onkeydown = (event) => {
                         if (event.key === "Enter") save();
@@ -5022,7 +5036,7 @@ ${lines.join("\n")}
                     $("#smartSourceModalClose")?.addEventListener("click", closeSmartSourceModal);
                     $("#smartSourceModalCancel")?.addEventListener("click", closeSmartSourceModal);
                     modal?.addEventListener("click", (event) => {
-                        if (event.target === modal) closeSmartSourceModal();
+                        if (isModalBackgroundClick(event, modal)) closeSmartSourceModal();
                     });
                     document.addEventListener("keydown", (event) => {
                         if (event.key === "Escape") {
@@ -5444,13 +5458,14 @@ ${lines.join("\n")}
 
     // 완료 답변 화면 시작 조건 확인
     function tryStartAfter9Workspace() {
+        hydrateIcons(document);
         if (workspaceStarted) return;
 
-        const sidebar = document.querySelector('body[data-page="answer-after-9"] > .app-sidebar');
-        const panelHost = document.querySelector(".three-panel-host");
-        const threePanel = panelHost?.querySelector(".three-panel");
-        const topbarHost = document.querySelector(".answer-after-9-topbar-host");
-        const topbar = topbarHost?.querySelector(".app-topbar");
+        const sidebar = document.querySelector('body[data-page="answer-after-9"] > .app > .sidebar');
+        const panelArea = document.querySelector(".three-panel-area");
+        const threePanel = panelArea?.querySelector(".three-panel");
+        const topbarArea = document.querySelector('body[data-page="answer-after-9"] > .app > .main-wrap > .topbar-area');
+        const topbar = topbarArea?.querySelector(".app-topbar");
         const smartUpload = document.querySelector("#smartSearchGuide [data-file-upload-zone]");
         const reportSidepop = document.querySelector("#answerReportSidepop[data-sidepop]");
         const reportUpload = reportSidepop?.querySelector("#reportUploadZone [data-file-upload-zone]");
@@ -5458,7 +5473,6 @@ ${lines.join("\n")}
 
         if (!sidebar || !topbar || !threePanel || !smartUpload || !reportSidepop || !reportUpload || !toast) return;
 
-        hydrateIcons(document);
         window.AIOneSidebar?.configure(sidebar, {
             activePage: "answer-after-9",
             initialCollapsed: false,

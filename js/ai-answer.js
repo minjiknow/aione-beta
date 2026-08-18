@@ -13,12 +13,13 @@
         "① (선택) 좌측 AI 참조소스에서 첨부파일을 업로드하고\n" +
         "② 이 채팅에 국회질의를 입력하시면\n" +
         "과거 유사답변서나 관련자료 추천하고 초안을 생성합니다.";
+    const ANSWER_PAGE_SELECTOR = 'body[data-page="answer"] > .app';
 
     const requiredSelectors = [
-        ".answer-workspace-app",
-        ".answer-three-panel-host > .three-panel",
-        ".answer-workspace-page .app-sidebar",
-        ".answer-workspace-page .app-topbar",
+        ANSWER_PAGE_SELECTOR,
+        `${ANSWER_PAGE_SELECTOR} .three-panel-area > .three-panel`,
+        `${ANSWER_PAGE_SELECTOR} > .sidebar`,
+        `${ANSWER_PAGE_SELECTOR} .app-topbar`,
         ".answer-upload-component [data-file-upload-zone]",
         "#answerChatMessages",
         "#answerChatListSidepop[data-sidepop]",
@@ -94,7 +95,7 @@
 
     // 사이드바 초기화
     function initSidebar() {
-        const sidebar = document.querySelector(".answer-workspace-page .app-sidebar");
+        const sidebar = document.querySelector(`${ANSWER_PAGE_SELECTOR} > .sidebar`);
         if (!sidebar) return;
 
         window.AIOneSidebar?.configure(sidebar, {
@@ -104,10 +105,13 @@
     }
 
     // 패널 크기 조절 레이아웃 일시 중지
-    function suspendPanelResizeLayout(layout) {
-        if (!layout?.style.gridTemplateColumns) return;
-        layout.dataset.answerGridTemplate = layout.style.gridTemplateColumns;
+    function suspendPanelResizeLayout(layout, panel) {
+        if (!layout || !panel) return;
+        if (layout.style.gridTemplateColumns) {
+            layout.dataset.answerGridTemplate = layout.style.gridTemplateColumns;
+        }
         layout.style.removeProperty("grid-template-columns");
+        window.AIOneSplitHandler?.setPanelToMinimum(panel);
         window.AIOneSplitHandler?.init(layout);
     }
 
@@ -475,13 +479,13 @@
         });
 
         document.querySelector("[data-source-collapse]")?.addEventListener("click", () => {
-            const panel = document.querySelector(".answer-source-panel");
+            const panel = document.querySelector('.three-panel [data-panel="folder"]');
             const button = document.querySelector("[data-source-collapse]");
             const collapsed = !panel.classList.contains("panel-collapsed");
             panel.classList.toggle("panel-collapsed", collapsed);
             panel.querySelector(".answer-source-file-section")?.classList.toggle("is-collapsed", collapsed);
             panel.closest(".three-panel")?.classList.toggle("is-source-collapsed", collapsed);
-            if (collapsed) suspendPanelResizeLayout(panel.closest(".three-panel"));
+            if (collapsed) suspendPanelResizeLayout(panel.closest(".three-panel"), panel);
             else restorePanelResizeLayout(panel.closest(".three-panel"), panel);
             button?.setAttribute("aria-expanded", String(!collapsed));
             button?.setAttribute("aria-label", collapsed ? "참조소스 패널 펼치기" : "참조소스 패널 접기");
@@ -577,7 +581,7 @@
         const triggerToRestore = activeDraftEvidenceTrigger;
         window.AIOneSplitHandler?.reset(splitArea);
         splitArea.querySelector(".verify-detail-panel")?.remove();
-        splitArea.querySelector(".answer-evidence-split-handle")?.remove();
+        splitArea.querySelector(":scope > .split-handler-handle")?.remove();
         splitArea.classList.remove("is-evidence-open");
 
         const draftPane = splitArea.querySelector(".answer-draft-main");
@@ -694,8 +698,8 @@
 
     // 소스 패널 펼치기
     function expandSourcePanel() {
-        const layout = document.querySelector(".answer-three-panel-host > .three-panel");
-        const panel = document.querySelector(".answer-source-panel");
+        const layout = document.querySelector(".three-panel-area > .three-panel");
+        const panel = document.querySelector('.three-panel [data-panel="folder"]');
         const button = document.querySelector("[data-source-collapse]");
         const wasCollapsed = panel?.classList.contains("panel-collapsed") || Boolean(layout?.dataset.answerGridTemplate);
         panel?.classList.remove("panel-collapsed");
@@ -709,9 +713,9 @@
 
     const answerPanelInitialOrders = new WeakMap();
 
-    // 패널 슬롯 조회
-    function getAnswerPanelSlots(layout) {
-        return layout ? Array.from(layout.children).filter((element) => element.hasAttribute("data-slot")) : [];
+    // 패널 조회
+    function getAnswerPanels(layout) {
+        return layout ? Array.from(layout.children).filter((element) => element.matches(".panel[data-slot]")) : [];
     }
 
     // 패널 크기 조절 핸들 조회
@@ -720,31 +724,31 @@
     }
 
     // 패널 순서 재구성
-    function rebuildAnswerPanelOrder(layout, slots) {
+    function rebuildAnswerPanelOrder(layout, panels) {
         const handles = getAnswerPanelResizeHandles(layout);
         layout.replaceChildren();
-        slots.forEach((slot, index) => {
-            layout.append(slot);
-            if (index < slots.length - 1 && handles[index]) layout.append(handles[index]);
+        panels.forEach((panel, index) => {
+            layout.append(panel);
+            if (index < panels.length - 1 && handles[index]) layout.append(handles[index]);
         });
     }
 
     // 패널 위치 교환
-    function swapAnswerPanelPositions(layout, sourceSlot, targetSlot) {
-        const slots = getAnswerPanelSlots(layout);
-        const sourceIndex = slots.indexOf(sourceSlot);
-        const targetIndex = slots.indexOf(targetSlot);
+    function swapAnswerPanelPositions(layout, sourcePanel, targetPanel) {
+        const panels = getAnswerPanels(layout);
+        const sourceIndex = panels.indexOf(sourcePanel);
+        const targetIndex = panels.indexOf(targetPanel);
         if (sourceIndex < 0 || targetIndex < 0 || sourceIndex === targetIndex) return false;
 
-        const widths = new Map(slots.map((slot) => [slot, Math.round(slot.getBoundingClientRect().width)]));
-        [slots[sourceIndex], slots[targetIndex]] = [slots[targetIndex], slots[sourceIndex]];
+        const widths = new Map(panels.map((panel) => [panel, Math.round(panel.getBoundingClientRect().width)]));
+        [panels[sourceIndex], panels[targetIndex]] = [panels[targetIndex], panels[sourceIndex]];
         layout.classList.remove("is-panel-swapped");
-        rebuildAnswerPanelOrder(layout, slots);
+        rebuildAnswerPanelOrder(layout, panels);
 
         if (window.matchMedia("(max-width: 1024px)").matches) {
             layout.style.removeProperty("grid-template-columns");
         } else {
-            const tracks = slots.map((slot) => (slot.dataset.slot === "center" ? "minmax(0, 1fr)" : `${widths.get(slot)}px`));
+            const tracks = panels.map((panel) => (panel.dataset.slot === "center" ? "minmax(0, 1fr)" : `${widths.get(panel)}px`));
             layout.style.gridTemplateColumns = tracks.flatMap((track, index) => (index < tracks.length - 1 ? [track, "2px"] : [track])).join(" ");
         }
 
@@ -764,10 +768,9 @@
     function initAnswerPanelDragDrop(layout) {
         const interactiveSelector = "button, input, select, textarea, a, label, [contenteditable], [role='button'], [role='tab']";
 
-        getAnswerPanelSlots(layout).forEach((slot) => {
-            const panel = slot.querySelector(":scope > .panel");
-            const dragHandle = panel?.querySelector(":scope > .panel-head, :scope > .center-header");
-            if (!panel || !dragHandle) return;
+        getAnswerPanels(layout).forEach((panel) => {
+            const dragHandle = panel.querySelector(":scope > .panel-head, :scope > .center-header");
+            if (!dragHandle) return;
 
             dragHandle.style.cursor = "grab";
             dragHandle.style.touchAction = "none";
@@ -779,13 +782,13 @@
                 const startX = event.clientX;
                 const startY = event.clientY;
                 let isDragging = false;
-                let targetSlot = null;
+                let targetPanel = null;
 
                 const clearDragState = () => {
                     panel.style.removeProperty("opacity");
                     dragHandle.style.cursor = "grab";
                     document.body.style.userSelect = "";
-                    getAnswerPanelSlots(layout).forEach((item) => item.querySelector(":scope > .panel")?.classList.remove("drag-over"));
+                    getAnswerPanels(layout).forEach((item) => item.classList.remove("drag-over"));
                 };
 
                 const onPointerMove = (moveEvent) => {
@@ -798,9 +801,9 @@
                     dragHandle.style.cursor = "grabbing";
                     document.body.style.userSelect = "none";
 
-                    const hoveredSlot = document.elementFromPoint(moveEvent.clientX, moveEvent.clientY)?.closest("[data-slot]");
-                    targetSlot = hoveredSlot?.parentElement === layout && hoveredSlot !== slot ? hoveredSlot : null;
-                    getAnswerPanelSlots(layout).forEach((item) => item.querySelector(":scope > .panel")?.classList.toggle("drag-over", item === targetSlot));
+                    const hoveredPanel = document.elementFromPoint(moveEvent.clientX, moveEvent.clientY)?.closest(".panel[data-slot]");
+                    targetPanel = hoveredPanel?.parentElement === layout && hoveredPanel !== panel ? hoveredPanel : null;
+                    getAnswerPanels(layout).forEach((item) => item.classList.toggle("drag-over", item === targetPanel));
                 };
 
                 const onPointerEnd = (endEvent) => {
@@ -809,9 +812,9 @@
                     document.removeEventListener("pointerup", onPointerEnd);
                     document.removeEventListener("pointercancel", onPointerEnd);
 
-                    const dropTarget = endEvent.type === "pointerup" ? targetSlot : null;
+                    const dropTarget = endEvent.type === "pointerup" ? targetPanel : null;
                     clearDragState();
-                    if (isDragging && dropTarget && swapAnswerPanelPositions(layout, slot, dropTarget)) {
+                    if (isDragging && dropTarget && swapAnswerPanelPositions(layout, panel, dropTarget)) {
                         showToast("패널 위치가 변경되었습니다.");
                     }
                 };
@@ -825,19 +828,19 @@
 
     // 패널 도구 초기화
     function initPanelTools() {
-        const layout = document.querySelector(".answer-three-panel-host > .three-panel");
+        const layout = document.querySelector(".three-panel-area > .three-panel");
         const swapButton = document.querySelector("#panelSwapBtn");
         const resetButton = document.querySelector("#layoutResetBtn");
         if (!layout) return;
 
-        answerPanelInitialOrders.set(layout, getAnswerPanelSlots(layout));
+        answerPanelInitialOrders.set(layout, getAnswerPanels(layout));
         initAnswerPanelDragDrop(layout);
 
         swapButton?.addEventListener("click", () => {
             expandSourcePanel();
-            const sourceSlot = document.querySelector(".answer-source-panel")?.closest("[data-slot]");
-            const chatSlot = document.querySelector(".answer-chat-panel")?.closest("[data-slot]");
-            if (swapAnswerPanelPositions(layout, sourceSlot, chatSlot)) {
+            const sourcePanel = document.querySelector('.three-panel [data-panel="folder"]');
+            const chatPanel = document.querySelector('.three-panel [data-panel="chat"]');
+            if (swapAnswerPanelPositions(layout, sourcePanel, chatPanel)) {
                 showToast("참조소스와 AI 채팅 위치를 변경했습니다.");
             }
         });
@@ -1039,7 +1042,7 @@
     function showAnswerSkeleton(message = "AI 응답 데이터를 불러오고 있습니다...") {
         hideAnswerSkeleton();
 
-        const panel = document.querySelector(".answer-center-panel");
+        const panel = document.querySelector('.three-panel [data-panel="center"]');
         if (!panel) return;
 
         const overlay = document.createElement("div");
@@ -1085,7 +1088,7 @@
     // 답변 생성 결과 영역의 스켈레톤을 제거합니다.
     function hideAnswerSkeleton() {
         document.querySelectorAll(".answer-api-skeleton").forEach((overlay) => {
-            const panel = overlay.closest(".answer-center-panel");
+            const panel = overlay.closest('[data-panel="center"]');
             overlay.remove();
             panel?.removeAttribute("aria-busy");
         });
@@ -1130,10 +1133,7 @@
             scheduleWorkspaceTask(() => {
                 hideAnswerSkeleton();
                 restoreRecommendationResults();
-                const aiMessage = createChatMessage(
-                    "ai",
-                    "요청하신 내용을 기준으로 관련자료와 답변서 초안을 갱신했습니다. 답변서 초안 탭에서 근거 문장과 확인 필요 항목을 검토해 주세요.",
-                );
+                const aiMessage = createChatMessage("ai", "요청하신 내용을 기준으로 관련자료와 답변서 초안을 갱신했습니다. 답변서 초안 탭에서 근거 문장과 확인 필요 항목을 검토해 주세요.");
                 if (aiMessage && pendingMessage?.isConnected) {
                     pendingMessage.replaceWith(aiMessage);
                 } else if (aiMessage) {
@@ -1166,7 +1166,7 @@
         resetDraftVersions();
         document.body.classList.add("is-new-chat");
 
-        const layout = document.querySelector(".answer-three-panel-host > .three-panel");
+        const layout = document.querySelector(".three-panel-area > .three-panel");
         const sourceFiles = document.querySelector(".answer-source-files");
         const sourceInput = document.querySelector("#answerSourceFileInput");
         const cards = Array.from(document.querySelectorAll("[data-reference-card]"));
@@ -1236,11 +1236,11 @@
         });
 
         const chatListSidepop = document.querySelector("#answerChatListSidepop");
-        chatListSidepop?.querySelectorAll(".sidepop-chat-select").forEach((select) => {
+        chatListSidepop?.querySelectorAll(".drawer-chat-select").forEach((select) => {
             select.addEventListener("click", () => {
-                const topic = select.closest(".sidepop-chat-item");
+                const topic = select.closest(".drawer-chat-item");
                 if (!topic) return;
-                document.querySelectorAll("#answerChatListSidepop .sidepop-chat-item").forEach((item) => item.classList.toggle("is-active", item === topic));
+                document.querySelectorAll("#answerChatListSidepop .drawer-chat-item").forEach((item) => item.classList.toggle("is-active", item === topic));
                 window.AIOneSidePop?.close("#answerChatListSidepop");
                 showToast("선택한 채팅으로 전환했습니다.");
             });
@@ -1262,6 +1262,7 @@
 
     // 화면 초기화
     function init() {
+        hydrateIcons();
         if (initialized || !allComponentsReady()) return;
         initialized = true;
 
@@ -1276,7 +1277,6 @@
         initPanelTools();
         initChat();
         initTopbarActions();
-        hydrateIcons();
     }
 
     document.addEventListener("DOMContentLoaded", init);

@@ -2,21 +2,21 @@
 
 /* 파일 역할: ai-home 화면과 서비스 카드 스타일을 정의합니다. */
 
-/* ==================== Start: data-table ==================== */
-.data-table-container {
+/* ==================== Start: .table ==================== */
+.table-area {
     max-width: 100%;
     box-shadow: 0 5px 20px rgba(31, 35, 40, 0.02);
 }
 
-.data-table tbody tr[data-history-target],
-.data-table tbody tr[data-history-title] {
+tbody tr[data-history-target],
+tbody tr[data-history-title] {
     cursor: pointer;
 }
 
 .dropdown-menu {
     min-width: 112px;
 }
-/* ==================== //End: data-table ==================== */
+/* ==================== //End: .table ==================== */
 
 /* ==================== Start: Service-card ==================== */
 
@@ -383,20 +383,12 @@
 
 /* ==================== Start: History Modal ==================== */
 
-.history-modal-backdrop {
-    position: fixed;
-    inset: 0;
-    background: rgba(0, 0, 0, 0.4);
+.history-modal-layer {
     z-index: 600;
-    display: flex;
-    align-items: center;
-    justify-content: center;
     padding: 12px;
 }
-.history-modal-backdrop[hidden] {
-    display: none;
-}
-body:has(.history-modal-backdrop:not([hidden])) {
+
+body:has(.history-modal-layer:not(.hidden)) {
     overflow: hidden;
 }
 .history-modal {
@@ -405,6 +397,7 @@ body:has(.history-modal-backdrop:not([hidden])) {
     width: min(900px, 100%);
     max-height: calc(100vh - 24px);
     max-height: calc(100dvh - 24px);
+    padding: 0;
     overflow: hidden;
     border: 1px solid var(--border);
     background: var(--surface);
@@ -606,11 +599,17 @@ body:has(.history-modal-backdrop:not([hidden])) {
 .history-table tbody tr.history-row-link:active {
     transform: translateY(1px);
 }
+@media (max-width: 1024px) {
+    .modal-contents {
+        max-width: 90%;
+    }
+}
 @media (max-width: 640px) {
     .history-modal-search {
         align-items: stretch;
         flex-direction: column;
     }
+
     .history-search-result {
         text-align: left;
     }
@@ -627,66 +626,20 @@ body:has(.history-modal-backdrop:not([hidden])) {
 
 /* ==================== Start: Layout=================== */
 
-.ai-one-background-home {
-    left: 56px;
+.ai-one-background {
     background:
         radial-gradient(600px 600px at 10% 20%, rgba(77, 217, 192, 0.06) 0%, transparent 60%), radial-gradient(500px 500px at 80% 10%, rgba(var(--primary-rgb, 9, 105, 218), 0.05) 0%, transparent 60%),
         radial-gradient(450px 450px at 60% 80%, rgba(130, 80, 223, 0.04) 0%, transparent 60%), radial-gradient(400px 400px at 30% 70%, rgba(56, 189, 248, 0.04) 0%, transparent 60%);
     transition: left 0.25s ease;
 }
 
-.home-sidebar-host.sidebar-expanded ~ .ai-home-main .ai-one-background-home {
-    left: var(--sidebar-w);
-}
-
-.component-catalog-preview .ai-one-background-home,
-.component-catalog-preview .home-sidebar-host.sidebar-expanded ~ .ai-home-main .ai-one-background-home {
-    left: 0;
-}
-body.ai-home-page {
-    --sidebar-w: 200px;
-    min-width: 320px;
-    min-height: 100vh;
-    overflow-x: hidden;
-}
-
-.ai-home-app {
-    min-height: 100vh;
-}
-
-.home-sidebar-host {
-    position: relative;
-    z-index: 100;
-}
-
-.component-catalog-preview .home-sidebar-host {
-    display: none;
-}
-
-.ai-home-main {
+.main-wrap {
     position: relative;
     min-height: 100vh;
-    padding-left: 56px;
-    overflow: hidden;
     background: var(--bg, #f6f8fa);
-    transition: padding-left 0.25s ease;
 }
 
-.home-sidebar-host.sidebar-expanded ~ .ai-home-main {
-    padding-left: var(--sidebar-w);
-}
-
-.home-sidebar-host[data-sidebar-responsive-sync="true"] ~ .ai-home-main,
-.home-sidebar-host[data-sidebar-responsive-sync="true"] ~ .ai-home-main .ai-one-background-home {
-    transition: none;
-}
-
-.component-catalog-preview .ai-home-main,
-.component-catalog-preview .home-sidebar-host.sidebar-expanded ~ .ai-home-main {
-    padding-left: 0;
-}
-
-.home-content {
+.page {
     position: relative;
     z-index: 1;
     width: min(960px, 100%);
@@ -738,7 +691,7 @@ body.ai-home-page {
 /* ==================== //End: Layout ==================== */
 
 /* ==================== Start: ai-home 뒷배경효과 ==================== */
-.ai-one-background-home::before {
+.ai-one-background::before {
     position: absolute;
     inset: 0;
     z-index: 0;
@@ -748,14 +701,14 @@ body.ai-home-page {
     opacity: 0.8;
 }
 
-.ai-one-background-home-orb {
+.ai-one-background-orb {
     z-index: 1;
     border-radius: 50%;
     opacity: 0.6;
     animation: home-background-orb-float 18s ease-in-out infinite;
 }
 
-.ai-one-background-home-orb-one {
+.ai-one-background-orb-one {
     top: -100px;
     right: -50px;
     width: 500px;
@@ -764,7 +717,7 @@ body.ai-home-page {
     filter: blur(40px);
 }
 
-.ai-one-background-home-orb-two {
+.ai-one-background-orb-two {
     bottom: -80px;
     left: 10%;
     width: 450px;
@@ -775,7 +728,7 @@ body.ai-home-page {
     animation-duration: 22s;
 }
 
-.ai-one-background-home-orb-three {
+.ai-one-background-orb-three {
     top: 40%;
     left: 50%;
     width: 400px;
@@ -786,13 +739,13 @@ body.ai-home-page {
     animation-duration: 20s;
 }
 
-.ai-one-background-home-shape {
+.ai-one-background-shape {
     z-index: 2;
     pointer-events: none;
     opacity: 0.12;
 }
 
-.ai-one-background-home-shape-one {
+.ai-one-background-shape-one {
     top: 8%;
     right: 12%;
     width: 80px;
@@ -802,7 +755,7 @@ body.ai-home-page {
     animation: home-background-shape-spin 30s linear infinite;
 }
 
-.ai-one-background-home-shape-two {
+.ai-one-background-shape-two {
     top: 55%;
     right: 8%;
     width: 50px;
@@ -812,7 +765,7 @@ body.ai-home-page {
     animation: home-background-shape-bounce 8s ease-in-out infinite;
 }
 
-.ai-one-background-home-shape-three {
+.ai-one-background-shape-three {
     bottom: 15%;
     left: 8%;
     width: 60px;
@@ -822,7 +775,7 @@ body.ai-home-page {
     animation: home-background-shape-spin 25s linear infinite reverse;
 }
 
-.ai-one-background-home-shape-four {
+.ai-one-background-shape-four {
     top: 20%;
     left: 15%;
     width: 40px;
@@ -833,7 +786,7 @@ body.ai-home-page {
     animation-delay: -3s;
 }
 
-.ai-one-background-home-shape-five {
+.ai-one-background-shape-five {
     right: 25%;
     bottom: 30%;
     width: 0;
@@ -845,13 +798,13 @@ body.ai-home-page {
     animation-delay: -5s;
 }
 
-.ai-one-background-home-dots {
+.ai-one-background-dots {
     inset: 0;
     z-index: 2;
 }
 
-.ai-one-background-home-dots::before,
-.ai-one-background-home-dots::after {
+.ai-one-background-dots::before,
+.ai-one-background-dots::after {
     position: absolute;
     top: 15%;
     left: 30%;
@@ -861,7 +814,7 @@ body.ai-home-page {
     animation: home-background-dots-drift 25s ease-in-out infinite;
 }
 
-.ai-one-background-home-dots::before {
+.ai-one-background-dots::before {
     border-radius: 50%;
     background: rgba(var(--primary-rgb, 9, 105, 218), 0.15);
     box-shadow:
@@ -876,7 +829,7 @@ body.ai-home-page {
         100px 100px 0 rgba(56, 189, 248, 0.1);
 }
 
-.ai-one-background-home-dots::after {
+.ai-one-background-dots::after {
     background: transparent;
     box-shadow:
         80px 50px 0 0.5px rgba(var(--primary-rgb, 9, 105, 218), 0.06),
@@ -930,46 +883,46 @@ body.ai-home-page {
 
 /* ==================== Start: ai-one 다크 홈 배경 대비==================== */
 
-html[data-theme="dark"] .ai-one-background-home {
+html[data-theme="dark"] .ai-one-background {
     background:
         radial-gradient(620px 620px at 10% 20%, rgba(77, 217, 192, 0.11) 0%, transparent 62%), radial-gradient(540px 540px at 82% 10%, rgba(var(--primary-rgb, 88, 166, 255), 0.12) 0%, transparent 62%),
         radial-gradient(480px 480px at 60% 80%, rgba(163, 113, 247, 0.1) 0%, transparent 62%), radial-gradient(420px 420px at 30% 70%, rgba(56, 189, 248, 0.09) 0%, transparent 62%);
 }
 
-html[data-theme="dark"] .ai-one-background-home::before {
+html[data-theme="dark"] .ai-one-background::before {
     background-image: linear-gradient(rgba(var(--primary-rgb, 88, 166, 255), 0.075) 1px, transparent 1px), linear-gradient(90deg, rgba(var(--primary-rgb, 88, 166, 255), 0.075) 1px, transparent 1px);
     opacity: 0.9;
 }
 
-html[data-theme="dark"] .ai-one-background-home-orb {
+html[data-theme="dark"] .ai-one-background-orb {
     opacity: 0.9;
 }
 
-html[data-theme="dark"] .ai-one-background-home-orb-one {
+html[data-theme="dark"] .ai-one-background-orb-one {
     background: radial-gradient(circle, rgba(77, 217, 192, 0.24) 0%, transparent 66%);
 }
 
-html[data-theme="dark"] .ai-one-background-home-orb-two {
+html[data-theme="dark"] .ai-one-background-orb-two {
     background: radial-gradient(circle, rgba(var(--primary-rgb, 88, 166, 255), 0.22) 0%, transparent 66%);
 }
 
-html[data-theme="dark"] .ai-one-background-home-orb-three {
+html[data-theme="dark"] .ai-one-background-orb-three {
     background: radial-gradient(circle, rgba(163, 113, 247, 0.2) 0%, transparent 66%);
 }
 
-html[data-theme="dark"] .ai-one-background-home-shape {
+html[data-theme="dark"] .ai-one-background-shape {
     opacity: 0.28;
 }
 
-html[data-theme="dark"] .ai-one-background-home-shape-three {
+html[data-theme="dark"] .ai-one-background-shape-three {
     border-color: rgba(77, 217, 192, 0.95);
 }
 
-html[data-theme="dark"] .ai-one-background-home-shape-five {
+html[data-theme="dark"] .ai-one-background-shape-five {
     border-bottom-color: rgba(var(--primary-rgb, 88, 166, 255), 0.24);
 }
 
-html[data-theme="dark"] .ai-one-background-home-dots::before {
+html[data-theme="dark"] .ai-one-background-dots::before {
     background: rgba(var(--primary-rgb, 88, 166, 255), 0.28);
     box-shadow:
         80px 50px 0 rgba(77, 217, 192, 0.24),
@@ -990,13 +943,13 @@ html[data-theme="dark"] .home-header {
 /* ==================== //End: ai-one 다크 홈 배경 대비==================== */
 
 @media (max-width: 1280px) {
-    .home-content {
+    .page {
         padding: 38px 28px 32px;
     }
 }
 
 @media (max-width: 980px) {
-    .home-content {
+    .page {
         width: min(960px, calc(100% - 32px));
         padding: 36px 28px 40px;
     }
@@ -1011,7 +964,7 @@ html[data-theme="dark"] .home-header {
 }
 
 @media (max-width: 720px) {
-    .home-content {
+    .page {
         width: calc(100% - 24px);
         padding-right: 20px;
         padding-left: 20px;
@@ -1021,24 +974,25 @@ html[data-theme="dark"] .home-header {
         font-size: calc(23px * var(--ui-font-scale));
     }
 
-    /* data-table */
-    .data-table-scroll {
+    /* .table */
+    .home-history .table {
+        min-width: 760px;
+    }
+
+    .home-history .table-scroll {
         overflow-x: auto;
     }
 
-    .data-table {
-        min-width: 760px;
-    }
-    /* //data-table */
+    /* //.table */
 }
 
 @media (max-width: 560px) {
-    .home-content {
+    .page {
         padding-right: 14px;
         padding-left: 14px;
     }
 }
-
+/*
 @media (prefers-reduced-motion: reduce) {
     .ai-home-page *,
     .ai-home-page *::before,
@@ -1048,4 +1002,4 @@ html[data-theme="dark"] .home-header {
         animation-duration: 0.01ms !important;
         animation-iteration-count: 1 !important;
     }
-}
+} */

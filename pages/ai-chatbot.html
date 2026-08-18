@@ -13,13 +13,14 @@
 </head>
 
 <body class="ai-chatbot-page" data-page="chatbot" data-accessory-tools="disabled">
-	<!---------------------------------------- Start: 챗봇 사이드바 ---------------------------------------->
-	<div class="chatbot-sidebar-host sidebar-host sidebar-expanded">
-		<aside class="sidebar app-sidebar chatbot-sidebar" id="sidebar" data-sidebar-variant="chatbot">
+	<div class="app">
+		<!---------------------------------------- Start: 챗봇 사이드바 ---------------------------------------->
+		<aside class="sidebar chatbot-sidebar" id="sidebar">
 			<!-- Start: 사이드바 상단 브랜드 및 새 채팅 버튼 -->
 			<div class="sidebar-top-bar">
 				<div class="sidebar-brand">
-					<div class="brand-logo"><img class="brand-symbol" alt="AI-ONE" data-icon="ai-one-logo" /></div>
+					<div class="brand-logo"><img class="brand-symbol" src="../assets/icons/ai-one-logo.svg" alt="AI-ONE"
+							data-icon="ai-one-logo" /></div>
 					<div class="brand-text">
 						<span class="brand-name">AI-ONE</span>
 						<span class="brand-sub">재정경제부 AI 플랫폼</span>
@@ -27,7 +28,8 @@
 				</div>
 				<button class="icon-button icon-button-ghost sidebar-new-chat-btn" id="newChatBtn" type="button"
 					aria-label="새 채팅" title="새 채팅">
-					<img class="icon icon-text" data-icon="new-chat" alt="" aria-hidden="true" />
+					<img class="icon icon-text" src="../assets/icons/new-chat.svg" data-icon="new-chat" alt=""
+						aria-hidden="true" />
 				</button>
 			</div>
 			<!-- //End: 사이드바 상단 브랜드 및 새 채팅 버튼 -->
@@ -36,32 +38,41 @@
 			<nav class="sidebar-nav" aria-label="챗봇 메뉴">
 				<div class="nav-group">
 					<a class="nav-link" id="chatbotHomeLink" href="ai-home.html" data-route="home" data-page="home">
-						<img data-icon="home" alt="" aria-hidden="true" /><span class="nav-text">AI-ONE 홈</span>
+						<img src="../assets/icons/home.svg" data-icon="home" alt="" aria-hidden="true" /><span
+							class="nav-text">AI-ONE 홈</span>
 					</a>
 				</div>
 				<div class="nav-group">
 					<button class="nav-link active" id="newChatLink" type="button" data-page="chatbot">
-						<img class="icon icon-text" data-icon="add-circle" alt="" aria-hidden="true" /><span
+						<img class="icon icon-text" src="../assets/icons/add-circle.svg" data-icon="add-circle" alt=""
+							aria-hidden="true" /><span
 							class="nav-text">새 채팅</span>
 					</button>
-					<a class="nav-link" href="#"><img data-icon="search" alt="" aria-hidden="true" /><span
+					<a class="nav-link" href="#"><img src="../assets/icons/search.svg" data-icon="search" alt=""
+							aria-hidden="true" /><span
 							class="nav-text">채팅 검색</span></a>
-					<a class="nav-link" id="projectMenuLink" href="#"><img data-icon="folder" alt=""
+					<a class="nav-link" id="projectMenuLink" href="#"><img src="../assets/icons/folder.svg" data-icon="folder" alt=""
 							aria-hidden="true" /><span class="nav-text">프로젝트</span></a>
-					<a class="nav-link" href="#"><img data-icon="image" alt="" aria-hidden="true" /><span
+					<a class="nav-link" href="#"><img src="../assets/icons/image.svg" data-icon="image" alt=""
+							aria-hidden="true" /><span
 							class="nav-text">이미지</span></a>
-					<a class="nav-link" href="#"><img data-icon="library" alt="" aria-hidden="true" /><span
+					<a class="nav-link" href="#"><img src="../assets/icons/library.svg" data-icon="library" alt=""
+							aria-hidden="true" /><span
 							class="nav-text">라이브러리</span></a>
 				</div>
 				<div class="nav-group">
 					<span class="nav-group-label">노트북</span>
-					<a class="nav-link" href="#"><img data-icon="plus" alt="" aria-hidden="true" /><span
+					<a class="nav-link" href="#"><img src="../assets/icons/plus.svg" data-icon="plus" alt=""
+							aria-hidden="true" /><span
 							class="nav-text">새 노트북</span></a>
-					<a class="nav-link" href="#"><img data-icon="document" alt="" aria-hidden="true" /><span
+					<a class="nav-link" href="#"><img src="../assets/icons/document.svg" data-icon="document" alt=""
+							aria-hidden="true" /><span
 							class="nav-text">AI-ONE 국회 답변서 AI 서비스</span></a>
-					<a class="nav-link" href="#"><img data-icon="document" alt="" aria-hidden="true" /><span
+					<a class="nav-link" href="#"><img src="../assets/icons/document.svg" data-icon="document" alt=""
+							aria-hidden="true" /><span
 							class="nav-text">Untitled notebook</span></a>
-					<a class="nav-link" href="#"><img data-icon="more-horizontal" alt="" aria-hidden="true" /><span
+					<a class="nav-link" href="#"><img src="../assets/icons/more-horizontal.svg" data-icon="more-horizontal"
+							alt="" aria-hidden="true" /><span
 							class="nav-text">모든 노트북</span></a>
 				</div>
 				<div class="nav-group" data-sidebar-rail-hidden>
@@ -77,7 +88,8 @@
 				<div class="user-card">
 					<button type="button" class="user-avatar" data-sidebar-account-toggle aria-label="사용자 계정 메뉴"
 						aria-haspopup="menu" aria-expanded="false" aria-controls="sidebarAccountMenu">
-						<img class="icon icon-text" data-icon="user" alt="" aria-hidden="true" />
+						<img class="icon icon-text" src="../assets/icons/user.svg" data-icon="user" alt=""
+							aria-hidden="true" />
 					</button>
 					<button type="button" class="user-info" data-sidebar-account-toggle aria-label="사용자 계정 메뉴"
 						title="사용자 계정 메뉴" aria-haspopup="menu" aria-expanded="false" aria-controls="sidebarAccountMenu">
@@ -90,7 +102,8 @@
 					<button type="button" class="icon-button icon-button-ghost settings-btn hidden" id="settingsBtn"
 						aria-label="환경설정" title="환경설정" data-sidebar-account-toggle aria-haspopup="menu"
 						aria-expanded="false" aria-controls="sidebarAccountMenu">
-						<img class="icon icon-small" data-icon="settings-alt" alt="" aria-hidden="true" />
+						<img class="icon icon-small" src="../assets/icons/settings-alt.svg" data-icon="settings-alt"
+							alt="" aria-hidden="true" />
 					</button>
 					<div class="user-account-menu" id="sidebarAccountMenu" role="menu" aria-label="사용자 계정 메뉴"
 						data-sidebar-account-menu="detached" hidden>
@@ -100,17 +113,17 @@
 						</div>
 						<button type="button" role="menuitem" data-sidebar-account-action="profile"
 							data-modal-open="sidebarProfileModal">
-							<img data-icon="user" alt="" aria-hidden="true" />
+							<img src="../assets/icons/user.svg" data-icon="user" alt="" aria-hidden="true" />
 							<span>내 정보</span>
 						</button>
 						<button type="button" role="menuitem" data-sidebar-account-action="settings"
 							data-modal-open="sidebarSettingsModal">
-							<img data-icon="settings-alt" alt="" aria-hidden="true" />
+							<img src="../assets/icons/settings-alt.svg" data-icon="settings-alt" alt="" aria-hidden="true" />
 							<span>환경설정</span>
 						</button>
 						<button type="button" class="danger" role="menuitem" data-sidebar-account-action="logout"
 							data-modal-open="sidebarLogoutModal">
-							<img data-icon="logout" alt="" aria-hidden="true" />
+							<img src="../assets/icons/logout.svg" data-icon="logout" alt="" aria-hidden="true" />
 							<span>로그아웃</span>
 						</button>
 					</div>
@@ -119,9 +132,10 @@
 			<!-- //End: 사이드바 사용자 계정 영역 -->
 
 			<!-- Start: 내 정보 모달 -->
-			<div class="modal-host">
-				<div class="custom-modal-backdrop" id="sidebarProfileModal" data-component="modal" data-modal hidden>
-					<section class="custom-modal modal-medium modal-variant-account-profile account-profile-modal"
+			<div class="modal-area">
+				<div class="hidden modal" id="sidebarProfileModal" data-component="modal" data-modal>
+					<div class="modal-bg" data-modal-close aria-hidden="true"></div>
+					<section class="modal-contents modal-medium modal-variant-account-profile account-profile-modal"
 						role="dialog" aria-modal="true" data-modal-variant="account-profile" aria-label="내 정보">
 						<div class="modal-variant-panel" data-modal-panel="action-menu">
 							<div class="modal-action-menu" role="menu">
@@ -150,7 +164,7 @@
 
 						<div class="modal-variant-panel" data-modal-panel="account-profile" data-account-modal-panel>
 							<div class="account-modal-head">
-								<div class="custom-modal-title">내 정보</div>
+								<div class="modal-title">내 정보</div>
 								<button type="button" class="query-edit-modal-close" data-modal-close
 									aria-label="닫기">×</button>
 							</div>
@@ -178,7 +192,8 @@
 									</div>
 									<div>
 										<dt>사용자 권한</dt>
-										<dd><span class="account-role-tag" data-account-profile-role>국회담당자</span></dd>
+										<dd><span class="account-role-tag" data-account-profile-role>국회담당자</span>
+										</dd>
 									</div>
 									<div>
 										<dt>로그인 방식</dt>
@@ -186,7 +201,7 @@
 									</div>
 								</dl>
 							</div>
-							<div class="custom-modal-actions account-modal-actions">
+							<div class="modal-actions account-modal-actions">
 								<button type="button" class="btn-cancel" data-modal-close hidden>취소</button>
 								<button type="button" class="btn-confirm" data-modal-close>확인</button>
 							</div>
@@ -194,7 +209,7 @@
 
 						<div class="modal-variant-panel" data-modal-panel="account-settings" data-account-modal-panel>
 							<div class="account-modal-head">
-								<div class="custom-modal-title">환경설정</div>
+								<div class="modal-title">환경설정</div>
 								<button type="button" class="query-edit-modal-close" data-modal-close
 									aria-label="닫기">×</button>
 							</div>
@@ -314,23 +329,25 @@
 
 
 						<div class="modal-variant-panel" data-modal-panel="content">
-							<div class="custom-modal-icon danger" data-modal-icon="default" aria-hidden="true">⚠</div>
-							<div class="custom-modal-icon confirm" data-modal-icon="question" aria-hidden="true">
+							<div class="modal-icon danger" data-modal-icon="default" aria-hidden="true">⚠
+							</div>
+							<div class="modal-icon confirm" data-modal-icon="question" aria-hidden="true">
 								<img src="../assets/icons/question-confirm.svg" alt="" />
 							</div>
-							<div class="custom-modal-icon alert" data-modal-icon="alert" aria-hidden="true">!</div>
-							<div class="custom-modal-icon logout" data-modal-icon="logout" aria-hidden="true">
+							<div class="modal-icon alert" data-modal-icon="alert" aria-hidden="true">!</div>
+							<div class="modal-icon logout" data-modal-icon="logout" aria-hidden="true">
 								<img src="../assets/icons/logout.svg" alt="" />
 							</div>
-							<div class="custom-modal-icon rename" data-modal-icon="rename" aria-hidden="true">
+							<div class="modal-icon rename" data-modal-icon="rename" aria-hidden="true">
 								<img src="../assets/icons/edit.svg" alt="" />
 							</div>
-							<div class="custom-modal-title" id="sidebarProfileModal-title" data-slot="title">작업을 삭제할까요?
+							<div class="modal-title" id="sidebarProfileModal-title" data-slot="title">작업을
+								삭제할까요?
 							</div>
-							<div class="custom-modal-msg" id="sidebarProfileModal-description" data-slot="description">
+							<div class="modal-msg" id="sidebarProfileModal-description" data-slot="description">
 								삭제한 작업은 다시 복구할 수 없습니다.
 							</div>
-							<div class="custom-modal-actions" data-slot="actions">
+							<div class="modal-actions" data-slot="actions">
 								<button type="button" class="btn-cancel" data-modal-close>취소</button>
 								<button type="button" class="btn-confirm danger">삭제</button>
 							</div>
@@ -341,9 +358,10 @@
 			<!-- //End: 내 정보 모달 -->
 
 			<!-- Start: 환경설정 모달 -->
-			<div class="modal-host">
-				<div class="custom-modal-backdrop" id="sidebarSettingsModal" data-component="modal" data-modal hidden>
-					<section class="custom-modal modal-medium modal-variant-account-settings account-settings-modal"
+			<div class="modal-area">
+				<div class="hidden modal" id="sidebarSettingsModal" data-component="modal" data-modal>
+					<div class="modal-bg" data-modal-close aria-hidden="true"></div>
+					<section class="modal-contents modal-medium modal-variant-account-settings account-settings-modal"
 						role="dialog" aria-modal="true" data-modal-variant="account-settings" aria-label="환경설정">
 						<div class="modal-variant-panel" data-modal-panel="action-menu">
 							<div class="modal-action-menu" role="menu">
@@ -372,7 +390,7 @@
 
 						<div class="modal-variant-panel" data-modal-panel="account-profile" data-account-modal-panel>
 							<div class="account-modal-head">
-								<div class="custom-modal-title">내 정보</div>
+								<div class="modal-title">내 정보</div>
 								<button type="button" class="query-edit-modal-close" data-modal-close
 									aria-label="닫기">×</button>
 							</div>
@@ -400,7 +418,8 @@
 									</div>
 									<div>
 										<dt>사용자 권한</dt>
-										<dd><span class="account-role-tag" data-account-profile-role>국회담당자</span></dd>
+										<dd><span class="account-role-tag" data-account-profile-role>국회담당자</span>
+										</dd>
 									</div>
 									<div>
 										<dt>로그인 방식</dt>
@@ -408,14 +427,14 @@
 									</div>
 								</dl>
 							</div>
-							<div class="custom-modal-actions account-modal-actions">
+							<div class="modal-actions account-modal-actions">
 								<button type="button" class="btn-confirm" data-modal-close>확인</button>
 							</div>
 						</div>
 
 						<div class="modal-variant-panel" data-modal-panel="account-settings" data-account-modal-panel>
 							<div class="account-modal-head">
-								<div class="custom-modal-title">환경설정</div>
+								<div class="modal-title">환경설정</div>
 								<button type="button" class="query-edit-modal-close" data-modal-close
 									aria-label="닫기">×</button>
 							</div>
@@ -535,23 +554,25 @@
 
 
 						<div class="modal-variant-panel" data-modal-panel="content">
-							<div class="custom-modal-icon danger" data-modal-icon="default" aria-hidden="true">⚠</div>
-							<div class="custom-modal-icon confirm" data-modal-icon="question" aria-hidden="true">
+							<div class="modal-icon danger" data-modal-icon="default" aria-hidden="true">⚠
+							</div>
+							<div class="modal-icon confirm" data-modal-icon="question" aria-hidden="true">
 								<img src="../assets/icons/question-confirm.svg" alt="" />
 							</div>
-							<div class="custom-modal-icon alert" data-modal-icon="alert" aria-hidden="true">!</div>
-							<div class="custom-modal-icon logout" data-modal-icon="logout" aria-hidden="true">
+							<div class="modal-icon alert" data-modal-icon="alert" aria-hidden="true">!</div>
+							<div class="modal-icon logout" data-modal-icon="logout" aria-hidden="true">
 								<img src="../assets/icons/logout.svg" alt="" />
 							</div>
-							<div class="custom-modal-icon rename" data-modal-icon="rename" aria-hidden="true">
+							<div class="modal-icon rename" data-modal-icon="rename" aria-hidden="true">
 								<img src="../assets/icons/edit.svg" alt="" />
 							</div>
-							<div class="custom-modal-title" id="sidebarSettingsModal-title" data-slot="title">작업을 삭제할까요?
+							<div class="modal-title" id="sidebarSettingsModal-title" data-slot="title">작업을
+								삭제할까요?
 							</div>
-							<div class="custom-modal-msg" id="sidebarSettingsModal-description" data-slot="description">
+							<div class="modal-msg" id="sidebarSettingsModal-description" data-slot="description">
 								삭제한 작업은 다시 복구할 수 없습니다.
 							</div>
-							<div class="custom-modal-actions" data-slot="actions">
+							<div class="modal-actions" data-slot="actions">
 								<button type="button" class="btn-cancel" data-modal-close>취소</button>
 								<button type="button" class="btn-confirm danger">삭제</button>
 							</div>
@@ -562,9 +583,10 @@
 			<!-- //End: 환경설정 모달 -->
 
 			<!-- Start: 로그아웃 확인 모달 -->
-			<div class="modal-host">
-				<div class="custom-modal-backdrop" id="sidebarLogoutModal" data-component="modal" data-modal hidden>
-					<section class="custom-modal modal-medium modal-variant-logout" role="dialog" aria-modal="true"
+			<div class="modal-area">
+				<div class="hidden modal" id="sidebarLogoutModal" data-component="modal" data-modal>
+					<div class="modal-bg" data-modal-close aria-hidden="true"></div>
+					<section class="modal-contents modal-medium modal-variant-logout" role="dialog" aria-modal="true"
 						data-modal-variant="logout" aria-label="로그아웃 확인">
 						<div class="modal-variant-panel" data-modal-panel="action-menu">
 							<div class="modal-action-menu" role="menu">
@@ -593,7 +615,7 @@
 
 						<div class="modal-variant-panel" data-modal-panel="account-profile" data-account-modal-panel>
 							<div class="account-modal-head">
-								<div class="custom-modal-title">내 정보</div>
+								<div class="modal-title">내 정보</div>
 								<button type="button" class="query-edit-modal-close" data-modal-close
 									aria-label="닫기">×</button>
 							</div>
@@ -621,7 +643,8 @@
 									</div>
 									<div>
 										<dt>사용자 권한</dt>
-										<dd><span class="account-role-tag" data-account-profile-role>국회담당자</span></dd>
+										<dd><span class="account-role-tag" data-account-profile-role>국회담당자</span>
+										</dd>
 									</div>
 									<div>
 										<dt>로그인 방식</dt>
@@ -629,14 +652,14 @@
 									</div>
 								</dl>
 							</div>
-							<div class="custom-modal-actions account-modal-actions">
+							<div class="modal-actions account-modal-actions">
 								<button type="button" class="btn-confirm" data-modal-close>확인</button>
 							</div>
 						</div>
 
 						<div class="modal-variant-panel" data-modal-panel="account-settings" data-account-modal-panel>
 							<div class="account-modal-head">
-								<div class="custom-modal-title">환경설정</div>
+								<div class="modal-title">환경설정</div>
 								<button type="button" class="query-edit-modal-close" data-modal-close
 									aria-label="닫기">×</button>
 							</div>
@@ -756,21 +779,23 @@
 
 
 						<div class="modal-variant-panel" data-modal-panel="content">
-							<div class="custom-modal-icon danger" data-modal-icon="default" aria-hidden="true">⚠</div>
-							<div class="custom-modal-icon confirm" data-modal-icon="question" aria-hidden="true">
+							<div class="modal-icon danger" data-modal-icon="default" aria-hidden="true">⚠
+							</div>
+							<div class="modal-icon confirm" data-modal-icon="question" aria-hidden="true">
 								<img src="../assets/icons/question-confirm.svg" alt="" />
 							</div>
-							<div class="custom-modal-icon alert" data-modal-icon="alert" aria-hidden="true">!</div>
-							<div class="custom-modal-icon logout" data-modal-icon="logout" aria-hidden="true">
+							<div class="modal-icon alert" data-modal-icon="alert" aria-hidden="true">!</div>
+							<div class="modal-icon logout" data-modal-icon="logout" aria-hidden="true">
 								<img src="../assets/icons/logout.svg" alt="" />
 							</div>
-							<div class="custom-modal-icon rename" data-modal-icon="rename" aria-hidden="true">
+							<div class="modal-icon rename" data-modal-icon="rename" aria-hidden="true">
 								<img src="../assets/icons/edit.svg" alt="" />
 							</div>
-							<div class="custom-modal-title" id="sidebarLogoutModal-title" data-slot="title">로그아웃</div>
-							<div class="custom-modal-msg" id="sidebarLogoutModal-description" data-slot="description">
+							<div class="modal-title" id="sidebarLogoutModal-title" data-slot="title">로그아웃
+							</div>
+							<div class="modal-msg" id="sidebarLogoutModal-description" data-slot="description">
 								AI-ONE에서 로그아웃하시겠습니까?</div>
-							<div class="custom-modal-actions" data-slot="actions">
+							<div class="modal-actions" data-slot="actions">
 								<button type="button" class="btn-cancel" data-modal-close>취소</button>
 								<button type="button" class="btn-confirm danger" data-sidebar-logout-confirm
 									data-modal-close>로그아웃</button>
@@ -781,43 +806,127 @@
 			</div>
 			<!-- //End: 로그아웃 확인 모달 -->
 		</aside>
-	</div>
-	<!---------------------------------------- //End: 챗봇 사이드바 ---------------------------------------->
+		<!---------------------------------------- //End: 챗봇 사이드바 ---------------------------------------->
 
-	<!---------------------------------------- Start: 챗봇 메인 영역 ---------------------------------------->
-	<div class="main-wrap" id="mainWrap">
-		<!-- Start: 배경 장식 -->
-		<div class="bg-orb bg-orb-1"></div>
-		<div class="bg-orb bg-orb-2"></div>
-		<div class="bg-orb bg-orb-3"></div>
-		<div class="bg-orb bg-orb-4"></div>
-		<div class="bg-orb bg-orb-5"></div>
-		<!-- //End: 배경 장식 -->
+		<!---------------------------------------- Start: 챗봇 메인 영역 ---------------------------------------->
+		<div class="main-wrap">
+			<!-- Start: 배경 장식 -->
+			<div class="bg-orb bg-orb-1"></div>
+			<div class="bg-orb bg-orb-2"></div>
+			<div class="bg-orb bg-orb-3"></div>
+			<div class="bg-orb bg-orb-4"></div>
+			<div class="bg-orb bg-orb-5"></div>
+			<!-- //End: 배경 장식 -->
 
-		<!-- Start: 챗봇 창 도구 영역 -->
-		<div class="chat-window-actions app-toolbar" id="chatWindowActions" role="toolbar" aria-label="챗봇 창 도구">
-			<button class="icon-button icon-button-ghost chat-window-open-btn" id="openChatWindowBtn" type="button"
-				title="새창 보기" aria-label="AI-ONE 챗봇 새창 보기">
-				<svg viewBox="0 0 24 24" aria-hidden="true">
-					<path d="M14 3h7v7" />
-					<path d="M10 14 21 3" />
-					<path d="M21 14v5a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5" />
-				</svg>
-			</button>
-		</div>
-		<!-- //End: 챗봇 창 도구 영역 -->
+			<!-- Start: 챗봇 창 도구 영역 -->
+			<div class="chat-window-actions app-toolbar" id="chatWindowActions" role="toolbar" aria-label="챗봇 창 도구">
+				<button class="icon-button icon-button-ghost chat-window-open-btn" id="openChatWindowBtn" type="button"
+					title="새창 보기" aria-label="AI-ONE 챗봇 새창 보기">
+					<svg viewBox="0 0 24 24" aria-hidden="true">
+						<path d="M14 3h7v7" />
+						<path d="M10 14 21 3" />
+						<path d="M21 14v5a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5" />
+					</svg>
+				</button>
+			</div>
+			<!-- //End: 챗봇 창 도구 영역 -->
 
-		<!-- Start: 채팅 대화 영역 -->
-		<div class="chat-container" id="chatContainer">
-			<!-- Start: 채팅 시작 화면 및 중앙 입력창 -->
-			<div class="chat-empty" id="chatEmpty">
-				<h1 class="chat-empty-title">무엇을 도와드릴까요?</h1>
-				<div class="chat-prompt-composer chat-prompt-composer-center prompt-composer-host"
-					id="chatPromptCenter">
+			<!-- Start: 채팅 대화 영역 -->
+			<div class="chat-container" id="chatContainer">
+				<!-- Start: 채팅 시작 화면 및 중앙 입력창 -->
+				<div class="chat-empty" id="chatEmpty">
+					<h1 class="chat-empty-title">무엇을 도와드릴까요?</h1>
+					<div class="chat-prompt-composer chat-prompt-composer-center prompt-composer-area"
+						id="chatPromptCenter">
+						<div class="prompt-composer-shell" data-component="promptcomposer" data-prompt-composer>
+							<form class="prompt-composer">
+								<div class="prompt-composer-tools">
+									<input class="prompt-composer-file-input" id="chatbot-center-composer-file"
+										data-prompt-file-input type="file" multiple />
+									<button type="button" class="icon-button icon-button-ghost prompt-composer-attach"
+										data-prompt-attach aria-label="파일 첨부" title="파일 첨부">
+										<img class="icon icon-small" data-icon="plus" alt="" aria-hidden="true" />
+									</button>
+								</div>
+								<input class="prompt-composer-input" data-prompt-input type="text"
+									placeholder="AI-ONE에게 물어보기" aria-label="AI-ONE에게 물어보기" autocomplete="off" />
+								<div class="prompt-composer-actions">
+									<div class="dropdown-menu-component" data-dropdown-menu>
+										<button type="button" class="button dropdown-menu-model-trigger"
+											data-dropdown-trigger aria-haspopup="menu" aria-expanded="false"
+											aria-controls="chatbot-center-composer-model-menu">
+											<span data-dropdown-label>기본</span>
+											<img class="icon icon-xsmall" data-icon="chevron-down" alt=""
+												aria-hidden="true" />
+										</button>
+										<div class="dropdown-menu dropdown-menu-model"
+											id="chatbot-center-composer-model-menu" role="menu" data-placement="top-end"
+											hidden>
+											<span class="dropdown-menu-label">모델 선택</span>
+											<div data-slot="models">
+												<button type="button" class="dropdown-menu-item" role="menuitemradio"
+													aria-checked="true" data-menu-value="default" data-menu-label="기본">
+													<span class="dropdown-model-name">기본</span>
+													<span class="dropdown-model-desc">추천</span>
+													<span class="dropdown-model-check" aria-hidden="true">✓</span>
+												</button>
+												<button type="button" class="dropdown-menu-item" role="menuitemradio"
+													aria-checked="false" data-menu-value="ai-one-flash"
+													data-menu-label="AI-ONE Flash">
+													<span class="dropdown-model-name">AI-ONE Flash</span>
+													<span class="dropdown-model-desc">빠르고 반복적인 모델</span>
+													<span class="dropdown-model-check" aria-hidden="true">✓</span>
+												</button>
+												<button type="button" class="dropdown-menu-item" role="menuitemradio"
+													aria-checked="false" data-menu-value="ai-one-pro"
+													data-menu-label="AI-ONE Pro">
+													<span class="dropdown-model-name">AI-ONE Pro</span>
+													<span class="dropdown-model-desc">심도 있고 창의적인 모델</span>
+													<span class="dropdown-model-check" aria-hidden="true">✓</span>
+												</button>
+												<button type="button" class="dropdown-menu-item" role="menuitemradio"
+													aria-checked="false" data-menu-value="gov-flash"
+													data-menu-label="범정부 AI Flash">
+													<span class="dropdown-model-name">범정부 AI Flash</span>
+													<span class="dropdown-model-desc">균형과 효율성 겸비</span>
+													<span class="dropdown-model-check" aria-hidden="true">✓</span>
+												</button>
+												<button type="button" class="dropdown-menu-item" role="menuitemradio"
+													aria-checked="false" data-menu-value="gov-pro"
+													data-menu-label="범정부 AI Pro">
+													<span class="dropdown-model-name">범정부 AI Pro</span>
+													<span class="dropdown-model-desc">능력 있고 빠릅니다</span>
+													<span class="dropdown-model-check" aria-hidden="true">✓</span>
+												</button>
+											</div>
+										</div>
+									</div>
+									<button type="submit" class="icon-button icon-button-primary prompt-composer-submit"
+										data-prompt-submit aria-label="프롬프트 전송" title="프롬프트 전송" disabled>
+										<img class="icon icon-text" data-icon="send" alt="" aria-hidden="true" />
+									</button>
+								</div>
+							</form>
+							<div class="prompt-composer-files" data-prompt-files aria-live="polite"></div>
+						</div>
+					</div>
+				</div>
+				<!-- //End: 채팅 시작 화면 및 중앙 입력창 -->
+				<!-- Start: 채팅 메시지 목록 -->
+				<div class="chat-messages" id="chatMessages" data-chat-message-list data-variant="chatbot"
+					aria-live="polite"></div>
+				<!-- //End: 채팅 메시지 목록 -->
+			</div>
+			<!-- //End: 채팅 대화 영역 -->
+
+			<!-- Start: 대화 진행 중 하단 입력창 -->
+			<div class="chat-input-wrapper hidden" id="chatInputWrapper">
+				<div class="chat-prompt-composer chat-prompt-composer-bottom prompt-composer-area"
+					id="chatPromptBottom">
 					<div class="prompt-composer-shell" data-component="promptcomposer" data-prompt-composer>
 						<form class="prompt-composer">
 							<div class="prompt-composer-tools">
-								<input class="prompt-composer-file-input" id="chatbot-center-composer-file"
+								<input class="prompt-composer-file-input" id="chatbot-bottom-composer-file"
 									data-prompt-file-input type="file" multiple />
 								<button type="button" class="icon-button icon-button-ghost prompt-composer-attach"
 									data-prompt-attach aria-label="파일 첨부" title="파일 첨부">
@@ -830,13 +939,13 @@
 								<div class="dropdown-menu-component" data-dropdown-menu>
 									<button type="button" class="button dropdown-menu-model-trigger"
 										data-dropdown-trigger aria-haspopup="menu" aria-expanded="false"
-										aria-controls="chatbot-center-composer-model-menu">
+										aria-controls="chatbot-bottom-composer-model-menu">
 										<span data-dropdown-label>기본</span>
 										<img class="icon icon-xsmall" data-icon="chevron-down" alt=""
 											aria-hidden="true" />
 									</button>
 									<div class="dropdown-menu dropdown-menu-model"
-										id="chatbot-center-composer-model-menu" role="menu" data-placement="top-end"
+										id="chatbot-bottom-composer-model-menu" role="menu" data-placement="top-end"
 										hidden>
 										<span class="dropdown-menu-label">모델 선택</span>
 										<div data-slot="models">
@@ -887,291 +996,215 @@
 					</div>
 				</div>
 			</div>
-			<!-- //End: 채팅 시작 화면 및 중앙 입력창 -->
-			<!-- Start: 채팅 메시지 목록 -->
-			<div class="chat-messages" id="chatMessages" data-chat-message-list data-variant="chatbot"
-				aria-live="polite"></div>
-			<!-- //End: 채팅 메시지 목록 -->
+			<!-- //End: 대화 진행 중 하단 입력창 -->
 		</div>
-		<!-- //End: 채팅 대화 영역 -->
+		<!---------------------------------------- //End: 챗봇 메인 영역 ---------------------------------------->
 
-		<!-- Start: 대화 진행 중 하단 입력창 -->
-		<div class="chat-input-wrapper hidden" id="chatInputWrapper">
-			<div class="chat-prompt-composer chat-prompt-composer-bottom prompt-composer-host" id="chatPromptBottom">
-				<div class="prompt-composer-shell" data-component="promptcomposer" data-prompt-composer>
-					<form class="prompt-composer">
-						<div class="prompt-composer-tools">
-							<input class="prompt-composer-file-input" id="chatbot-bottom-composer-file"
-								data-prompt-file-input type="file" multiple />
-							<button type="button" class="icon-button icon-button-ghost prompt-composer-attach"
-								data-prompt-attach aria-label="파일 첨부" title="파일 첨부">
-								<img class="icon icon-small" data-icon="plus" alt="" aria-hidden="true" />
-							</button>
-						</div>
-						<input class="prompt-composer-input" data-prompt-input type="text" placeholder="AI-ONE에게 물어보기"
-							aria-label="AI-ONE에게 물어보기" autocomplete="off" />
-						<div class="prompt-composer-actions">
-							<div class="dropdown-menu-component" data-dropdown-menu>
-								<button type="button" class="button dropdown-menu-model-trigger" data-dropdown-trigger
-									aria-haspopup="menu" aria-expanded="false"
-									aria-controls="chatbot-bottom-composer-model-menu">
-									<span data-dropdown-label>기본</span>
-									<img class="icon icon-xsmall" data-icon="chevron-down" alt="" aria-hidden="true" />
-								</button>
-								<div class="dropdown-menu dropdown-menu-model" id="chatbot-bottom-composer-model-menu"
-									role="menu" data-placement="top-end" hidden>
-									<span class="dropdown-menu-label">모델 선택</span>
-									<div data-slot="models">
-										<button type="button" class="dropdown-menu-item" role="menuitemradio"
-											aria-checked="true" data-menu-value="default" data-menu-label="기본">
-											<span class="dropdown-model-name">기본</span>
-											<span class="dropdown-model-desc">추천</span>
-											<span class="dropdown-model-check" aria-hidden="true">✓</span>
-										</button>
-										<button type="button" class="dropdown-menu-item" role="menuitemradio"
-											aria-checked="false" data-menu-value="ai-one-flash"
-											data-menu-label="AI-ONE Flash">
-											<span class="dropdown-model-name">AI-ONE Flash</span>
-											<span class="dropdown-model-desc">빠르고 반복적인 모델</span>
-											<span class="dropdown-model-check" aria-hidden="true">✓</span>
-										</button>
-										<button type="button" class="dropdown-menu-item" role="menuitemradio"
-											aria-checked="false" data-menu-value="ai-one-pro"
-											data-menu-label="AI-ONE Pro">
-											<span class="dropdown-model-name">AI-ONE Pro</span>
-											<span class="dropdown-model-desc">심도 있고 창의적인 모델</span>
-											<span class="dropdown-model-check" aria-hidden="true">✓</span>
-										</button>
-										<button type="button" class="dropdown-menu-item" role="menuitemradio"
-											aria-checked="false" data-menu-value="gov-flash"
-											data-menu-label="범정부 AI Flash">
-											<span class="dropdown-model-name">범정부 AI Flash</span>
-											<span class="dropdown-model-desc">균형과 효율성 겸비</span>
-											<span class="dropdown-model-check" aria-hidden="true">✓</span>
-										</button>
-										<button type="button" class="dropdown-menu-item" role="menuitemradio"
-											aria-checked="false" data-menu-value="gov-pro" data-menu-label="범정부 AI Pro">
-											<span class="dropdown-model-name">범정부 AI Pro</span>
-											<span class="dropdown-model-desc">능력 있고 빠릅니다</span>
-											<span class="dropdown-model-check" aria-hidden="true">✓</span>
-										</button>
-									</div>
-								</div>
-							</div>
-							<button type="submit" class="icon-button icon-button-primary prompt-composer-submit"
-								data-prompt-submit aria-label="프롬프트 전송" title="프롬프트 전송" disabled>
-								<img class="icon icon-text" data-icon="send" alt="" aria-hidden="true" />
-							</button>
-						</div>
-					</form>
-					<div class="prompt-composer-files" data-prompt-files aria-live="polite"></div>
+		<!---------------------------------------- Start: 오류 신고 사이드 패널 ---------------------------------------->
+		<div class="drawer-backdrop hidden" id="reportDrawerBackdrop" hidden></div>
+		<aside class="report-drawer hidden" id="reportDrawer" aria-label="오류 신고" hidden>
+			<div class="drawer-header">
+				<div>
+					<h3 class="drawer-title">오류 신고</h3>
+					<p class="drawer-desc">응답에서 발견된 문제를 알려주시면 개선에 활용하겠습니다.</p>
+				</div>
+				<button class="drawer-close" id="reportDrawerClose" aria-label="닫기">×</button>
+			</div>
+			<div class="drawer-body">
+				<div class="report-section">
+					<label class="report-label">문제 유형</label>
+					<div class="report-type-list">
+						<label class="report-type-item"><input type="radio" name="reportType" value="incorrect"
+								checked /><span>부정확하거나 잘못된 정보</span></label>
+						<label class="report-type-item"><input type="radio" name="reportType"
+								value="harmful" /><span>유해하거나
+								안전하지 않은 내용</span></label>
+						<label class="report-type-item"><input type="radio" name="reportType"
+								value="unhelpful" /><span>도움이
+								되지 않는 응답</span></label>
+						<label class="report-type-item"><input type="radio" name="reportType" value="legal" /><span>법적
+								문제</span></label>
+						<label class="report-type-item"><input type="radio" name="reportType"
+								value="other" /><span>기타</span></label>
+					</div>
+				</div>
+				<div class="report-section">
+					<label class="report-label" for="reportDetail">상세 설명 (선택)</label>
+					<textarea class="report-textarea" id="reportDetail" rows="4"
+						placeholder="문제 상황을 자세히 설명해 주세요"></textarea>
+				</div>
+				<div class="report-section">
+					<label class="report-label">파일 첨부 (선택)</label>
+					<div class="report-upload-zone" id="reportUploadZone">
+						<svg viewBox="0 0 24 24" width="20" height="20">
+							<path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+							<polyline points="17 8 12 3 7 8" />
+							<line x1="12" y1="3" x2="12" y2="15" />
+						</svg>
+						<p>클릭하거나 파일을 드래그하세요</p>
+						<span class="report-upload-hint">스크린샷 등 최대 5개, 각 10MB 이내</span>
+						<input type="file" id="reportFileInput" multiple accept=".png,.jpg,.jpeg,.pdf,.txt" hidden />
+					</div>
+					<ul class="report-file-list" id="reportFileList">
+						<li>
+							<span class="report-file-icon pdf" aria-hidden="true">pdf</span>
+							<span class="report-file-name">답변서_근거자료.pdf</span>
+							<span class="report-file-size">1.2MB</span>
+							<button type="button" class="report-file-remove" aria-label="파일 삭제">×</button>
+						</li>
+						<li>
+							<span class="report-file-icon txt" aria-hidden="true">txt</span>
+							<span class="report-file-name">관련법령_검토자료.txt</span>
+							<span class="report-file-size">0.3MB</span>
+							<button type="button" class="report-file-remove" aria-label="파일 삭제">×</button>
+						</li>
+					</ul>
+				</div>
+			</div>
+			<div class="report-footer">
+				<button class="btn-cancel" id="reportCancelBtn">취소</button>
+				<button class="btn-confirm" id="reportSubmitBtn">제출</button>
+			</div>
+		</aside>
+		<!---------------------------------------- //End: 오류 신고 사이드 패널 ---------------------------------------->
+
+		<!---------------------------------------- Start: 실행 시 추가 항목 HTML 원형 ---------------------------------------->
+
+		<div id="chatbotUserMessagePrototype" class="chat-msg user" data-dom-prototype hidden
+			data-component="chat-message" data-variant="chatbot" data-role="user" data-chat-message-text></div>
+
+		<div id="chatbotPendingMessagePrototype" class="chat-msg ai is-pending" data-dom-prototype hidden
+			data-component="chat-message" data-variant="chatbot" data-role="ai" data-status="pending">
+			<div class="msg-avatar"><svg viewBox="0 0 24 24" aria-hidden="true">
+					<path d="M12 2L2 7l10 5 10-5-10-5z" />
+					<path d="M2 17l10 5 10-5" />
+					<path d="M2 12l10 5 10-5" />
+				</svg></div>
+			<div class="msg-content"><span class="chat-typing-ellipsis" role="status" aria-label="답변 생성 중">...</span>
+			</div>
+		</div>
+
+		<div id="chatbotAiMessagePrototype" class="chat-msg ai" data-dom-prototype hidden data-component="chat-message"
+			data-variant="chatbot" data-role="ai" data-status="complete">
+			<div class="msg-avatar"><svg viewBox="0 0 24 24" aria-hidden="true">
+					<path d="M12 2L2 7l10 5 10-5-10-5z" />
+					<path d="M2 17l10 5 10-5" />
+					<path d="M2 12l10 5 10-5" />
+				</svg></div>
+			<div class="msg-content chatbot-message-copy" data-chat-message-text></div>
+			<div class="msg-actions hidden">
+				<button type="button" class="msg-action-btn" data-action="like" aria-label="좋아요" aria-pressed="false"
+					title="좋아요"><svg viewBox="0 0 24 24" width="14" height="14">
+						<path
+							d="M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3H14zM7 22H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h3" />
+					</svg></button>
+				<button type="button" class="msg-action-btn" data-action="dislike" aria-label="싫어요" aria-pressed="false"
+					title="싫어요"><svg viewBox="0 0 24 24" width="14" height="14">
+						<path
+							d="M10 15v4a3 3 0 0 0 3 3l4-9V2H5.72a2 2 0 0 0-2 1.7l-1.38 9a2 2 0 0 0 2 2.3H10zM17 2h2.67A2.31 2.31 0 0 1 22 4v7a2.31 2.31 0 0 1-2.33 2H17" />
+					</svg></button>
+				<button type="button" class="msg-action-btn" data-action="retry" aria-label="다시 생성" title="다시 생성"><svg
+						viewBox="0 0 24 24" width="14" height="14">
+						<polyline points="23 4 23 10 17 10" />
+						<path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10" />
+					</svg></button>
+				<button type="button" class="msg-action-btn" data-action="copy" aria-label="복사" title="복사"><svg
+						viewBox="0 0 24 24" width="14" height="14">
+						<rect x="9" y="9" width="13" height="13" rx="2" ry="2" />
+						<path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" />
+					</svg></button>
+				<button type="button" class="msg-action-btn msg-report-btn" data-action="report" aria-label="오류신고"
+					title="오류신고"><svg viewBox="0 0 24 24" width="14" height="14">
+						<path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z" />
+						<line x1="4" y1="22" x2="4" y2="15" />
+					</svg></button>
+				<div class="msg-more-wrap">
+					<button type="button" class="msg-action-btn msg-more-btn" aria-label="더보기">···</button>
+					<div class="msg-more-menu hidden" hidden>
+						<button type="button" class="msg-more-item" data-action="branch"><svg viewBox="0 0 24 24"
+								width="16" height="16">
+								<path d="M6 3v12" />
+								<circle cx="18" cy="6" r="3" />
+								<circle cx="6" cy="18" r="3" />
+								<path d="M18 9a9 9 0 0 1-9 9" />
+							</svg><span>새 채팅에서 브랜치 생성</span></button>
+						<button type="button" class="msg-more-item" data-action="recheck"><svg viewBox="0 0 24 24"
+								width="16" height="16">
+								<path d="M9 11l3 3L22 4" />
+								<path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11" />
+							</svg><span>대답 재확인</span></button>
+						<button type="button" class="msg-more-item" data-action="listen"><svg viewBox="0 0 24 24"
+								width="16" height="16">
+								<polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5" />
+								<path d="M15.54 8.46a5 5 0 0 1 0 7.07" />
+							</svg><span>듣기</span></button>
+						<button type="button" class="msg-more-item" data-action="export"><svg viewBox="0 0 24 24"
+								width="16" height="16">
+								<path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+								<polyline points="14 2 14 8 20 8" />
+							</svg><span>Docs로 내보내기</span></button>
+						<button type="button" class="msg-more-item" data-action="mail"><svg viewBox="0 0 24 24"
+								width="16" height="16">
+								<path d="M4 4h16v16H4z" />
+								<polyline points="22 6 12 13 2 6" />
+							</svg><span>Gmail 초안 작성</span></button>
+						<button type="button" class="msg-more-item" data-action="legal"><svg viewBox="0 0 24 24"
+								width="16" height="16">
+								<path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z" />
+								<line x1="4" y1="22" x2="4" y2="15" />
+							</svg><span>법적 문제 신고</span></button>
+						<button type="button" class="msg-more-item active" data-action="detail"><svg viewBox="0 0 24 24"
+								width="16" height="16">
+								<path
+									d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83" />
+							</svg><span>응답 세부정보 보기</span></button>
+					</div>
 				</div>
 			</div>
 		</div>
-		<!-- //End: 대화 진행 중 하단 입력창 -->
-	</div>
-	<!---------------------------------------- //End: 챗봇 메인 영역 ---------------------------------------->
-
-	<!---------------------------------------- Start: 오류 신고 사이드 패널 ---------------------------------------->
-	<div class="drawer-backdrop hidden" id="reportDrawerBackdrop" hidden></div>
-	<aside class="report-drawer hidden" id="reportDrawer" aria-label="오류 신고" hidden>
-		<div class="drawer-header">
-			<div>
-				<h3 class="drawer-title">오류 신고</h3>
-				<p class="drawer-desc">응답에서 발견된 문제를 알려주시면 개선에 활용하겠습니다.</p>
-			</div>
-			<button class="drawer-close" id="reportDrawerClose" aria-label="닫기">×</button>
-		</div>
-		<div class="drawer-body">
-			<div class="report-section">
-				<label class="report-label">문제 유형</label>
-				<div class="report-type-list">
-					<label class="report-type-item"><input type="radio" name="reportType" value="incorrect"
-							checked /><span>부정확하거나 잘못된 정보</span></label>
-					<label class="report-type-item"><input type="radio" name="reportType" value="harmful" /><span>유해하거나
-							안전하지 않은 내용</span></label>
-					<label class="report-type-item"><input type="radio" name="reportType" value="unhelpful" /><span>도움이
-							되지 않는 응답</span></label>
-					<label class="report-type-item"><input type="radio" name="reportType" value="legal" /><span>법적
-							문제</span></label>
-					<label class="report-type-item"><input type="radio" name="reportType"
-							value="other" /><span>기타</span></label>
-				</div>
-			</div>
-			<div class="report-section">
-				<label class="report-label" for="reportDetail">상세 설명 (선택)</label>
-				<textarea class="report-textarea" id="reportDetail" rows="4"
-					placeholder="문제 상황을 자세히 설명해 주세요"></textarea>
-			</div>
-			<div class="report-section">
-				<label class="report-label">파일 첨부 (선택)</label>
-				<div class="report-upload-zone" id="reportUploadZone">
-					<svg viewBox="0 0 24 24" width="20" height="20">
-						<path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
-						<polyline points="17 8 12 3 7 8" />
-						<line x1="12" y1="3" x2="12" y2="15" />
-					</svg>
-					<p>클릭하거나 파일을 드래그하세요</p>
-					<span class="report-upload-hint">스크린샷 등 최대 5개, 각 10MB 이내</span>
-					<input type="file" id="reportFileInput" multiple accept=".png,.jpg,.jpeg,.pdf,.txt" hidden />
-				</div>
-				<ul class="report-file-list" id="reportFileList">
-					<li>
-						<span class="report-file-icon pdf" aria-hidden="true">pdf</span>
-						<span class="report-file-name">답변서_근거자료.pdf</span>
-						<span class="report-file-size">1.2MB</span>
-						<button type="button" class="report-file-remove" aria-label="파일 삭제">×</button>
-					</li>
-					<li>
-						<span class="report-file-icon txt" aria-hidden="true">txt</span>
-						<span class="report-file-name">관련법령_검토자료.txt</span>
-						<span class="report-file-size">0.3MB</span>
-						<button type="button" class="report-file-remove" aria-label="파일 삭제">×</button>
-					</li>
-				</ul>
-			</div>
-		</div>
-		<div class="report-footer">
-			<button class="btn-cancel" id="reportCancelBtn">취소</button>
-			<button class="btn-confirm" id="reportSubmitBtn">제출</button>
-		</div>
-	</aside>
-	<!---------------------------------------- //End: 오류 신고 사이드 패널 ---------------------------------------->
-
-	<!---------------------------------------- Start: 실행 시 추가 항목 HTML 원형 ---------------------------------------->
-
-	<div id="chatbotUserMessagePrototype" class="chat-msg user" data-dom-prototype hidden data-component="chat-message"
-		data-variant="chatbot" data-role="user" data-chat-message-text></div>
-
-	<div id="chatbotPendingMessagePrototype" class="chat-msg ai is-pending" data-dom-prototype hidden
-		data-component="chat-message" data-variant="chatbot" data-role="ai" data-status="pending">
-		<div class="msg-avatar"><svg viewBox="0 0 24 24" aria-hidden="true">
-				<path d="M12 2L2 7l10 5 10-5-10-5z" />
-				<path d="M2 17l10 5 10-5" />
-				<path d="M2 12l10 5 10-5" />
-			</svg></div>
-		<div class="msg-content"><span class="chat-typing-ellipsis" role="status" aria-label="답변 생성 중">...</span></div>
-	</div>
-
-	<div id="chatbotAiMessagePrototype" class="chat-msg ai" data-dom-prototype hidden data-component="chat-message"
-		data-variant="chatbot" data-role="ai" data-status="complete">
-		<div class="msg-avatar"><svg viewBox="0 0 24 24" aria-hidden="true">
-				<path d="M12 2L2 7l10 5 10-5-10-5z" />
-				<path d="M2 17l10 5 10-5" />
-				<path d="M2 12l10 5 10-5" />
-			</svg></div>
-		<div class="msg-content chatbot-message-copy" data-chat-message-text></div>
-		<div class="msg-actions hidden">
-			<button type="button" class="msg-action-btn" data-action="like" aria-label="좋아요" aria-pressed="false"
-				title="좋아요"><svg viewBox="0 0 24 24" width="14" height="14">
-					<path
-						d="M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3H14zM7 22H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h3" />
-				</svg></button>
-			<button type="button" class="msg-action-btn" data-action="dislike" aria-label="싫어요" aria-pressed="false"
-				title="싫어요"><svg viewBox="0 0 24 24" width="14" height="14">
-					<path
-						d="M10 15v4a3 3 0 0 0 3 3l4-9V2H5.72a2 2 0 0 0-2 1.7l-1.38 9a2 2 0 0 0 2 2.3H10zM17 2h2.67A2.31 2.31 0 0 1 22 4v7a2.31 2.31 0 0 1-2.33 2H17" />
-				</svg></button>
-			<button type="button" class="msg-action-btn" data-action="retry" aria-label="다시 생성" title="다시 생성"><svg
-					viewBox="0 0 24 24" width="14" height="14">
-					<polyline points="23 4 23 10 17 10" />
-					<path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10" />
-				</svg></button>
-			<button type="button" class="msg-action-btn" data-action="copy" aria-label="복사" title="복사"><svg
-					viewBox="0 0 24 24" width="14" height="14">
-					<rect x="9" y="9" width="13" height="13" rx="2" ry="2" />
-					<path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" />
-				</svg></button>
-			<button type="button" class="msg-action-btn msg-report-btn" data-action="report" aria-label="오류신고"
-				title="오류신고"><svg viewBox="0 0 24 24" width="14" height="14">
+		<!---------------------------------------- //End: 실행 시 추가 항목 HTML 원형 ---------------------------------------->
+		<div id="commonMessageActionsPrototype" class="msg-actions hidden" data-dom-prototype hidden>
+			<button type="button" class="icon-button icon-button-ghost icon-button-message msg-action-btn"
+				data-action="like" aria-label="좋아요" title="좋아요" aria-pressed="false"><img class="icon icon-small"
+					data-icon="thumbs-up" src="../assets/icons/thumbs-up.svg" alt="" /></button>
+			<button type="button" class="icon-button icon-button-ghost icon-button-message msg-action-btn"
+				data-action="dislike" aria-label="싫어요" title="싫어요" aria-pressed="false"><img class="icon icon-small"
+					data-icon="thumbs-down" src="../assets/icons/thumbs-down.svg" alt="" /></button>
+			<button type="button" class="icon-button icon-button-ghost icon-button-message msg-action-btn"
+				data-action="retry" aria-label="다시 생성" title="다시 생성"><img class="icon icon-small"
+					src="../assets/icons/regenerate.svg" alt="" /></button>
+			<button type="button" class="icon-button icon-button-ghost icon-button-message msg-action-btn"
+				data-action="copy" aria-label="복사" title="복사"><img class="icon icon-small"
+					src="../assets/icons/copy.svg" alt="" /></button>
+			<button type="button"
+				class="icon-button icon-button-ghost icon-button-message msg-action-btn msg-report-btn"
+				data-action="report" aria-label="오류 신고" title="오류 신고"><svg viewBox="0 0 24 24" width="14" height="14">
 					<path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z" />
 					<line x1="4" y1="22" x2="4" y2="15" />
 				</svg></button>
-			<div class="msg-more-wrap">
-				<button type="button" class="msg-action-btn msg-more-btn" aria-label="더보기">···</button>
-				<div class="msg-more-menu hidden" hidden>
-					<button type="button" class="msg-more-item" data-action="branch"><svg viewBox="0 0 24 24" width="16"
-							height="16">
-							<path d="M6 3v12" />
-							<circle cx="18" cy="6" r="3" />
-							<circle cx="6" cy="18" r="3" />
-							<path d="M18 9a9 9 0 0 1-9 9" />
-						</svg><span>새 채팅에서 브랜치 생성</span></button>
-					<button type="button" class="msg-more-item" data-action="recheck"><svg viewBox="0 0 24 24"
-							width="16" height="16">
-							<path d="M9 11l3 3L22 4" />
-							<path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11" />
-						</svg><span>대답 재확인</span></button>
-					<button type="button" class="msg-more-item" data-action="listen"><svg viewBox="0 0 24 24" width="16"
-							height="16">
-							<polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5" />
-							<path d="M15.54 8.46a5 5 0 0 1 0 7.07" />
-						</svg><span>듣기</span></button>
-					<button type="button" class="msg-more-item" data-action="export"><svg viewBox="0 0 24 24" width="16"
-							height="16">
-							<path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
-							<polyline points="14 2 14 8 20 8" />
-						</svg><span>Docs로 내보내기</span></button>
-					<button type="button" class="msg-more-item" data-action="mail"><svg viewBox="0 0 24 24" width="16"
-							height="16">
-							<path d="M4 4h16v16H4z" />
-							<polyline points="22 6 12 13 2 6" />
-						</svg><span>Gmail 초안 작성</span></button>
-					<button type="button" class="msg-more-item" data-action="legal"><svg viewBox="0 0 24 24" width="16"
-							height="16">
-							<path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z" />
-							<line x1="4" y1="22" x2="4" y2="15" />
-						</svg><span>법적 문제 신고</span></button>
-					<button type="button" class="msg-more-item active" data-action="detail"><svg viewBox="0 0 24 24"
-							width="16" height="16">
-							<path
-								d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83" />
-						</svg><span>응답 세부정보 보기</span></button>
-				</div>
-			</div>
+			<button type="button" class="icon-button icon-button-ghost icon-button-message msg-action-btn"
+				data-action="more" data-answer-action-only aria-label="더보기" title="더보기"><img class="icon icon-small"
+					src="../assets/icons/more-horizontal.svg" alt="" /></button>
 		</div>
+		<span id="commonPromptFilePrototype" class="prompt-composer-file" data-dom-prototype hidden>
+			<span class="prompt-composer-file-name"></span>
+			<button type="button" class="icon-button icon-button-ghost icon-button-sm" aria-label="첨부파일 삭제">×</button>
+		</span>
+		<div class="ai-one-notification-toast" aria-live="polite">
+			<div class="ai-one-notification-icon">✓</div>
+			<div class="ai-one-notification-copy"><strong></strong><span></span></div><button type="button"
+				aria-label="알림 닫기">×</button>
+		</div>
+		<div id="aiOneTooltip" class="ai-one-tooltip" role="tooltip" hidden></div>
+		<!-- Start: 아바타 버튼 호버 시 나오는 사용자 툴팁 -->
+		<div id="userProfileHoverTooltip" class="user-profile-hover-tooltip hidden" role="tooltip">
+			<strong>담당자 기본정보</strong>
+			<span data-profile-name>박재정 주무관</span>
+			<span data-profile-department>재정분석과</span>
+			<em data-profile-role>국회담당자</em>
+		</div>
+		<!-- //End: 아바타 버튼 호버 시 나오는 사용자 툴팁 -->
 	</div>
-	<!---------------------------------------- //End: 실행 시 추가 항목 HTML 원형 ---------------------------------------->
-	<div id="commonMessageActionsPrototype" class="msg-actions hidden" data-dom-prototype hidden>
-		<button type="button" class="icon-button icon-button-ghost icon-button-message msg-action-btn"
-			data-action="like" aria-label="좋아요" title="좋아요" aria-pressed="false"><img class="icon icon-small" data-icon="thumbs-up"
-				src="../assets/icons/thumbs-up.svg" alt="" /></button>
-		<button type="button" class="icon-button icon-button-ghost icon-button-message msg-action-btn"
-			data-action="dislike" aria-label="싫어요" title="싫어요" aria-pressed="false"><img class="icon icon-small" data-icon="thumbs-down"
-				src="../assets/icons/thumbs-down.svg" alt="" /></button>
-		<button type="button" class="icon-button icon-button-ghost icon-button-message msg-action-btn"
-			data-action="retry" aria-label="다시 생성" title="다시 생성"><img class="icon icon-small"
-				src="../assets/icons/regenerate.svg" alt="" /></button>
-		<button type="button" class="icon-button icon-button-ghost icon-button-message msg-action-btn"
-			data-action="copy" aria-label="복사" title="복사"><img class="icon icon-small" src="../assets/icons/copy.svg"
-				alt="" /></button>
-		<button type="button" class="icon-button icon-button-ghost icon-button-message msg-action-btn msg-report-btn"
-			data-action="report" aria-label="오류 신고" title="오류 신고"><svg viewBox="0 0 24 24" width="14" height="14">
-				<path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z" />
-				<line x1="4" y1="22" x2="4" y2="15" />
-			</svg></button>
-		<button type="button" class="icon-button icon-button-ghost icon-button-message msg-action-btn"
-			data-action="more" data-answer-action-only aria-label="더보기" title="더보기"><img class="icon icon-small"
-				src="../assets/icons/more-horizontal.svg" alt="" /></button>
-	</div>
-	<span id="commonPromptFilePrototype" class="prompt-composer-file" data-dom-prototype hidden>
-		<span class="prompt-composer-file-name"></span>
-		<button type="button" class="icon-button icon-button-ghost icon-button-sm" aria-label="첨부파일 삭제">×</button>
-	</span>
-	<div class="ai-one-notification-toast" aria-live="polite">
-		<div class="ai-one-notification-icon">✓</div>
-		<div class="ai-one-notification-copy"><strong></strong><span></span></div><button type="button"
-			aria-label="알림 닫기">×</button>
-	</div>
-	<div id="aiOneTooltip" class="ai-one-tooltip" role="tooltip" hidden></div>
-	<!-- Start: 아바타 버튼 호버 시 나오는 사용자 툴팁 -->
-	<div id="userProfileHoverTooltip" class="user-profile-hover-tooltip hidden" role="tooltip">
-		<strong>담당자 기본정보</strong>
-		<span data-profile-name>박재정 주무관</span>
-		<span data-profile-department>재정분석과</span>
-		<em data-profile-role>국회담당자</em>
-	</div>
-	<!-- //End: 아바타 버튼 호버 시 나오는 사용자 툴팁 -->
 	<script src="../js/common.js"></script>
 	<script src="../js/ai-chatbot.js"></script>
 </body>

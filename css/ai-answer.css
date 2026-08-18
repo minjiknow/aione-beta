@@ -197,7 +197,7 @@
     background: var(--surface-el);
 }
 
-.panel-chat .panel-head {
+.panel-right .panel-head {
     flex-shrink: 0;
 }
 
@@ -511,7 +511,7 @@
 
 /* ==================== Start: 채팅 패널 헤더 및 배지 ==================== */
 
-.panel-chat .panel-head {
+.panel-right .panel-head {
     justify-content: flex-start;
 }
 
@@ -532,36 +532,36 @@
 
 /* ==================== Start: 사이드팝업 채팅 목록 ==================== */
 
-.sidepop[data-sidepop-variant="chat-list"] [data-sidepop-panel="chat-list"] {
+.drawer-contents[data-sidepop-variant="chat-list"] [data-sidepop-panel="chat-list"] {
     display: flex;
 }
 
-.sidepop[data-sidepop-variant="chat-list"] .sidepop-header {
+.drawer-contents[data-sidepop-variant="chat-list"] .drawer-header {
     padding: 20px 20px 16px;
 }
 
-.sidepop[data-sidepop-variant="chat-list"] .sidepop-title {
+.drawer-contents[data-sidepop-variant="chat-list"] .drawer-title {
     margin-bottom: 2px;
 }
 
-.sidepop[data-sidepop-variant="chat-list"] .sidepop-description {
+.drawer-contents[data-sidepop-variant="chat-list"] .drawer-description {
     margin-top: 0;
 }
 
-.sidepop[data-sidepop-variant="chat-list"] .sidepop-list-body {
+.drawer-contents[data-sidepop-variant="chat-list"] .drawer-list-body {
     display: flex;
     flex-direction: column;
     padding: 12px 16px;
     overflow: hidden;
 }
 
-.sidepop[data-sidepop-variant="chat-list"] .sidepop-scroll-list {
+.drawer-contents[data-sidepop-variant="chat-list"] .drawer-scroll-list {
     min-height: 0;
     max-height: none;
     flex: 1 1 auto;
 }
 
-.sidepop-chat-item {
+.drawer-chat-item {
     position: relative;
     display: grid;
     width: 100%;
@@ -578,7 +578,7 @@
     transition: var(--transition, 0.15s ease);
 }
 
-.sidepop-chat-item.is-pinned::before {
+.drawer-chat-item.is-pinned::before {
     position: absolute;
     top: 3px;
     left: 4px;
@@ -588,11 +588,11 @@
     content: "📌";
 }
 
-.sidepop-chat-list {
+.drawer-chat-list {
     min-height: 0;
 }
 
-.sidepop-chat-select {
+.drawer-chat-select {
     min-width: 0;
     display: flex;
     align-items: center;
@@ -605,13 +605,13 @@
     text-align: left;
 }
 
-.sidepop-chat-item:hover {
+.drawer-chat-item:hover {
     border-color: var(--primary, #0969da);
     background: color-mix(in srgb, var(--primary, #0969da) 5%, var(--surface, #fff));
     box-shadow: 0 2px 8px rgba(31, 35, 40, 0.06);
 }
 
-.sidepop-chat-item.is-active {
+.drawer-chat-item.is-active {
     border-color: var(--primary, #0969da);
     background: rgba(var(--primary-rgb, 9, 105, 218), 0.06);
     color: var(--primary, #0969da);
@@ -619,7 +619,7 @@
     box-shadow: inset 3px 0 0 var(--primary, #0969da);
 }
 
-.sidepop-chat-name {
+.drawer-chat-name {
     min-width: 0;
     flex: 1;
     overflow: hidden;
@@ -629,11 +629,11 @@
     white-space: nowrap;
 }
 
-.sidepop-chat-icon {
+.drawer-chat-icon {
     margin-right: 4px;
 }
 
-.sidepop-chat-time {
+.drawer-chat-time {
     display: flex;
     flex-direction: column;
     align-items: flex-end;
@@ -645,19 +645,19 @@
     text-align: right;
 }
 
-.sidepop-chat-date {
+.drawer-chat-date {
     color: var(--text-muted, #8b949e);
     font-size: calc(9px * var(--ui-font-scale));
     white-space: nowrap;
 }
 
-.sidepop-chat-item > .btn-more {
+.drawer-chat-item > .btn-more {
     opacity: 0;
 }
 
-.sidepop-chat-item:hover > .btn-more,
-.sidepop-chat-item:focus-within > .btn-more,
-.sidepop-chat-item > .btn-more[aria-expanded="true"] {
+.drawer-chat-item:hover > .btn-more,
+.drawer-chat-item:focus-within > .btn-more,
+.drawer-chat-item > .btn-more[aria-expanded="true"] {
     opacity: 1;
 }
 
@@ -666,14 +666,10 @@
 /* ==================== Start: Answer Page Base 반응형 ==================== */
 
 @media (max-width: 1024px) {
-    html:has(> body.ai-answer-page),
-    body.ai-answer-page {
-        overflow: hidden;
-    }
     .topbar-subtit {
         display: none;
     }
-    .panel-folder {
+    .panel-left {
         min-height: 430px;
     }
 
@@ -681,7 +677,7 @@
         min-height: 820px;
     }
 
-    .panel-chat {
+    .panel-right {
         min-height: 640px;
     }
 
@@ -694,10 +690,19 @@
         overflow-x: auto;
         flex-wrap: nowrap;
     }
+    .answer-tab-panel .answer-version-labels {
+        width: 100%;
+        max-width: 100%;
+        flex: 0 0 100%;
+        overflow-x: auto;
+    }
+    .answer-tab-panel .answer-draft-versionbar {
+        flex-wrap: wrap;
+    }
 }
 
 @media (max-width: 720px) {
-    .panel-folder {
+    .panel-left {
         min-height: 390px;
     }
 
@@ -705,7 +710,7 @@
         min-height: 1250px;
     }
 
-    .panel-chat {
+    .panel-right {
         min-height: 620px;
     }
 
@@ -887,7 +892,7 @@
 
 /* ==================== Start: 답변 워크스페이스 다크 테마 ==================== */
 
-html[data-theme="dark"] :is(.answer-workspace-app, .main-wrap, .three-panel) {
+html[data-theme="dark"] :is(.main-wrap, .three-panel) {
     background-color: var(--bg);
     color: var(--text);
 }
@@ -901,7 +906,7 @@ html[data-theme="dark"] .web-doc-page {
     background: #161b22 !important;
     color: var(--text) !important;
     border-color: var(--border) !important;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, .28) !important;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.28) !important;
 }
 
 html[data-theme="dark"] :is(.center-sub-head, .answer-draft-toolbar, .answer-draft-versionbar, .document-statusbar) {
@@ -937,27 +942,12 @@ html[data-theme="dark"] .rec-score {
 
 /* ==================== Start: 답변 워크스페이스 기본 레이아웃 ==================== */
 
-.answer-workspace-page {
-    min-width: 320px;
-    overflow: hidden;
-}
-
 [hidden] {
     display: none !important;
 }
 
-.answer-workspace-app {
-    width: 100%;
-    min-height: 100vh;
-    background: var(--bg, #f6f8fa);
-}
-
-.answer-three-panel-host > .three-panel {
-    flex: 1 1 0;
-}
-
-.answer-three-panel-host > .three-panel.is-source-collapsed {
-    --three-panel-left-width: 44px;
+.three-panel-area {
+    display: contents;
 }
 
 /* ==================== End: 답변 워크스페이스 기본 레이아웃 ==================== */
@@ -978,15 +968,15 @@ html[data-theme="dark"] .rec-score {
 
 /* ==================== Start: AI 참조소스 패널 ==================== */
 
-.answer-source-panel {
+.three-panel [data-panel="folder"] {
     position: relative;
 }
 
-.answer-source-panel:not(.panel-collapsed) .panel-head {
+.three-panel [data-panel="folder"]:not(.panel-collapsed) .panel-head {
     padding: 0 12px;
 }
 
-.answer-source-panel .panel-title {
+.three-panel [data-panel="folder"] .panel-title {
     font-size: calc(13px * var(--ui-font-scale));
 }
 
@@ -1100,7 +1090,7 @@ html[data-theme="dark"] .rec-score {
 
 /* ==================== Start: 추천자료 및 문서 미리보기 패널 ==================== */
 
-.answer-center-panel {
+.three-panel [data-panel="center"] {
     position: relative;
 }
 
@@ -1649,11 +1639,11 @@ html[data-theme="dark"] .rec-score {
 
 /* ==================== Start: 접힌 AI 참조소스 패널 ==================== */
 
-.answer-source-panel.panel-collapsed .answer-source-file-section > :not(.file-list-collapsed-add):not(.answer-source-files) {
+.three-panel [data-panel="folder"].panel-collapsed .answer-source-file-section > :not(.file-list-collapsed-add):not(.answer-source-files) {
     display: none !important;
 }
 
-.answer-source-panel.panel-collapsed > :is(.left-panel-resize-handle, .selected-refs) {
+.three-panel [data-panel="folder"].panel-collapsed > :is(.left-panel-resize-handle, .selected-refs) {
     display: none;
 }
 
@@ -1669,7 +1659,7 @@ html[data-theme="dark"] .rec-score {
     display: none;
 }
 
-.three-panel.is-panel-swapped > .three-panel-slot:first-child {
+.three-panel.is-panel-swapped > .panel:first-child {
     grid-column: 5;
     grid-row: 1;
 }
@@ -1679,7 +1669,7 @@ html[data-theme="dark"] .rec-score {
     grid-row: 1;
 }
 
-.three-panel.is-panel-swapped > .three-panel-center {
+.three-panel.is-panel-swapped > .panel-center {
     grid-column: 3;
     grid-row: 1;
 }
@@ -1689,7 +1679,7 @@ html[data-theme="dark"] .rec-score {
     grid-row: 1;
 }
 
-.three-panel.is-panel-swapped > .three-panel-slot:last-child {
+.three-panel.is-panel-swapped > .panel:last-child {
     grid-column: 1;
     grid-row: 1;
 }
@@ -1698,23 +1688,23 @@ html[data-theme="dark"] .rec-score {
 
 /* ==================== Start: AI 채팅 패널 ==================== */
 
-.answer-chat-panel {
+.three-panel [data-panel="chat"] {
     position: relative;
 }
 
-.answer-chat-panel > [data-chat-message-list][data-variant="answer"] {
+.three-panel [data-panel="chat"] > [data-chat-message-list][data-variant="answer"] {
     min-height: 0;
 }
 
-.answer-chat-panel [data-chat-message-list][data-variant="answer"] > .chat-msg.ai > .chat-ai-avatar {
+.three-panel [data-panel="chat"] [data-chat-message-list][data-variant="answer"] > .chat-msg.ai > .chat-ai-avatar {
     display: none;
 }
 
-.answer-chat-panel [data-chat-message-list][data-variant="answer"] .msg-text {
+.three-panel [data-panel="chat"] [data-chat-message-list][data-variant="answer"] .msg-text {
     white-space: pre-line;
 }
 
-.answer-chat-panel [data-chat-message-list][data-variant="answer"] .typing-avatar {
+.three-panel [data-panel="chat"] [data-chat-message-list][data-variant="answer"] .typing-avatar {
     width: 26px;
     height: 26px;
     border-radius: 50%;
@@ -1726,7 +1716,7 @@ html[data-theme="dark"] .rec-score {
     animation: avatarPulse 2s ease-in-out infinite;
 }
 
-.answer-chat-panel [data-chat-message-list][data-variant="answer"] .typing-avatar svg {
+.three-panel [data-panel="chat"] [data-chat-message-list][data-variant="answer"] .typing-avatar svg {
     width: 12px;
     height: 12px;
     stroke: #fff;
@@ -1752,13 +1742,6 @@ html[data-theme="dark"] .rec-score {
 /* ==================== End: AI 채팅 패널 ==================== */
 
 /* ==================== Start: 답변서 초안  반응형 ==================== */
-
-@media (max-width: 1440px) {
-    .answer-three-panel-host > .three-panel {
-        --three-panel-left-width: 300px;
-        --three-panel-right-width: 360px;
-    }
-}
 
 @media (max-width: 1280px) {
     .center-header {
@@ -1787,13 +1770,6 @@ html[data-theme="dark"] .rec-score {
     }
 }
 
-@media (max-width: 1180px) {
-    .answer-three-panel-host > .three-panel {
-        --three-panel-left-width: 270px;
-        --three-panel-right-width: 320px;
-    }
-}
-
 @media (max-width: 1024px) {
     .center-header {
         grid-template-columns: minmax(0, 1fr);
@@ -1813,48 +1789,42 @@ html[data-theme="dark"] .rec-score {
         overflow-x: auto;
     }
 
-    .answer-source-panel {
+    .three-panel [data-panel="folder"] {
         display: flex;
     }
 
-    .answer-source-panel:not(.panel-collapsed) .answer-source-file-section {
+    .three-panel [data-panel="folder"]:not(.panel-collapsed) .answer-source-file-section {
         flex: 0 0 230px;
     }
 
-    .answer-three-panel-host > .three-panel > .three-panel-side:first-child {
-        visibility: visible;
-        pointer-events: auto;
-    }
-
-    .answer-three-panel-host .answer-center-panel {
-        height: auto;
-        flex: 0 0 auto;
-        overflow: visible;
-    }
-
-    .answer-center-panel > .answer-center-body,
-    .answer-center-panel .recommend-view-wrapper:not(.doc-viewer-fullscreen):not(.document-statusbar-fullscreen),
-    .answer-center-panel .recommend-view-wrapper:not(.doc-viewer-fullscreen):not(.document-statusbar-fullscreen) > .center-split {
+    .three-panel [data-panel="center"] > .answer-center-body,
+    .three-panel [data-panel="center"] .recommend-view-wrapper:not(.doc-viewer-fullscreen):not(.document-statusbar-fullscreen),
+    .three-panel [data-panel="center"] .recommend-view-wrapper:not(.doc-viewer-fullscreen):not(.document-statusbar-fullscreen) > .center-split {
         min-height: 0;
         flex: 0 0 auto;
         overflow: visible;
     }
 
-    .answer-center-panel:has(.answer-draft-panel:not([hidden])) {
+    .three-panel > [data-panel="center"]:has(> .answer-center-body > .recommend-view-wrapper:not([hidden]):not(.doc-viewer-fullscreen):not(.document-statusbar-fullscreen)) {
+        height: auto;
+        overflow: visible;
+    }
+
+    .three-panel [data-panel="center"]:has(.answer-draft-panel:not([hidden])) {
         height: var(--three-panel-stacked-min-height);
         overflow: hidden;
     }
 
-    .answer-center-panel:has(.answer-draft-panel:not([hidden])) > .answer-center-body {
+    .three-panel [data-panel="center"]:has(.answer-draft-panel:not([hidden])) > .answer-center-body {
         flex: 1 1 0;
         overflow: hidden;
     }
 
-    .answer-center-panel .recommend-view-wrapper:not(.doc-viewer-fullscreen):not(.document-statusbar-fullscreen) :is(.center-left, .center-right) {
+    .three-panel [data-panel="center"] .recommend-view-wrapper:not(.doc-viewer-fullscreen):not(.document-statusbar-fullscreen) :is(.center-left, .center-right) {
         overflow: visible;
     }
 
-    .answer-center-panel .recommend-view-wrapper:not(.doc-viewer-fullscreen):not(.document-statusbar-fullscreen) :is(.recommend-list, .preview-body) {
+    .three-panel [data-panel="center"] .recommend-view-wrapper:not(.doc-viewer-fullscreen):not(.document-statusbar-fullscreen) :is(.recommend-list, .preview-body) {
         flex: 0 0 auto;
         overflow: visible;
     }
@@ -1886,7 +1856,7 @@ html[data-theme="dark"] .rec-score {
         box-shadow: -8px 0 24px rgba(31, 35, 40, 0.14);
     }
 
-    .answer-draft-split-area > .answer-evidence-split-handle {
+    .answer-draft-split-area > .split-handler-handle {
         display: none;
     }
 }

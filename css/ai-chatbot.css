@@ -91,7 +91,7 @@ body.chat-popup-mode .main-wrap {
     width: calc(100% - var(--sidebar-w));
     min-height: 100vh;
 }
-body.chat-popup-mode .chatbot-sidebar-host.sidebar-collapsed ~ .main-wrap {
+body.chat-popup-mode .chatbot-sidebar.collapsed ~ .main-wrap {
     width: calc(100% - 56px);
     margin-left: 56px;
 }

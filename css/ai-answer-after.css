@@ -15,12 +15,9 @@
     --three-panel-right-width: 440px;
 }
 
-body[data-page="answer-after-9"] {
+body[data-page="answer"] {
     display: block;
     overflow: hidden;
-}
-.panel-component {
-    box-shadow: 0 1px 3px rgba(31, 35, 40, 0.04);
 }
 
 /* ==================== End: 기본 스타일 ==================== */
@@ -224,7 +221,7 @@ body[data-page="answer-after-9"] {
     background: var(--surface-el);
 }
 
-.panel-chat .panel-head {
+.panel-right .panel-head {
     flex-shrink: 0;
 }
 
@@ -477,7 +474,7 @@ html[data-theme="dark"] .draft-editor {
     background: #161b22 !important;
     color: var(--text) !important;
     border-color: var(--border) !important;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, .28) !important;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.28) !important;
 }
 
 /* ==================== End: 문서 뷰어 ==================== */
@@ -561,7 +558,7 @@ html[data-theme="dark"] .draft-editor {
 
 /* ==================== Start: 채팅 패널 헤더 및 배지 ==================== */
 
-.panel-chat .panel-head {
+.panel-right .panel-head {
     justify-content: flex-start;
 }
 
@@ -582,36 +579,36 @@ html[data-theme="dark"] .draft-editor {
 
 /* ==================== Start: 사이드팝업 채팅 목록 ==================== */
 
-.sidepop[data-sidepop-variant="chat-list"] [data-sidepop-panel="chat-list"] {
+.drawer-contents[data-sidepop-variant="chat-list"] [data-sidepop-panel="chat-list"] {
     display: flex;
 }
 
-.sidepop[data-sidepop-variant="chat-list"] .sidepop-header {
+.drawer-contents[data-sidepop-variant="chat-list"] .drawer-header {
     padding: 20px 20px 16px;
 }
 
-.sidepop[data-sidepop-variant="chat-list"] .sidepop-title {
+.drawer-contents[data-sidepop-variant="chat-list"] .drawer-title {
     margin-bottom: 2px;
 }
 
-.sidepop[data-sidepop-variant="chat-list"] .sidepop-description {
+.drawer-contents[data-sidepop-variant="chat-list"] .drawer-description {
     margin-top: 0;
 }
 
-.sidepop[data-sidepop-variant="chat-list"] .sidepop-list-body {
+.drawer-contents[data-sidepop-variant="chat-list"] .drawer-list-body {
     display: flex;
     flex-direction: column;
     padding: 12px 16px;
     overflow: hidden;
 }
 
-.sidepop[data-sidepop-variant="chat-list"] .sidepop-scroll-list {
+.drawer-contents[data-sidepop-variant="chat-list"] .drawer-scroll-list {
     min-height: 0;
     max-height: none;
     flex: 1 1 auto;
 }
 
-.sidepop-chat-item {
+.drawer-chat-item {
     position: relative;
     display: grid;
     width: 100%;
@@ -628,7 +625,7 @@ html[data-theme="dark"] .draft-editor {
     transition: var(--transition, 0.15s ease);
 }
 
-.sidepop-chat-item.is-pinned::before {
+.drawer-chat-item.is-pinned::before {
     position: absolute;
     top: 3px;
     left: 4px;
@@ -638,11 +635,11 @@ html[data-theme="dark"] .draft-editor {
     content: "📌";
 }
 
-.sidepop-chat-list {
+.drawer-chat-list {
     min-height: 0;
 }
 
-.sidepop-chat-select {
+.drawer-chat-select {
     min-width: 0;
     min-height: 58px;
     display: flex;
@@ -656,13 +653,13 @@ html[data-theme="dark"] .draft-editor {
     text-align: left;
 }
 
-.sidepop-chat-item:hover {
+.drawer-chat-item:hover {
     border-color: var(--primary, #0969da);
     background: color-mix(in srgb, var(--primary, #0969da) 5%, var(--surface, #fff));
     box-shadow: 0 2px 8px rgba(31, 35, 40, 0.06);
 }
 
-.sidepop-chat-item.is-active {
+.drawer-chat-item.is-active {
     border-color: var(--primary, #0969da);
     background: rgba(var(--primary-rgb, 9, 105, 218), 0.06);
     color: var(--primary, #0969da);
@@ -670,7 +667,7 @@ html[data-theme="dark"] .draft-editor {
     box-shadow: inset 3px 0 0 var(--primary, #0969da);
 }
 
-.sidepop-chat-name {
+.drawer-chat-name {
     min-width: 0;
     flex: 1;
     overflow: hidden;
@@ -680,11 +677,11 @@ html[data-theme="dark"] .draft-editor {
     white-space: nowrap;
 }
 
-.sidepop-chat-icon {
+.drawer-chat-icon {
     margin-right: 4px;
 }
 
-.sidepop-chat-time {
+.drawer-chat-time {
     display: flex;
     flex-direction: column;
     align-items: flex-end;
@@ -696,19 +693,19 @@ html[data-theme="dark"] .draft-editor {
     text-align: right;
 }
 
-.sidepop-chat-date {
+.drawer-chat-date {
     color: var(--text-muted, #8b949e);
     font-size: calc(9px * var(--ui-font-scale));
     white-space: nowrap;
 }
 
-.sidepop-chat-item > .btn-more {
+.drawer-chat-item > .btn-more {
     opacity: 0;
 }
 
-.sidepop-chat-item:hover > .btn-more,
-.sidepop-chat-item:focus-within > .btn-more,
-.sidepop-chat-item > .btn-more[aria-expanded="true"] {
+.drawer-chat-item:hover > .btn-more,
+.drawer-chat-item:focus-within > .btn-more,
+.drawer-chat-item > .btn-more[aria-expanded="true"] {
     opacity: 1;
 }
 
@@ -1011,7 +1008,7 @@ html[data-theme="dark"] .draft-editor {
 .panel-collapsed .smart-search-collapsed-btn:is(:hover, :focus-visible) .collapsed-upload-icon {
     filter: var(--icon-filter-primary);
 }
-.custom-modal.security-modal {
+.modal-contents.security-modal {
     width: 440px;
     max-width: calc(100vw - 32px);
 }
@@ -1745,7 +1742,7 @@ html[data-theme="dark"] .draft-editor {
     flex: 1 1 auto;
     flex-direction: column;
 }
-.smart-results-expanded :is(.file-upload-host, .smart-imported-section, .folder-upload-section > .file-list, .collapsed-smart-source-icons) {
+.smart-results-expanded :is(.file-upload-area, .smart-imported-section, .folder-upload-section > .file-list, .collapsed-smart-source-icons) {
     display: none;
 }
 .smart-results-expanded .smart-search-results.expanded {
@@ -1754,22 +1751,17 @@ html[data-theme="dark"] .draft-editor {
     flex: 1 1 auto;
 }
 .smart-source-modal {
-    position: fixed;
     z-index: 1200;
-    inset: 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
     padding: 20px;
-    background: rgba(0, 0, 0, 0.4);
 }
-.smart-source-modal.hidden {
-    display: none;
+.smart-source-modal > .modal-bg {
+    background: rgba(0, 0, 0, 0.4);
 }
 .smart-source-modal-card {
     display: flex;
     width: min(900px, 90vw);
     max-height: 80vh;
+    padding: 0;
     flex-direction: column;
     overflow: hidden;
     border: 1px solid var(--border);
@@ -2161,23 +2153,18 @@ html[data-theme="dark"] .draft-editor {
 
 /* ==================== Start: 파일명 변경 모달 ==================== */
 
-.rename-modal-backdrop {
-    position: fixed;
-    inset: 0;
+.source-rename-modal {
     z-index: 600;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+}
+
+.source-rename-modal > .modal-bg {
     background: rgba(0, 0, 0, 0.4);
 }
 
-.rename-modal-backdrop.hidden {
-    display: none;
-}
-
-.rename-modal {
+.modal-contents.rename-modal {
     width: 360px;
     max-width: 90vw;
+    padding: 0;
     border: 1px solid var(--border);
     border-radius: var(--radius-lg);
     background: var(--surface);
@@ -2577,6 +2564,7 @@ html[data-theme="dark"] .draft-editor {
     }
     .draft-tabs-shell {
         width: 100%;
+        flex: 1 1 auto;
     }
     .version-bar-right {
         width: 100%;
@@ -2757,31 +2745,48 @@ html[data-theme="dark"] .draft-editor {
     flex: 0 0 clamp(260px, 33.333%, 400px);
 }
 
-.answer-after-evidence-split-handle {
+.draft-split-area > .split-handler-handle {
     --split-handler-handle-margin: 24px 0;
 }
 
-@media (max-width: 1440px) {
+@media (max-width: 1024px) {
     .draft-split-area {
-        flex-direction: column;
+        position: relative;
+        min-height: 0;
+        flex: 1 1 0;
+        overflow: hidden;
     }
 
-    .draft-split-area .draft-view {
-        width: 100% !important;
+    .draft-split-area > .draft-view {
         min-height: 0;
-        flex: 0 0 58% !important;
+        flex: 1 1 auto !important;
     }
 
     .draft-split-area > .verify-detail-panel {
-        width: 100% !important;
-        min-width: 0;
-        min-height: 240px;
-        flex: 1 1 42% !important;
-        border-left: 0;
-        border-top: 1px solid var(--border);
+        position: absolute;
+        z-index: 2;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        width: min(88%, 320px) !important;
+        min-width: min(260px, 100%);
+        min-height: 0;
+        flex: none;
+        overflow: hidden;
+        border-top: 0;
+        border-left: 1px solid var(--border);
+        box-shadow: -8px 0 24px rgba(31, 35, 40, 0.14);
     }
 
-    .answer-after-evidence-split-handle {
+    .draft-split-area > .verify-detail-panel .vd-body {
+        min-height: 0;
+        flex: 1 1 auto;
+        overflow-y: auto;
+        overscroll-behavior: contain;
+        scrollbar-gutter: stable;
+    }
+
+    .draft-split-area > .split-handler-handle {
         display: none;
     }
 }
@@ -2917,6 +2922,20 @@ html[data-theme="dark"] .draft-editor {
     flex-direction: column;
     flex: 1;
     overflow: hidden;
+}
+
+.draft-view-wrapper > [data-draft-content-slot] {
+    display: flex;
+    min-width: 0;
+    min-height: 0;
+    flex: 1 1 0;
+    overflow: hidden;
+}
+
+.draft-view-wrapper > [data-draft-content-slot] > :is(.draft-view, .draft-split-area) {
+    width: 100%;
+    min-height: 0;
+    flex: 1 1 0;
 }
 
 .draft-compare-toggle {
@@ -3477,7 +3496,7 @@ body:has(.draft-version-compare.is-fullscreen) {
 
 /* ==================== Start: 오류 신고 폼 ==================== */
 
-#answerReportSidepop .sidepop-body {
+#answerReportSidepop .drawer-body {
     padding: 16px 18px;
 }
 #answerReportSidepop .report-form {
@@ -3517,73 +3536,19 @@ body:has(.draft-version-compare.is-fullscreen) {
 /* ==================== Start: 오류 신고 첨부파일 ==================== */
 
 #answerReportSidepop .report-file-list {
-    display: flex;
-    flex-direction: column;
-    gap: 6px;
-    list-style: none;
+    max-height: none;
+    padding-bottom: 0;
 }
 #answerReportSidepop .report-file-list:not(:empty) {
     margin-top: 8px;
 }
-#answerReportSidepop .report-file-list li {
-    display: flex;
-    align-items: center;
-    gap: 8px;
+#answerReportSidepop .report-file-item {
+    min-height: 42px;
     padding: 7px 10px;
-    border: 1px solid var(--border);
-    border-radius: 8px;
-    background: var(--bg);
-    color: var(--text-sub);
-    font-size: calc(11px * var(--ui-font-scale));
-}
-#answerReportSidepop .report-file-icon {
-    display: flex;
-    width: 22px;
-    height: 22px;
-    align-items: center;
-    justify-content: center;
-    border-radius: 6px;
-    background: var(--text-muted);
-    color: #fff;
-    flex-shrink: 0;
-    font-size: calc(8px * var(--ui-font-scale));
-    font-weight: 700;
-}
-#answerReportSidepop .report-file-icon.pdf {
-    background: var(--red);
-}
-#answerReportSidepop .report-file-icon.img {
-    background: var(--orange);
-}
-#answerReportSidepop .report-file-name {
-    min-width: 0;
-    flex: 1;
-    overflow: hidden;
-    color: var(--text);
-    font-weight: 600;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-}
-#answerReportSidepop .report-file-size {
-    color: var(--text-muted);
-    flex-shrink: 0;
-    font-size: calc(10px * var(--ui-font-scale));
+    background: var(--surface);
 }
 #answerReportSidepop .report-file-remove {
-    display: flex;
-    width: 18px;
-    height: 18px;
-    align-items: center;
-    justify-content: center;
-    border-radius: 50%;
-    color: var(--text-muted);
-    flex-shrink: 0;
-    font-size: calc(12px * var(--ui-font-scale));
-    transition: var(--transition);
-}
-#answerReportSidepop .report-file-remove:hover {
-    background: rgba(207, 34, 46, 0.08);
-    color: var(--red);
+    opacity: 1;
 }
 
 /* ==================== End: 오류 신고 첨부파일 ==================== */
@@ -3799,7 +3764,7 @@ html[data-theme="dark"] .workspace-creation-loading {
     }
 
     /* 답변서 초안 생성 */
-    .three-panel-slot {
+    .three-panel > .panel {
         min-width: 0;
         max-width: none;
     }
@@ -3847,8 +3812,8 @@ html[data-theme="dark"] .workspace-creation-loading {
     }
 
     /* Answer After Page Base */
-    html:has(> body[data-page="answer-after-9"]),
-    body[data-page="answer-after-9"] {
+    html:has(> body[data-page="answer"]),
+    body[data-page="answer"] {
         overflow: hidden;
     }
 
@@ -3860,7 +3825,7 @@ html[data-theme="dark"] .workspace-creation-loading {
         min-height: 820px;
     }
 
-    .panel-chat {
+    .panel-right {
         min-height: 640px;
     }
 
@@ -3892,22 +3857,11 @@ html[data-theme="dark"] .workspace-creation-loading {
     }
 
     /* 답변서 초안 생성 */
-    .three-panel-host > .three-panel {
+    .three-panel-area > .three-panel {
         padding: 6px;
     }
     .draft-editor {
         padding: 22px 16px;
-    }
-    .draft-split-area {
-        flex-direction: column;
-        overflow-y: auto;
-    }
-    .draft-split-area .draft-view {
-        flex: 0 0 auto;
-        min-height: 620px;
-    }
-    .answer-after-evidence-split-handle {
-        display: none;
     }
     .draft-verify-toolbar {
         overflow-x: auto;
@@ -3926,7 +3880,7 @@ html[data-theme="dark"] .workspace-creation-loading {
         min-height: 1250px;
     }
 
-    .panel-chat {
+    .panel-right {
         min-height: 620px;
     }
 
@@ -3975,11 +3929,6 @@ html[data-theme="dark"] .workspace-creation-loading {
         grid-template-columns: 1fr;
     }
 
-    .verify-detail-panel {
-        width: 100%;
-        min-height: 420px;
-        border-top: 1px solid var(--border);
-    }
 }
 
 @media (max-width: 480px) {

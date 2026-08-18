@@ -54,7 +54,7 @@
 
     // 페이지 컴포넌트 준비 상태 확인
     function arePageComponentsReady() {
-        return ["chatPromptCenter", "chatPromptBottom"].every((id) => document.querySelector(`#${id} [data-prompt-composer]`)) && document.querySelector(".chatbot-sidebar-host .app-sidebar");
+        return ["chatPromptCenter", "chatPromptBottom"].every((id) => document.querySelector(`#${id} [data-prompt-composer]`)) && document.querySelector(".chatbot-sidebar");
     }
 
     // 화면 초기화
@@ -62,13 +62,10 @@
         if (pageReady || !arePageComponentsReady()) return;
         pageReady = true;
         hydrateIcons();
-        const sidebarHost = document.querySelector(".chatbot-sidebar-host");
-        window.AIOneSidebar?.configure(sidebarHost?.querySelector(".app-sidebar"), {
+        const sidebar = document.querySelector(".chatbot-sidebar");
+        window.AIOneSidebar?.configure(sidebar, {
             activePage: "chatbot",
             initialCollapsed: false,
-            stateTarget: sidebarHost,
-            collapsedClass: "sidebar-collapsed",
-            expandedClass: "sidebar-expanded",
         });
         applyPopupMode();
         bindEvents();

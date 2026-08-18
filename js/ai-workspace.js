@@ -844,7 +844,7 @@
 
     // 사이드바 보강
     function enhanceSidebar(host) {
-        const sidebar = host.querySelector(".app-sidebar");
+        const sidebar = host.querySelector(".sidebar");
         if (!sidebar || sidebar.dataset.workspaceReady === "true") return;
 
         sidebar.dataset.workspaceReady = "true";
@@ -947,23 +947,23 @@
         sidepop.dataset.workspaceRunListReady = "true";
 
         // 실행 항목 조회
-        const getRunItems = () => Array.from(list.children).filter((item) => item.matches(".sidepop-run-item"));
+        const getRunItems = () => Array.from(list.children).filter((item) => item.matches(".drawer-run-item"));
         // 실행 항목 본문 조회
-        const getRunMain = (item) => item?.querySelector(":scope > .sidepop-run-main");
+        const getRunMain = (item) => item?.querySelector(":scope > .drawer-run-main");
         // 실행 제목 조회
-        const getRunTitle = (item) => item?.querySelector(".sidepop-run-title")?.textContent.replace(/\s+/g, " ").trim() || "선택한 질의분류";
+        const getRunTitle = (item) => item?.querySelector(".drawer-run-title")?.textContent.replace(/\s+/g, " ").trim() || "선택한 질의분류";
         const readRunNumber = (item, selector) => Number((item.querySelector(selector)?.textContent || "").match(/\d+/)?.[0]) || 0;
         const readRunData = (item) => {
-            const [date = "", time = ""] = (item.querySelector(".sidepop-run-meta span")?.textContent.trim() || "").split(/\s+/);
+            const [date = "", time = ""] = (item.querySelector(".drawer-run-meta span")?.textContent.trim() || "").split(/\s+/);
             return {
                 id: Number(item.dataset.workspaceRunId),
                 title: getRunTitle(item),
-                status: item.querySelector(".sidepop-run-state")?.classList.contains("pending") ? "pending" : "done",
+                status: item.querySelector(".drawer-run-state")?.classList.contains("pending") ? "pending" : "done",
                 date,
                 time,
-                fileCount: readRunNumber(item, "[data-run-file-count], .sidepop-run-badges .sidepop-run-badge:nth-child(1)"),
-                memberCount: readRunNumber(item, "[data-run-member-count], .sidepop-run-badges .sidepop-run-badge:nth-child(2)"),
-                queryCount: readRunNumber(item, "[data-run-query-count], .sidepop-run-badges .sidepop-run-badge:nth-child(3)"),
+                fileCount: readRunNumber(item, "[data-run-file-count], .drawer-run-badges .drawer-run-badge:nth-child(1)"),
+                memberCount: readRunNumber(item, "[data-run-member-count], .drawer-run-badges .drawer-run-badge:nth-child(2)"),
+                queryCount: readRunNumber(item, "[data-run-query-count], .drawer-run-badges .drawer-run-badge:nth-child(3)"),
                 pinned: item.dataset.pinned === "true",
             };
         };
@@ -1029,14 +1029,14 @@
         sortSelect?.addEventListener("change", renderRunList);
 
         list.addEventListener("click", (event) => {
-            if (event.target.closest(".btn-more, .sidepop-list-action")) return;
-            const item = event.target.closest(".sidepop-run-item");
+            if (event.target.closest(".btn-more, .drawer-list-action")) return;
+            const item = event.target.closest(".drawer-run-item");
             if (item) selectRun(item, { notify: true });
         });
 
         list.addEventListener("keydown", (event) => {
-            const main = event.target.closest(".sidepop-run-main");
-            const item = main?.closest(".sidepop-run-item");
+            const main = event.target.closest(".drawer-run-main");
+            const item = main?.closest(".drawer-run-item");
             if (!item || !["Enter", " "].includes(event.key)) return;
 
             event.preventDefault();
@@ -1087,8 +1087,8 @@
     function showWorkspaceSkeleton(message = "문서를 분석하고 있습니다...") {
         cancelWorkspaceSkeleton();
 
-        const comparisonPanel = document.querySelector(".comparison-panel-host .panel-component");
-        const questionPanel = document.querySelector(".question-panel-host .panel-component");
+        const comparisonPanel = document.querySelector(".comparison-panel-area");
+        const questionPanel = document.querySelector(".question-panel-area");
 
         if (comparisonPanel) {
             const overlay = document.createElement("div");
@@ -1438,7 +1438,7 @@
     // 워크스페이스 원문 문서 렌더링
     function renderWorkspaceOriginalDocument(fileData) {
         const meta = { ...workspaceSampleData.defaultMeta, ...(fileData.meta || {}) };
-        const page = document.querySelector(".comparison-panel-host .orig-page-form");
+        const page = document.querySelector(".comparison-panel-area .orig-page-form");
         const boxes = page?.querySelector(".orig-query-boxes");
         if (!page || !boxes) return;
         const isSubmissionVersion = page.classList.contains("orig-page-submission");
@@ -1769,9 +1769,9 @@
 
     /* ============================ 시작: 패널 배치 ============================ */
 
-    // 패널 슬롯 조회
-    function getPanelSlots(container) {
-        return Array.from(container?.children || []).filter((element) => element.hasAttribute("data-panel-slot"));
+    // 패널 조회
+    function getPanels(container) {
+        return Array.from(container?.children || []).filter((element) => element.matches(".panel[data-slot]"));
     }
 
     // 패널 핸들 조회
@@ -1781,7 +1781,7 @@
 
     // 패널 너비 읽기
     function readPanelWidths(container) {
-        return new Map(getPanelSlots(container).map((panel) => [panel, Math.round(panel.getBoundingClientRect().width)]));
+        return new Map(getPanels(container).map((panel) => [panel, Math.round(panel.getBoundingClientRect().width)]));
     }
 
     // 펼쳐진 패널별 최소 너비 조회
@@ -1807,7 +1807,7 @@
 
     // 패널 Handle Aria 동기화
     function syncPanelHandleAria(container) {
-        const panels = getPanelSlots(container);
+        const panels = getPanels(container);
         const handles = getPanelHandles(container);
         handles.forEach((handle, index) => {
             const leftPanel = panels[index];
@@ -1826,7 +1826,7 @@
 
     // 패널 너비 적용
     function applyPanelWidths(container, widths) {
-        const panels = getPanelSlots(container);
+        const panels = getPanels(container);
         if (!panels.length || panels.some((panel) => !Number.isFinite(widths.get(panel)))) return;
 
         container.style.gridTemplateColumns = createPanelColumns(panels, widths);
@@ -1835,11 +1835,9 @@
 
     // 패널 접힘 상태 상태 동기화
     function syncPanelCollapsedState(panel, isCollapsed) {
-        const panelComponent = panel.querySelector(".panel-component");
         const collapseButton = panel.querySelector('[data-panel-action="collapse"]');
         const fileListSection = panel.querySelector(".file-list-section");
         panel.classList.toggle("panel-collapsed", isCollapsed);
-        panelComponent?.classList.toggle("panel-collapsed", isCollapsed);
         fileListSection?.classList.toggle("is-collapsed", isCollapsed);
         if (!collapseButton) return;
 
@@ -1851,7 +1849,7 @@
 
     // 패널 접힘 상태 설정
     function setPanelCollapsed(panel, isCollapsed, container) {
-        const panels = getPanelSlots(container);
+        const panels = getPanels(container);
         if (!panels.includes(panel)) return;
 
         const widths = readPanelWidths(container);
@@ -1888,7 +1886,7 @@
 
     // 패널 접기 이벤트 연결
     function bindPanelCollapse(container) {
-        getPanelSlots(container).forEach((panel) => {
+        getPanels(container).forEach((panel) => {
             const collapseButton = panel.querySelector('[data-panel-action="collapse"]');
             if (collapseButton && collapseButton.dataset.panelCollapseReady !== "true") {
                 collapseButton.dataset.panelCollapseReady = "true";
@@ -1919,7 +1917,7 @@
 
     // 패널 이동
     function movePanel(container, panel, targetPanel) {
-        const panels = getPanelSlots(container);
+        const panels = getPanels(container);
         const sourceIndex = panels.indexOf(panel);
         const targetIndex = panels.indexOf(targetPanel);
         if (sourceIndex < 0 || targetIndex < 0 || sourceIndex === targetIndex) return false;
@@ -1935,7 +1933,7 @@
 
     // 패널 Switch 선택 정리
     function clearPanelSwitchSelection(container) {
-        getPanelSlots(container).forEach((panel) => {
+        getPanels(container).forEach((panel) => {
             panel.classList.remove("panel-switch-source");
             panel.querySelector('.panel-title[role="button"]')?.setAttribute("aria-pressed", "false");
         });
@@ -1943,7 +1941,7 @@
 
     // 패널 Positions 교체
     function swapPanelPositions(container, firstPanel, secondPanel) {
-        const panels = getPanelSlots(container);
+        const panels = getPanels(container);
         const firstIndex = panels.indexOf(firstPanel);
         const secondIndex = panels.indexOf(secondPanel);
         if (firstIndex < 0 || secondIndex < 0 || firstIndex === secondIndex) return false;
@@ -1960,7 +1958,7 @@
         const container = document.querySelector('.three-panel[data-workspace-panels-ready="true"]');
         if (!container) return false;
 
-        const panels = getPanelSlots(container);
+        const panels = getPanels(container);
         if (panels.length < 2) return false;
 
         clearPanelSwitchSelection(container);
@@ -2006,7 +2004,7 @@
 
     // 패널 드래그 드롭 이벤트 연결
     function bindPanelDragDrop(container) {
-        getPanelSlots(container).forEach((panel) => {
+        getPanels(container).forEach((panel) => {
             const head = panel.querySelector(".panel-head");
             if (!head) return;
 
@@ -2028,7 +2026,7 @@
                     panel.style.removeProperty("opacity");
                     head.style.cursor = "grab";
                     document.body.style.userSelect = "";
-                    getPanelSlots(container).forEach((item) => item.classList.remove("drag-over"));
+                    getPanels(container).forEach((item) => item.classList.remove("drag-over"));
                 };
 
                 // on Pointer Move 동작 처리
@@ -2042,9 +2040,9 @@
                     head.style.cursor = "grabbing";
                     document.body.style.userSelect = "none";
 
-                    const hoveredPanel = document.elementFromPoint(moveEvent.clientX, moveEvent.clientY)?.closest("[data-panel-slot]");
+                    const hoveredPanel = document.elementFromPoint(moveEvent.clientX, moveEvent.clientY)?.closest(".panel[data-slot]");
                     targetPanel = hoveredPanel?.parentElement === container && hoveredPanel !== panel ? hoveredPanel : null;
-                    getPanelSlots(container).forEach((item) => item.classList.toggle("drag-over", item === targetPanel));
+                    getPanels(container).forEach((item) => item.classList.toggle("drag-over", item === targetPanel));
                 };
 
                 // on Pointer Up 동작 처리
@@ -2074,7 +2072,7 @@
 
     // 패널 헤더 전환 이벤트 연결
     function bindPanelHeaderSwitch(container) {
-        getPanelSlots(container).forEach((panel) => {
+        getPanels(container).forEach((panel) => {
             const head = panel.querySelector(".panel-head");
             const title = head?.querySelector(".panel-title");
             if (!head || !title || head.dataset.panelSwitchReady === "true") return;
@@ -2094,7 +2092,7 @@
                     return;
                 }
 
-                const selectedPanel = getPanelSlots(container).find((item) => item.classList.contains("panel-switch-source"));
+                const selectedPanel = getPanels(container).find((item) => item.classList.contains("panel-switch-source"));
                 if (!selectedPanel) {
                     panel.classList.add("panel-switch-source");
                     title.setAttribute("aria-pressed", "true");
@@ -2128,11 +2126,10 @@
         const container = host.querySelector(".three-panel");
         if (!container || container.dataset.workspacePanelsReady === "true") return;
 
-        const panels = Array.from(container.children).filter((element) => element.hasAttribute("data-slot"));
+        const panels = getPanels(container);
         if (panels.length < 2) return;
 
         panels.forEach((panel, index) => {
-            panel.dataset.panelSlot = panel.dataset.slot || `panel-${index}`;
             panel.dataset.panelInitialIndex = String(index);
             panel.dataset.panelMin = String(panelMinWidths[panel.dataset.slot] || panelMinWidth);
         });
@@ -2386,7 +2383,7 @@
         });
         const activeFileItem = fileItems.find((item) => item.classList.contains("active")) || fileItems[0];
         activeWorkspaceFileName = activeFileItem?.dataset.fileKey || files[0]?.name || "";
-        const activePage = document.querySelector(".comparison-panel-host .orig-page-form");
+        const activePage = document.querySelector(".comparison-panel-area .orig-page-form");
         const activeQueries = workspaceQuestionCards.map((query) => ({ ...query, id: Number(query.id) }));
         fileData[activeWorkspaceFileName] = {
             meta: {
@@ -2491,7 +2488,7 @@
 
     // 워크스페이스 문서 확대/축소 초기화
     function resetWorkspaceDocumentZoom() {
-        const statusbar = document.querySelector(".comparison-panel-host [data-document-statusbar]");
+        const statusbar = document.querySelector(".comparison-panel-area [data-document-statusbar]");
         window.AIOneDocumentStatusBar?.setZoom(statusbar, 100);
     }
 
@@ -2919,8 +2916,8 @@
         enhanceSidebar(document);
         enhanceTopbar(document);
         initWorkspaceRunList();
-        document.querySelectorAll(".file-upload-host").forEach(initFileUpload);
-        document.querySelectorAll(".progressbar-host").forEach(enhanceProgressbar);
+        document.querySelectorAll(".file-upload-area").forEach(initFileUpload);
+        document.querySelectorAll(".progressbar-area").forEach(enhanceProgressbar);
         initWorkspacePanels(document);
         initAfter9WorkspaceFeatures(document);
         initFileActionMenus();

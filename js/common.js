@@ -171,7 +171,7 @@
     const registeredTypes = new Map();
 
     function getOpenLayers() {
-        return Array.from(registeredTypes.values()).flatMap((config) => Array.from(document.querySelectorAll(`${config.layerSelector}:not([hidden])`)));
+        return Array.from(registeredTypes.values()).flatMap((config) => Array.from(document.querySelectorAll(`${config.layerSelector}:not(.hidden):not([hidden])`)));
     }
 
     function syncBodyState() {
@@ -186,6 +186,7 @@
         const config = layer && getConfigForLayer(layer);
         if (!layer || !config) return;
 
+        layer.classList.toggle("hidden", !isOpen);
         layer.hidden = !isOpen;
         document.querySelectorAll(`[${config.openAttribute}="${layer.id}"]`).forEach((button) => {
             button.setAttribute("aria-expanded", String(isOpen));
@@ -711,7 +712,7 @@
         if (layer?.id !== PREPARING_SERVICE_MODAL_ID) return;
 
         const description = layer.querySelector('[data-slot="description"]');
-        const confirmButton = layer.querySelector('.btn-confirm[data-modal-close]');
+        const confirmButton = layer.querySelector(".btn-confirm[data-modal-close]");
         const isChatbotTrigger = trigger?.dataset.page === "chatbot";
         if (!description || !confirmButton) return;
 
@@ -732,13 +733,13 @@
     }
 
     function isActionMenu(layer) {
-        return layer?.classList.contains("modal-menu-backdrop") && Boolean(layer.querySelector(".custom-modal.modal-small"));
+        return layer?.classList.contains("modal-menu-backdrop") && Boolean(layer.querySelector(".modal-contents.modal-small"));
     }
 
     function positionActionMenu(layer, trigger) {
         if (!isActionMenu(layer) || !(trigger instanceof Element)) return;
 
-        const dialog = layer.querySelector(".custom-modal.modal-small");
+        const dialog = layer.querySelector(".modal-contents.modal-small");
         const triggerRect = trigger.getBoundingClientRect();
         const dialogRect = dialog.getBoundingClientRect();
         const maxLeft = window.innerWidth - dialogRect.width - VIEWPORT_MARGIN;
@@ -755,7 +756,7 @@
     }
 
     function repositionOpenMenus() {
-        document.querySelectorAll(".modal-menu-backdrop:not([hidden])").forEach((layer) => {
+        document.querySelectorAll(".modal.modal-menu-backdrop:not(.hidden):not([hidden])").forEach((layer) => {
             const trigger = menuAnchors.get(layer);
             if (trigger?.isConnected) positionActionMenu(layer, trigger);
         });
@@ -809,7 +810,7 @@
     }
 
     function getVariant(layer) {
-        return layer?.querySelector(".custom-modal[data-modal-variant]")?.getAttribute("data-modal-variant") || "";
+        return layer?.querySelector(".modal-contents[data-modal-variant]")?.getAttribute("data-modal-variant") || "";
     }
 
     function resolveUserCard(source, layer) {
@@ -899,7 +900,6 @@
     });
     document.addEventListener("ai-one-preferences:ready", () => init());
 })();
-
 
 /* ============================ End: 모달 (Modal) ============================== */
 
@@ -1129,7 +1129,7 @@
     function openModal(trigger) {
         const targetId = trigger?.getAttribute("data-modal-open");
         const modal = targetId ? document.getElementById(targetId) : null;
-        const sidebar = trigger?.closest(".app-sidebar");
+        const sidebar = trigger?.closest(SIDEBAR_SELECTOR);
         if (sidebar) setAccountMenuOpen(sidebar, false);
         if (!modal || !window.AIOneModal) {
             pendingModalRequest = targetId ? { targetId, trigger } : null;
@@ -2000,7 +2000,7 @@
         const skeletonRows = Array.from({ length: rowCount }, () => createSkeletonRow(columnCount));
         skeletonRows.forEach((row) => tbody.appendChild(row));
 
-        const container = table.closest(".data-table-container");
+        const container = table.closest(".table");
         loadingStates.set(table, {
             ariaBusy: table.getAttribute("aria-busy"),
             container,
@@ -2905,14 +2905,8 @@
         const beforeSize = Math.round(getPaneSize(parts.left, orientation));
         const afterSize = Math.round(getPaneSize(parts.right, orientation));
         const totalSize = beforeSize + afterSize;
-        const beforeMinimum =
-            parts.kind === "three-panel"
-                ? Math.min(getThreePanelMinimum(parts.left, parts.container), Math.floor(totalSize / 2))
-                : getMinimum(parts.container, totalSize, DEFAULT_SPLIT_MIN_WIDTH);
-        const afterMinimum =
-            parts.kind === "three-panel"
-                ? Math.min(getThreePanelMinimum(parts.right, parts.container), Math.floor(totalSize / 2))
-                : beforeMinimum;
+        const beforeMinimum = parts.kind === "three-panel" ? Math.min(getThreePanelMinimum(parts.left, parts.container), Math.floor(totalSize / 2)) : getMinimum(parts.container, totalSize, DEFAULT_SPLIT_MIN_WIDTH);
+        const afterMinimum = parts.kind === "three-panel" ? Math.min(getThreePanelMinimum(parts.right, parts.container), Math.floor(totalSize / 2)) : beforeMinimum;
 
         parts.handle.setAttribute("aria-orientation", orientation === "vertical" ? "horizontal" : "vertical");
         parts.handle.setAttribute("aria-valuemin", String(beforeMinimum));
@@ -2984,12 +2978,7 @@
     }
 
     function getFlexiblePanelIndex(panels) {
-        const centerIndex = panels.findIndex(
-            (panel) =>
-                panel.dataset.slot === "center" ||
-                panel.classList.contains("three-panel-center") ||
-                panel.querySelector(":scope > .panel-center, :scope > .answer-center-panel"),
-        );
+        const centerIndex = panels.findIndex((panel) => panel.dataset.slot === "center" || panel.classList.contains("panel-center"));
         return centerIndex >= 0 ? centerIndex : Math.floor(panels.length / 2);
     }
 
@@ -3080,9 +3069,7 @@
 
         const panels = getDirectChildren(container, (element) => element.hasAttribute("data-slot"));
         state = {
-            preferredWidths: container.style.gridTemplateColumns
-                ? new Map(panels.map((panel) => [panel, Math.round(panel.getBoundingClientRect().width)]))
-                : null,
+            preferredWidths: container.style.gridTemplateColumns ? new Map(panels.map((panel) => [panel, Math.round(panel.getBoundingClientRect().width)])) : null,
             lastContainerWidth: container.clientWidth,
             observer: null,
         };
@@ -3229,15 +3216,15 @@
     const sizes = new Set(["small", "medium", "large", "xlarge"]);
     const listTypes = Object.freeze({
         run: {
-            itemSelector: ".sidepop-run-item",
-            titleSelector: ".sidepop-run-title",
+            itemSelector: ".drawer-run-item",
+            titleSelector: ".drawer-run-title",
             renameLabel: "제목 변경",
             menuLabel: "실행 건 관리",
             eventName: "sidepop:run-action",
         },
         chat: {
-            itemSelector: ".sidepop-chat-item",
-            titleSelector: ".sidepop-chat-name",
+            itemSelector: ".drawer-chat-item",
+            titleSelector: ".drawer-chat-name",
             renameLabel: "이름 변경",
             menuLabel: "대화 관리",
             eventName: "sidepop:chat-action",
@@ -3264,10 +3251,10 @@
 
     function setVariant(target, variant = "run-list") {
         const layer = resolveLayer(target);
-        const sidepop = layer?.querySelector(".sidepop");
+        const sidepop = layer?.querySelector(".drawer-contents");
         if (!sidepop || !variants.has(variant)) return false;
 
-        variants.forEach((name) => sidepop.classList.toggle(`sidepop-variant-${name}`, name === variant));
+        variants.forEach((name) => sidepop.classList.toggle(`drawer-variant-${name}`, name === variant));
         sidepop.dataset.sidepopVariant = variant;
         layer.dispatchEvent(
             new CustomEvent("sidepop:variant-change", {
@@ -3280,10 +3267,10 @@
 
     function setSize(target, size = "medium") {
         const layer = resolveLayer(target);
-        const sidepop = layer?.querySelector(".sidepop");
+        const sidepop = layer?.querySelector(".drawer-contents");
         if (!sidepop || !sizes.has(size)) return false;
 
-        sizes.forEach((name) => sidepop.classList.toggle(`sidepop-${name}`, name === size));
+        sizes.forEach((name) => sidepop.classList.toggle(`drawer-${name}`, name === size));
         sidepop.dataset.sidepopSize = size;
         layer.dispatchEvent(
             new CustomEvent("sidepop:size-change", {
@@ -3298,7 +3285,7 @@
         const buttons = layer?.querySelectorAll("[data-sidepop-position-toggle]");
         if (!buttons?.length) return;
 
-        const isLeft = layer.classList.contains("sidepop-position-left");
+        const isLeft = layer.classList.contains("drawer-position-left");
         const destination = isLeft ? "오른쪽" : "왼쪽";
         buttons.forEach((button) => {
             const label = button.querySelector("span");
@@ -3312,7 +3299,7 @@
         if (!layer) return false;
 
         const isLeft = position === "left";
-        layer.classList.toggle("sidepop-position-left", isLeft);
+        layer.classList.toggle("drawer-position-left", isLeft);
         syncPositionControl(layer);
         layer.dispatchEvent(
             new CustomEvent("sidepop:position-change", {
@@ -3348,7 +3335,7 @@
         if (type !== "chat") return title.textContent.replace(/\s+/g, " ").trim();
 
         return Array.from(title.childNodes)
-            .filter((node) => !(node instanceof Element && node.classList.contains("sidepop-chat-icon")))
+            .filter((node) => !(node instanceof Element && node.classList.contains("drawer-chat-icon")))
             .map((node) => node.textContent)
             .join("")
             .replace(/\s+/g, " ")
@@ -3360,11 +3347,11 @@
         if (!title) return;
 
         if (type === "chat") {
-            const icon = title.querySelector(".sidepop-chat-icon");
+            const icon = title.querySelector(".drawer-chat-icon");
             title.replaceChildren();
             if (icon) title.append(icon);
             title.append(document.createTextNode(value));
-            item.querySelector(".sidepop-chat-select")?.setAttribute("aria-label", `${value} 대화 열기`);
+            item.querySelector(".drawer-chat-select")?.setAttribute("aria-label", `${value} 대화 열기`);
             return;
         }
         title.textContent = value;
@@ -3377,14 +3364,14 @@
         const prototype = document.getElementById("commonSidepopActionPrototype");
         if (!prototype) return;
         const component = prototype.cloneNode(true);
-        const menu = component.querySelector(".sidepop-list-action-menu");
+        const menu = component.querySelector(".drawer-list-action-menu");
         if (!menu) return;
 
         component.removeAttribute("id");
         component.removeAttribute("hidden");
         component.removeAttribute("data-dom-prototype");
         component.setAttribute("data-dropdown-menu", "");
-        component.classList.add(`sidepop-${type}-action`);
+        component.classList.add(`drawer-${type}-action`);
 
         trigger.before(component);
         component.prepend(trigger);
@@ -3395,7 +3382,7 @@
         trigger.setAttribute("aria-expanded", "false");
         trigger.setAttribute("aria-controls", menuId);
 
-        menu.classList.add(`sidepop-${type}-action-menu`);
+        menu.classList.add(`drawer-${type}-action-menu`);
         menu.id = menuId;
         menu.hidden = true;
         menu.setAttribute("role", "menu");
@@ -3404,7 +3391,7 @@
 
         actions.forEach((action) => {
             const button = menu.querySelector(`[data-menu-value="${action.value}"]`);
-            const label = button?.querySelector(".sidepop-list-action-label");
+            const label = button?.querySelector(".drawer-list-action-label");
             if (!button || !label) return;
             const isPinned = item.classList.contains("is-pinned");
 
@@ -3479,7 +3466,7 @@
             if (!modal.classList.contains("modal-menu-backdrop")) {
                 layer?.classList.add("has-child-modal");
             }
-            modal.classList.add("modal-over-sidepop");
+            modal.classList.add("modal-over-drawer");
             if (layer) modalOrigins.set(modal, layer);
             window.AIOneModal?.open(modal, trigger);
         });
@@ -3505,13 +3492,13 @@
                     item.dataset.sidepopPinOrder = String(pinSequence);
                 }
 
-                const select = item.querySelector(":scope > .sidepop-chat-select");
+                const select = item.querySelector(":scope > .drawer-chat-select");
                 if (type === "chat" && select && !select.getAttribute("aria-label")) {
                     select.setAttribute("aria-label", `${getItemTitle(item, type)} 대화 열기`);
                 }
 
                 const trigger = item.querySelector(".btn-more");
-                if (!trigger || trigger.closest("[data-dropdown-menu], .sidepop-list-action")) return;
+                if (!trigger || trigger.closest("[data-dropdown-menu], .drawer-list-action")) return;
                 const sharedActionModal = resolveSharedActionModal(item);
                 if (sharedActionModal) {
                     bindSharedActionTrigger(trigger, item, type, sharedActionModal);
@@ -3540,9 +3527,9 @@
     }
 
     function updatePinControl(item, isPinned) {
-        const button = item.querySelector('.sidepop-list-action [data-menu-value="pin"]');
+        const button = item.querySelector('.drawer-list-action [data-menu-value="pin"]');
         button?.setAttribute("aria-pressed", String(isPinned));
-        const label = button?.querySelector(".sidepop-list-action-label");
+        const label = button?.querySelector(".drawer-list-action-label");
         if (label) label.textContent = isPinned ? "고정 해제" : "고정";
     }
 
@@ -3610,7 +3597,7 @@
         modalContexts.set(modal, { action, item, type });
         modalOrigins.set(modal, layer);
         layer.classList.add("has-child-modal");
-        modal.classList.add("modal-over-sidepop");
+        modal.classList.add("modal-over-drawer");
         if (action === "rename") {
             const input = modal.querySelector("[data-sidepop-rename-input]");
             const error = modal.querySelector("[data-sidepop-rename-error]");
@@ -3660,8 +3647,8 @@
     }
 
     function decrementPanelCounts(item) {
-        const panel = item.closest(".sidepop-variant-panel");
-        const counters = new Set(panel?.querySelectorAll(".sidepop-list-count, .sidepop-list-meta strong") || []);
+        const panel = item.closest(".drawer-variant-panel");
+        const counters = new Set(panel?.querySelectorAll(".drawer-list-count, .drawer-list-meta strong") || []);
         counters.forEach((counter) => {
             const current = Number(counter.textContent.match(/\d+/)?.[0]);
             if (!Number.isFinite(current)) return;
@@ -3731,7 +3718,7 @@
             const positionButton = event.target.closest("[data-sidepop-position-toggle]");
             if (positionButton) {
                 const layer = positionButton.closest("[data-sidepop]");
-                setPosition(layer, layer?.classList.contains("sidepop-position-left") ? "right" : "left");
+                setPosition(layer, layer?.classList.contains("drawer-position-left") ? "right" : "left");
                 return;
             }
 
@@ -3758,8 +3745,8 @@
     });
 
     document.addEventListener("dropdownmenu:select", (event) => {
-        const actionComponent = event.target.closest?.(".sidepop-list-action");
-        const item = actionComponent?.closest(".sidepop-run-item, .sidepop-chat-item");
+        const actionComponent = event.target.closest?.(".drawer-list-action");
+        const item = actionComponent?.closest(".drawer-run-item, .drawer-chat-item");
         const type = getListType(item);
         const action = event.detail?.value;
         if (!item || !type || !actions.some((candidate) => candidate.value === action)) return;
@@ -3804,7 +3791,7 @@
         if (!origin) return;
         sharedActionContexts.get(event.target)?.trigger?.setAttribute("aria-expanded", "false");
         origin.classList.remove("has-child-modal");
-        event.target.classList.remove("modal-over-sidepop");
+        event.target.classList.remove("modal-over-drawer");
         modalOrigins.delete(event.target);
         sharedActionContexts.delete(event.target);
     });

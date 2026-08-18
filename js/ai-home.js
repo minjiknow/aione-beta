@@ -81,8 +81,8 @@
     // 전체 이력 닫기
     function closeFullHistory() {
         const modal = document.querySelector("[data-home-history-modal]");
-        if (!modal || modal.hidden) return;
-        modal.hidden = true;
+        if (!modal || modal.classList.contains("hidden")) return;
+        modal.classList.add("hidden");
         modal.setAttribute("aria-hidden", "true");
         historyModalReturnFocus?.focus();
         historyModalReturnFocus = null;
@@ -95,7 +95,7 @@
         if (!modal) return;
 
         historyModalReturnFocus = trigger || document.activeElement;
-        modal.hidden = false;
+        modal.classList.remove("hidden");
         modal.setAttribute("aria-hidden", "false");
         if (search) search.value = "";
         filterFullHistory();
@@ -116,7 +116,7 @@
             search.focus();
         });
         modal.addEventListener("click", (event) => {
-            if (event.target === modal) {
+            if (event.target.classList.contains("modal-bg")) {
                 closeFullHistory();
                 return;
             }
@@ -153,17 +153,13 @@
 
     // 사이드바 보강
     function enhanceSidebar(host) {
-        const sidebar = host.querySelector(".app-sidebar");
+        const sidebar = host.querySelector(".sidebar");
         if (!sidebar || sidebar.dataset.homeReady === "true") return;
 
         sidebar.dataset.homeReady = "true";
-        const sidebarHost = sidebar.closest(".home-sidebar-host");
         window.AIOneSidebar?.configure(sidebar, {
             activePage: "home",
             initialCollapsed: false,
-            stateTarget: sidebarHost,
-            collapsedClass: "sidebar-collapsed",
-            expandedClass: "sidebar-expanded",
         });
 
         sidebar.querySelectorAll(".nav-link").forEach((link) => {
@@ -188,7 +184,7 @@
             row.setAttribute("aria-label", `${row.dataset.historyTitle} 열기`);
         });
 
-        const moreLink = host.querySelector(".data-table-more");
+        const moreLink = host.querySelector(".table-more");
         moreLink?.addEventListener("click", (event) => {
             event.preventDefault();
             openFullHistory(moreLink);

@@ -1,20 +1,15 @@
 @charset "utf-8";
 
-.workspace-app {
-    width: 100%;
-    height: 100%;
-}
-
 .upload-zone.compact {
     margin: 10px 12px 8px;
 }
-.sidepop-run-item {
+.drawer-run-item {
     background: var(--bg, #f6f8fa);
 }
 /* ==================== Start: Workspace loading skeleton ==================== */
 
-.comparison-panel-host .panel-component,
-.question-panel-host .panel-component {
+.comparison-panel-area,
+.question-panel-area {
     position: relative;
 }
 
@@ -571,7 +566,7 @@ html[data-theme="dark"] .query-card:is(.active, .is-selected, .mapped) {
     padding: 0 12px 10px;
 }
 
-.panel-collapsed .file-upload-host {
+.panel-collapsed .file-upload-area {
     display: none;
 }
 
@@ -584,15 +579,15 @@ html[data-theme="dark"] .query-card:is(.active, .is-selected, .mapped) {
 }
 
 @media (max-width: 1024px) {
-    .question-workspace-page.is-new-workspace .upload-panel-host .workspace-file-section.is-collapsed .workspace-file-list.hidden {
+    body[data-page="workspace"].is-new-workspace .upload-panel-area .workspace-file-section.is-collapsed .workspace-file-list.hidden {
         display: flex !important;
     }
 
-    .question-workspace-page .upload-panel-host .workspace-file-section.is-collapsed .workspace-file-empty-list {
+    body[data-page="workspace"] .upload-panel-area .workspace-file-section.is-collapsed .workspace-file-empty-list {
         display: none !important;
     }
 
-    .question-workspace-page .upload-panel-host .workspace-file-section.is-collapsed .upload-summary-footer {
+    body[data-page="workspace"] .upload-panel-area .workspace-file-section.is-collapsed .upload-summary-footer {
         margin-top: 0;
         flex: 0 0 32px;
     }
@@ -1046,7 +1041,7 @@ html[data-theme="dark"] .query-card:is(.active, .is-selected, .mapped) {
 
 /* ==================== Start: 중앙 문서 비교 패널 ==================== */
 
-.comparison-panel-host .panel-component {
+.comparison-panel-area {
     container-type: inline-size;
     overflow: hidden;
     min-width: 0;
@@ -1773,7 +1768,7 @@ html[data-theme="dark"] .orig-form-info-label {
  */
 
 @media (max-width: 1280px) {
-    .question-workspace-page .three-panel {
+    body[data-page="workspace"] .three-panel {
         --three-panel-left-width: clamp(280px, calc(31.373vw - 41.574px), 360px);
         --three-panel-right-width: clamp(300px, calc(39.216vw - 101.965px), 400px);
     }
@@ -1866,23 +1861,23 @@ html[data-theme="dark"] .orig-form-info-label {
 
 /* ==================== Start: 질의 제외 필터 상태 ==================== */
 
-.question-workspace-page .filter-btn-excluded {
+body[data-page="workspace"] .filter-btn-excluded {
     --filter-color: var(--red, #cf222e);
     --filter-bg: color-mix(in srgb, var(--red, #cf222e) 6%, var(--surface, #fff));
 }
 
-.question-workspace-page .filter-btn-excluded:not(.active, [aria-pressed="true"]) .filter-count {
+body[data-page="workspace"] .filter-btn-excluded:not(.active, [aria-pressed="true"]) .filter-count {
     background: var(--surface-elevated, #f0f3f6);
     color: var(--text-muted, #8b949e);
 }
 
-.question-workspace-page .filter-btn-excluded:is(.active, [aria-pressed="true"]) {
+body[data-page="workspace"] .filter-btn-excluded:is(.active, [aria-pressed="true"]) {
     border-color: color-mix(in srgb, var(--red, #cf222e) 35%, var(--border, #d1d9e0));
     background: var(--filter-bg);
     color: var(--red, #cf222e);
 }
 
-.question-workspace-page .filter-btn-excluded:is(.active, [aria-pressed="true"]) .filter-count {
+body[data-page="workspace"] .filter-btn-excluded:is(.active, [aria-pressed="true"]) .filter-count {
     background: color-mix(in srgb, var(--red, #cf222e) 12%, var(--surface, #fff));
     color: var(--red, #cf222e);
 }
@@ -1920,13 +1915,13 @@ html[data-theme="dark"] .orig-form-info-label {
     background: color-mix(in srgb, var(--primary, #0969da) 11%, var(--surface, #fff)) !important;
 }
 
-.custom-modal[data-modal-variant="notification-assignee"] [data-modal-panel="notification-assignee"] {
+.modal-contents[data-modal-variant="notification-assignee"] [data-modal-panel="notification-assignee"] {
     display: flex;
     min-height: 0;
     flex-direction: column;
 }
 
-.custom-modal.modal-variant-notification-assignee {
+.modal-contents.modal-variant-notification-assignee {
     display: flex;
     width: 960px;
     height: min(760px, calc(100dvh - 32px));
@@ -2469,7 +2464,7 @@ html[data-theme="dark"] .orig-form-info-label {
 }
 
 @media (max-width: 640px) {
-    .custom-modal.modal-variant-notification-assignee {
+    .modal-contents.modal-variant-notification-assignee {
         width: 100%;
         height: calc(100dvh - 16px);
         max-height: calc(100dvh - 16px);
@@ -2525,7 +2520,7 @@ html[data-theme="dark"] .orig-form-info-label {
 /* ==================== End: 실국별 알림 담당자 설정 ==================== */
 
 /* ==================== Start: 확정 질의 알림 대상 확인 모달 ==================== */
-.custom-modal:has(.notification-query-route-summary) {
+.modal-contents:has(.notification-query-route-summary) {
     width: 720px;
     max-width: calc(100vw - 32px);
 }
@@ -2673,7 +2668,7 @@ html[data-theme="dark"] .orig-form-info-label {
 }
 
 @media (max-width: 640px) {
-    .custom-modal:has(.notification-query-route-summary) {
+    .modal-contents:has(.notification-query-route-summary) {
         width: calc(100vw - 24px);
         padding: 18px 14px;
     }
@@ -2814,7 +2809,7 @@ html[data-theme="dark"] .orig-form-info-label {
     }
 }
 
-#workspaceRuleSettingsSidepop .sidepop-body {
+#workspaceRuleSettingsSidepop .drawer-body {
     display: flex;
     min-height: 0;
     padding: 0;
@@ -3064,7 +3059,7 @@ html[data-theme="dark"] .orig-form-info-label {
     line-height: 1.5;
 }
 
-#workspaceRuleSettingsSidepop .sidepop-footer {
+#workspaceRuleSettingsSidepop .drawer-footer {
     gap: 8px;
     padding: 12px 20px;
 }
