@@ -5279,14 +5279,12 @@ html[data-theme="dark"] .app-topbar :is(.topbar-subtit, .topbar-context-meta) {
     padding: 0;
 }
 
-.modal.modal-menu-backdrop > .modal-bg {
-    background: transparent;
-}
-
-.modal.modal-menu-backdrop.is-anchored .modal-contents.modal-small {
+.modal.is-anchored .modal-contents {
     position: fixed;
     top: var(--modal-menu-top);
-    left: var(--modal-menu-left);
+    right: 38px;
+    left: auto;
+    transform: translate(0);
     margin: 0;
 }
 
@@ -5401,19 +5399,19 @@ html[data-theme="dark"] .app-topbar :is(.topbar-subtit, .topbar-context-meta) {
     stroke-linejoin: round;
 }
 
-.modal-variant-account-profile .account-profile-summary > div {
+.account-profile-summary > div {
     display: flex;
     min-width: 0;
     flex-direction: column;
     gap: 3px;
 }
 
-.modal-variant-account-profile .account-profile-summary strong {
+.account-profile-summary strong {
     color: var(--text, #1f2328);
     font-size: calc(13px * var(--ui-font-scale));
 }
 
-.modal-variant-account-profile .account-profile-summary span {
+.account-profile-summary span {
     color: var(--text-muted, #8b949e);
     font-size: calc(10px * var(--ui-font-scale));
 }

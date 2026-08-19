@@ -514,303 +514,296 @@
 					<!-----------------------Start: 참조 소스 업로드 영역 -------------------------->
 					<section class="panel panel-left upload-panel-area split-handler type2" data-slot="left"
 						data-panel="folder" data-component="split-handler" data-split-min="80">
-							<div class="panel-head">
-								<h2 class="panel-title"><svg viewBox="0 0 24 24">
-										<path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20" />
-										<path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z" />
-									</svg>AI 참조소스</h2>
-								<div class="panel-actions"><button type="button"
-										class="icon-button icon-button-ghost icon-button-sm panel-collapse-btn"
-										id="leftPanelCollapseBtn" aria-expanded="true" aria-label="패널 접기" title="패널 접기">
-										<img class="icon icon-small" data-icon="panel-collapse" alt=""
+						<div class="panel-head">
+							<h2 class="panel-title"><svg viewBox="0 0 24 24">
+									<path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20" />
+									<path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z" />
+								</svg>AI 참조소스</h2>
+							<div class="panel-actions"><button type="button"
+									class="icon-button icon-button-ghost icon-button-sm panel-collapse-btn"
+									id="leftPanelCollapseBtn" aria-expanded="true" aria-label="패널 접기" title="패널 접기">
+									<img class="icon icon-small" data-icon="panel-collapse" alt="" aria-hidden="true" />
+								</button></div>
+						</div>
+						<!-- Start: 파일업로드 영역 -->
+						<div class="folder-upload-section file-list-section smart-search-section split-handler-pane">
+							<div class="ai-smart-search" id="aiSmartSearch">
+								<div class="smart-search-head">
+									<div class="smart-search-title-wrap"><strong>소스 추가</strong></div>
+									<button type="button" class="smart-help-btn" id="smartSearchHelpBtn"
+										aria-label="지능형 검색 서비스 대상 안내" aria-expanded="false">?</button>
+									<div class="smart-help-popover hidden" id="smartSearchHelpPopover" role="tooltip">
+										<strong>지능형 검색 서비스 대상</strong>
+										<ul>
+											<li>클라우드 저장소에 저장된 10개 부서 업무자료 제공하고 전 부서를 대상으로 검색 기능을 제공</li>
+											<li>재정경제부 지식배움터 내 메모보고 자료</li>
+											<li>재정경제부 발간 보고서 등 공개자료 등</li>
+										</ul>
+									</div>
+								</div>
+								<!-- Start: ai 검색 영역-->
+								<div class="smart-search-box" id="smartSearchBox">
+									<textarea id="smartSearchInput" rows="1" autocomplete="off" placeholder="소스를 검색하세요."
+										aria-label="지능형 AI 검색어"></textarea>
+									<button type="button" class="icon-button" id="smartSearchBtn" aria-label="검색 실행"
+										title="검색">
+										<span class="smart-search-submit-icon" aria-hidden="true"><svg
+												viewBox="0 0 24 24">
+												<circle cx="10.5" cy="10.5" r="5.5" />
+												<path d="m15 15 4 4" />
+												<path d="M18.5 4.5v3M17 6h3" />
+											</svg></span>
+										<span class="smart-search-spinner" aria-hidden="true"></span>
+									</button>
+								</div>
+								<!-- //End: ai 검색 영역 -->
+								<div class="smart-search-progress hidden" id="smartSearchProgress" aria-live="polite"><i
+										aria-hidden="true"></i><span>지능형 AI 검색중</span></div>
+
+								<!-----------------Start: 파일 업로드 박스 ----------------------->
+								<div id="smartSearchGuide" data-component-type="type3" class="file-upload-area">
+									<div class="upload-zone upload-zone-type3 default" data-file-upload-zone
+										role="button" tabindex="0" aria-label="AI 참고소스 파일 업로드">
+										<img class="upload-zone-default-icon" src="../assets/icons/upload.svg" alt=""
 											aria-hidden="true" />
-									</button></div>
-							</div>
-							<!-- Start: 파일업로드 영역 -->
-							<div
-								class="folder-upload-section file-list-section smart-search-section split-handler-pane">
-								<div class="ai-smart-search" id="aiSmartSearch">
-									<div class="smart-search-head">
-										<div class="smart-search-title-wrap"><strong>소스 추가</strong></div>
-										<button type="button" class="smart-help-btn" id="smartSearchHelpBtn"
-											aria-label="지능형 검색 서비스 대상 안내" aria-expanded="false">?</button>
-										<div class="smart-help-popover hidden" id="smartSearchHelpPopover"
-											role="tooltip">
-											<strong>지능형 검색 서비스 대상</strong>
-											<ul>
-												<li>클라우드 저장소에 저장된 10개 부서 업무자료 제공하고 전 부서를 대상으로 검색 기능을 제공</li>
-												<li>재정경제부 지식배움터 내 메모보고 자료</li>
-												<li>재정경제부 발간 보고서 등 공개자료 등</li>
-											</ul>
+										<span class="upload-zone-icon" data-slot="icon" aria-hidden="true">
+											<img src="../assets/icons/upload-tray.svg" alt="" />
+										</span>
+										<span class="upload-zone-smart-icon" aria-hidden="true">
+											<svg viewBox="0 0 48 48">
+												<rect x="14" y="12" width="20" height="24" rx="5" />
+												<path d="M19 19h10M19 24h10M19 29h6" />
+												<circle cx="12" cy="15" r="2.3" />
+												<circle cx="36" cy="31" r="2.3" />
+												<path d="M13.8 16.5 17 19M31 29l3.2 1.5" />
+											</svg>
+										</span>
+										<p class="upload-text"><span data-slot="title">여기에 파일을 드롭하거나 검색 후 소스를
+												추가하세요</span></p>
+										<span class="upload-hint"><span data-slot="content">
+												<span data-upload-guide-line>소스 기반으로 질의하거나 답변서 초안을 생성할 수 있습니다</span>
+												<span data-upload-guide-line>소스 추가 없이도 과거 답변서 기반으로 초안 생성이
+													가능합니다</span>
+											</span></span>
+										<div data-slot="input">
+											<input type="file" id="after9SourceFileInput" name="answerSources" multiple
+												accept=".pdf,.hwp,.hwpx,.docx,.txt,.png,.jpg,.jpeg" />
 										</div>
 									</div>
-									<!-- Start: ai 검색 영역-->
-									<div class="smart-search-box" id="smartSearchBox">
-										<textarea id="smartSearchInput" rows="1" autocomplete="off"
-											placeholder="소스를 검색하세요." aria-label="지능형 AI 검색어"></textarea>
-										<button type="button" class="icon-button" id="smartSearchBtn" aria-label="검색 실행"
-											title="검색">
-											<span class="smart-search-submit-icon" aria-hidden="true"><svg
-													viewBox="0 0 24 24">
-													<circle cx="10.5" cy="10.5" r="5.5" />
-													<path d="m15 15 4 4" />
-													<path d="M18.5 4.5v3M17 6h3" />
-												</svg></span>
-											<span class="smart-search-spinner" aria-hidden="true"></span>
-										</button>
+								</div>
+								<!---------------- //End: 파일 업로드 박스-------------->
+
+								<!-- Start: smart-search의 검색결과가 없을 경우 -->
+								<div class="smart-search-results hidden" id="smartSearchResults" aria-live="polite">
+									<div class="smart-results-head">
+										<div class="smart-results-head-summary"><span>검색 결과 <strong
+													id="smartSearchResultCount">0</strong>건</span><span
+												class="smart-inline-selected-count hidden"
+												id="smartInlineSelectedCount">선택
+												0건</span></div>
+										<button type="button" class="icon-button smart-list-view-btn"
+											id="smartListViewBtn" aria-label="전체 리스트 보기" title="전체 리스트 보기"><svg
+												viewBox="0 0 24 24" aria-hidden="true">
+												<path d="M8 6h13M8 12h13M8 18h13" />
+												<circle cx="3.5" cy="6" r="1" />
+												<circle cx="3.5" cy="12" r="1" />
+												<circle cx="3.5" cy="18" r="1" />
+											</svg></button>
 									</div>
-									<!-- //End: ai 검색 영역 -->
-									<div class="smart-search-progress hidden" id="smartSearchProgress"
-										aria-live="polite"><i aria-hidden="true"></i><span>지능형 AI 검색중</span></div>
-
-									<!-----------------Start: 파일 업로드 박스 ----------------------->
-									<div id="smartSearchGuide" data-component-type="type3" class="file-upload-area">
-										<div class="upload-zone upload-zone-type3 default" data-file-upload-zone
-											role="button" tabindex="0" aria-label="AI 참고소스 파일 업로드">
-											<img class="upload-zone-default-icon" src="../assets/icons/upload.svg"
-												alt="" aria-hidden="true" />
-											<span class="upload-zone-icon" data-slot="icon" aria-hidden="true">
-												<img src="../assets/icons/upload-tray.svg" alt="" />
-											</span>
-											<span class="upload-zone-smart-icon" aria-hidden="true">
-												<svg viewBox="0 0 48 48">
-													<rect x="14" y="12" width="20" height="24" rx="5" />
-													<path d="M19 19h10M19 24h10M19 29h6" />
-													<circle cx="12" cy="15" r="2.3" />
-													<circle cx="36" cy="31" r="2.3" />
-													<path d="M13.8 16.5 17 19M31 29l3.2 1.5" />
-												</svg>
-											</span>
-											<p class="upload-text"><span data-slot="title">여기에 파일을 드롭하거나 검색 후 소스를
-													추가하세요</span></p>
-											<span class="upload-hint"><span data-slot="content">
-													<span data-upload-guide-line>소스 기반으로 질의하거나 답변서 초안을 생성할 수 있습니다</span>
-													<span data-upload-guide-line>소스 추가 없이도 과거 답변서 기반으로 초안 생성이
-														가능합니다</span>
-												</span></span>
-											<div data-slot="input">
-												<input type="file" id="after9SourceFileInput" name="answerSources"
-													multiple accept=".pdf,.hwp,.hwpx,.docx,.txt,.png,.jpg,.jpeg" />
-											</div>
-										</div>
+									<div class="smart-inline-tools" id="smartInlineSelectionTools">
+										<label class="rec-select-all smart-inline-select-all"><input
+												class="checkbox-control checkbox-control-sm" type="checkbox"
+												id="smartInlineSelectAll" /><span>전체선택</span></label>
+										<span class="smart-inline-selection-summary" id="smartInlineSelectionSummary">선택
+											0건</span>
 									</div>
-									<!---------------- //End: 파일 업로드 박스-------------->
-
-									<!-- Start: smart-search의 검색결과가 없을 경우 -->
-									<div class="smart-search-results hidden" id="smartSearchResults" aria-live="polite">
-										<div class="smart-results-head">
-											<div class="smart-results-head-summary"><span>검색 결과 <strong
-														id="smartSearchResultCount">0</strong>건</span><span
-													class="smart-inline-selected-count hidden"
-													id="smartInlineSelectedCount">선택
-													0건</span></div>
-											<button type="button" class="icon-button smart-list-view-btn"
-												id="smartListViewBtn" aria-label="전체 리스트 보기" title="전체 리스트 보기"><svg
-													viewBox="0 0 24 24" aria-hidden="true">
-													<path d="M8 6h13M8 12h13M8 18h13" />
-													<circle cx="3.5" cy="6" r="1" />
-													<circle cx="3.5" cy="12" r="1" />
-													<circle cx="3.5" cy="18" r="1" />
-												</svg></button>
-										</div>
-										<div class="smart-inline-tools" id="smartInlineSelectionTools">
-											<label class="rec-select-all smart-inline-select-all"><input
-													class="checkbox-control checkbox-control-sm" type="checkbox"
-													id="smartInlineSelectAll" /><span>전체선택</span></label>
-											<span class="smart-inline-selection-summary"
-												id="smartInlineSelectionSummary">선택
-												0건</span>
-										</div>
-										<div class="smart-results-list" id="smartSearchResultsList"></div>
-										<div class="smart-results-footer">
-											<button type="button" class="smart-results-more-btn"
-												id="smartOtherSourcesBtn" aria-expanded="false"
-												title="패널에서 전체 검색 소스 펼치기"><svg viewBox="0 0 24 24" aria-hidden="true">
-													<path d="M4 7h16M4 12h16M4 17h10" />
-													<path d="m17 15 3 3 3-3" />
-												</svg><span>그 외 소스 <strong
-														id="smartOtherSourceCount">0</strong>개</span></button>
-											<button type="button" class="smart-results-action"
-												id="smartSearchDeleteBtn">삭제</button>
-											<button type="button" class="smart-results-action primary"
-												id="smartSearchImportBtn">가져오기</button>
-										</div>
+									<div class="smart-results-list" id="smartSearchResultsList"></div>
+									<div class="smart-results-footer">
+										<button type="button" class="smart-results-more-btn" id="smartOtherSourcesBtn"
+											aria-expanded="false" title="패널에서 전체 검색 소스 펼치기"><svg viewBox="0 0 24 24"
+												aria-hidden="true">
+												<path d="M4 7h16M4 12h16M4 17h10" />
+												<path d="m17 15 3 3 3-3" />
+											</svg><span>그 외 소스 <strong
+													id="smartOtherSourceCount">0</strong>개</span></button>
+										<button type="button" class="smart-results-action"
+											id="smartSearchDeleteBtn">삭제</button>
+										<button type="button" class="smart-results-action primary"
+											id="smartSearchImportBtn">가져오기</button>
 									</div>
-									<!-- //End: smart-search의 검색결과가 없을 경우 -->
+								</div>
+								<!-- //End: smart-search의 검색결과가 없을 경우 -->
 
 
-									<!-- Start: smart-import에 추가된 자료가 없을 경우 -->
-									<div class="smart-imported-section hidden" id="smartImportedSection">
-										<div class="smart-imported-toolbar">
-											<div class="smart-imported-title-wrap">
-												<svg class="smart-imported-list-icon" viewBox="0 0 24 24"
-													aria-hidden="true">
-													<path d="M8 6h12M8 12h12M8 18h12" />
-													<circle cx="4" cy="6" r="1" />
-													<circle cx="4" cy="12" r="1" />
-													<circle cx="4" cy="18" r="1" />
-												</svg>
-												<span class="smart-imported-summary">
-													<span class="smart-imported-count-group" aria-label="소스 유형별 건수">
-														<span class="smart-imported-count-item search">검색 <strong
-																id="smartImportedSearchCount">0</strong>건</span>
-														<span class="smart-imported-count-item upload">업로드 <strong
-																id="smartImportedUploadCount">0</strong>건</span>
-													</span>
-													<span class="smart-imported-selected-summary">· <span
-															id="smartImportedSelectedCount">0</span>개 선택</span>
+								<!-- Start: smart-import에 추가된 자료가 없을 경우 -->
+								<div class="smart-imported-section hidden" id="smartImportedSection">
+									<div class="smart-imported-toolbar">
+										<div class="smart-imported-title-wrap">
+											<svg class="smart-imported-list-icon" viewBox="0 0 24 24"
+												aria-hidden="true">
+												<path d="M8 6h12M8 12h12M8 18h12" />
+												<circle cx="4" cy="6" r="1" />
+												<circle cx="4" cy="12" r="1" />
+												<circle cx="4" cy="18" r="1" />
+											</svg>
+											<span class="smart-imported-summary">
+												<span class="smart-imported-count-group" aria-label="소스 유형별 건수">
+													<span class="smart-imported-count-item search">검색 <strong
+															id="smartImportedSearchCount">0</strong>건</span>
+													<span class="smart-imported-count-item upload">업로드 <strong
+															id="smartImportedUploadCount">0</strong>건</span>
 												</span>
-											</div>
-											<div class="smart-imported-controls">
-												<select class="smart-imported-sort" id="smartImportedSort"
-													aria-label="소스 목록 정렬">
-													<option value="oldest" selected>과거순</option>
-													<option value="latest">최신순</option>
-												</select>
-												<button type="button" class="smart-auto-label-btn"
-													id="smartAutoLabelBtn" aria-label="주제를 소스에 자동 라벨 지정"
-													title="주제를 소스에 자동 라벨 지정">
-													<svg viewBox="0 0 24 24" aria-hidden="true">
-														<path d="M20 13 13 20l-9-9V4h7z" />
-														<circle cx="8.5" cy="8.5" r="1.2" />
-														<path
-															d="m15.5 4 .7 1.8L18 6.5l-1.8.7-.7 1.8-.7-1.8-1.8-.7 1.8-.7z" />
-													</svg>
-												</button>
-											</div>
+												<span class="smart-imported-selected-summary">· <span
+														id="smartImportedSelectedCount">0</span>개 선택</span>
+											</span>
 										</div>
-										<div class="smart-imported-list" id="smartImportedList"></div>
+										<div class="smart-imported-controls">
+											<select class="smart-imported-sort" id="smartImportedSort"
+												aria-label="소스 목록 정렬">
+												<option value="oldest" selected>과거순</option>
+												<option value="latest">최신순</option>
+											</select>
+											<button type="button" class="smart-auto-label-btn" id="smartAutoLabelBtn"
+												aria-label="주제를 소스에 자동 라벨 지정" title="주제를 소스에 자동 라벨 지정">
+												<svg viewBox="0 0 24 24" aria-hidden="true">
+													<path d="M20 13 13 20l-9-9V4h7z" />
+													<circle cx="8.5" cy="8.5" r="1.2" />
+													<path
+														d="m15.5 4 .7 1.8L18 6.5l-1.8.7-.7 1.8-.7-1.8-1.8-.7 1.8-.7z" />
+												</svg>
+											</button>
+										</div>
 									</div>
-									<!-- //End: smart-import에 추가된 자료가 없을 경우 -->
+									<div class="smart-imported-list" id="smartImportedList"></div>
 								</div>
-
-								<ul class="file-list" id="fileList" aria-label="업로드한 소스 목록"></ul>
-								<div class="collapsed-smart-source-icons upload-panel-scroll-list"
-									id="collapsedSmartSourceIcons" aria-label="접힌 AI 참조소스 파일 목록"></div>
-								<button type="button" class="file-list-collapsed-add smart-search-collapsed-btn"
-									id="collapsedAddBtn" title="소스 추가" aria-label="소스 추가 열기">
-									<img class="collapsed-upload-icon" src="../assets/icons/share.svg" alt=""
-										aria-hidden="true" />
-								</button>
-							</div>
-							<!-- //End: 파일업로드 영역 -->
-							<div class="left-panel-resize-handle split-handler-handle type2" id="leftPanelResizeHandle"
-								role="separator" aria-label="소스 추가와 선택된 관련자료 높이 조절" aria-orientation="horizontal"
-								tabindex="0"></div>
-							<!-- Start: 선택된 관련 자료가 없을 경우 -->
-							<div class="selected-refs split-handler-pane" id="selectedRefsSection">
-								<div class="selected-refs-head">
-									<span class="selected-refs-title">선택된 관련자료</span>
-									<span class="selected-refs-count" id="selectedRefsCount">0</span>
-								</div>
-								<div class="selected-refs-guide">
-									<p class="selected-refs-guide-title">AI 채팅을 통해 관련자료를 추천 받을 수 있습니다</p>
-									<p class="selected-refs-guide-desc">AI 채팅을 시작해 보세요</p>
-								</div>
-								<ul class="selected-refs-list" id="selectedRefsList">
-									<li data-ref-id="1"><span class="ref-score">97%</span><span class="ref-name">지방채 인수
-											추경
-											편성 사유 답변</span><button type="button" class="ref-remove"
-											data-remove-id="1">×</button></li>
-									<li data-ref-id="2"><span class="ref-score">95%</span><span class="ref-name">지방채 인수
-											예산
-											현황표(2016~2026)</span><button type="button" class="ref-remove"
-											data-remove-id="2">×</button></li>
-									<li data-ref-id="3"><span class="ref-score">94%</span><span
-											class="ref-name">260402_재경위
-											전체 의원 질의 답변 통합본</span><button type="button" class="ref-remove"
-											data-remove-id="3">×</button></li>
-								</ul>
+								<!-- //End: smart-import에 추가된 자료가 없을 경우 -->
 							</div>
 
-							<div class="selected-refs-footer" id="selectedRefsFooter">
-								<span class="selected-refs-footer-message" id="applyToChatMessage">관련자료 선택 시 초안에 반영할 수
-									있습니다.</span>
-								<button type="button" class="button button-outline button-sm apply-selected-btn"
-									id="applyToChat" disabled>반영</button>
+							<ul class="file-list" id="fileList" aria-label="업로드한 소스 목록"></ul>
+							<div class="collapsed-smart-source-icons upload-panel-scroll-list"
+								id="collapsedSmartSourceIcons" aria-label="접힌 AI 참조소스 파일 목록"></div>
+							<button type="button" class="file-list-collapsed-add smart-search-collapsed-btn"
+								id="collapsedAddBtn" title="소스 추가" aria-label="소스 추가 열기">
+								<img class="collapsed-upload-icon" src="../assets/icons/share.svg" alt=""
+									aria-hidden="true" />
+							</button>
+						</div>
+						<!-- //End: 파일업로드 영역 -->
+						<div class="left-panel-resize-handle split-handler-handle type2" id="leftPanelResizeHandle"
+							role="separator" aria-label="소스 추가와 선택된 관련자료 높이 조절" aria-orientation="horizontal"
+							tabindex="0"></div>
+						<!-- Start: 선택된 관련 자료가 없을 경우 -->
+						<div class="selected-refs split-handler-pane" id="selectedRefsSection">
+							<div class="selected-refs-head">
+								<span class="selected-refs-title">선택된 관련자료</span>
+								<span class="selected-refs-count" id="selectedRefsCount">0</span>
 							</div>
-							<!-- //End: 선택된 관련 자료가 없을 경우 -->
+							<div class="selected-refs-guide">
+								<p class="selected-refs-guide-title">AI 채팅을 통해 관련자료를 추천 받을 수 있습니다</p>
+								<p class="selected-refs-guide-desc">AI 채팅을 시작해 보세요</p>
+							</div>
+							<ul class="selected-refs-list" id="selectedRefsList">
+								<li data-ref-id="1"><span class="ref-score">97%</span><span class="ref-name">지방채 인수
+										추경
+										편성 사유 답변</span><button type="button" class="ref-remove"
+										data-remove-id="1">×</button></li>
+								<li data-ref-id="2"><span class="ref-score">95%</span><span class="ref-name">지방채 인수
+										예산
+										현황표(2016~2026)</span><button type="button" class="ref-remove"
+										data-remove-id="2">×</button></li>
+								<li data-ref-id="3"><span class="ref-score">94%</span><span class="ref-name">260402_재경위
+										전체 의원 질의 답변 통합본</span><button type="button" class="ref-remove"
+										data-remove-id="3">×</button></li>
+							</ul>
+						</div>
+
+						<div class="selected-refs-footer" id="selectedRefsFooter">
+							<span class="selected-refs-footer-message" id="applyToChatMessage">관련자료 선택 시 초안에 반영할 수
+								있습니다.</span>
+							<button type="button" class="button button-outline button-sm apply-selected-btn"
+								id="applyToChat" disabled>반영</button>
+						</div>
+						<!-- //End: 선택된 관련 자료가 없을 경우 -->
 					</section>
 					<!-----------------------//End: 참조 소스 업로드 영역 -------------------------->
 					<div class="panel-resize-handle" data-resize="0" role="separator" aria-label="왼쪽 패널 크기 조절"
 						aria-orientation="vertical" tabindex="0"></div>
 					<!-----------------------Start: 관련자료,답변서 초안 생성 영역 -------------------------->
 					<section class="panel panel-center" data-slot="center" data-panel="center">
-							<!-- Center Panel Header (탭) -->
-							<div class="center-header">
-								<span class="center-header-title"><svg viewBox="0 0 24 24" aria-hidden="true">
-										<path d="M4 5h10v14H4z" />
-										<path d="M8 3h10v14" />
-										<path d="M17.5 17.5l1 2 2 .8-2 .8-1 2-1-2-2-.8 2-.8z" />
-									</svg><span>관련자료 • 답변서 초안</span></span>
-								<div class="center-tabs tab-button-list" role="tablist" aria-label="답변서 작업 단계">
-									<!--
+						<!-- Center Panel Header (탭) -->
+						<div class="center-header">
+							<span class="center-header-title"><svg viewBox="0 0 24 24" aria-hidden="true">
+									<path d="M4 5h10v14H4z" />
+									<path d="M8 3h10v14" />
+									<path d="M17.5 17.5l1 2 2 .8-2 .8-1 2-1-2-2-.8 2-.8z" />
+								</svg><span>관련자료 • 답변서 초안</span></span>
+							<div class="center-tabs tab-button-list" role="tablist" aria-label="답변서 작업 단계">
+								<!--
 									[문서/페이지 구조 안내 — 개발자용]
 									- center-tab 종류
 											· 관련자료 추천 (아이디: answerTabRecommend)
 											· 답변서 초안 (아이디: answerTabDraft)
 											- 답변서 비교 (아이디: answerTabCompare)
 								-->
-									<button type="button" class="top-tab tab-button active is-active"
-										data-tab="recommend" role="tab" aria-selected="true">관련자료 <span
-											class="tab-count" id="tabCountRecommend">14</span></button>
-									<button type="button" class="top-tab tab-button" data-tab="draft" role="tab"
-										aria-selected="false" tabindex="-1">답변서 초안 <span class="tab-count"
-											id="tabCountDraft">1</span></button>
-									<button type="button" class="top-tab tab-button" data-tab="compare" role="tab"
-										aria-selected="false" tabindex="-1">답변서 비교 <span class="tab-count"
-											id="tabCountCompare">1</span></button>
-								</div>
+								<button type="button" class="top-tab tab-button active is-active" data-tab="recommend"
+									role="tab" aria-selected="true">관련자료 <span class="tab-count"
+										id="tabCountRecommend">14</span></button>
+								<button type="button" class="top-tab tab-button" data-tab="draft" role="tab"
+									aria-selected="false" tabindex="-1">답변서 초안 <span class="tab-count"
+										id="tabCountDraft">1</span></button>
+								<button type="button" class="top-tab tab-button" data-tab="compare" role="tab"
+									aria-selected="false" tabindex="-1">답변서 비교 <span class="tab-count"
+										id="tabCountCompare">1</span></button>
 							</div>
+						</div>
 
-							<!-- Tab Content -->
-							<div class="center-body" id="centerBody">
-								<!----------------------------- Start: 답변서 초안 초기화 빈 화면 -------------------------------------- -->
-								<div class="empty-state answer-draft-empty" id="answerAfterDraftEmptyState"
-									role="status" aria-live="polite" hidden>
-									<img class="icon answer-draft-empty-icon" data-icon="edit" alt=""
-										aria-hidden="true" />
-									<p class="empty-title">답변서 초안이 없습니다</p>
-									<p class="empty-desc">우측 AI 채팅에 질의 내용이나 검색 키워드를 입력하여 초안을 생성해 보세요</p>
-								</div>
-								<!----------------------------- //End: 답변서 초안 초기화 빈 화면 -------------------------------------- -->
-								<div class="recommend-view-wrapper doc-viewer-panel" id="recommendViewerPanel">
-									<div class="center-split split-handler" id="tabRecommend"
-										data-component="split-handler" data-split-min="180">
-										<div class="center-left split-handler-left">
-											<div class="center-sub-head">
-												<span class="sub-title">관련자료 목록</span>
-												<label class="rec-select-all"><input
-														class="checkbox-control checkbox-control-sm" type="checkbox"
-														id="recSelectAll" /><span>전체선택</span></label>
-												<span class="sub-badge">유사도순</span>
-											</div>
-											<!----------------- Start: 관련자료 필터 바 모음 --------------- -->
-											<div class="filter-bar answer-reference-filters source-primary-tabs"
-												id="sourcePrimaryTabs" role="toolbar" aria-label="관련자료 유형">
-												<button type="button" class="filter-btn source-primary-chip active"
-													data-filter="all" data-source-group="all" aria-pressed="true">전체
-													<span class="filter-count source-tab-count"
-														data-source-count="all">14</span></button>
-												<button type="button" class="filter-btn source-primary-chip"
-													data-filter="all" data-source-group="recommended"
-													aria-pressed="false">관련자료
-													추천
-													<span class="filter-count source-tab-count"
-														data-source-count="recommended">14</span></button>
-												<button type="button" class="filter-btn source-primary-chip"
-													data-filter="all" data-source-group="additional"
-													aria-pressed="false">참조소스
-													<span class="filter-count source-tab-count"
-														data-source-count="additional">0</span></button>
-											</div>
-											<div class="filter-bar answer-reference-filters source-secondary-tabs hidden"
-												id="sourceSecondaryTabs" role="toolbar" aria-label="관련자료 세부 유형"></div>
-											<!----------------- //End: 관련자료 필터 바 모음 --------------- -->
+						<!-- Tab Content -->
+						<div class="center-body" id="centerBody">
+							<!----------------------------- Start: 답변서 초안 초기화 빈 화면 -------------------------------------- -->
+							<div class="empty-state answer-draft-empty" id="answerAfterDraftEmptyState" role="status"
+								aria-live="polite" hidden>
+								<img class="icon answer-draft-empty-icon" data-icon="edit" alt="" aria-hidden="true" />
+								<p class="empty-title">답변서 초안이 없습니다</p>
+								<p class="empty-desc">우측 AI 채팅에 질의 내용이나 검색 키워드를 입력하여 초안을 생성해 보세요</p>
+							</div>
+							<!----------------------------- //End: 답변서 초안 초기화 빈 화면 -------------------------------------- -->
+							<div class="recommend-view-wrapper doc-viewer-panel" id="recommendViewerPanel">
+								<div class="center-split split-handler" id="tabRecommend" data-component="split-handler"
+									data-split-min="180">
+									<div class="center-left split-handler-left">
+										<div class="center-sub-head">
+											<span class="sub-title">관련자료 목록</span>
+											<label class="rec-select-all"><input
+													class="checkbox-control checkbox-control-sm" type="checkbox"
+													id="recSelectAll" /><span>전체선택</span></label>
+											<span class="sub-badge">유사도순</span>
+										</div>
+										<!----------------- Start: 관련자료 필터 바 모음 --------------- -->
+										<div class="filter-bar answer-reference-filters source-primary-tabs"
+											id="sourcePrimaryTabs" role="toolbar" aria-label="관련자료 유형">
+											<button type="button" class="filter-btn source-primary-chip active"
+												data-filter="all" data-source-group="all" aria-pressed="true">전체
+												<span class="filter-count source-tab-count"
+													data-source-count="all">14</span></button>
+											<button type="button" class="filter-btn source-primary-chip"
+												data-filter="all" data-source-group="recommended"
+												aria-pressed="false">관련자료
+												추천
+												<span class="filter-count source-tab-count"
+													data-source-count="recommended">14</span></button>
+											<button type="button" class="filter-btn source-primary-chip"
+												data-filter="all" data-source-group="additional"
+												aria-pressed="false">참조소스
+												<span class="filter-count source-tab-count"
+													data-source-count="additional">0</span></button>
+										</div>
+										<div class="filter-bar answer-reference-filters source-secondary-tabs hidden"
+											id="sourceSecondaryTabs" role="toolbar" aria-label="관련자료 세부 유형"></div>
+										<!----------------- //End: 관련자료 필터 바 모음 --------------- -->
 
-											<!---------- Start: 관련자료 목록 카드 리스트 ------------------>
-											<div class="recommend-list" id="recommendList">
-												<!--
+										<!---------- Start: 관련자료 목록 카드 리스트 ------------------>
+										<div class="recommend-list" id="recommendList">
+											<!--
 													[문서/페이지 구조 안내 — 개발자용]
 													- 관련자료 카드(rec-card)
 															· rec-card-head:체크박스, 제목, 유사도 점수
@@ -819,590 +812,579 @@
 															·  rec-desc: 자료 요약
 															·  rec-tag: 자료 태그
 												-->
-												<div class="rec-card active" data-recommend-key="rec-1" data-rec-id="1"
-													data-category="similar">
-													<div class="rec-card-head">
-														<label class="rec-checkbox"><input
-																class="checkbox-control checkbox-control-sm"
-																type="checkbox" data-rec-id="1"
-																aria-label="지방채 인수 추경 편성 사유 답변 선택" checked /><span
-																class="rec-check-mark"></span></label>
-														<span class="rec-title">지방채 인수 추경 편성 사유 답변</span>
-														<span class="rec-score">97%</span>
-													</div>
-													<span class="rec-top-badge rec-top-badge--first">TOP 1</span>
-													<div class="rec-meta">과거답변서 · 2026년 · 기획재정위원회</div>
-													<div class="rec-desc">현재 질의와 직접 연결되는 과거 답변. 공자기금 지방채 인수 필요성과 추경 편성
-														논리를
-														함께 설명.</div>
-													<div class="rec-tags"><span class="rec-tag">과거답변서</span><span
-															class="rec-tag">추경편성</span><span
-															class="rec-tag">지방채인수</span>
-													</div>
-												</div>
-												<div class="rec-card active" data-recommend-key="rec-2" data-rec-id="2"
-													data-category="reference">
-													<div class="rec-card-head">
-														<label class="rec-checkbox"><input
-																class="checkbox-control checkbox-control-sm"
-																type="checkbox" data-rec-id="2"
-																aria-label="지방채 인수 예산 현황표(2016~2026) 선택" checked /><span
-																class="rec-check-mark"></span></label>
-														<span class="rec-title">지방채 인수 예산 현황표(2016~2026)</span>
-														<span class="rec-score">95%</span>
-													</div>
-													<span class="rec-top-badge">TOP 2</span>
-													<div class="rec-meta">참고자료 · 예산현황 · 재정정책국</div>
-													<div class="rec-desc">연도별 지방채 인수 계획·실적·잔액을 정리한 최신 현황표.</div>
-													<div class="rec-tags"><span class="rec-tag">예산현황</span><span
-															class="rec-tag">인수실적</span></div>
-												</div>
-												<div class="rec-card active" data-recommend-key="rec-3" data-rec-id="3"
-													data-category="similar">
-													<div class="rec-card-head">
-														<label class="rec-checkbox"><input
-																class="checkbox-control checkbox-control-sm"
-																type="checkbox" data-rec-id="3"
-																aria-label="260402_재경위 전체 의원 질의 답변 통합본 선택"
-																checked /><span class="rec-check-mark"></span></label>
-														<span class="rec-title">260402_재경위 전체 의원 질의 답변 통합본</span>
-														<span class="rec-score">94%</span>
-													</div>
-													<span class="rec-top-badge">TOP 3</span>
-													<div class="rec-meta">과거답변서 · 2026년 · 기획재정위원회</div>
-													<div class="rec-desc">공자기금 지방채 인수 제도, 추경 편성 배경, 지원조건을 포함한 전체 의원 답변
-														통합본.
-													</div>
-													<div class="rec-tags"><span class="rec-tag">과거답변서</span><span
-															class="rec-tag">공자기금</span></div>
-												</div>
-												<div class="rec-card" data-recommend-key="rec-4" data-rec-id="4"
-													data-category="reference">
-													<div class="rec-card-head">
-														<label class="rec-checkbox"><input
-																class="checkbox-control checkbox-control-sm"
-																type="checkbox" data-rec-id="4"
-																aria-label="광주·전남 통합 관련 추경 수요 상세 선택" /><span
-																class="rec-check-mark"></span></label>
-														<span class="rec-title">광주·전남 통합 관련 추경 수요 상세</span>
-														<span class="rec-score">92%</span>
-													</div>
-													<span class="rec-top-badge hidden">TOP</span>
-													<div class="rec-meta">참고자료 · 근거자료 · 지역발전정책국</div>
-													<div class="rec-desc">통합특별시 출범 관련 추경 규모와 지자체별 세부 수요.</div>
-													<div class="rec-tags"><span class="rec-tag">광주전남</span><span
-															class="rec-tag">추경수요</span></div>
-												</div>
-												<div class="rec-card" data-recommend-key="rec-5" data-rec-id="5"
-													data-category="reference">
-													<div class="rec-card-head">
-														<label class="rec-checkbox"><input
-																class="checkbox-control checkbox-control-sm"
-																type="checkbox" data-rec-id="5"
-																aria-label="공자기금 지방채 인수 제도 및 법적 근거 선택" /><span
-																class="rec-check-mark"></span></label>
-														<span class="rec-title">공자기금 지방채 인수 제도 및 법적 근거</span>
-														<span class="rec-score">90%</span>
-													</div>
-													<span class="rec-top-badge hidden">TOP</span>
-													<div class="rec-meta">참고자료 · 법령근거 · 국고실</div>
-													<div class="rec-desc">공공자금관리기금법 및 지방재정 관련 규정에 따른 지방채 인수 근거와 절차 정리.
-													</div>
-													<div class="rec-tags"><span class="rec-tag">법령근거</span><span
-															class="rec-tag">공자기금</span></div>
-												</div>
-												<div class="rec-card" data-recommend-key="rec-6" data-rec-id="6"
-													data-category="reference">
-													<div class="rec-card-head">
-														<label class="rec-checkbox"><input
-																class="checkbox-control checkbox-control-sm"
-																type="checkbox" data-rec-id="6"
-																aria-label="지방교부세와 지방채 재원 성격 비교자료 선택" /><span
-																class="rec-check-mark"></span></label>
-														<span class="rec-title">지방교부세와 지방채 재원 성격 비교자료</span>
-														<span class="rec-score">88%</span>
-													</div>
-													<span class="rec-top-badge hidden">TOP</span>
-													<div class="rec-meta">참고자료 · 분석자료 · 재정정책국</div>
-													<div class="rec-desc">지방교부세 일반재원과 지방채 자본적 지출 재원의 차이를 비교.</div>
-													<div class="rec-tags"><span class="rec-tag">지방교부세</span><span
-															class="rec-tag">재원비교</span></div>
-												</div>
-												<div class="rec-card" data-recommend-key="rec-7" data-rec-id="7"
-													data-category="reference">
-													<div class="rec-card-head">
-														<label class="rec-checkbox"><input
-																class="checkbox-control checkbox-control-sm"
-																type="checkbox" data-rec-id="7"
-																aria-label="2026년 공자기금 분기별 인수금리 산정자료 선택" /><span
-																class="rec-check-mark"></span></label>
-														<span class="rec-title">2026년 공자기금 분기별 인수금리 산정자료</span>
-														<span class="rec-score">86%</span>
-													</div>
-													<span class="rec-top-badge hidden">TOP</span>
-													<div class="rec-meta">참고자료 · 금리자료 · 국고실</div>
-													<div class="rec-desc">공자기금 조달금리와 지방채 인수금리 산정 기준 및 분기별 변동 추이.</div>
-													<div class="rec-tags"><span class="rec-tag">인수금리</span><span
-															class="rec-tag">공자기금</span></div>
-												</div>
-												<div class="rec-card" data-recommend-key="rec-8" data-rec-id="8"
-													data-category="reference">
-													<div class="rec-card-head">
-														<label class="rec-checkbox"><input
-																class="checkbox-control checkbox-control-sm"
-																type="checkbox" data-rec-id="8"
-																aria-label="지방재정 채무관리 지표 및 위기관리 기준 선택" /><span
-																class="rec-check-mark"></span></label>
-														<span class="rec-title">지방재정 채무관리 지표 및 위기관리 기준</span>
-														<span class="rec-score">84%</span>
-													</div>
-													<span class="rec-top-badge hidden">TOP</span>
-													<div class="rec-meta">참고자료 · 지침 · 재정정책국</div>
-													<div class="rec-desc">지방채 발행 이후 채무비율과 재정위험을 관리하기 위한 지표 및 대응 기준.
-													</div>
-													<div class="rec-tags"><span class="rec-tag">채무관리</span><span
-															class="rec-tag">재정건전성</span></div>
-												</div>
-												<div class="rec-card" data-recommend-key="rec-9" data-rec-id="9"
-													data-category="reference">
-													<div class="rec-card-head">
-														<label class="rec-checkbox"><input
-																class="checkbox-control checkbox-control-sm"
-																type="checkbox" data-rec-id="9"
-																aria-label="세수추계 및 세입경정 운용 검토자료 선택" /><span
-																class="rec-check-mark"></span></label>
-														<span class="rec-title">세수추계 및 세입경정 운용 검토자료</span>
-														<span class="rec-score">82%</span>
-													</div>
-													<span class="rec-top-badge hidden">TOP</span>
-													<div class="rec-meta">참고자료 · 분석자료 · 세제실</div>
-													<div class="rec-desc">추경 재원 마련 시 세입경정과 추가 세수 활용 가능성을 검토한 자료.</div>
-													<div class="rec-tags"><span class="rec-tag">세입경정</span><span
-															class="rec-tag">세수추계</span></div>
-												</div>
-												<div class="rec-card" data-recommend-key="rec-10" data-rec-id="10"
-													data-category="reference">
-													<div class="rec-card-head">
-														<label class="rec-checkbox"><input
-																class="checkbox-control checkbox-control-sm"
-																type="checkbox" data-rec-id="10"
-																aria-label="지방채 발행 한도 산정 및 승인 절차 선택" /><span
-																class="rec-check-mark"></span></label>
-														<span class="rec-title">지방채 발행 한도 산정 및 승인 절차</span>
-														<span class="rec-score">80%</span>
-													</div>
-													<span class="rec-top-badge hidden">TOP</span>
-													<div class="rec-meta">참고자료 · 지침 · 지방재정</div>
-													<div class="rec-desc">지자체별 지방채 발행 한도 산정기준과 한도 초과 시 승인 절차.</div>
-													<div class="rec-tags"><span class="rec-tag">지방채한도</span><span
-															class="rec-tag">승인절차</span></div>
-												</div>
-												<div class="rec-card" data-recommend-key="rec-11" data-rec-id="11"
-													data-category="similar">
-													<div class="rec-card-head">
-														<label class="rec-checkbox"><input
-																class="checkbox-control checkbox-control-sm"
-																type="checkbox" data-rec-id="11"
-																aria-label="통합특별시 출범 재정지원 유사사례 답변 선택" /><span
-																class="rec-check-mark"></span></label>
-														<span class="rec-title">통합특별시 출범 재정지원 유사사례 답변</span>
-														<span class="rec-score">78%</span>
-													</div>
-													<span class="rec-top-badge hidden">TOP</span>
-													<div class="rec-meta">과거답변서 · 유사사례 · 지역발전정책국</div>
-													<div class="rec-desc">행정구역 통합·특별자치단체 출범 시 일시적 투자수요에 대응한 과거 답변 사례.
-													</div>
-													<div class="rec-tags"><span class="rec-tag">과거답변서</span><span
-															class="rec-tag">통합특별시</span></div>
-												</div>
-												<div class="rec-card" data-recommend-key="rec-12" data-rec-id="12"
-													data-category="reference">
-													<div class="rec-card-head">
-														<label class="rec-checkbox"><input
-																class="checkbox-control checkbox-control-sm"
-																type="checkbox" data-rec-id="12"
-																aria-label="최근 5년 지방채 인수 실적 및 상환 현황 선택" /><span
-																class="rec-check-mark"></span></label>
-														<span class="rec-title">최근 5년 지방채 인수 실적 및 상환 현황</span>
-														<span class="rec-score">76%</span>
-													</div>
-													<span class="rec-top-badge hidden">TOP</span>
-													<div class="rec-meta">참고자료 · 통계자료 · 국고실</div>
-													<div class="rec-desc">최근 5년 인수액, 상환액, 잔액과 만기구조를 정리한 통계자료.</div>
-													<div class="rec-tags"><span class="rec-tag">통계자료</span><span
-															class="rec-tag">상환현황</span></div>
-												</div>
-												<div class="rec-card" data-recommend-key="rec-13" data-rec-id="13"
-													data-category="reference">
-													<div class="rec-card-head">
-														<label class="rec-checkbox"><input
-																class="checkbox-control checkbox-control-sm"
-																type="checkbox" data-rec-id="13"
-																aria-label="재정사업 구조조정 및 추경 재원 확보 사례 선택" /><span
-																class="rec-check-mark"></span></label>
-														<span class="rec-title">재정사업 구조조정 및 추경 재원 확보 사례</span>
-														<span class="rec-score">73%</span>
-													</div>
-													<span class="rec-top-badge hidden">TOP</span>
-													<div class="rec-meta">참고자료 · 예산분석 · 경제정책국</div>
-													<div class="rec-desc">불용·저성과 사업 조정으로 추경 재원을 확보한 과거 운용사례.</div>
-													<div class="rec-tags"><span class="rec-tag">지출구조조정</span><span
-															class="rec-tag">추경재원</span></div>
-												</div>
-												<div class="rec-card" data-recommend-key="rec-14" data-rec-id="14"
-													data-category="reference">
-													<div class="rec-card-head">
-														<label class="rec-checkbox"><input
-																class="checkbox-control checkbox-control-sm"
-																type="checkbox" data-rec-id="14"
-																aria-label="지방재정 운용 성과평가 보고서 선택" /><span
-																class="rec-check-mark"></span></label>
-														<span class="rec-title">지방재정 운용 성과평가 보고서</span>
-														<span class="rec-score">69%</span>
-													</div>
-													<span class="rec-top-badge hidden">TOP</span>
-													<div class="rec-meta">참고자료 · 성과보고 · 지역발전정책국</div>
-													<div class="rec-desc">지자체별 재정운용 성과와 채무관리 지표 평가 결과 요약.</div>
-													<div class="rec-tags"><span class="rec-tag">성과평가</span><span
-															class="rec-tag">지방재정</span></div>
-												</div>
-												<div class="recommend-empty-state hidden"
-													data-recommend-empty="additional">
-													<svg viewBox="0 0 24 24" aria-hidden="true">
-														<path d="M4 6h16v12H4z" />
-														<path d="M8 10h8M8 14h5" />
-													</svg>
-													<strong>참조소스가 없습니다</strong>
-													<span>AI 참조소스에서 검색 후 자료를 가져오거나 파일을 직접 업로드하면 여기에 표시됩니다.</span>
-												</div>
-												<div class="new-chat-panel-empty hidden" data-recommend-empty="reset">
-													<svg viewBox="0 0 24 24" aria-hidden="true">
-														<circle cx="11" cy="11" r="7" />
-														<path d="m16.5 16.5 4 4M8 11h6M11 8v6" />
-													</svg>
-													<strong>추천된 관련자료가 없습니다</strong>
-													<span>우측 AI 채팅에 국회 질의나 검색어를 입력하면 유사답변서와 참고자료를 추천합니다.</span>
-												</div>
-												<div class="recommend-empty-state hidden"
-													data-recommend-empty="filtered">
-													<strong>해당 유형의 관련자료가 없습니다</strong>
-												</div>
-											</div>
-											<div id="recommendationCardPrototype" class="rec-card" data-dom-prototype
-												hidden>
+											<div class="rec-card active" data-recommend-key="rec-1" data-rec-id="1"
+												data-category="similar">
 												<div class="rec-card-head">
 													<label class="rec-checkbox"><input
-															class="checkbox-control checkbox-control-sm"
-															type="checkbox" /><span
+															class="checkbox-control checkbox-control-sm" type="checkbox"
+															data-rec-id="1" aria-label="지방채 인수 추경 편성 사유 답변 선택"
+															checked /><span class="rec-check-mark"></span></label>
+													<span class="rec-title">지방채 인수 추경 편성 사유 답변</span>
+													<span class="rec-score">97%</span>
+												</div>
+												<span class="rec-top-badge rec-top-badge--first">TOP 1</span>
+												<div class="rec-meta">과거답변서 · 2026년 · 기획재정위원회</div>
+												<div class="rec-desc">현재 질의와 직접 연결되는 과거 답변. 공자기금 지방채 인수 필요성과 추경 편성
+													논리를
+													함께 설명.</div>
+												<div class="rec-tags"><span class="rec-tag">과거답변서</span><span
+														class="rec-tag">추경편성</span><span class="rec-tag">지방채인수</span>
+												</div>
+											</div>
+											<div class="rec-card active" data-recommend-key="rec-2" data-rec-id="2"
+												data-category="reference">
+												<div class="rec-card-head">
+													<label class="rec-checkbox"><input
+															class="checkbox-control checkbox-control-sm" type="checkbox"
+															data-rec-id="2" aria-label="지방채 인수 예산 현황표(2016~2026) 선택"
+															checked /><span class="rec-check-mark"></span></label>
+													<span class="rec-title">지방채 인수 예산 현황표(2016~2026)</span>
+													<span class="rec-score">95%</span>
+												</div>
+												<span class="rec-top-badge">TOP 2</span>
+												<div class="rec-meta">참고자료 · 예산현황 · 재정정책국</div>
+												<div class="rec-desc">연도별 지방채 인수 계획·실적·잔액을 정리한 최신 현황표.</div>
+												<div class="rec-tags"><span class="rec-tag">예산현황</span><span
+														class="rec-tag">인수실적</span></div>
+											</div>
+											<div class="rec-card active" data-recommend-key="rec-3" data-rec-id="3"
+												data-category="similar">
+												<div class="rec-card-head">
+													<label class="rec-checkbox"><input
+															class="checkbox-control checkbox-control-sm" type="checkbox"
+															data-rec-id="3" aria-label="260402_재경위 전체 의원 질의 답변 통합본 선택"
+															checked /><span class="rec-check-mark"></span></label>
+													<span class="rec-title">260402_재경위 전체 의원 질의 답변 통합본</span>
+													<span class="rec-score">94%</span>
+												</div>
+												<span class="rec-top-badge">TOP 3</span>
+												<div class="rec-meta">과거답변서 · 2026년 · 기획재정위원회</div>
+												<div class="rec-desc">공자기금 지방채 인수 제도, 추경 편성 배경, 지원조건을 포함한 전체 의원 답변
+													통합본.
+												</div>
+												<div class="rec-tags"><span class="rec-tag">과거답변서</span><span
+														class="rec-tag">공자기금</span></div>
+											</div>
+											<div class="rec-card" data-recommend-key="rec-4" data-rec-id="4"
+												data-category="reference">
+												<div class="rec-card-head">
+													<label class="rec-checkbox"><input
+															class="checkbox-control checkbox-control-sm" type="checkbox"
+															data-rec-id="4" aria-label="광주·전남 통합 관련 추경 수요 상세 선택" /><span
 															class="rec-check-mark"></span></label>
-													<span class="additional-source-icon hidden" aria-hidden="true"><svg
-															viewBox="0 0 24 24">
-															<path d="M4 6h16v12H4z" />
-															<path d="M8 10h8M8 14h5" />
-														</svg></span>
-													<span class="rec-title"></span>
-													<span class="additional-source-kind hidden"></span>
-													<span class="rec-score"></span>
+													<span class="rec-title">광주·전남 통합 관련 추경 수요 상세</span>
+													<span class="rec-score">92%</span>
 												</div>
 												<span class="rec-top-badge hidden">TOP</span>
-												<div class="rec-meta"></div>
-												<div class="rec-desc"></div>
-												<div class="rec-tags"></div>
+												<div class="rec-meta">참고자료 · 근거자료 · 지역발전정책국</div>
+												<div class="rec-desc">통합특별시 출범 관련 추경 규모와 지자체별 세부 수요.</div>
+												<div class="rec-tags"><span class="rec-tag">광주전남</span><span
+														class="rec-tag">추경수요</span></div>
 											</div>
-											<span id="recommendationTagPrototype" class="rec-tag" data-dom-prototype
-												hidden></span>
-											<!---------- //End: 관련자료 목록 카드 리스트 ------------------>
-
+											<div class="rec-card" data-recommend-key="rec-5" data-rec-id="5"
+												data-category="reference">
+												<div class="rec-card-head">
+													<label class="rec-checkbox"><input
+															class="checkbox-control checkbox-control-sm" type="checkbox"
+															data-rec-id="5"
+															aria-label="공자기금 지방채 인수 제도 및 법적 근거 선택" /><span
+															class="rec-check-mark"></span></label>
+													<span class="rec-title">공자기금 지방채 인수 제도 및 법적 근거</span>
+													<span class="rec-score">90%</span>
+												</div>
+												<span class="rec-top-badge hidden">TOP</span>
+												<div class="rec-meta">참고자료 · 법령근거 · 국고실</div>
+												<div class="rec-desc">공공자금관리기금법 및 지방재정 관련 규정에 따른 지방채 인수 근거와 절차 정리.
+												</div>
+												<div class="rec-tags"><span class="rec-tag">법령근거</span><span
+														class="rec-tag">공자기금</span></div>
+											</div>
+											<div class="rec-card" data-recommend-key="rec-6" data-rec-id="6"
+												data-category="reference">
+												<div class="rec-card-head">
+													<label class="rec-checkbox"><input
+															class="checkbox-control checkbox-control-sm" type="checkbox"
+															data-rec-id="6"
+															aria-label="지방교부세와 지방채 재원 성격 비교자료 선택" /><span
+															class="rec-check-mark"></span></label>
+													<span class="rec-title">지방교부세와 지방채 재원 성격 비교자료</span>
+													<span class="rec-score">88%</span>
+												</div>
+												<span class="rec-top-badge hidden">TOP</span>
+												<div class="rec-meta">참고자료 · 분석자료 · 재정정책국</div>
+												<div class="rec-desc">지방교부세 일반재원과 지방채 자본적 지출 재원의 차이를 비교.</div>
+												<div class="rec-tags"><span class="rec-tag">지방교부세</span><span
+														class="rec-tag">재원비교</span></div>
+											</div>
+											<div class="rec-card" data-recommend-key="rec-7" data-rec-id="7"
+												data-category="reference">
+												<div class="rec-card-head">
+													<label class="rec-checkbox"><input
+															class="checkbox-control checkbox-control-sm" type="checkbox"
+															data-rec-id="7"
+															aria-label="2026년 공자기금 분기별 인수금리 산정자료 선택" /><span
+															class="rec-check-mark"></span></label>
+													<span class="rec-title">2026년 공자기금 분기별 인수금리 산정자료</span>
+													<span class="rec-score">86%</span>
+												</div>
+												<span class="rec-top-badge hidden">TOP</span>
+												<div class="rec-meta">참고자료 · 금리자료 · 국고실</div>
+												<div class="rec-desc">공자기금 조달금리와 지방채 인수금리 산정 기준 및 분기별 변동 추이.</div>
+												<div class="rec-tags"><span class="rec-tag">인수금리</span><span
+														class="rec-tag">공자기금</span></div>
+											</div>
+											<div class="rec-card" data-recommend-key="rec-8" data-rec-id="8"
+												data-category="reference">
+												<div class="rec-card-head">
+													<label class="rec-checkbox"><input
+															class="checkbox-control checkbox-control-sm" type="checkbox"
+															data-rec-id="8"
+															aria-label="지방재정 채무관리 지표 및 위기관리 기준 선택" /><span
+															class="rec-check-mark"></span></label>
+													<span class="rec-title">지방재정 채무관리 지표 및 위기관리 기준</span>
+													<span class="rec-score">84%</span>
+												</div>
+												<span class="rec-top-badge hidden">TOP</span>
+												<div class="rec-meta">참고자료 · 지침 · 재정정책국</div>
+												<div class="rec-desc">지방채 발행 이후 채무비율과 재정위험을 관리하기 위한 지표 및 대응 기준.
+												</div>
+												<div class="rec-tags"><span class="rec-tag">채무관리</span><span
+														class="rec-tag">재정건전성</span></div>
+											</div>
+											<div class="rec-card" data-recommend-key="rec-9" data-rec-id="9"
+												data-category="reference">
+												<div class="rec-card-head">
+													<label class="rec-checkbox"><input
+															class="checkbox-control checkbox-control-sm" type="checkbox"
+															data-rec-id="9" aria-label="세수추계 및 세입경정 운용 검토자료 선택" /><span
+															class="rec-check-mark"></span></label>
+													<span class="rec-title">세수추계 및 세입경정 운용 검토자료</span>
+													<span class="rec-score">82%</span>
+												</div>
+												<span class="rec-top-badge hidden">TOP</span>
+												<div class="rec-meta">참고자료 · 분석자료 · 세제실</div>
+												<div class="rec-desc">추경 재원 마련 시 세입경정과 추가 세수 활용 가능성을 검토한 자료.</div>
+												<div class="rec-tags"><span class="rec-tag">세입경정</span><span
+														class="rec-tag">세수추계</span></div>
+											</div>
+											<div class="rec-card" data-recommend-key="rec-10" data-rec-id="10"
+												data-category="reference">
+												<div class="rec-card-head">
+													<label class="rec-checkbox"><input
+															class="checkbox-control checkbox-control-sm" type="checkbox"
+															data-rec-id="10"
+															aria-label="지방채 발행 한도 산정 및 승인 절차 선택" /><span
+															class="rec-check-mark"></span></label>
+													<span class="rec-title">지방채 발행 한도 산정 및 승인 절차</span>
+													<span class="rec-score">80%</span>
+												</div>
+												<span class="rec-top-badge hidden">TOP</span>
+												<div class="rec-meta">참고자료 · 지침 · 지방재정</div>
+												<div class="rec-desc">지자체별 지방채 발행 한도 산정기준과 한도 초과 시 승인 절차.</div>
+												<div class="rec-tags"><span class="rec-tag">지방채한도</span><span
+														class="rec-tag">승인절차</span></div>
+											</div>
+											<div class="rec-card" data-recommend-key="rec-11" data-rec-id="11"
+												data-category="similar">
+												<div class="rec-card-head">
+													<label class="rec-checkbox"><input
+															class="checkbox-control checkbox-control-sm" type="checkbox"
+															data-rec-id="11"
+															aria-label="통합특별시 출범 재정지원 유사사례 답변 선택" /><span
+															class="rec-check-mark"></span></label>
+													<span class="rec-title">통합특별시 출범 재정지원 유사사례 답변</span>
+													<span class="rec-score">78%</span>
+												</div>
+												<span class="rec-top-badge hidden">TOP</span>
+												<div class="rec-meta">과거답변서 · 유사사례 · 지역발전정책국</div>
+												<div class="rec-desc">행정구역 통합·특별자치단체 출범 시 일시적 투자수요에 대응한 과거 답변 사례.
+												</div>
+												<div class="rec-tags"><span class="rec-tag">과거답변서</span><span
+														class="rec-tag">통합특별시</span></div>
+											</div>
+											<div class="rec-card" data-recommend-key="rec-12" data-rec-id="12"
+												data-category="reference">
+												<div class="rec-card-head">
+													<label class="rec-checkbox"><input
+															class="checkbox-control checkbox-control-sm" type="checkbox"
+															data-rec-id="12"
+															aria-label="최근 5년 지방채 인수 실적 및 상환 현황 선택" /><span
+															class="rec-check-mark"></span></label>
+													<span class="rec-title">최근 5년 지방채 인수 실적 및 상환 현황</span>
+													<span class="rec-score">76%</span>
+												</div>
+												<span class="rec-top-badge hidden">TOP</span>
+												<div class="rec-meta">참고자료 · 통계자료 · 국고실</div>
+												<div class="rec-desc">최근 5년 인수액, 상환액, 잔액과 만기구조를 정리한 통계자료.</div>
+												<div class="rec-tags"><span class="rec-tag">통계자료</span><span
+														class="rec-tag">상환현황</span></div>
+											</div>
+											<div class="rec-card" data-recommend-key="rec-13" data-rec-id="13"
+												data-category="reference">
+												<div class="rec-card-head">
+													<label class="rec-checkbox"><input
+															class="checkbox-control checkbox-control-sm" type="checkbox"
+															data-rec-id="13"
+															aria-label="재정사업 구조조정 및 추경 재원 확보 사례 선택" /><span
+															class="rec-check-mark"></span></label>
+													<span class="rec-title">재정사업 구조조정 및 추경 재원 확보 사례</span>
+													<span class="rec-score">73%</span>
+												</div>
+												<span class="rec-top-badge hidden">TOP</span>
+												<div class="rec-meta">참고자료 · 예산분석 · 경제정책국</div>
+												<div class="rec-desc">불용·저성과 사업 조정으로 추경 재원을 확보한 과거 운용사례.</div>
+												<div class="rec-tags"><span class="rec-tag">지출구조조정</span><span
+														class="rec-tag">추경재원</span></div>
+											</div>
+											<div class="rec-card" data-recommend-key="rec-14" data-rec-id="14"
+												data-category="reference">
+												<div class="rec-card-head">
+													<label class="rec-checkbox"><input
+															class="checkbox-control checkbox-control-sm" type="checkbox"
+															data-rec-id="14" aria-label="지방재정 운용 성과평가 보고서 선택" /><span
+															class="rec-check-mark"></span></label>
+													<span class="rec-title">지방재정 운용 성과평가 보고서</span>
+													<span class="rec-score">69%</span>
+												</div>
+												<span class="rec-top-badge hidden">TOP</span>
+												<div class="rec-meta">참고자료 · 성과보고 · 지역발전정책국</div>
+												<div class="rec-desc">지자체별 재정운용 성과와 채무관리 지표 평가 결과 요약.</div>
+												<div class="rec-tags"><span class="rec-tag">성과평가</span><span
+														class="rec-tag">지방재정</span></div>
+											</div>
+											<div class="recommend-empty-state hidden" data-recommend-empty="additional">
+												<svg viewBox="0 0 24 24" aria-hidden="true">
+													<path d="M4 6h16v12H4z" />
+													<path d="M8 10h8M8 14h5" />
+												</svg>
+												<strong>참조소스가 없습니다</strong>
+												<span>AI 참조소스에서 검색 후 자료를 가져오거나 파일을 직접 업로드하면 여기에 표시됩니다.</span>
+											</div>
+											<div class="new-chat-panel-empty hidden" data-recommend-empty="reset">
+												<svg viewBox="0 0 24 24" aria-hidden="true">
+													<circle cx="11" cy="11" r="7" />
+													<path d="m16.5 16.5 4 4M8 11h6M11 8v6" />
+												</svg>
+												<strong>추천된 관련자료가 없습니다</strong>
+												<span>우측 AI 채팅에 국회 질의나 검색어를 입력하면 유사답변서와 참고자료를 추천합니다.</span>
+											</div>
+											<div class="recommend-empty-state hidden" data-recommend-empty="filtered">
+												<strong>해당 유형의 관련자료가 없습니다</strong>
+											</div>
 										</div>
-										<div class="center-split-handle split-handler-handle" id="centerSplitHandle"
-											role="separator" aria-label="관련자료 목록과 문서 미리보기 너비 조절"
-											aria-orientation="vertical" tabindex="0"></div>
-										<!-------------------------------------- Start: 문서 미리보기 영역 --------------------------------------->
-										<div class="center-right split-handler-right" id="previewViewerPanel">
-											<div class="center-sub-head">
-												<span class="sub-title">문서 미리보기</span><span class="sub-badge blue">유사도
-													94%</span>
+										<div id="recommendationCardPrototype" class="rec-card" data-dom-prototype
+											hidden>
+											<div class="rec-card-head">
+												<label class="rec-checkbox"><input
+														class="checkbox-control checkbox-control-sm"
+														type="checkbox" /><span class="rec-check-mark"></span></label>
+												<span class="additional-source-icon hidden" aria-hidden="true"><svg
+														viewBox="0 0 24 24">
+														<path d="M4 6h16v12H4z" />
+														<path d="M8 10h8M8 14h5" />
+													</svg></span>
+												<span class="rec-title"></span>
+												<span class="additional-source-kind hidden"></span>
+												<span class="rec-score"></span>
 											</div>
-											<div class="preview-body doc-viewer-body" id="previewBody"
-												data-preview-recommendation-id="1">
-												<div class="doc-pages-track">
-													<div class="web-doc-page">
-														<div class="web-doc-header"><span class="web-doc-org">기획재정위원회 ·
-																2026년</span>
-															<h3 class="web-doc-title">지방채 인수 추경 편성 사유 답변</h3>
-														</div>
-														<div class="web-doc-body">
-															<div class="web-doc-meta-box">
-																<div class="web-doc-meta-item"><span
-																		class="web-doc-meta-label">문서명</span><span>지방채
-																		인수 추경
-																		편성 사유 답변</span></div>
-																<div class="web-doc-meta-item"><span
-																		class="web-doc-meta-label">문서유형</span><span>과거답변서
-																		·
-																		2026년 · 기획재정위원회</span></div>
-																<div class="web-doc-meta-item"><span
-																		class="web-doc-meta-label">활용등급</span><span>97%
-																		유사도
-																		· 과거답변서, 추경편성, 지방채인수</span></div>
-																<div class="web-doc-meta-item"><span
-																		class="web-doc-meta-label">검토메모</span><span>현재
-																		질의와
-																		직접 연결되는 과거 답변. 공자기금 지방채 인수 필요성과 추경 편성 논리를 함께
-																		설명.</span></div>
-															</div>
-															<p class="web-doc-lead">현재 질의와 직접 연결되는 과거 답변입니다. 공자기금 지방채 인수
-																필요성과 추경 편성 논리를 함께 설명합니다.</p>
-															<div class="web-doc-section">
-																<h4 class="web-doc-section-title">질의 요지</h4>
-																<p class="web-doc-section-desc">답변 또는 초안 생성에 활용할 수 있는 주요
-																	내용을
-																	확인합니다.</p>
-																<ul class="web-doc-list">
-																	<li>지방교부세 지급 중 지방채 인수와 추경 편성이 필요한 이유를 질의</li>
-																	<li>지방채 증가에 따른 재정건전성 관리방안도 함께 요구</li>
-																</ul>
-																<div class="web-doc-note">질의 요지 관련 내용은 선택된 소스의 근거로
-																	활용됩니다.
-																</div>
-															</div>
-															<div class="web-doc-section">
-																<h4 class="web-doc-section-title">핵심 답변</h4>
-																<p class="web-doc-section-desc">핵심 답변에 활용할 수 있는 주요
-																	논거입니다.
-																</p>
-																<ul class="web-doc-list">
-																	<li>지방교부세는 일반재원, 지방채는 특정 자본적 지출을 위한 별도 재원</li>
-																	<li>공자기금은 장기·저리 인수로 지자체의 일시적 대규모 투자수요를 지원</li>
-																</ul>
-																<div class="web-doc-note">핵심 답변 관련 내용은 선택된 소스의 근거로
-																	활용됩니다.
-																</div>
-															</div>
-														</div>
-														<div class="web-doc-page-footer"><span>- 1 / 1 -</span></div>
+											<span class="rec-top-badge hidden">TOP</span>
+											<div class="rec-meta"></div>
+											<div class="rec-desc"></div>
+											<div class="rec-tags"></div>
+										</div>
+										<span id="recommendationTagPrototype" class="rec-tag" data-dom-prototype
+											hidden></span>
+										<!---------- //End: 관련자료 목록 카드 리스트 ------------------>
+
+									</div>
+									<div class="center-split-handle split-handler-handle" id="centerSplitHandle"
+										role="separator" aria-label="관련자료 목록과 문서 미리보기 너비 조절" aria-orientation="vertical"
+										tabindex="0"></div>
+									<!-------------------------------------- Start: 문서 미리보기 영역 --------------------------------------->
+									<div class="center-right split-handler-right" id="previewViewerPanel">
+										<div class="center-sub-head">
+											<span class="sub-title">문서 미리보기</span><span class="sub-badge blue">유사도
+												94%</span>
+										</div>
+										<div class="preview-body doc-viewer-body" id="previewBody"
+											data-preview-recommendation-id="1">
+											<div class="doc-pages-track">
+												<div class="web-doc-page">
+													<div class="web-doc-header"><span class="web-doc-org">기획재정위원회 ·
+															2026년</span>
+														<h3 class="web-doc-title">지방채 인수 추경 편성 사유 답변</h3>
 													</div>
+													<div class="web-doc-body">
+														<div class="web-doc-meta-box">
+															<div class="web-doc-meta-item"><span
+																	class="web-doc-meta-label">문서명</span><span>지방채
+																	인수 추경
+																	편성 사유 답변</span></div>
+															<div class="web-doc-meta-item"><span
+																	class="web-doc-meta-label">문서유형</span><span>과거답변서
+																	·
+																	2026년 · 기획재정위원회</span></div>
+															<div class="web-doc-meta-item"><span
+																	class="web-doc-meta-label">활용등급</span><span>97%
+																	유사도
+																	· 과거답변서, 추경편성, 지방채인수</span></div>
+															<div class="web-doc-meta-item"><span
+																	class="web-doc-meta-label">검토메모</span><span>현재
+																	질의와
+																	직접 연결되는 과거 답변. 공자기금 지방채 인수 필요성과 추경 편성 논리를 함께
+																	설명.</span></div>
+														</div>
+														<p class="web-doc-lead">현재 질의와 직접 연결되는 과거 답변입니다. 공자기금 지방채 인수
+															필요성과 추경 편성 논리를 함께 설명합니다.</p>
+														<div class="web-doc-section">
+															<h4 class="web-doc-section-title">질의 요지</h4>
+															<p class="web-doc-section-desc">답변 또는 초안 생성에 활용할 수 있는 주요
+																내용을
+																확인합니다.</p>
+															<ul class="web-doc-list">
+																<li>지방교부세 지급 중 지방채 인수와 추경 편성이 필요한 이유를 질의</li>
+																<li>지방채 증가에 따른 재정건전성 관리방안도 함께 요구</li>
+															</ul>
+															<div class="web-doc-note">질의 요지 관련 내용은 선택된 소스의 근거로
+																활용됩니다.
+															</div>
+														</div>
+														<div class="web-doc-section">
+															<h4 class="web-doc-section-title">핵심 답변</h4>
+															<p class="web-doc-section-desc">핵심 답변에 활용할 수 있는 주요
+																논거입니다.
+															</p>
+															<ul class="web-doc-list">
+																<li>지방교부세는 일반재원, 지방채는 특정 자본적 지출을 위한 별도 재원</li>
+																<li>공자기금은 장기·저리 인수로 지자체의 일시적 대규모 투자수요를 지원</li>
+															</ul>
+															<div class="web-doc-note">핵심 답변 관련 내용은 선택된 소스의 근거로
+																활용됩니다.
+															</div>
+														</div>
+													</div>
+													<div class="web-doc-page-footer"><span>- 1 / 1 -</span></div>
 												</div>
 											</div>
 										</div>
-										<!-------------------------------------- //End: 문서 미리보기 영역 --------------------------------------->
 									</div>
-									<!--------------------------------------- Start: 페이지 줌, 글자 수 확인 바 -------------------------------------->
-									<div class="document-statusbar-area">
-										<footer class="document-statusbar" data-component="document-statusbar"
-											data-document-statusbar
-											data-document-target="#recommendViewerPanel .doc-pages-track"
-											data-document-scroll-target="#recommendViewerPanel .doc-viewer-body"
-											data-document-page-selector=".web-doc-page"
-											data-document-fullscreen-target="#recommendViewerPanel"
-											data-document-zoom="100" data-document-min-zoom="50"
-											data-document-max-zoom="200" data-document-zoom-step="10">
-											<div class="document-statusbar-stats" data-slot="stats">
-												<span class="document-statusbar-stat">관련자료 <strong
-														id="recommendResultCount">14</strong>건</span>
-												<span class="document-statusbar-separator" aria-hidden="true">|</span>
-												<span class="document-statusbar-stat">글자 수 <strong
-														data-document-character-count>0</strong>자</span>
-												<span class="document-statusbar-separator" aria-hidden="true">|</span>
-												<span class="document-statusbar-stat">페이지 <strong
-														data-document-page-current>1</strong>/<strong
-														data-document-page-total>1</strong></span>
-											</div>
-											<div class="document-statusbar-controls" aria-label="문서 확대 축소 및 전체보기">
-												<button type="button"
-													class="icon-button icon-button-sm document-statusbar-button"
-													data-document-statusbar-action="zoom-out" aria-label="문서 축소"
-													title="문서 축소">−</button>
-												<strong class="document-statusbar-zoom"
-													data-document-statusbar-zoom-value>100%</strong>
-												<button type="button"
-													class="icon-button icon-button-sm document-statusbar-button"
-													data-document-statusbar-action="zoom-in" aria-label="문서 확대"
-													title="문서 확대">＋</button>
-												<button type="button"
-													class="icon-button icon-button-sm document-statusbar-button document-statusbar-fullscreen-button"
-													data-document-statusbar-action="fullscreen" aria-label="문서 전체보기"
-													title="문서 전체보기" aria-pressed="false">
-													<img class="icon icon-small document-statusbar-expand-icon"
-														src="../assets/icons/fullscreen-expand.svg" alt=""
-														aria-hidden="true" />
-													<img class="icon icon-small document-statusbar-shrink-icon"
-														src="../assets/icons/fullscreen-shrink.svg" alt=""
-														aria-hidden="true" />
-												</button>
-											</div>
-										</footer>
-									</div>
-									<!--------------------------------------- //End: 페이지 줌, 글자 수 확인 바 -------------------------------------->
+									<!-------------------------------------- //End: 문서 미리보기 영역 --------------------------------------->
 								</div>
+								<!--------------------------------------- Start: 페이지 줌, 글자 수 확인 바 -------------------------------------->
+								<div class="document-statusbar-area">
+									<footer class="document-statusbar" data-component="document-statusbar"
+										data-document-statusbar
+										data-document-target="#recommendViewerPanel .doc-pages-track"
+										data-document-scroll-target="#recommendViewerPanel .doc-viewer-body"
+										data-document-page-selector=".web-doc-page"
+										data-document-fullscreen-target="#recommendViewerPanel" data-document-zoom="100"
+										data-document-min-zoom="50" data-document-max-zoom="200"
+										data-document-zoom-step="10">
+										<div class="document-statusbar-stats" data-slot="stats">
+											<span class="document-statusbar-stat">관련자료 <strong
+													id="recommendResultCount">14</strong>건</span>
+											<span class="document-statusbar-separator" aria-hidden="true">|</span>
+											<span class="document-statusbar-stat">글자 수 <strong
+													data-document-character-count>0</strong>자</span>
+											<span class="document-statusbar-separator" aria-hidden="true">|</span>
+											<span class="document-statusbar-stat">페이지 <strong
+													data-document-page-current>1</strong>/<strong
+													data-document-page-total>1</strong></span>
+										</div>
+										<div class="document-statusbar-controls" aria-label="문서 확대 축소 및 전체보기">
+											<button type="button"
+												class="icon-button icon-button-sm document-statusbar-button"
+												data-document-statusbar-action="zoom-out" aria-label="문서 축소"
+												title="문서 축소">−</button>
+											<strong class="document-statusbar-zoom"
+												data-document-statusbar-zoom-value>100%</strong>
+											<button type="button"
+												class="icon-button icon-button-sm document-statusbar-button"
+												data-document-statusbar-action="zoom-in" aria-label="문서 확대"
+												title="문서 확대">＋</button>
+											<button type="button"
+												class="icon-button icon-button-sm document-statusbar-button document-statusbar-fullscreen-button"
+												data-document-statusbar-action="fullscreen" aria-label="문서 전체보기"
+												title="문서 전체보기" aria-pressed="false">
+												<img class="icon icon-small document-statusbar-expand-icon"
+													src="../assets/icons/fullscreen-expand.svg" alt=""
+													aria-hidden="true" />
+												<img class="icon icon-small document-statusbar-shrink-icon"
+													src="../assets/icons/fullscreen-shrink.svg" alt=""
+													aria-hidden="true" />
+											</button>
+										</div>
+									</footer>
+								</div>
+								<!--------------------------------------- //End: 페이지 줌, 글자 수 확인 바 -------------------------------------->
 							</div>
+						</div>
 					</section>
 					<!-----------------------//End: 관련자료,답변서 초안 생성 영역 -------------------------->
 					<div class="panel-resize-handle" data-resize="1" role="separator" aria-label="오른쪽 패널 크기 조절"
 						aria-orientation="vertical" tabindex="0"></div>
 					<!-----------------------Start: AI채팅 영역----------------------->
 					<section class="panel panel-right" data-slot="right" data-panel="chat">
-							<div class="panel-head">
-								<h2 class="panel-title"><svg viewBox="0 0 24 24" aria-hidden="true">
-										<path d="M21 15a2 2 0 0 1-2 2H8l-5 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
-										<path d="M8 10h.01M12 10h.01M16 10h.01" />
-									</svg>AI 채팅</h2>
+						<div class="panel-head">
+							<h2 class="panel-title"><svg viewBox="0 0 24 24" aria-hidden="true">
+									<path d="M21 15a2 2 0 0 1-2 2H8l-5 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
+									<path d="M8 10h.01M12 10h.01M16 10h.01" />
+								</svg>AI 채팅</h2>
 
+						</div>
+						<div class="chat-messages" id="chatMessages" data-chat-message-list data-variant="answer">
+							<div class="chat-msg ai" data-component="chat-message" data-variant="answer" data-role="ai"
+								data-status="complete" data-message-actions="none">
+								<span class="chat-ai-avatar" aria-hidden="true"><svg viewBox="0 0 24 24">
+										<path
+											d="M12 2.8l1.45 3.75L17.2 8l-3.75 1.45L12 13.2l-1.45-3.75L6.8 8l3.75-1.45L12 2.8z">
+										</path>
+										<path
+											d="M18.4 12.3l.78 2.02 2.02.78-2.02.78-.78 2.02-.78-2.02-2.02-.78 2.02-.78.78-2.02z">
+										</path>
+										<path
+											d="M6 14.1l.92 2.18 2.18.92-2.18.92L6 20.3l-.92-2.18-2.18-.92 2.18-.92L6 14.1z">
+										</path>
+									</svg></span>
+								<div class="msg-text">국회 질의를 입력해 보세요!
+									AI가 지능형 검색을 통해 관련자료를 추천하고 국회 답변서 초안 생성을 시작합니다.
+									① 좌측 AI 참조소스에서 지능형 AI 검색으로 관련자료를 찾아 추가하고
+									② 이 채팅에 국회질의를 입력하시면
+									선택한 자료와 과거 유사답변서를 기반으로 초안을 생성합니다.</div><span class="msg-time">11:41</span>
 							</div>
-							<div class="chat-messages" id="chatMessages" data-chat-message-list data-variant="answer">
-								<div class="chat-msg ai" data-component="chat-message" data-variant="answer"
-									data-role="ai" data-status="complete" data-message-actions="none">
-									<span class="chat-ai-avatar" aria-hidden="true"><svg viewBox="0 0 24 24">
-											<path
-												d="M12 2.8l1.45 3.75L17.2 8l-3.75 1.45L12 13.2l-1.45-3.75L6.8 8l3.75-1.45L12 2.8z">
-											</path>
-											<path
-												d="M18.4 12.3l.78 2.02 2.02.78-2.02.78-.78 2.02-.78-2.02-2.02-.78 2.02-.78.78-2.02z">
-											</path>
-											<path
-												d="M6 14.1l.92 2.18 2.18.92-2.18.92L6 20.3l-.92-2.18-2.18-.92 2.18-.92L6 14.1z">
-											</path>
-										</svg></span>
-									<div class="msg-text">국회 질의를 입력해 보세요!
-										AI가 지능형 검색을 통해 관련자료를 추천하고 국회 답변서 초안 생성을 시작합니다.
-										① 좌측 AI 참조소스에서 지능형 AI 검색으로 관련자료를 찾아 추가하고
-										② 이 채팅에 국회질의를 입력하시면
-										선택한 자료와 과거 유사답변서를 기반으로 초안을 생성합니다.</div><span class="msg-time">11:41</span>
-								</div>
-								<div class="chat-msg user" data-component="chat-message" data-variant="answer"
-									data-role="user" data-status="complete">
-									<div class="msg-text">지방교부세가 지급되고 있고 지방채 인수시 지자체 채무는 증가함에도 추경을 편성해야 하는 이유는?</div>
-									<span class="msg-time">11:42</span>
-								</div>
-								<div class="chat-msg ai" data-component="chat-message" data-variant="answer"
-									data-role="ai" data-status="complete"><span class="chat-ai-avatar"
-										aria-hidden="true"><svg viewBox="0 0 24 24">
-											<path
-												d="M12 2.8l1.45 3.75L17.2 8l-3.75 1.45L12 13.2l-1.45-3.75L6.8 8l3.75-1.45L12 2.8z">
-											</path>
-											<path
-												d="M18.4 12.3l.78 2.02 2.02.78-2.02.78-.78 2.02-.78-2.02-2.02-.78 2.02-.78.78-2.02z">
-											</path>
-											<path
-												d="M6 14.1l.92 2.18 2.18.92-2.18.92L6 20.3l-.92-2.18-2.18-.92 2.18-.92L6 14.1z">
-											</path>
-										</svg></span>
-									<div class="msg-text">유사 과거답변서 5건을 문서 단위로 추천했습니다. (최고 유사도 38%)
-										좌측 "유사답변서 추천 목록"에서 확인·선택할 수 있습니다.</div><span class="msg-time">11:42</span>
-								</div>
-								<div class="chat-msg ai" data-component="chat-message" data-variant="answer"
-									data-role="ai" data-status="complete"><span class="chat-ai-avatar"
-										aria-hidden="true"><svg viewBox="0 0 24 24">
-											<path
-												d="M12 2.8l1.45 3.75L17.2 8l-3.75 1.45L12 13.2l-1.45-3.75L6.8 8l3.75-1.45L12 2.8z">
-											</path>
-											<path
-												d="M18.4 12.3l.78 2.02 2.02.78-2.02.78-.78 2.02-.78-2.02-2.02-.78 2.02-.78.78-2.02z">
-											</path>
-											<path
-												d="M6 14.1l.92 2.18 2.18.92-2.18.92L6 20.3l-.92-2.18-2.18-.92 2.18-.92L6 14.1z">
-											</path>
-										</svg></span>
-									<div class="msg-text">답변서 초안을 생성했습니다. 과거답변 5건, 첨부 7건을 청크 단위로 반영했습니다.
-										"답변서 초안 분석" 탭에서 편집하거나, 채팅으로 수정 지시를 내릴 수 있습니다.</div><span
-										class="msg-time">11:42</span>
-								</div>
-								<div class="chat-msg ai" data-component="chat-message" data-variant="answer"
-									data-role="ai" data-status="complete"><span class="chat-ai-avatar"
-										aria-hidden="true"><svg viewBox="0 0 24 24">
-											<path
-												d="M12 2.8l1.45 3.75L17.2 8l-3.75 1.45L12 13.2l-1.45-3.75L6.8 8l3.75-1.45L12 2.8z">
-											</path>
-											<path
-												d="M18.4 12.3l.78 2.02 2.02.78-2.02.78-.78 2.02-.78-2.02-2.02-.78 2.02-.78.78-2.02z">
-											</path>
-											<path
-												d="M6 14.1l.92 2.18 2.18.92-2.18.92L6 20.3l-.92-2.18-2.18-.92 2.18-.92L6 14.1z">
-											</path>
-										</svg></span>
-									<div class="msg-text">답변서 초안 작성을 시작합니다. 지방채 인수 및 추경 관련 참조자료 7건을 분석 완료했습니다.
-
-										📌 분석 결과 요약:
-										• 최고 유사도: 95% (지방채 인수 추경 편성 사유 답변)
-										• 인용 가능 문단: 5개
-										• 수치 업데이트 필요: 1건 (금리 최신 고시)</div><span class="msg-time">10:45</span>
-								</div>
-								<div class="chat-msg user" data-component="chat-message" data-variant="answer"
-									data-role="user" data-status="complete">
-									<div class="msg-text">공자기금 지방채 인수 제도 개요와 추경 편성 배경을 중심으로 답변서 초안을 작성해줘.</div><span
-										class="msg-time">10:50</span>
-								</div>
-								<div class="chat-msg ai" data-component="chat-message" data-variant="answer"
-									data-role="ai" data-status="complete"><span class="chat-ai-avatar"
-										aria-hidden="true"><svg viewBox="0 0 24 24">
-											<path
-												d="M12 2.8l1.45 3.75L17.2 8l-3.75 1.45L12 13.2l-1.45-3.75L6.8 8l3.75-1.45L12 2.8z">
-											</path>
-											<path
-												d="M18.4 12.3l.78 2.02 2.02.78-2.02.78-.78 2.02-.78-2.02-2.02-.78 2.02-.78.78-2.02z">
-											</path>
-											<path
-												d="M6 14.1l.92 2.18 2.18.92-2.18.92L6 20.3l-.92-2.18-2.18-.92 2.18-.92L6 14.1z">
-											</path>
-										</svg></span>
-									<div class="msg-text">참조자료를 기반으로 초안을 작성했습니다.
-
-										✅ 반영 내용:
-										• 답변 요약: 특정 자본적 지출 사업 수행을 위해 공자기금이 지방채를 장기 저리로 인수
-										• 제도 개요 표: 지원대상/사업/조건/절차
-										• 인수금리: 공자기금 예탁금리와 동일(분기별 고정), '26.2분기 3.435%
-										• 인수기간: 5년 거치 10년 분할 상환
-
-										⚠️ 확인 필요: 금리는 답변 시점 기준 최신 고시 확인 필요</div><span class="msg-time">10:55</span>
-								</div>
-								<div class="chat-msg user" data-component="chat-message" data-variant="answer"
-									data-role="user" data-status="complete">
-									<div class="msg-text">광주·전남 통합특별시 관련 추경 사례도 추가해줘. 지자체별 수요도 포함해서.</div><span
-										class="msg-time">11:00</span>
-								</div>
-								<div class="chat-msg ai" data-component="chat-message" data-variant="answer"
-									data-role="ai" data-status="complete"><span class="chat-ai-avatar"
-										aria-hidden="true"><svg viewBox="0 0 24 24">
-											<path
-												d="M12 2.8l1.45 3.75L17.2 8l-3.75 1.45L12 13.2l-1.45-3.75L6.8 8l3.75-1.45L12 2.8z">
-											</path>
-											<path
-												d="M18.4 12.3l.78 2.02 2.02.78-2.02.78-.78 2.02-.78-2.02-2.02-.78 2.02-.78.78-2.02z">
-											</path>
-											<path
-												d="M6 14.1l.92 2.18 2.18.92-2.18.92L6 20.3l-.92-2.18-2.18-.92 2.18-.92L6 14.1z">
-											</path>
-										</svg></span>
-									<div class="msg-text">추경 편성 사례를 추가했습니다.
-
-										• 광주·전남 통합특별시 출범(2026.7.1. 예정)
-										• 지방채 인수 수요: 약 1,000억 원 규모
-										• 전남: 통합전산망 구축 등 총 700억 원
-										• 광주: 재난관리기금 및 재해구호기금 조성 등 총 195억 원
-										• '26년 본예산 1,000억 → 추경안 2,000억</div><span class="msg-time">11:03</span>
-								</div>
+							<div class="chat-msg user" data-component="chat-message" data-variant="answer"
+								data-role="user" data-status="complete">
+								<div class="msg-text">지방교부세가 지급되고 있고 지방채 인수시 지자체 채무는 증가함에도 추경을 편성해야 하는 이유는?</div>
+								<span class="msg-time">11:42</span>
 							</div>
-							<div class="chat-input-area">
-								<div class="chat-tags" data-chip-target="#chatInput" data-chip-suffix=": ">
-									<span class="chat-tags-label">추천 프롬프트</span>
-									<button type="button" class="chat-tag">요약</button>
-									<button type="button" class="chat-tag">항목 정리</button>
-									<button type="button" class="chat-tag">문단 다듬기</button>
-									<button type="button" class="chat-tag">표로 정리</button>
-									<button type="button" class="chat-tag">관계 찾기</button>
-									<button type="button" class="chat-tag">국회질답 재검색해줘</button>
-									<button type="button" class="chat-tag">유사사례 더 찾아줘</button>
-								</div>
-								<div class="chat-input-row">
-									<input type="text" class="chat-input" id="chatInput"
-										placeholder="국회질의를 입력해 주세요..." />
-									<button class="chat-send" id="chatSendBtn" aria-label="전송" disabled><svg
-											viewBox="0 0 24 24" width="16" height="16">
-											<line x1="12" y1="19" x2="12" y2="5" />
-											<polyline points="5 12 12 5 19 12" />
-										</svg></button>
-								</div>
+							<div class="chat-msg ai" data-component="chat-message" data-variant="answer" data-role="ai"
+								data-status="complete"><span class="chat-ai-avatar" aria-hidden="true"><svg
+										viewBox="0 0 24 24">
+										<path
+											d="M12 2.8l1.45 3.75L17.2 8l-3.75 1.45L12 13.2l-1.45-3.75L6.8 8l3.75-1.45L12 2.8z">
+										</path>
+										<path
+											d="M18.4 12.3l.78 2.02 2.02.78-2.02.78-.78 2.02-.78-2.02-2.02-.78 2.02-.78.78-2.02z">
+										</path>
+										<path
+											d="M6 14.1l.92 2.18 2.18.92-2.18.92L6 20.3l-.92-2.18-2.18-.92 2.18-.92L6 14.1z">
+										</path>
+									</svg></span>
+								<div class="msg-text">유사 과거답변서 5건을 문서 단위로 추천했습니다. (최고 유사도 38%)
+									좌측 "유사답변서 추천 목록"에서 확인·선택할 수 있습니다.</div><span class="msg-time">11:42</span>
 							</div>
+							<div class="chat-msg ai" data-component="chat-message" data-variant="answer" data-role="ai"
+								data-status="complete"><span class="chat-ai-avatar" aria-hidden="true"><svg
+										viewBox="0 0 24 24">
+										<path
+											d="M12 2.8l1.45 3.75L17.2 8l-3.75 1.45L12 13.2l-1.45-3.75L6.8 8l3.75-1.45L12 2.8z">
+										</path>
+										<path
+											d="M18.4 12.3l.78 2.02 2.02.78-2.02.78-.78 2.02-.78-2.02-2.02-.78 2.02-.78.78-2.02z">
+										</path>
+										<path
+											d="M6 14.1l.92 2.18 2.18.92-2.18.92L6 20.3l-.92-2.18-2.18-.92 2.18-.92L6 14.1z">
+										</path>
+									</svg></span>
+								<div class="msg-text">답변서 초안을 생성했습니다. 과거답변 5건, 첨부 7건을 청크 단위로 반영했습니다.
+									"답변서 초안 분석" 탭에서 편집하거나, 채팅으로 수정 지시를 내릴 수 있습니다.</div><span
+									class="msg-time">11:42</span>
+							</div>
+							<div class="chat-msg ai" data-component="chat-message" data-variant="answer" data-role="ai"
+								data-status="complete"><span class="chat-ai-avatar" aria-hidden="true"><svg
+										viewBox="0 0 24 24">
+										<path
+											d="M12 2.8l1.45 3.75L17.2 8l-3.75 1.45L12 13.2l-1.45-3.75L6.8 8l3.75-1.45L12 2.8z">
+										</path>
+										<path
+											d="M18.4 12.3l.78 2.02 2.02.78-2.02.78-.78 2.02-.78-2.02-2.02-.78 2.02-.78.78-2.02z">
+										</path>
+										<path
+											d="M6 14.1l.92 2.18 2.18.92-2.18.92L6 20.3l-.92-2.18-2.18-.92 2.18-.92L6 14.1z">
+										</path>
+									</svg></span>
+								<div class="msg-text">답변서 초안 작성을 시작합니다. 지방채 인수 및 추경 관련 참조자료 7건을 분석 완료했습니다.
+
+									📌 분석 결과 요약:
+									• 최고 유사도: 95% (지방채 인수 추경 편성 사유 답변)
+									• 인용 가능 문단: 5개
+									• 수치 업데이트 필요: 1건 (금리 최신 고시)</div><span class="msg-time">10:45</span>
+							</div>
+							<div class="chat-msg user" data-component="chat-message" data-variant="answer"
+								data-role="user" data-status="complete">
+								<div class="msg-text">공자기금 지방채 인수 제도 개요와 추경 편성 배경을 중심으로 답변서 초안을 작성해줘.</div><span
+									class="msg-time">10:50</span>
+							</div>
+							<div class="chat-msg ai" data-component="chat-message" data-variant="answer" data-role="ai"
+								data-status="complete"><span class="chat-ai-avatar" aria-hidden="true"><svg
+										viewBox="0 0 24 24">
+										<path
+											d="M12 2.8l1.45 3.75L17.2 8l-3.75 1.45L12 13.2l-1.45-3.75L6.8 8l3.75-1.45L12 2.8z">
+										</path>
+										<path
+											d="M18.4 12.3l.78 2.02 2.02.78-2.02.78-.78 2.02-.78-2.02-2.02-.78 2.02-.78.78-2.02z">
+										</path>
+										<path
+											d="M6 14.1l.92 2.18 2.18.92-2.18.92L6 20.3l-.92-2.18-2.18-.92 2.18-.92L6 14.1z">
+										</path>
+									</svg></span>
+								<div class="msg-text">참조자료를 기반으로 초안을 작성했습니다.
+
+									✅ 반영 내용:
+									• 답변 요약: 특정 자본적 지출 사업 수행을 위해 공자기금이 지방채를 장기 저리로 인수
+									• 제도 개요 표: 지원대상/사업/조건/절차
+									• 인수금리: 공자기금 예탁금리와 동일(분기별 고정), '26.2분기 3.435%
+									• 인수기간: 5년 거치 10년 분할 상환
+
+									⚠️ 확인 필요: 금리는 답변 시점 기준 최신 고시 확인 필요</div><span class="msg-time">10:55</span>
+							</div>
+							<div class="chat-msg user" data-component="chat-message" data-variant="answer"
+								data-role="user" data-status="complete">
+								<div class="msg-text">광주·전남 통합특별시 관련 추경 사례도 추가해줘. 지자체별 수요도 포함해서.</div><span
+									class="msg-time">11:00</span>
+							</div>
+							<div class="chat-msg ai" data-component="chat-message" data-variant="answer" data-role="ai"
+								data-status="complete"><span class="chat-ai-avatar" aria-hidden="true"><svg
+										viewBox="0 0 24 24">
+										<path
+											d="M12 2.8l1.45 3.75L17.2 8l-3.75 1.45L12 13.2l-1.45-3.75L6.8 8l3.75-1.45L12 2.8z">
+										</path>
+										<path
+											d="M18.4 12.3l.78 2.02 2.02.78-2.02.78-.78 2.02-.78-2.02-2.02-.78 2.02-.78.78-2.02z">
+										</path>
+										<path
+											d="M6 14.1l.92 2.18 2.18.92-2.18.92L6 20.3l-.92-2.18-2.18-.92 2.18-.92L6 14.1z">
+										</path>
+									</svg></span>
+								<div class="msg-text">추경 편성 사례를 추가했습니다.
+
+									• 광주·전남 통합특별시 출범(2026.7.1. 예정)
+									• 지방채 인수 수요: 약 1,000억 원 규모
+									• 전남: 통합전산망 구축 등 총 700억 원
+									• 광주: 재난관리기금 및 재해구호기금 조성 등 총 195억 원
+									• '26년 본예산 1,000억 → 추경안 2,000억</div><span class="msg-time">11:03</span>
+							</div>
+						</div>
+						<div class="chat-input-area">
+							<div class="chat-tags" data-chip-target="#chatInput" data-chip-suffix=": ">
+								<span class="chat-tags-label">추천 프롬프트</span>
+								<button type="button" class="chat-tag">요약</button>
+								<button type="button" class="chat-tag">항목 정리</button>
+								<button type="button" class="chat-tag">문단 다듬기</button>
+								<button type="button" class="chat-tag">표로 정리</button>
+								<button type="button" class="chat-tag">관계 찾기</button>
+								<button type="button" class="chat-tag">국회질답 재검색해줘</button>
+								<button type="button" class="chat-tag">유사사례 더 찾아줘</button>
+							</div>
+							<div class="chat-input-row">
+								<input type="text" class="chat-input" id="chatInput" placeholder="국회질의를 입력해 주세요..." />
+								<button class="chat-send" id="chatSendBtn" aria-label="전송" disabled><svg
+										viewBox="0 0 24 24" width="16" height="16">
+										<line x1="12" y1="19" x2="12" y2="5" />
+										<polyline points="5 12 12 5 19 12" />
+									</svg></button>
+							</div>
+						</div>
 					</section>
 					<!-----------------------//End: AI채팅 영역----------------------->
 				</main>
@@ -1463,7 +1445,6 @@
 
 		<!-----------------------Start: 채팅 작업 메뉴 모달--------------------->
 		<div class="hidden modal modal-menu-backdrop" id="answerAfterChatActionModal" data-component="modal" data-modal>
-			<div class="modal-bg" data-modal-close aria-hidden="true"></div>
 			<section class="modal-contents modal-small" role="dialog" aria-modal="true" aria-label="대화 작업 메뉴">
 				<div class="modal-action-menu" role="menu">
 					<button type="button" class="modal-action-item" role="menuitem" data-sidepop-list-action="share">
@@ -2139,11 +2120,11 @@
 				<div class="verify-toolbar-left">
 					<div class="verify-checks" id="verifyModeChecks">
 						<label class="verify-check-label"><input type="checkbox"
-								class="checkbox-control checkbox-control-xs verify-check"
-								data-mode="highlight" checked /><span>문장별 하이라이트</span></label>
+								class="checkbox-control checkbox-control-xs verify-check" data-mode="highlight"
+								checked /><span>문장별 하이라이트</span></label>
 						<label class="verify-check-label"><input type="checkbox"
-								class="checkbox-control checkbox-control-xs verify-check"
-								data-mode="source" checked /><span>출처번호 보기</span></label>
+								class="checkbox-control checkbox-control-xs verify-check" data-mode="source"
+								checked /><span>출처번호 보기</span></label>
 					</div>
 					<span class="verify-legend green">녹색: 근거 확인</span>
 					<span class="verify-legend yellow">노랑: 주의</span>
@@ -3174,8 +3155,7 @@
 			<div class="dropdown-menu drawer-list-action-menu" role="menu" hidden>
 				<button type="button" class="dropdown-menu-item" data-menu-value="pin" role="menuitem"
 					aria-pressed="false">
-					<img class="icon drawer-list-action-icon" src="../assets/icons/pin.svg" alt=""
-						aria-hidden="true" />
+					<img class="icon drawer-list-action-icon" src="../assets/icons/pin.svg" alt="" aria-hidden="true" />
 					<span class="drawer-list-action-label">고정</span>
 				</button>
 				<button type="button" class="dropdown-menu-item" data-menu-value="rename" role="menuitem">
