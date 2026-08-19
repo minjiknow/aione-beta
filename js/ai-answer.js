@@ -143,6 +143,17 @@
         });
     }
 
+    // 세로 스택에서 데스크톱 레이아웃으로 전환된 접힌 소스 패널 너비 동기화
+    function syncCollapsedSourcePanelWidth(layout, panel) {
+        if (!layout || !panel?.classList.contains("panel-collapsed")) return;
+
+        window.requestAnimationFrame(() => {
+            if (window.matchMedia("(max-width: 1024px)").matches || !panel.classList.contains("panel-collapsed")) return;
+            window.AIOneSplitHandler?.setPanelToMinimum(panel);
+            window.AIOneSplitHandler?.init(layout);
+        });
+    }
+
     /* ============================ 끝: 화면 초기화와 공통 도우미 ============================== */
 
     /* ============================ 시작: 탭과 관련자료 ============================ */
@@ -835,6 +846,12 @@
 
         answerPanelInitialOrders.set(layout, getAnswerPanels(layout));
         initAnswerPanelDragDrop(layout);
+
+        const stackedLayoutQuery = window.matchMedia("(max-width: 1024px)");
+        stackedLayoutQuery.addEventListener("change", (event) => {
+            if (event.matches) return;
+            syncCollapsedSourcePanelWidth(layout, layout.querySelector(':scope > [data-panel="folder"]'));
+        });
 
         swapButton?.addEventListener("click", () => {
             expandSourcePanel();

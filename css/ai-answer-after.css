@@ -15,7 +15,7 @@
     --three-panel-right-width: 440px;
 }
 
-body[data-page="answer"] {
+body[data-page="answer-after-9"] {
     display: block;
     overflow: hidden;
 }
@@ -3812,8 +3812,8 @@ html[data-theme="dark"] .workspace-creation-loading {
     }
 
     /* Answer After Page Base */
-    html:has(> body[data-page="answer"]),
-    body[data-page="answer"] {
+    html:has(> body[data-page="answer-after-9"]),
+    body[data-page="answer-after-9"] {
         overflow: hidden;
     }
 

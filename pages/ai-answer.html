@@ -12,8 +12,8 @@
 	<link rel="stylesheet" href="../css/ai-answer.css" />
 </head>
 
-<body class="ai-answer-page answer-workspace-page" data-page="answer">
-	<div class="app answer-workspace-app">
+<body data-page="answer">
+	<div class="app">
 		<!---------------------------------------- Start: 사이드 바---------------------------------------------->
 		<aside class="sidebar app-sidebar collapsed" id="sidebar">
 			<!---------------------------------------- Start: 사이드 바 컨텐츠---------------------------------------------->
@@ -436,147 +436,146 @@
 					<!-----------------------Start: 참조 소스 업로드 영역 -------------------------->
 					<section class="panel panel-left upload-panel-area split-handler type2" data-slot="left"
 						data-panel-min="280" data-component="split-handler" data-split-min="80" data-panel="folder"
-							aria-labelledby="answerSourceTitle">
+						aria-labelledby="answerSourceTitle">
 						<!-- Start: 참조소스 패널 -->
-							<header class="panel-head">
-								<h2 class="panel-title" id="answerSourceTitle">
-									<img class="icon icon-small" data-icon="document" alt="" aria-hidden="true" />
-									AI 참조소스
-								</h2>
-								<div class="panel-actions">
-									<button type="button" class="icon-button icon-button-ghost icon-button-sm"
-										data-source-reset aria-label="참조소스 초기화" title="참조소스 초기화">
-										<img class="icon icon-small" data-icon="reset" alt="" aria-hidden="true" />
-									</button>
-									<button type="button"
-										class="icon-button icon-button-ghost icon-button-sm panel-collapse-btn"
-										data-source-collapse aria-label="참조소스 패널 접기" title="참조소스 패널 접기">
-										<img class="icon icon-small" data-icon="panel-collapse" alt=""
-											aria-hidden="true" />
-									</button>
-								</div>
-							</header>
-							<!-- Start: 파일업로드 영역 -->
-							<div class="folder-upload-section answer-source-file-section file-list-section split-handler-pane"
-								data-file-actions data-file-delete-modal="answerSourceFileDeleteModal">
-								<div class="folder-upload-head">
-									<span>파일 추가</span>
-									<span class="selected-refs-count" data-source-file-count>3</span>
-								</div>
-								<!-- 파일 업로드 박스 -->
-								<div class="answer-upload-component file-upload-area" data-component-type="type2">
-									<div class="upload-zone upload-zone-type2" data-file-upload-zone role="button"
-										tabindex="0" aria-label="답변서 참고 파일 업로드">
-										<img class="upload-zone-default-icon" src="../assets/icons/upload.svg" alt=""
-											aria-hidden="true" />
-										<span class="upload-zone-icon" data-slot="icon" aria-hidden="true">
-											<img src="../assets/icons/upload-tray.svg" alt="" />
-										</span>
-										<span class="upload-zone-smart-icon" aria-hidden="true">
-											<svg viewBox="0 0 48 48">
-												<rect x="14" y="12" width="20" height="24" rx="5" />
-												<path d="M19 19h10M19 24h10M19 29h6" />
-												<circle cx="12" cy="15" r="2.3" />
-												<circle cx="36" cy="31" r="2.3" />
-												<path d="M13.8 16.5 17 19M31 29l3.2 1.5" />
-											</svg>
-										</span>
-										<p class="upload-text"><span data-slot="title">여기에 파일을 드래그하거나<br />클릭하여
-												업로드</span></p>
-										<span class="upload-hint"><span data-slot="content">파일 → SLM 작업요청 → 청킹 (업로드마다
-												실행)</span></span>
-										<div data-slot="input">
-											<input type="file" id="answerSourceFileInput" name="answerSources" multiple
-												accept=".pdf,.hwp,.hwpx,.docx,.txt" />
-										</div>
+						<header class="panel-head">
+							<h2 class="panel-title" id="answerSourceTitle">
+								<img class="icon icon-small" data-icon="document" alt="" aria-hidden="true" />
+								AI 참조소스
+							</h2>
+							<div class="panel-actions">
+								<button type="button" class="icon-button icon-button-ghost icon-button-sm"
+									data-source-reset aria-label="참조소스 초기화" title="참조소스 초기화">
+									<img class="icon icon-small" data-icon="reset" alt="" aria-hidden="true" />
+								</button>
+								<button type="button"
+									class="icon-button icon-button-ghost icon-button-sm panel-collapse-btn"
+									data-source-collapse aria-label="참조소스 패널 접기" title="참조소스 패널 접기">
+									<img class="icon icon-small" data-icon="panel-collapse" alt="" aria-hidden="true" />
+								</button>
+							</div>
+						</header>
+						<!-- Start: 파일업로드 영역 -->
+						<div class="folder-upload-section answer-source-file-section file-list-section split-handler-pane"
+							data-file-actions data-file-delete-modal="answerSourceFileDeleteModal">
+							<div class="folder-upload-head">
+								<span>파일 추가</span>
+								<span class="selected-refs-count" data-source-file-count>3</span>
+							</div>
+							<!-- 파일 업로드 박스 -->
+							<div class="answer-upload-component file-upload-area" data-component-type="type2">
+								<div class="upload-zone upload-zone-type2" data-file-upload-zone role="button"
+									tabindex="0" aria-label="답변서 참고 파일 업로드">
+									<img class="upload-zone-default-icon" src="../assets/icons/upload.svg" alt=""
+										aria-hidden="true" />
+									<span class="upload-zone-icon" data-slot="icon" aria-hidden="true">
+										<img src="../assets/icons/upload-tray.svg" alt="" />
+									</span>
+									<span class="upload-zone-smart-icon" aria-hidden="true">
+										<svg viewBox="0 0 48 48">
+											<rect x="14" y="12" width="20" height="24" rx="5" />
+											<path d="M19 19h10M19 24h10M19 29h6" />
+											<circle cx="12" cy="15" r="2.3" />
+											<circle cx="36" cy="31" r="2.3" />
+											<path d="M13.8 16.5 17 19M31 29l3.2 1.5" />
+										</svg>
+									</span>
+									<p class="upload-text"><span data-slot="title">여기에 파일을 드래그하거나<br />클릭하여
+											업로드</span></p>
+									<span class="upload-hint"><span data-slot="content">파일 → SLM 작업요청 → 청킹 (업로드마다
+											실행)</span></span>
+									<div data-slot="input">
+										<input type="file" id="answerSourceFileInput" name="answerSources" multiple
+											accept=".pdf,.hwp,.hwpx,.docx,.txt" />
 									</div>
 								</div>
-								<!-- //파일 업로드 박스 -->
-								<button type="button" class="file-list-collapsed-add" data-source-file-add
-									aria-label="참조소스 파일 추가" title="참조소스 파일 추가">
-									<img src="../assets/icons/plus.svg" alt="" aria-hidden="true" />
-								</button>
-								<!-- Start: 업로드한 파일 리스트 사례 -->
-								<ul class="file-list simple answer-source-files upload-panel-scroll-list"
-									aria-live="polite">
-									<li class="file-item-simple">
-										<span class="file-type-dot hwp" aria-hidden="true"></span>
-										<span class="file-icon file-icon-collapsed hwp" aria-hidden="true">HWP</span>
-										<span class="file-name-simple"
-											title="260402_재경위_전체 의원 질의에 대한 답변_통합본.hwp">260402_재경위_전체 의원 질의에 대한
-											답변_통합본.hwp</span>
-										<span class="status-badge type1 blue" data-file-status="done">청킹 완료 13청크</span>
-										<button class="file-remove-simple" type="button"
-											aria-label="260402_재경위_전체 의원 질의에 대한 답변_통합본.hwp 삭제">×</button>
-									</li>
-									<li class="file-item-simple">
-										<span class="file-type-dot hwp" aria-hidden="true"></span>
-										<span class="file-icon file-icon-collapsed hwp" aria-hidden="true">HWPX</span>
-										<span class="file-name-simple" title="지방채 인수를 해야 하는 법적 의무.hwpx">지방채 인수를 해야 하는 법적
-											의무.hwpx</span>
-										<span class="status-badge type1 blue" data-file-status="done">청킹 완료 8청크</span>
-										<button class="file-remove-simple" type="button"
-											aria-label="지방채 인수를 해야 하는 법적 의무.hwpx 삭제">×</button>
-									</li>
-									<li class="file-item-simple">
-										<span class="file-type-dot hwp" aria-hidden="true"></span>
-										<span class="file-icon file-icon-collapsed hwp" aria-hidden="true">HWPX</span>
-										<span class="file-name-simple"
-											title="지방교부세가 지급되고 있고 지방채 인수시 추경 편성 이유.hwpx">지방교부세가 지급되고 있고 지방채 인수시 추경 편성
-											이유.hwpx</span>
-										<span class="status-badge type1 blue" data-file-status="done">청킹 완료 11청크</span>
-										<button class="file-remove-simple" type="button"
-											aria-label="지방교부세가 지급되고 있고 지방채 인수시 추경 편성 이유.hwpx 삭제">×</button>
-									</li>
-								</ul>
-								<!-- //End: 업로드한 파일 리스트 사례 -->
-								<div class="answer-source-empty-guide" data-source-empty-guide hidden>
-									<strong>답변서 초안 생성에 참조할 문서를 첨부해 보세요</strong>
-									<span>첨부 없이도 과거 답변서 기반으로 초안 생성이 가능합니다</span>
-								</div>
 							</div>
-							<div class="left-panel-resize-handle split-handler-handle type2" id="docSplitHandle"
-								role="separator" aria-orientation="horizontal" aria-label="원본 문서 영역 너비 조절"
-								title="원본 문서 영역 너비 조절" tabindex="0"></div>
-							<!-- Start: 선택된 관련 자료 -->
-							<div class="selected-refs split-handler-pane" id="selectedRefsSection">
-								<div class="selected-refs-head">
-									<span class="selected-refs-title">선택된 관련자료</span>
-									<span class="selected-refs-count" data-selected-reference-count>1</span>
-								</div>
-								<ul class="selected-refs-list" aria-live="polite">
-									<li>
-										<span class="ref-score">91%</span>
-										<span class="ref-name">260402_재경위_전체 의원 질의에 대한 답변_통합본</span>
-										<button type="button" class="ref-remove" data-selected-reference-remove
-											data-reference-index="0" aria-label="선택 해제">×</button>
-									</li>
-								</ul>
-								<!-- Start: 선택된 관련자료가 없을 경우 -->
-								<div class="selected-refs-guide" data-selected-references-empty hidden>
-									<p class="selected-refs-guide-title">관련자료 추천 목록에서 추가할 자료를 선택해 보세요</p>
-									<p class="selected-refs-guide-desc">선택된 자료를 기반으로 초안에 반영이 가능합니다</p>
-								</div>
-								<!-- //End: 선택된 관련자료가 없을 경우 -->
-								<div class="selected-refs-footer">
-									<span class="refs-footer-icon">✓</span>
-									<span class="refs-footer-text">초안에 반영 가능 — 선택된 소스를 근거로 답변서를 생성합니다</span>
-								</div>
+							<!-- //파일 업로드 박스 -->
+							<button type="button" class="file-list-collapsed-add" data-source-file-add
+								aria-label="참조소스 파일 추가" title="참조소스 파일 추가">
+								<img src="../assets/icons/plus.svg" alt="" aria-hidden="true" />
+							</button>
+							<!-- Start: 업로드한 파일 리스트 사례 -->
+							<ul class="file-list simple answer-source-files upload-panel-scroll-list"
+								aria-live="polite">
+								<li class="file-item-simple">
+									<span class="file-type-dot hwp" aria-hidden="true"></span>
+									<span class="file-icon file-icon-collapsed hwp" aria-hidden="true">HWP</span>
+									<span class="file-name-simple"
+										title="260402_재경위_전체 의원 질의에 대한 답변_통합본.hwp">260402_재경위_전체 의원 질의에 대한
+										답변_통합본.hwp</span>
+									<span class="status-badge type1 blue" data-file-status="done">청킹 완료 13청크</span>
+									<button class="file-remove-simple" type="button"
+										aria-label="260402_재경위_전체 의원 질의에 대한 답변_통합본.hwp 삭제">×</button>
+								</li>
+								<li class="file-item-simple">
+									<span class="file-type-dot hwp" aria-hidden="true"></span>
+									<span class="file-icon file-icon-collapsed hwp" aria-hidden="true">HWPX</span>
+									<span class="file-name-simple" title="지방채 인수를 해야 하는 법적 의무.hwpx">지방채 인수를 해야 하는 법적
+										의무.hwpx</span>
+									<span class="status-badge type1 blue" data-file-status="done">청킹 완료 8청크</span>
+									<button class="file-remove-simple" type="button"
+										aria-label="지방채 인수를 해야 하는 법적 의무.hwpx 삭제">×</button>
+								</li>
+								<li class="file-item-simple">
+									<span class="file-type-dot hwp" aria-hidden="true"></span>
+									<span class="file-icon file-icon-collapsed hwp" aria-hidden="true">HWPX</span>
+									<span class="file-name-simple" title="지방교부세가 지급되고 있고 지방채 인수시 추경 편성 이유.hwpx">지방교부세가
+										지급되고 있고 지방채 인수시 추경 편성
+										이유.hwpx</span>
+									<span class="status-badge type1 blue" data-file-status="done">청킹 완료 11청크</span>
+									<button class="file-remove-simple" type="button"
+										aria-label="지방교부세가 지급되고 있고 지방채 인수시 추경 편성 이유.hwpx 삭제">×</button>
+								</li>
+							</ul>
+							<!-- //End: 업로드한 파일 리스트 사례 -->
+							<div class="answer-source-empty-guide" data-source-empty-guide hidden>
+								<strong>답변서 초안 생성에 참조할 문서를 첨부해 보세요</strong>
+								<span>첨부 없이도 과거 답변서 기반으로 초안 생성이 가능합니다</span>
 							</div>
-							<!--//End 선택된 관련 자료 -->
+						</div>
+						<div class="left-panel-resize-handle split-handler-handle type2" id="docSplitHandle"
+							role="separator" aria-orientation="horizontal" aria-label="원본 문서 영역 너비 조절"
+							title="원본 문서 영역 너비 조절" tabindex="0"></div>
+						<!-- Start: 선택된 관련 자료 -->
+						<div class="selected-refs split-handler-pane" id="selectedRefsSection">
+							<div class="selected-refs-head">
+								<span class="selected-refs-title">선택된 관련자료</span>
+								<span class="selected-refs-count" data-selected-reference-count>1</span>
+							</div>
+							<ul class="selected-refs-list" aria-live="polite">
+								<li>
+									<span class="ref-score">91%</span>
+									<span class="ref-name">260402_재경위_전체 의원 질의에 대한 답변_통합본</span>
+									<button type="button" class="ref-remove" data-selected-reference-remove
+										data-reference-index="0" aria-label="선택 해제">×</button>
+								</li>
+							</ul>
+							<!-- Start: 선택된 관련자료가 없을 경우 -->
+							<div class="selected-refs-guide" data-selected-references-empty hidden>
+								<p class="selected-refs-guide-title">관련자료 추천 목록에서 추가할 자료를 선택해 보세요</p>
+								<p class="selected-refs-guide-desc">선택된 자료를 기반으로 초안에 반영이 가능합니다</p>
+							</div>
+							<!-- //End: 선택된 관련자료가 없을 경우 -->
+							<div class="selected-refs-footer">
+								<span class="refs-footer-icon">✓</span>
+								<span class="refs-footer-text">초안에 반영 가능 — 선택된 소스를 근거로 답변서를 생성합니다</span>
+							</div>
+						</div>
+						<!--//End 선택된 관련 자료 -->
 					</section>
 					<!-----------------------//End: 참조 소스 업로드 영역 -------------------------->
 					<div class="panel-resize-handle" data-resize="0" role="separator" aria-label="왼쪽 패널 크기 조절"
 						aria-orientation="vertical" tabindex="0"></div>
 					<!-----------------------Start: 관련자료,답변서 초안 생성 영역 -------------------------->
 					<section class="panel panel-center" data-slot="center" data-panel="center"
-							aria-labelledby="answerWorkspaceTitle">
-							<header class="center-header">
-								<h2 class="center-header-title" id="answerWorkspaceTitle">
-									<img class="icon icon-small" data-icon="document-add" alt="" aria-hidden="true" />
-									<span>관련자료 · 답변서 초안생성</span>
-								</h2>
-								<!--
+						aria-labelledby="answerWorkspaceTitle">
+						<header class="center-header">
+							<h2 class="center-header-title" id="answerWorkspaceTitle">
+								<img class="icon icon-small" data-icon="document-add" alt="" aria-hidden="true" />
+								<span>관련자료 · 답변서 초안생성</span>
+							</h2>
+							<!--
 									[문서/페이지 구조 안내 — 개발자용]
 									- center-tab 종류
 											· 관련자료 추천 (아이디: answerTabRecommend)
@@ -586,69 +585,69 @@
 											· 9월 15일 버전에서 제외되는 탭
 											- 답변서 비교 (아이디: answerTabCompare)
 								-->
-								<div class="center-tabs tab-button-list" role="tablist" aria-label="답변서 작업 단계">
-									<button type="button" class="tab-button active is-active" id="answerTabRecommend"
-										role="tab" aria-selected="true" aria-controls="answerPanelRecommend"
-										data-answer-tab="recommend">
-										관련자료 추천 <span class="tab-count">8</span>
-									</button>
-									<button type="button" class="tab-button" id="answerTabDraft" role="tab"
-										aria-selected="false" aria-controls="answerPanelDraft" data-answer-tab="draft"
-										tabindex="-1">
-										답변서 초안 <span class="tab-count">1</span>
-									</button>
-								</div>
-								<span class="answer-center-spacer" aria-hidden="true"></span>
-							</header>
+							<div class="center-tabs tab-button-list" role="tablist" aria-label="답변서 작업 단계">
+								<button type="button" class="tab-button active is-active" id="answerTabRecommend"
+									role="tab" aria-selected="true" aria-controls="answerPanelRecommend"
+									data-answer-tab="recommend">
+									관련자료 추천 <span class="tab-count">8</span>
+								</button>
+								<button type="button" class="tab-button" id="answerTabDraft" role="tab"
+									aria-selected="false" aria-controls="answerPanelDraft" data-answer-tab="draft"
+									tabindex="-1">
+									답변서 초안 <span class="tab-count">1</span>
+								</button>
+							</div>
+							<span class="answer-center-spacer" aria-hidden="true"></span>
+						</header>
 
-							<!-- 관련자료,답변서 초안생성 패널 내 본문 영역 -->
-							<div class="center-body answer-center-body">
-								<!--
+						<!-- 관련자료,답변서 초안생성 패널 내 본문 영역 -->
+						<div class="center-body answer-center-body">
+							<!--
 									[문서/페이지 구조 안내 — 개발자용]
 									- recommend-view-wrapper: 관련자료 추천 패널
 									- draft-view-wrapper: 답변서 초안 패널
 								-->
 
-								<!----------------------------- Start: 관련자료추천 탭 내용 -------------------------------------- -->
-								<section class="answer-tab-panel recommend-view-wrapper doc-viewer-panel"
-									id="answerPanelRecommend" role="tabpanel" aria-labelledby="answerTabRecommend"
-									data-answer-panel="recommend">
-									<!--------------- Start: 관련자료 추천이 없을 경우 ----------------->
-									<div class="answer-recommend-empty" data-answer-recommend-empty hidden>
-										<img src="../assets/icons/search.svg" alt="" aria-hidden="true" />
-										<strong>검색된 추천 자료가 없습니다</strong>
-										<span>우측 AI 채팅에 질의 내용이나 검색 키워드를 입력해 보세요<br />AI가 관련 유사답변서와 참고자료를 추천합니다</span>
-									</div>
-									<!--------------- //End:관련자료 추천이 없을 경우 ----------------->
-									<div class="center-split split-handler" data-component="split-handler"
-										data-answer-recommend-results data-split-min="240">
-										<div class="center-left split-handler-left">
-											<div class="center-sub-head">
-												<span class="sub-title">관련자료 목록</span>
-												<label class="rec-select-all">
-													<input class="checkbox-control checkbox-control-sm" type="checkbox"
-														data-select-all-references />
-													<span>전체선택</span>
-												</label>
-												<span class="sub-badge">유사도순</span>
-											</div>
-											<!----------------- Start: 관련자료 필터 바 모음 --------------- -->
-											<div class="filter-bar answer-reference-filters" role="toolbar"
-												aria-label="관련자료 필터">
-												<button type="button" class="filter-btn active"
-													data-reference-filter="all" aria-pressed="true">전체
-													<span>8</span></button>
-												<button type="button" class="filter-btn" data-reference-filter="similar"
-													aria-pressed="false">유사답변서 <span>8</span></button>
-												<button type="button" class="filter-btn"
-													data-reference-filter="reference" aria-pressed="false">참조소스
-													<span>0</span></button>
-											</div>
-											<!----------------- //End: 관련자료 필터 바 모음 --------------- -->
+							<!----------------------------- Start: 관련자료추천 탭 내용 -------------------------------------- -->
+							<section class="answer-tab-panel recommend-view-wrapper doc-viewer-panel"
+								id="answerPanelRecommend" role="tabpanel" aria-labelledby="answerTabRecommend"
+								data-answer-panel="recommend">
+								<!--------------- Start: 관련자료 추천이 없을 경우 ----------------->
+								<div class="answer-recommend-empty" data-answer-recommend-empty hidden>
+									<img src="../assets/icons/search.svg" alt="" aria-hidden="true" />
+									<strong>검색된 추천 자료가 없습니다</strong>
+									<span>우측 AI 채팅에 질의 내용이나 검색 키워드를 입력해 보세요<br />AI가 관련 유사답변서와 참고자료를 추천합니다</span>
+								</div>
+								<!--------------- //End:관련자료 추천이 없을 경우 ----------------->
+								<div class="center-split split-handler" data-component="split-handler"
+									data-answer-recommend-results data-split-min="240">
+									<div class="center-left split-handler-left">
+										<div class="center-sub-head">
+											<span class="sub-title">관련자료 목록</span>
+											<label class="rec-select-all">
+												<input class="checkbox-control checkbox-control-sm" type="checkbox"
+													data-select-all-references />
+												<span>전체선택</span>
+											</label>
+											<span class="sub-badge">유사도순</span>
+										</div>
+										<!----------------- Start: 관련자료 필터 바 모음 --------------- -->
+										<div class="filter-bar answer-reference-filters" role="toolbar"
+											aria-label="관련자료 필터">
+											<button type="button" class="filter-btn active" data-reference-filter="all"
+												aria-pressed="true">전체
+												<span>8</span></button>
+											<button type="button" class="filter-btn" data-reference-filter="similar"
+												aria-pressed="false">유사답변서 <span>8</span></button>
+											<button type="button" class="filter-btn" data-reference-filter="reference"
+												aria-pressed="false">참조소스
+												<span>0</span></button>
+										</div>
+										<!----------------- //End: 관련자료 필터 바 모음 --------------- -->
 
-											<!---------- Start: 관련자료 목록 카드 리스트 ------------------>
-											<div class="recommend-list" data-recommend-list>
-												<!--
+										<!---------- Start: 관련자료 목록 카드 리스트 ------------------>
+										<div class="recommend-list" data-recommend-list>
+											<!--
 													[문서/페이지 구조 안내 — 개발자용]
 													- 관련자료 카드(rec-card)
 															· rec-card-head:체크박스, 제목, 유사도 점수
@@ -657,138 +656,135 @@
 															·  rec-desc: 자료 요약
 															·  rec-tag: 자료 태그
 												-->
-												<article class="rec-card active" data-reference-card
-													data-category="similar" data-score="91"
-													data-title="재경위 전체 의원 질의에 대한 답변 통합본">
-													<div class="rec-card-head">
-														<label class="rec-checkbox"><input
-																class="checkbox-control checkbox-control-sm"
-																type="checkbox" aria-label="관련자료 선택" checked /></label>
-														<strong class="rec-title">260402_재경위_전체 의원 질의에 대한
-															답변_통합본</strong>
-														<span class="rec-score">91%</span>
-													</div>
-													<span class="rec-top-badge rec-top-badge--first">TOP 1</span>
-													<p class="rec-meta">과거답변서 · 2026년 · 기획재정위원회</p>
-													<p class="rec-desc">공자기금 지방채 인수 제도 개요, 추경 편성 배경, 지원조건 등을 포함.</p>
-													<div class="rec-tags">
-														<span class="rec-tag">과거답변서</span>
-														<span class="rec-tag">지방채인수</span>
-													</div>
-												</article>
-												<article class="rec-card" data-reference-card data-category="similar"
-													data-score="88" data-title="지방채 인수를 해야 하는 법적 의무">
-													<div class="rec-card-head">
-														<label class="rec-checkbox"><input
-																class="checkbox-control checkbox-control-sm"
-																type="checkbox" aria-label="관련자료 선택" /></label>
-														<strong class="rec-title">지방채 인수를 해야 하는 법적 의무</strong>
-														<span class="rec-score">88%</span>
-													</div>
-													<span class="rec-top-badge">TOP 2</span>
-													<p class="rec-meta">참고문서 · 법령근거 · 재정정책국</p>
-													<p class="rec-desc">지방재정법 시행령과 공공자금관리기금법 시행령의 법적 근거 정리.</p>
-													<div class="rec-tags">
-														<span class="rec-tag">법령근거</span><span
-															class="rec-tag">공자기금</span>
-													</div>
-												</article>
-												<article class="rec-card" data-reference-card data-category="similar"
-													data-score="95" data-title="지방교부세와 지방채 인수 추경 편성 이유">
-													<div class="rec-card-head">
-														<label class="rec-checkbox"><input
-																class="checkbox-control checkbox-control-sm"
-																type="checkbox" aria-label="관련자료 선택" /></label>
-														<strong class="rec-title">지방교부세가 지급되고 있고 지방채 인수시 추경을 편성해야 하는
-															이유</strong>
-														<span class="rec-score">95%</span>
-													</div>
-													<span class="rec-top-badge">TOP 3</span>
-													<p class="rec-meta">원본질의 · 2026년 · 기획재정위원회</p>
-													<p class="rec-desc">공자기금 제도 개요, 추경 배경, 광주·전남 사례를 포함한 직접 답변 자료.</p>
-													<div class="rec-tags"><span class="rec-tag">원본답변</span><span
-															class="rec-tag">추경편성</span></div>
-												</article>
-												<article class="rec-card" data-reference-card data-category="similar"
-													data-score="76" data-title="TK통합법 관련 지방채 인수 추경안 견해">
-													<div class="rec-card-head">
-														<label class="rec-checkbox"><input
-																class="checkbox-control checkbox-control-sm"
-																type="checkbox" aria-label="관련자료 선택" /></label>
-														<strong class="rec-title">민주당 반대로 무산된 TK통합법 관련 지방채 인수 추경안
-															견해</strong>
-														<span class="rec-score">76%</span>
-													</div>
-													<p class="rec-meta">참고답변 · 2026년 · 기획재정위원회</p>
-													<p class="rec-desc">TK통합법 통과 시 추경안 포함 가능성에 대한 정부 견해.</p>
-												</article>
-												<article class="rec-card" data-reference-card data-category="similar"
-													data-score="95" data-title="지방채 인수 예산 현황표">
-													<div class="rec-card-head">
-														<label class="rec-checkbox"><input
-																class="checkbox-control checkbox-control-sm"
-																type="checkbox" aria-label="관련자료 선택" /></label>
-														<strong class="rec-title">지방채 인수 예산 현황표 ('16~'26)</strong>
-														<span class="rec-score">95%</span>
-													</div>
-													<span class="rec-top-badge rec-top-badge--first">TOP 1</span>
-													<p class="rec-meta">참고자료 · 첨부용 · 재정정책국</p>
-													<p class="rec-desc">연도별 지방채 인수 계획·실적·인수잔액 현황.</p>
-												</article>
-												<article class="rec-card" data-reference-card data-category="similar"
-													data-score="92" data-title="광주·전남 통합 관련 추경 수요 상세">
-													<div class="rec-card-head">
-														<label class="rec-checkbox"><input
-																class="checkbox-control checkbox-control-sm"
-																type="checkbox" aria-label="관련자료 선택" /></label>
-														<strong class="rec-title">광주·전남 통합 관련 추경 수요 상세</strong>
-														<span class="rec-score">92%</span>
-													</div>
-													<span class="rec-top-badge">TOP 2</span>
-													<p class="rec-meta">참고자료 · 근거자료 · 지역발전정책국</p>
-													<p class="rec-desc">통합특별시 설치 관련 추경 규모와 지자체별 세부 수요.</p>
-												</article>
-												<article class="rec-card" data-reference-card data-category="similar"
-													data-score="84" data-title="세수추계 및 세입경정 운용 자료">
-													<div class="rec-card-head">
-														<label class="rec-checkbox"><input
-																class="checkbox-control checkbox-control-sm"
-																type="checkbox" aria-label="관련자료 선택" /></label>
-														<strong class="rec-title">세수추계 및 세입경정 운용 자료</strong>
-														<span class="rec-score">84%</span>
-													</div>
-													<span class="rec-top-badge">TOP 3</span>
-													<p class="rec-meta">참고자료 · 분석자료 · 세제실</p>
-													<p class="rec-desc">초과세수 기반 추경 편성과 세목별 규모 검증 결과.</p>
-												</article>
-												<article class="rec-card" data-reference-card data-category="similar"
-													data-score="72" data-title="세수추계 오차 분석 및 개선 방안">
-													<div class="rec-card-head">
-														<label class="rec-checkbox"><input
-																class="checkbox-control checkbox-control-sm"
-																type="checkbox" aria-label="관련자료 선택" /></label>
-														<strong class="rec-title">세수추계 오차 분석 및 개선 방안</strong>
-														<span class="rec-score">72%</span>
-													</div>
-													<p class="rec-meta">참고자료 · 분석보고서 · 세제실</p>
-													<p class="rec-desc">과거 세수추계 오차 원인과 개선 방향을 정리한 분석자료.</p>
-												</article>
-											</div>
-											<!---------- //End: 관련자료 목록 카드 리스트 ------------------>
-											<div class="rec-apply-bar">
-												<button type="button" class="btn-outline" data-apply-references>선택 자료
-													초안에 반영</button>
-											</div>
+											<article class="rec-card active" data-reference-card data-category="similar"
+												data-score="91" data-title="재경위 전체 의원 질의에 대한 답변 통합본">
+												<div class="rec-card-head">
+													<label class="rec-checkbox"><input
+															class="checkbox-control checkbox-control-sm" type="checkbox"
+															aria-label="관련자료 선택" checked /></label>
+													<strong class="rec-title">260402_재경위_전체 의원 질의에 대한
+														답변_통합본</strong>
+													<span class="rec-score">91%</span>
+												</div>
+												<span class="rec-top-badge rec-top-badge--first">TOP 1</span>
+												<p class="rec-meta">과거답변서 · 2026년 · 기획재정위원회</p>
+												<p class="rec-desc">공자기금 지방채 인수 제도 개요, 추경 편성 배경, 지원조건 등을 포함.</p>
+												<div class="rec-tags">
+													<span class="rec-tag">과거답변서</span>
+													<span class="rec-tag">지방채인수</span>
+												</div>
+											</article>
+											<article class="rec-card" data-reference-card data-category="similar"
+												data-score="88" data-title="지방채 인수를 해야 하는 법적 의무">
+												<div class="rec-card-head">
+													<label class="rec-checkbox"><input
+															class="checkbox-control checkbox-control-sm" type="checkbox"
+															aria-label="관련자료 선택" /></label>
+													<strong class="rec-title">지방채 인수를 해야 하는 법적 의무</strong>
+													<span class="rec-score">88%</span>
+												</div>
+												<span class="rec-top-badge">TOP 2</span>
+												<p class="rec-meta">참고문서 · 법령근거 · 재정정책국</p>
+												<p class="rec-desc">지방재정법 시행령과 공공자금관리기금법 시행령의 법적 근거 정리.</p>
+												<div class="rec-tags">
+													<span class="rec-tag">법령근거</span><span class="rec-tag">공자기금</span>
+												</div>
+											</article>
+											<article class="rec-card" data-reference-card data-category="similar"
+												data-score="95" data-title="지방교부세와 지방채 인수 추경 편성 이유">
+												<div class="rec-card-head">
+													<label class="rec-checkbox"><input
+															class="checkbox-control checkbox-control-sm" type="checkbox"
+															aria-label="관련자료 선택" /></label>
+													<strong class="rec-title">지방교부세가 지급되고 있고 지방채 인수시 추경을 편성해야 하는
+														이유</strong>
+													<span class="rec-score">95%</span>
+												</div>
+												<span class="rec-top-badge">TOP 3</span>
+												<p class="rec-meta">원본질의 · 2026년 · 기획재정위원회</p>
+												<p class="rec-desc">공자기금 제도 개요, 추경 배경, 광주·전남 사례를 포함한 직접 답변 자료.</p>
+												<div class="rec-tags"><span class="rec-tag">원본답변</span><span
+														class="rec-tag">추경편성</span></div>
+											</article>
+											<article class="rec-card" data-reference-card data-category="similar"
+												data-score="76" data-title="TK통합법 관련 지방채 인수 추경안 견해">
+												<div class="rec-card-head">
+													<label class="rec-checkbox"><input
+															class="checkbox-control checkbox-control-sm" type="checkbox"
+															aria-label="관련자료 선택" /></label>
+													<strong class="rec-title">민주당 반대로 무산된 TK통합법 관련 지방채 인수 추경안
+														견해</strong>
+													<span class="rec-score">76%</span>
+												</div>
+												<p class="rec-meta">참고답변 · 2026년 · 기획재정위원회</p>
+												<p class="rec-desc">TK통합법 통과 시 추경안 포함 가능성에 대한 정부 견해.</p>
+											</article>
+											<article class="rec-card" data-reference-card data-category="similar"
+												data-score="95" data-title="지방채 인수 예산 현황표">
+												<div class="rec-card-head">
+													<label class="rec-checkbox"><input
+															class="checkbox-control checkbox-control-sm" type="checkbox"
+															aria-label="관련자료 선택" /></label>
+													<strong class="rec-title">지방채 인수 예산 현황표 ('16~'26)</strong>
+													<span class="rec-score">95%</span>
+												</div>
+												<span class="rec-top-badge rec-top-badge--first">TOP 1</span>
+												<p class="rec-meta">참고자료 · 첨부용 · 재정정책국</p>
+												<p class="rec-desc">연도별 지방채 인수 계획·실적·인수잔액 현황.</p>
+											</article>
+											<article class="rec-card" data-reference-card data-category="similar"
+												data-score="92" data-title="광주·전남 통합 관련 추경 수요 상세">
+												<div class="rec-card-head">
+													<label class="rec-checkbox"><input
+															class="checkbox-control checkbox-control-sm" type="checkbox"
+															aria-label="관련자료 선택" /></label>
+													<strong class="rec-title">광주·전남 통합 관련 추경 수요 상세</strong>
+													<span class="rec-score">92%</span>
+												</div>
+												<span class="rec-top-badge">TOP 2</span>
+												<p class="rec-meta">참고자료 · 근거자료 · 지역발전정책국</p>
+												<p class="rec-desc">통합특별시 설치 관련 추경 규모와 지자체별 세부 수요.</p>
+											</article>
+											<article class="rec-card" data-reference-card data-category="similar"
+												data-score="84" data-title="세수추계 및 세입경정 운용 자료">
+												<div class="rec-card-head">
+													<label class="rec-checkbox"><input
+															class="checkbox-control checkbox-control-sm" type="checkbox"
+															aria-label="관련자료 선택" /></label>
+													<strong class="rec-title">세수추계 및 세입경정 운용 자료</strong>
+													<span class="rec-score">84%</span>
+												</div>
+												<span class="rec-top-badge">TOP 3</span>
+												<p class="rec-meta">참고자료 · 분석자료 · 세제실</p>
+												<p class="rec-desc">초과세수 기반 추경 편성과 세목별 규모 검증 결과.</p>
+											</article>
+											<article class="rec-card" data-reference-card data-category="similar"
+												data-score="72" data-title="세수추계 오차 분석 및 개선 방안">
+												<div class="rec-card-head">
+													<label class="rec-checkbox"><input
+															class="checkbox-control checkbox-control-sm" type="checkbox"
+															aria-label="관련자료 선택" /></label>
+													<strong class="rec-title">세수추계 오차 분석 및 개선 방안</strong>
+													<span class="rec-score">72%</span>
+												</div>
+												<p class="rec-meta">참고자료 · 분석보고서 · 세제실</p>
+												<p class="rec-desc">과거 세수추계 오차 원인과 개선 방향을 정리한 분석자료.</p>
+											</article>
 										</div>
+										<!---------- //End: 관련자료 목록 카드 리스트 ------------------>
+										<div class="rec-apply-bar">
+											<button type="button" class="btn-outline" data-apply-references>선택 자료
+												초안에 반영</button>
+										</div>
+									</div>
 
 
-										<div class="center-split-handle split-handler-handle" role="separator"
-											aria-label="관련자료 목록과 문서 미리보기 너비 조절" aria-orientation="vertical"
-											tabindex="0">
-										</div>
-										<!-------------------------------------- Start: 문서 미리보기 영역 --------------------------------------->
-										<div class="center-right split-handler-right">
-											<!--
+									<div class="center-split-handle split-handler-handle" role="separator"
+										aria-label="관련자료 목록과 문서 미리보기 너비 조절" aria-orientation="vertical" tabindex="0">
+									</div>
+									<!-------------------------------------- Start: 문서 미리보기 영역 --------------------------------------->
+									<div class="center-right split-handler-right">
+										<!--
 												[문서/페이지 구조 안내 — 개발자용]
 												- center-sub-head: 문서 미리보기, 유사도 확인
 												- doc-viewer-body: 문서 원문 전체
@@ -799,487 +795,482 @@
 														· web-doc-body: 문서 본문
 														· web-doc-page-footer: 페이지 번호
 											-->
-											<div class="center-sub-head">
-												<span class="sub-title">문서 미리보기</span>
-												<span class="sub-badge blue" data-preview-score>유사도 91%</span>
-											</div>
-											<article class="preview-body doc-viewer-body">
-												<div class="doc-pages-track">
-													<section class="web-doc-page">
-														<header class="web-doc-header">
-															<span class="web-doc-org">기획재정위원회 · 2026년</span>
-															<h3 class="web-doc-title" data-preview-title>재경위 전체 의원 질의에
-																대한 답변 통합본</h3>
-														</header>
-														<div class="web-doc-meta-box">
-															<div class="web-doc-meta-item"><span
-																	class="web-doc-meta-label">문서명</span><span>260402_재경위_전체
-																	의원 질의에 대한 답변_통합본</span></div>
-															<div class="web-doc-meta-item"><span
-																	class="web-doc-meta-label">문서유형</span><span>과거답변서 ·
-																	기획재정위원회</span></div>
-															<div class="web-doc-meta-item"><span
-																	class="web-doc-meta-label">활용등급</span><span>91% 유사도
-																	· 과거답변서</span></div>
-															<div class="web-doc-meta-item"><span
-																	class="web-doc-meta-label">검토메모</span><span>공자기금 지방채
-																	인수 제도 개요와 추경 편성 배경 포함</span></div>
-														</div>
-														<div class="web-doc-body">
-															<p class="web-doc-lead">공자기금 지방채 인수 제도 개요, 추경 편성 배경과 지원조건을
-																포함한 답변 통합본입니다.</p>
-															<section class="web-doc-section">
-																<h4 class="web-doc-section-title">질의 배경</h4>
-																<p class="web-doc-section-desc">질의 배경 항목은 답변서 초안 작성에 바로
-																	활용할 수 있는 내용을 정리한 부분입니다.</p>
-																<ul class="web-doc-list">
-																	<li>재경위 소속 의원 다수가 지방채 인수 제도와 추경 편성 배경에 대해 공통 질의를 제기함
-																	</li>
-																	<li>지방교부세와 지방채의 재원 성격 차이에 대한 설명 요청이 다수 포함됨</li>
-																</ul>
-																<p class="web-doc-note">질의 배경 관련 내용은 선택된 소스의 근거를 활용합니다.
-																</p>
-															</section>
-															<section class="web-doc-section">
-																<h4 class="web-doc-section-title">활용 가능 문단</h4>
-																<p class="web-doc-section-desc">활용 가능한 핵심 문단과 검토 포인트를 함께
-																	확인할 수 있습니다.</p>
-																<ul class="web-doc-list">
-																	<li>공자기금은 지방자치단체가 발행하는 지방채를 장기 저리로 인수하여 자금을 지원함</li>
-																	<li>특정 자본적 지출 사업은 필요한 경우 추경을 통해 인수 예산을 편성함</li>
-																</ul>
-																<p class="web-doc-note">활용 가능 문단은 답변서 초안에 직접 반영할 수 있습니다.
-																</p>
-															</section>
-														</div>
-														<footer class="web-doc-page-footer">- 1 / 2 -</footer>
-													</section>
-													<section class="web-doc-page">
-														<header class="web-doc-header">
-															<h3 class="web-doc-title">재경위 전체 의원 질의에 대한 답변 통합본 · (계속)
-															</h3>
-														</header>
-														<div class="web-doc-body">
-															<section class="web-doc-section">
-																<h4 class="web-doc-section-title">제도 운영 현황</h4>
-																<ul class="web-doc-list">
-																	<li>인수금리는 공자기금 예탁금리와 동일하게 분기별 고정 적용</li>
-																	<li>인수기간은 5년 거치 10년 분할 상환 조건으로 운영</li>
-																</ul>
-															</section>
-															<section class="web-doc-section">
-																<h4 class="web-doc-section-title">초안 반영 제안</h4>
-																<ul class="web-doc-list">
-																	<li>제도 개요 표를 답변서에 직접 활용</li>
-																	<li>금리 수치는 답변 시점 최신 고시 기준 확인 필요</li>
-																</ul>
-															</section>
-														</div>
-														<footer class="web-doc-page-footer">- 2 / 2 -</footer>
-													</section>
-												</div>
-											</article>
+										<div class="center-sub-head">
+											<span class="sub-title">문서 미리보기</span>
+											<span class="sub-badge blue" data-preview-score>유사도 91%</span>
 										</div>
-										<!-------------------------------------- //End: 문서 미리보기 영역 --------------------------------------->
-									</div>
-									<!--------------------------------------- Start: 페이지 줌, 글자 수 확인 바 -------------------------------------->
-									<div data-answer-recommend-status class="document-statusbar-area">
-										<footer class="document-statusbar" data-component="document-statusbar"
-											data-document-statusbar
-											data-document-target=".recommend-view-wrapper .doc-pages-track"
-											data-document-scroll-target=".recommend-view-wrapper .doc-viewer-body"
-											data-document-page-selector=".web-doc-page"
-											data-document-fullscreen-target=".recommend-view-wrapper"
-											data-document-zoom="100" data-document-min-zoom="50"
-											data-document-max-zoom="200" data-document-zoom-step="10">
-											<div class="document-statusbar-stats" data-slot="stats">
-												<span class="document-statusbar-stat">관련자료 <strong>8</strong>건</span>
-												<span class="document-statusbar-separator" aria-hidden="true">|</span>
-												<span class="document-statusbar-stat">
-													글자 수 <strong>1,310</strong>자
-												</span>
-												<span class="document-statusbar-separator" aria-hidden="true">|</span>
-												<span class="document-statusbar-stat">
-													페이지 <strong data-document-page-current>1</strong>/<strong
-														data-document-page-total>2</strong>
-												</span>
+										<article class="preview-body doc-viewer-body">
+											<div class="doc-pages-track">
+												<section class="web-doc-page">
+													<header class="web-doc-header">
+														<span class="web-doc-org">기획재정위원회 · 2026년</span>
+														<h3 class="web-doc-title" data-preview-title>재경위 전체 의원 질의에
+															대한 답변 통합본</h3>
+													</header>
+													<div class="web-doc-meta-box">
+														<div class="web-doc-meta-item"><span
+																class="web-doc-meta-label">문서명</span><span>260402_재경위_전체
+																의원 질의에 대한 답변_통합본</span></div>
+														<div class="web-doc-meta-item"><span
+																class="web-doc-meta-label">문서유형</span><span>과거답변서 ·
+																기획재정위원회</span></div>
+														<div class="web-doc-meta-item"><span
+																class="web-doc-meta-label">활용등급</span><span>91% 유사도
+																· 과거답변서</span></div>
+														<div class="web-doc-meta-item"><span
+																class="web-doc-meta-label">검토메모</span><span>공자기금 지방채
+																인수 제도 개요와 추경 편성 배경 포함</span></div>
+													</div>
+													<div class="web-doc-body">
+														<p class="web-doc-lead">공자기금 지방채 인수 제도 개요, 추경 편성 배경과 지원조건을
+															포함한 답변 통합본입니다.</p>
+														<section class="web-doc-section">
+															<h4 class="web-doc-section-title">질의 배경</h4>
+															<p class="web-doc-section-desc">질의 배경 항목은 답변서 초안 작성에 바로
+																활용할 수 있는 내용을 정리한 부분입니다.</p>
+															<ul class="web-doc-list">
+																<li>재경위 소속 의원 다수가 지방채 인수 제도와 추경 편성 배경에 대해 공통 질의를 제기함
+																</li>
+																<li>지방교부세와 지방채의 재원 성격 차이에 대한 설명 요청이 다수 포함됨</li>
+															</ul>
+															<p class="web-doc-note">질의 배경 관련 내용은 선택된 소스의 근거를 활용합니다.
+															</p>
+														</section>
+														<section class="web-doc-section">
+															<h4 class="web-doc-section-title">활용 가능 문단</h4>
+															<p class="web-doc-section-desc">활용 가능한 핵심 문단과 검토 포인트를 함께
+																확인할 수 있습니다.</p>
+															<ul class="web-doc-list">
+																<li>공자기금은 지방자치단체가 발행하는 지방채를 장기 저리로 인수하여 자금을 지원함</li>
+																<li>특정 자본적 지출 사업은 필요한 경우 추경을 통해 인수 예산을 편성함</li>
+															</ul>
+															<p class="web-doc-note">활용 가능 문단은 답변서 초안에 직접 반영할 수 있습니다.
+															</p>
+														</section>
+													</div>
+													<footer class="web-doc-page-footer">- 1 / 2 -</footer>
+												</section>
+												<section class="web-doc-page">
+													<header class="web-doc-header">
+														<h3 class="web-doc-title">재경위 전체 의원 질의에 대한 답변 통합본 · (계속)
+														</h3>
+													</header>
+													<div class="web-doc-body">
+														<section class="web-doc-section">
+															<h4 class="web-doc-section-title">제도 운영 현황</h4>
+															<ul class="web-doc-list">
+																<li>인수금리는 공자기금 예탁금리와 동일하게 분기별 고정 적용</li>
+																<li>인수기간은 5년 거치 10년 분할 상환 조건으로 운영</li>
+															</ul>
+														</section>
+														<section class="web-doc-section">
+															<h4 class="web-doc-section-title">초안 반영 제안</h4>
+															<ul class="web-doc-list">
+																<li>제도 개요 표를 답변서에 직접 활용</li>
+																<li>금리 수치는 답변 시점 최신 고시 기준 확인 필요</li>
+															</ul>
+														</section>
+													</div>
+													<footer class="web-doc-page-footer">- 2 / 2 -</footer>
+												</section>
 											</div>
-											<!-- Start: 문서 확대 축소 및 전체보기 영역 -->
-											<div class="document-statusbar-controls" aria-label="문서 확대 축소 및 전체보기">
-												<button type="button"
-													class="icon-button icon-button-sm document-statusbar-button"
-													data-document-statusbar-action="zoom-out" aria-label="문서 축소"
-													title="문서 축소">−</button>
-												<strong class="document-statusbar-zoom"
-													data-document-statusbar-zoom-value>100%</strong>
-												<button type="button"
-													class="icon-button icon-button-sm document-statusbar-button"
-													data-document-statusbar-action="zoom-in" aria-label="문서 확대"
-													title="문서 확대">＋</button>
-												<button type="button"
-													class="icon-button icon-button-sm document-statusbar-button document-statusbar-fullscreen-button"
-													data-document-statusbar-action="fullscreen" aria-label="문서 전체보기"
-													title="문서 전체보기" aria-pressed="false">
-													<img class="icon icon-small document-statusbar-expand-icon"
-														src="../assets/icons/fullscreen-expand.svg" alt=""
-														aria-hidden="true" />
-													<img class="icon icon-small document-statusbar-shrink-icon"
-														src="../assets/icons/fullscreen-shrink.svg" alt=""
-														aria-hidden="true" />
-												</button>
-											</div>
-											<!-- //End: 문서 확대 축소 및 전체보기 영역 -->
-										</footer>
+										</article>
 									</div>
-									<!--------------------------------------- //End: 페이지 줌, 글자 수 확인 바 -------------------------------------->
-								</section>
-								<!----------------------------- //End: 관련자료추천 탭 내용 -------------------------------------- -->
-
-								<!----------------------------- Start: 답변서 초안 탭 내용 -------------------------------------- -->
-								<section class="answer-tab-panel answer-draft-panel" id="answerPanelDraft"
-									role="tabpanel" aria-labelledby="answerTabDraft" data-answer-panel="draft" hidden>
-									<!----------------------------- Start: 답변서 초안 초기화 빈 화면 -------------------------------------- -->
-									<div class="empty-state answer-draft-empty" data-answer-draft-empty role="status"
-										aria-live="polite" hidden>
-										<img class="icon answer-draft-empty-icon" data-icon="edit" alt=""
-											aria-hidden="true" />
-										<p class="empty-title">답변서 초안이 없습니다</p>
-										<p class="empty-desc">우측 AI 채팅에 질의 내용이나 검색 키워드를 입력하여 초안을 생성해 보세요</p>
-									</div>
-									<!----------------------------- //End: 답변서 초안 초기화 빈 화면 -------------------------------------- -->
-									<div class="answer-draft-versionbar" data-answer-draft-content>
-										<div class="answer-version-labels" data-answer-version-labels
-											aria-label="열린 답변서 초안 버전">
-											<span class="answer-version-chip active" data-answer-version-label="v1.0"
-												aria-current="true">
-												<button type="button" class="answer-version-open"
-													data-answer-version-open>v1.0(09:18)</button>
-												<button type="button" class="answer-version-close"
-													data-answer-version-close aria-label="v1.0(09:18) 레이블 닫기">×</button>
+									<!-------------------------------------- //End: 문서 미리보기 영역 --------------------------------------->
+								</div>
+								<!--------------------------------------- Start: 페이지 줌, 글자 수 확인 바 -------------------------------------->
+								<div data-answer-recommend-status class="document-statusbar-area">
+									<footer class="document-statusbar" data-component="document-statusbar"
+										data-document-statusbar
+										data-document-target=".recommend-view-wrapper .doc-pages-track"
+										data-document-scroll-target=".recommend-view-wrapper .doc-viewer-body"
+										data-document-page-selector=".web-doc-page"
+										data-document-fullscreen-target=".recommend-view-wrapper"
+										data-document-zoom="100" data-document-min-zoom="50"
+										data-document-max-zoom="200" data-document-zoom-step="10">
+										<div class="document-statusbar-stats" data-slot="stats">
+											<span class="document-statusbar-stat">관련자료 <strong>8</strong>건</span>
+											<span class="document-statusbar-separator" aria-hidden="true">|</span>
+											<span class="document-statusbar-stat">
+												글자 수 <strong>1,310</strong>자
+											</span>
+											<span class="document-statusbar-separator" aria-hidden="true">|</span>
+											<span class="document-statusbar-stat">
+												페이지 <strong data-document-page-current>1</strong>/<strong
+													data-document-page-total>2</strong>
 											</span>
 										</div>
-										<label class="answer-version-control">
-											<span>버전</span>
-											<select class="answer-version-select" aria-label="답변서 초안 버전">
-												<option value="v1.0">v1.0(09:18)</option>
-											</select>
-										</label>
-										<button type="button"
-											class="icon-button icon-button-ghost answer-version-download"
-											data-download-draft aria-label="답변서 초안 다운로드" title="답변서 초안 다운로드">
-											<img class="icon icon-small" data-icon="download" alt=""
-												aria-hidden="true" />
-										</button>
+										<!-- Start: 문서 확대 축소 및 전체보기 영역 -->
+										<div class="document-statusbar-controls" aria-label="문서 확대 축소 및 전체보기">
+											<button type="button"
+												class="icon-button icon-button-sm document-statusbar-button"
+												data-document-statusbar-action="zoom-out" aria-label="문서 축소"
+												title="문서 축소">−</button>
+											<strong class="document-statusbar-zoom"
+												data-document-statusbar-zoom-value>100%</strong>
+											<button type="button"
+												class="icon-button icon-button-sm document-statusbar-button"
+												data-document-statusbar-action="zoom-in" aria-label="문서 확대"
+												title="문서 확대">＋</button>
+											<button type="button"
+												class="icon-button icon-button-sm document-statusbar-button document-statusbar-fullscreen-button"
+												data-document-statusbar-action="fullscreen" aria-label="문서 전체보기"
+												title="문서 전체보기" aria-pressed="false">
+												<img class="icon icon-small document-statusbar-expand-icon"
+													src="../assets/icons/fullscreen-expand.svg" alt=""
+													aria-hidden="true" />
+												<img class="icon icon-small document-statusbar-shrink-icon"
+													src="../assets/icons/fullscreen-shrink.svg" alt=""
+													aria-hidden="true" />
+											</button>
+										</div>
+										<!-- //End: 문서 확대 축소 및 전체보기 영역 -->
+									</footer>
+								</div>
+								<!--------------------------------------- //End: 페이지 줌, 글자 수 확인 바 -------------------------------------->
+							</section>
+							<!----------------------------- //End: 관련자료추천 탭 내용 -------------------------------------- -->
+
+							<!----------------------------- Start: 답변서 초안 탭 내용 -------------------------------------- -->
+							<section class="answer-tab-panel answer-draft-panel" id="answerPanelDraft" role="tabpanel"
+								aria-labelledby="answerTabDraft" data-answer-panel="draft" hidden>
+								<!----------------------------- Start: 답변서 초안 초기화 빈 화면 -------------------------------------- -->
+								<div class="empty-state answer-draft-empty" data-answer-draft-empty role="status"
+									aria-live="polite" hidden>
+									<img class="icon answer-draft-empty-icon" data-icon="edit" alt=""
+										aria-hidden="true" />
+									<p class="empty-title">답변서 초안이 없습니다</p>
+									<p class="empty-desc">우측 AI 채팅에 질의 내용이나 검색 키워드를 입력하여 초안을 생성해 보세요</p>
+								</div>
+								<!----------------------------- //End: 답변서 초안 초기화 빈 화면 -------------------------------------- -->
+								<div class="answer-draft-versionbar" data-answer-draft-content>
+									<div class="answer-version-labels" data-answer-version-labels
+										aria-label="열린 답변서 초안 버전">
+										<span class="answer-version-chip active" data-answer-version-label="v1.0"
+											aria-current="true">
+											<button type="button" class="answer-version-open"
+												data-answer-version-open>v1.0(09:18)</button>
+											<button type="button" class="answer-version-close" data-answer-version-close
+												aria-label="v1.0(09:18) 레이블 닫기">×</button>
+										</span>
 									</div>
-									<div class="answer-draft-toolbar" data-answer-draft-content>
-										<label class="verify-check-label">
-											<input class="checkbox-control checkbox-control-xs" type="checkbox"
-												data-answer-highlight-toggle aria-controls="answerDraftDocument"
-												checked />
-											<span>문장별 하이라이트</span>
-										</label>
-										<label class="verify-check-label">
-											<input class="checkbox-control checkbox-control-xs" type="checkbox"
-												data-answer-source-toggle aria-controls="answerDraftDocument" checked />
-											<span>출처번호 보기</span>
-										</label>
-										<span class="verify-legend green">녹색: 근거 확인</span>
-										<span class="verify-legend yellow">노랑: 주의</span>
-										<span class="verify-legend red">빨강: 출처 누락</span>
-									</div>
-									<div class="answer-draft-split-area split-handler" data-component="split-handler"
-										data-answer-draft-content data-split-min="260">
-										<div class="answer-draft-main split-handler-left">
-											<h3 class="answer-draft-heading">답변서 초안 · v1.0(09:18)</h3>
-											<div class="answer-draft-scroll">
-												<article class="answer-draft-document" id="answerDraftDocument">
-													<div class="answer-question-block">
-														<strong>1</strong>
-														<h3>지방교부세가 지급되고 있고 지방채 인수시 지자체 채무는 증가함에도 추경을 편성해야 하는 이유는?</h3>
-													</div>
-													<div class="answer-summary-block">
-														<p class="answer-summary-line is-caution"
-															data-answer-evidence-refs="3,4">□ 지방자치단체의 특정 자본적 지출 사업 수행을
-															위해
-															공공자금관리기금이 지방채를 장기 저리로 인수하여 지방재정을 지원하기 때문입니다.
-															<sup class="answer-verification-badge">[주의]</sup>
-														</p>
-													</div>
-													<section>
-														<h4>□ 지방채 인수 추경 편성 배경</h4>
-														<p class="is-caution" data-answer-evidence-refs="1,2">
-															공공자금관리기금(공자기금)은 지방재정 지원을 목적으로 지방자치단체가 발행하는 지방채를 장기 저리로
-															인수하여 자금을 지원함 <sup class="answer-source-citation">1,2</sup>
-															<sup class="answer-verification-badge">[주의]</sup>
-														</p>
-														<p class="is-grounded">도로, 지하철 건설, 공공용 시설 설치 등 특정 자본적 지출 사업의 원활한
-															추진을 위해
-															추경을 통해 인수 예산을 편성함 <sup
-																class="answer-source-citation">1,3</sup>
-															<sup class="answer-verification-badge">[3]</sup>
-														</p>
-													</section>
-													<section>
-														<h4>□ 공자기금 지방채 인수 제도 개요</h4>
-														<p class="is-grounded">○ 지방채 인수의 구체적인 지원 대상 및 조건은 다음과 같음
-															<sup class="answer-source-citation">1,3</sup>
-															<sup class="answer-verification-badge">[4]</sup>
-														</p>
-														<table class="draft-table">
-															<thead>
-																<tr>
-																	<th>구분</th>
-																	<th>내용</th>
-																</tr>
-															</thead>
-															<tbody>
-																<tr>
-																	<td>지원대상</td>
-																	<td>지방자치단체(시·도)</td>
-																</tr>
-																<tr>
-																	<td>지원사업</td>
-																	<td>도로, 지하철건설, 공공용 시설의 설치, 지역개발사업 등 특정 자본적 지출 사업
-																	</td>
-																</tr>
-																<tr>
-																	<td>지원조건</td>
-																	<td>공자기금 예탁금리와 동일한 분기별 고정금리<br />5년 거치 10년 분할 상환
-																	</td>
-																</tr>
-																<tr>
-																	<td>집행절차</td>
-																	<td>행안부 발행계획 마련 및 협의 → 지자체별 계획 승인 → 지방의회 의결 후 인수 요청
-																	</td>
-																</tr>
-															</tbody>
-														</table>
-													</section>
-													<section>
-														<h4>□ 추경 편성의 구체적 사례</h4>
-														<p class="is-grounded">광주·전남 통합특별시 출범과 관련하여 통합전산망 구축, 안내표지판 설치 등
-															지방채 인수
-															수요를 반영하여 추경을 편성함 <sup>[1]</sup></p>
-													</section>
-													<section>
-														<h3>공자기금 지방채 인수 제도</h3>
-														<h4>(1) 제도 개요 및 목적</h4>
-														<p class="is-caution">지방재정 지원을 목적으로 지방자치단체가 발행하는 지방채를 장기 저리로 인수
-															<sup>[주의]</sup>
-														</p>
-														<p class="is-missing">기타 운영 사항은 최신 기금운용계획 확인 후 반영 필요 <sup>[출처
-																누락]</sup>
-														</p>
-													</section>
-												</article>
-											</div>
+									<label class="answer-version-control">
+										<span>버전</span>
+										<select class="answer-version-select" aria-label="답변서 초안 버전">
+											<option value="v1.0">v1.0(09:18)</option>
+										</select>
+									</label>
+									<button type="button" class="icon-button icon-button-ghost answer-version-download"
+										data-download-draft aria-label="답변서 초안 다운로드" title="답변서 초안 다운로드">
+										<img class="icon icon-small" data-icon="download" alt="" aria-hidden="true" />
+									</button>
+								</div>
+								<div class="answer-draft-toolbar" data-answer-draft-content>
+									<label class="verify-check-label">
+										<input class="checkbox-control checkbox-control-xs" type="checkbox"
+											data-answer-highlight-toggle aria-controls="answerDraftDocument" checked />
+										<span>문장별 하이라이트</span>
+									</label>
+									<label class="verify-check-label">
+										<input class="checkbox-control checkbox-control-xs" type="checkbox"
+											data-answer-source-toggle aria-controls="answerDraftDocument" checked />
+										<span>출처번호 보기</span>
+									</label>
+									<span class="verify-legend green">녹색: 근거 확인</span>
+									<span class="verify-legend yellow">노랑: 주의</span>
+									<span class="verify-legend red">빨강: 출처 누락</span>
+								</div>
+								<div class="answer-draft-split-area split-handler" data-component="split-handler"
+									data-answer-draft-content data-split-min="260">
+									<div class="answer-draft-main split-handler-left">
+										<h3 class="answer-draft-heading">답변서 초안 · v1.0(09:18)</h3>
+										<div class="answer-draft-scroll">
+											<article class="answer-draft-document" id="answerDraftDocument">
+												<div class="answer-question-block">
+													<strong>1</strong>
+													<h3>지방교부세가 지급되고 있고 지방채 인수시 지자체 채무는 증가함에도 추경을 편성해야 하는 이유는?</h3>
+												</div>
+												<div class="answer-summary-block">
+													<p class="answer-summary-line is-caution"
+														data-answer-evidence-refs="3,4">□ 지방자치단체의 특정 자본적 지출 사업 수행을
+														위해
+														공공자금관리기금이 지방채를 장기 저리로 인수하여 지방재정을 지원하기 때문입니다.
+														<sup class="answer-verification-badge">[주의]</sup>
+													</p>
+												</div>
+												<section>
+													<h4>□ 지방채 인수 추경 편성 배경</h4>
+													<p class="is-caution" data-answer-evidence-refs="1,2">
+														공공자금관리기금(공자기금)은 지방재정 지원을 목적으로 지방자치단체가 발행하는 지방채를 장기 저리로
+														인수하여 자금을 지원함 <sup class="answer-source-citation">1,2</sup>
+														<sup class="answer-verification-badge">[주의]</sup>
+													</p>
+													<p class="is-grounded">도로, 지하철 건설, 공공용 시설 설치 등 특정 자본적 지출 사업의 원활한
+														추진을 위해
+														추경을 통해 인수 예산을 편성함 <sup class="answer-source-citation">1,3</sup>
+														<sup class="answer-verification-badge">[3]</sup>
+													</p>
+												</section>
+												<section>
+													<h4>□ 공자기금 지방채 인수 제도 개요</h4>
+													<p class="is-grounded">○ 지방채 인수의 구체적인 지원 대상 및 조건은 다음과 같음
+														<sup class="answer-source-citation">1,3</sup>
+														<sup class="answer-verification-badge">[4]</sup>
+													</p>
+													<table class="draft-table">
+														<thead>
+															<tr>
+																<th>구분</th>
+																<th>내용</th>
+															</tr>
+														</thead>
+														<tbody>
+															<tr>
+																<td>지원대상</td>
+																<td>지방자치단체(시·도)</td>
+															</tr>
+															<tr>
+																<td>지원사업</td>
+																<td>도로, 지하철건설, 공공용 시설의 설치, 지역개발사업 등 특정 자본적 지출 사업
+																</td>
+															</tr>
+															<tr>
+																<td>지원조건</td>
+																<td>공자기금 예탁금리와 동일한 분기별 고정금리<br />5년 거치 10년 분할 상환
+																</td>
+															</tr>
+															<tr>
+																<td>집행절차</td>
+																<td>행안부 발행계획 마련 및 협의 → 지자체별 계획 승인 → 지방의회 의결 후 인수 요청
+																</td>
+															</tr>
+														</tbody>
+													</table>
+												</section>
+												<section>
+													<h4>□ 추경 편성의 구체적 사례</h4>
+													<p class="is-grounded">광주·전남 통합특별시 출범과 관련하여 통합전산망 구축, 안내표지판 설치 등
+														지방채 인수
+														수요를 반영하여 추경을 편성함 <sup>[1]</sup></p>
+												</section>
+												<section>
+													<h3>공자기금 지방채 인수 제도</h3>
+													<h4>(1) 제도 개요 및 목적</h4>
+													<p class="is-caution">지방재정 지원을 목적으로 지방자치단체가 발행하는 지방채를 장기 저리로 인수
+														<sup>[주의]</sup>
+													</p>
+													<p class="is-missing">기타 운영 사항은 최신 기금운용계획 확인 후 반영 필요 <sup>[출처
+															누락]</sup>
+													</p>
+												</section>
+											</article>
 										</div>
 									</div>
-									<div class="document-statusbar-area" data-answer-draft-content>
-										<footer class="document-statusbar" data-component="document-statusbar"
-											data-document-statusbar
-											data-document-target=".answer-draft-panel .answer-draft-document"
-											data-document-scroll-target=".answer-draft-panel .answer-draft-scroll"
-											data-document-page-selector=""
-											data-document-fullscreen-target=".answer-draft-panel"
-											data-document-zoom="100" data-document-min-zoom="50"
-											data-document-max-zoom="200" data-document-zoom-step="10">
-											<div class="document-statusbar-stats" data-slot="stats">
-												<span class="document-statusbar-stat">
-													글자 수 <strong>2,237</strong>자
-												</span>
-												<span class="document-statusbar-separator" aria-hidden="true">|</span>
-												<span class="document-statusbar-stat">
-													페이지 <strong>1</strong>/<strong>2</strong>
-												</span>
-											</div>
-											<div class="document-statusbar-controls" aria-label="문서 확대 축소 및 전체보기">
-												<button type="button"
-													class="icon-button icon-button-sm document-statusbar-button"
-													data-document-statusbar-action="zoom-out" aria-label="문서 축소"
-													title="문서 축소">−</button>
-												<strong class="document-statusbar-zoom"
-													data-document-statusbar-zoom-value>100%</strong>
-												<button type="button"
-													class="icon-button icon-button-sm document-statusbar-button"
-													data-document-statusbar-action="zoom-in" aria-label="문서 확대"
-													title="문서 확대">＋</button>
-												<button type="button"
-													class="icon-button icon-button-sm document-statusbar-button document-statusbar-fullscreen-button"
-													data-document-statusbar-action="fullscreen" aria-label="문서 전체보기"
-													title="문서 전체보기" aria-pressed="false">
-													<img class="icon icon-small document-statusbar-expand-icon"
-														src="../assets/icons/fullscreen-expand.svg" alt=""
-														aria-hidden="true" />
-													<img class="icon icon-small document-statusbar-shrink-icon"
-														src="../assets/icons/fullscreen-shrink.svg" alt=""
-														aria-hidden="true" />
-												</button>
-											</div>
-										</footer>
-									</div>
-								</section>
-								<!----------------------------- //End: 답변서 초안 탭 내용 -------------------------------------- -->
+								</div>
+								<div class="document-statusbar-area" data-answer-draft-content>
+									<footer class="document-statusbar" data-component="document-statusbar"
+										data-document-statusbar
+										data-document-target=".answer-draft-panel .answer-draft-document"
+										data-document-scroll-target=".answer-draft-panel .answer-draft-scroll"
+										data-document-page-selector=""
+										data-document-fullscreen-target=".answer-draft-panel" data-document-zoom="100"
+										data-document-min-zoom="50" data-document-max-zoom="200"
+										data-document-zoom-step="10">
+										<div class="document-statusbar-stats" data-slot="stats">
+											<span class="document-statusbar-stat">
+												글자 수 <strong>2,237</strong>자
+											</span>
+											<span class="document-statusbar-separator" aria-hidden="true">|</span>
+											<span class="document-statusbar-stat">
+												페이지 <strong>1</strong>/<strong>2</strong>
+											</span>
+										</div>
+										<div class="document-statusbar-controls" aria-label="문서 확대 축소 및 전체보기">
+											<button type="button"
+												class="icon-button icon-button-sm document-statusbar-button"
+												data-document-statusbar-action="zoom-out" aria-label="문서 축소"
+												title="문서 축소">−</button>
+											<strong class="document-statusbar-zoom"
+												data-document-statusbar-zoom-value>100%</strong>
+											<button type="button"
+												class="icon-button icon-button-sm document-statusbar-button"
+												data-document-statusbar-action="zoom-in" aria-label="문서 확대"
+												title="문서 확대">＋</button>
+											<button type="button"
+												class="icon-button icon-button-sm document-statusbar-button document-statusbar-fullscreen-button"
+												data-document-statusbar-action="fullscreen" aria-label="문서 전체보기"
+												title="문서 전체보기" aria-pressed="false">
+												<img class="icon icon-small document-statusbar-expand-icon"
+													src="../assets/icons/fullscreen-expand.svg" alt=""
+													aria-hidden="true" />
+												<img class="icon icon-small document-statusbar-shrink-icon"
+													src="../assets/icons/fullscreen-shrink.svg" alt=""
+													aria-hidden="true" />
+											</button>
+										</div>
+									</footer>
+								</div>
+							</section>
+							<!----------------------------- //End: 답변서 초안 탭 내용 -------------------------------------- -->
 
-							</div>
-							<!------------------ //End: 관련자료,답변서 초안 생성 영역 -------------------------->
+						</div>
+						<!------------------ //End: 관련자료,답변서 초안 생성 영역 -------------------------->
 					</section>
 					<!-----------------------//End: 관련자료,답변서 초안 생성 영역 -------------------------->
 					<div class="panel-resize-handle" data-resize="1" role="separator" aria-label="오른쪽 패널 크기 조절"
 						aria-orientation="vertical" tabindex="0"></div>
 					<!-----------------------Start: AI채팅 영역----------------------->
 					<section class="panel panel-right" data-slot="right" data-panel="chat"
-							aria-labelledby="answerChatTitle">
-							<header class="panel-head">
-								<h2 class="panel-title" id="answerChatTitle">
-									<svg viewBox="0 0 24 24" aria-hidden="true">
-										<path d="M21 15a2 2 0 0 1-2 2H8l-5 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
-										<path d="M8 10h.01M12 10h.01M16 10h.01" />
-									</svg>
-									AI 채팅
-								</h2>
-							</header>
-							<div class="chat-messages" id="answerChatMessages" data-chat-message-list
-								data-variant="answer" data-message-actions="none" aria-live="polite">
-								<div class="chat-msg ai" data-component="chat-message" data-variant="answer"
-									data-role="ai" data-status="complete" data-message-actions="none" data-chat-intro>
-									<span class="chat-ai-avatar"><svg viewBox="0 0 24 24" aria-hidden="true">
-											<path
-												d="M12 2.8l1.45 3.75L17.2 8l-3.75 1.45L12 13.2l-1.45-3.75L6.8 8l3.75-1.45L12 2.8z">
-											</path>
-											<path
-												d="M18.4 12.3l.78 2.02 2.02.78-2.02.78-.78 2.02-.78-2.02-2.02-.78 2.02-.78.78-2.02z">
-											</path>
-											<path
-												d="M6 14.1l.92 2.18 2.18.92-2.18.92L6 20.3l-.92-2.18-2.18-.92 2.18-.92L6 14.1z">
-											</path>
-										</svg></span>
-									<div class="msg-text">국회 질의를 입력해 보세요!<br />AI가 지능형 검색을 통해 관련자료를 추천하고 국회 답변서 초안 생성을
-										시작합니다.<br />① (선택) 좌측 AI 참조소스에서 첨부파일을 업로드하고<br />② 이 채팅에 국회질의를 입력하시면<br />과거
-										유사답변서나 관련자료 추천하고 초안을 생성합니다.</div>
-									<span class="msg-time">11:41</span>
-								</div>
-								<div class="chat-msg user" data-component="chat-message" data-variant="answer"
-									data-role="user" data-status="complete">
-									<div class="msg-text">지방교부세가 지급되고 있고 지방채 인수시 지자체 채무는 증가함에도 추경을 편성해야 하는 이유는?</div>
-									<span class="msg-time">11:42</span>
-								</div>
-								<div class="chat-msg ai" data-component="chat-message" data-variant="answer"
-									data-role="ai" data-status="complete">
-									<span class="chat-ai-avatar"><svg viewBox="0 0 24 24" aria-hidden="true">
-											<path
-												d="M12 2.8l1.45 3.75L17.2 8l-3.75 1.45L12 13.2l-1.45-3.75L6.8 8l3.75-1.45L12 2.8z">
-											</path>
-											<path
-												d="M18.4 12.3l.78 2.02 2.02.78-2.02.78-.78 2.02-.78-2.02-2.02-.78 2.02-.78.78-2.02z">
-											</path>
-											<path
-												d="M6 14.1l.92 2.18 2.18.92-2.18.92L6 20.3l-.92-2.18-2.18-.92 2.18-.92L6 14.1z">
-											</path>
-										</svg></span>
-									<div class="msg-text">유사 과거답변서 5건을 문서 단위로 추천했습니다. (최고 유사도 38%)<br />좌측 "유사답변서 추천
-										목록"에서 확인·선택할 수 있습니다.</div>
-									<span class="msg-time">11:42</span>
-								</div>
-								<div class="chat-msg ai" data-component="chat-message" data-variant="answer"
-									data-role="ai" data-status="complete">
-									<span class="chat-ai-avatar"><svg viewBox="0 0 24 24" aria-hidden="true">
-											<path
-												d="M12 2.8l1.45 3.75L17.2 8l-3.75 1.45L12 13.2l-1.45-3.75L6.8 8l3.75-1.45L12 2.8z">
-											</path>
-											<path
-												d="M18.4 12.3l.78 2.02 2.02.78-2.02.78-.78 2.02-.78-2.02-2.02-.78 2.02-.78.78-2.02z">
-											</path>
-											<path
-												d="M6 14.1l.92 2.18 2.18.92-2.18.92L6 20.3l-.92-2.18-2.18-.92 2.18-.92L6 14.1z">
-											</path>
-										</svg></span>
-									<div class="msg-text">답변서 초안을 생성했습니다. 과거답변 5건, 첨부 7건을 청크 단위로 반영했습니다.<br />"답변서 초안
-										분석" 탭에서 편집하거나, 채팅으로 수정 지시를 내릴 수 있습니다.</div>
-									<span class="msg-time">11:42</span>
-								</div>
-								<div class="chat-msg ai" data-component="chat-message" data-variant="answer"
-									data-role="ai" data-status="complete">
-									<span class="chat-ai-avatar"><svg viewBox="0 0 24 24" aria-hidden="true">
-											<path
-												d="M12 2.8l1.45 3.75L17.2 8l-3.75 1.45L12 13.2l-1.45-3.75L6.8 8l3.75-1.45L12 2.8z">
-											</path>
-											<path
-												d="M18.4 12.3l.78 2.02 2.02.78-2.02.78-.78 2.02-.78-2.02-2.02-.78 2.02-.78.78-2.02z">
-											</path>
-											<path
-												d="M6 14.1l.92 2.18 2.18.92-2.18.92L6 20.3l-.92-2.18-2.18-.92 2.18-.92L6 14.1z">
-											</path>
-										</svg></span>
-									<div class="msg-text">답변서 초안 작성을 시작합니다. 지방채 인수 및 추경 관련 참조자료 7건을 분석
-										완료했습니다.<br /><br />📌 분석 결과 요약:<br />• 최고 유사도: 95% (지방채 인수 추경 편성 사유 답변)<br />•
-										인용 가능 문단: 5개<br />• 수치 업데이트 필요: 1건 (금리 최신 고시)</div>
-									<span class="msg-time">10:45</span>
-								</div>
-								<div class="chat-msg user" data-component="chat-message" data-variant="answer"
-									data-role="user" data-status="complete">
-									<div class="msg-text">공자기금 지방채 인수 제도 개요와 추경 편성 배경을 중심으로 답변서 초안을 작성해줘.</div>
-									<span class="msg-time">10:50</span>
-								</div>
-								<div class="chat-msg ai" data-component="chat-message" data-variant="answer"
-									data-role="ai" data-status="complete">
-									<span class="chat-ai-avatar"><svg viewBox="0 0 24 24" aria-hidden="true">
-											<path
-												d="M12 2.8l1.45 3.75L17.2 8l-3.75 1.45L12 13.2l-1.45-3.75L6.8 8l3.75-1.45L12 2.8z">
-											</path>
-											<path
-												d="M18.4 12.3l.78 2.02 2.02.78-2.02.78-.78 2.02-.78-2.02-2.02-.78 2.02-.78.78-2.02z">
-											</path>
-											<path
-												d="M6 14.1l.92 2.18 2.18.92-2.18.92L6 20.3l-.92-2.18-2.18-.92 2.18-.92L6 14.1z">
-											</path>
-										</svg></span>
-									<div class="msg-text">참조자료를 기반으로 초안을 작성했습니다.<br /><br />✅ 반영 내용:<br />• 답변 요약: "특정
-										자본적 지출 사업 수행을 위해 공자기금이 지방채를 장기 저리로 인수"<br />• 제도 개요 표: 지원대상/사업/조건/절차<br />•
-										인수금리: 공자기금 예탁금리와 동일(분기별 고정), '26.2분기 3.435%<br />• 인수기간: 5년 거치 10년 분할
-										상환<br /><br />⚠️ 확인 필요:<br />• 금리는 분기별 변동이므로 답변 시점 기준 최신 고시 확인 필요</div>
-									<span class="msg-time">10:55</span>
-								</div>
-								<div class="chat-msg user" data-component="chat-message" data-variant="answer"
-									data-role="user" data-status="complete">
-									<div class="msg-text">광주·전남 통합특별시 관련 추경 사례도 추가해줘. 지자체별 수요도 포함해서.</div>
-									<span class="msg-time">11:00</span>
-								</div>
-								<div class="chat-msg ai" data-component="chat-message" data-variant="answer"
-									data-role="ai" data-status="complete">
-									<span class="chat-ai-avatar"><svg viewBox="0 0 24 24" aria-hidden="true">
-											<path
-												d="M12 2.8l1.45 3.75L17.2 8l-3.75 1.45L12 13.2l-1.45-3.75L6.8 8l3.75-1.45L12 2.8z">
-											</path>
-											<path
-												d="M18.4 12.3l.78 2.02 2.02.78-2.02.78-.78 2.02-.78-2.02-2.02-.78 2.02-.78.78-2.02z">
-											</path>
-											<path
-												d="M6 14.1l.92 2.18 2.18.92-2.18.92L6 20.3l-.92-2.18-2.18-.92 2.18-.92L6 14.1z">
-											</path>
-										</svg></span>
-									<div class="msg-text">추경 편성 사례를 추가했습니다.<br /><br />추가 내용:<br />• 광주·전남 통합특별시
-										출범(2026.7.1. 예정)<br />• 지방채 인수 수요: 약 1,000억 원 규모<br />• 전남: 안내표지판 설치, 통합전산망
-										구축(300억) 등 총 700억 원<br />• 광주: 재난관리기금, 재해구호기금 조성 등 총 195억 원<br /><br />예산 현황표도
-										반영 완료:<br />• '25년 예산 12,100억 / 결산 10,712억<br />• '26년 본예산 1,000억 → 추경안 2,000억
-										(증감 +1,000, 100%)</div>
-									<span class="msg-time">11:03</span>
-								</div>
+						aria-labelledby="answerChatTitle">
+						<header class="panel-head">
+							<h2 class="panel-title" id="answerChatTitle">
+								<svg viewBox="0 0 24 24" aria-hidden="true">
+									<path d="M21 15a2 2 0 0 1-2 2H8l-5 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
+									<path d="M8 10h.01M12 10h.01M16 10h.01" />
+								</svg>
+								AI 채팅
+							</h2>
+						</header>
+						<div class="chat-messages" id="answerChatMessages" data-chat-message-list data-variant="answer"
+							data-message-actions="none" aria-live="polite">
+							<div class="chat-msg ai" data-component="chat-message" data-variant="answer" data-role="ai"
+								data-status="complete" data-message-actions="none" data-chat-intro>
+								<span class="chat-ai-avatar"><svg viewBox="0 0 24 24" aria-hidden="true">
+										<path
+											d="M12 2.8l1.45 3.75L17.2 8l-3.75 1.45L12 13.2l-1.45-3.75L6.8 8l3.75-1.45L12 2.8z">
+										</path>
+										<path
+											d="M18.4 12.3l.78 2.02 2.02.78-2.02.78-.78 2.02-.78-2.02-2.02-.78 2.02-.78.78-2.02z">
+										</path>
+										<path
+											d="M6 14.1l.92 2.18 2.18.92-2.18.92L6 20.3l-.92-2.18-2.18-.92 2.18-.92L6 14.1z">
+										</path>
+									</svg></span>
+								<div class="msg-text">국회 질의를 입력해 보세요!<br />AI가 지능형 검색을 통해 관련자료를 추천하고 국회 답변서 초안 생성을
+									시작합니다.<br />① (선택) 좌측 AI 참조소스에서 첨부파일을 업로드하고<br />② 이 채팅에 국회질의를 입력하시면<br />과거
+									유사답변서나 관련자료 추천하고 초안을 생성합니다.</div>
+								<span class="msg-time">11:41</span>
 							</div>
-							<!--------------------Start: 메세지 입력 영역 --------------------------------------->
-							<div class="chat-input-area">
-								<form class="chat-input-row" data-answer-chat-form>
-									<label class="sr-only" for="answerChatInput">국회 질의 입력</label>
-									<input type="text" class="chat-input" id="answerChatInput"
-										placeholder="국회질의를 입력해 주세요..." autocomplete="off" />
-									<button type="submit"
-										class="icon-button icon-button-primary icon-button-send chat-send"
-										aria-label="전송" title="전송" disabled>
-										<img class="icon icon-text" data-icon="send" alt="" aria-hidden="true" />
-									</button>
-								</form>
+							<div class="chat-msg user" data-component="chat-message" data-variant="answer"
+								data-role="user" data-status="complete">
+								<div class="msg-text">지방교부세가 지급되고 있고 지방채 인수시 지자체 채무는 증가함에도 추경을 편성해야 하는 이유는?</div>
+								<span class="msg-time">11:42</span>
 							</div>
-							<!--------------------//End: 메세지 입력 영역 --------------------------------------->
+							<div class="chat-msg ai" data-component="chat-message" data-variant="answer" data-role="ai"
+								data-status="complete">
+								<span class="chat-ai-avatar"><svg viewBox="0 0 24 24" aria-hidden="true">
+										<path
+											d="M12 2.8l1.45 3.75L17.2 8l-3.75 1.45L12 13.2l-1.45-3.75L6.8 8l3.75-1.45L12 2.8z">
+										</path>
+										<path
+											d="M18.4 12.3l.78 2.02 2.02.78-2.02.78-.78 2.02-.78-2.02-2.02-.78 2.02-.78.78-2.02z">
+										</path>
+										<path
+											d="M6 14.1l.92 2.18 2.18.92-2.18.92L6 20.3l-.92-2.18-2.18-.92 2.18-.92L6 14.1z">
+										</path>
+									</svg></span>
+								<div class="msg-text">유사 과거답변서 5건을 문서 단위로 추천했습니다. (최고 유사도 38%)<br />좌측 "유사답변서 추천
+									목록"에서 확인·선택할 수 있습니다.</div>
+								<span class="msg-time">11:42</span>
+							</div>
+							<div class="chat-msg ai" data-component="chat-message" data-variant="answer" data-role="ai"
+								data-status="complete">
+								<span class="chat-ai-avatar"><svg viewBox="0 0 24 24" aria-hidden="true">
+										<path
+											d="M12 2.8l1.45 3.75L17.2 8l-3.75 1.45L12 13.2l-1.45-3.75L6.8 8l3.75-1.45L12 2.8z">
+										</path>
+										<path
+											d="M18.4 12.3l.78 2.02 2.02.78-2.02.78-.78 2.02-.78-2.02-2.02-.78 2.02-.78.78-2.02z">
+										</path>
+										<path
+											d="M6 14.1l.92 2.18 2.18.92-2.18.92L6 20.3l-.92-2.18-2.18-.92 2.18-.92L6 14.1z">
+										</path>
+									</svg></span>
+								<div class="msg-text">답변서 초안을 생성했습니다. 과거답변 5건, 첨부 7건을 청크 단위로 반영했습니다.<br />"답변서 초안
+									분석" 탭에서 편집하거나, 채팅으로 수정 지시를 내릴 수 있습니다.</div>
+								<span class="msg-time">11:42</span>
+							</div>
+							<div class="chat-msg ai" data-component="chat-message" data-variant="answer" data-role="ai"
+								data-status="complete">
+								<span class="chat-ai-avatar"><svg viewBox="0 0 24 24" aria-hidden="true">
+										<path
+											d="M12 2.8l1.45 3.75L17.2 8l-3.75 1.45L12 13.2l-1.45-3.75L6.8 8l3.75-1.45L12 2.8z">
+										</path>
+										<path
+											d="M18.4 12.3l.78 2.02 2.02.78-2.02.78-.78 2.02-.78-2.02-2.02-.78 2.02-.78.78-2.02z">
+										</path>
+										<path
+											d="M6 14.1l.92 2.18 2.18.92-2.18.92L6 20.3l-.92-2.18-2.18-.92 2.18-.92L6 14.1z">
+										</path>
+									</svg></span>
+								<div class="msg-text">답변서 초안 작성을 시작합니다. 지방채 인수 및 추경 관련 참조자료 7건을 분석
+									완료했습니다.<br /><br />📌 분석 결과 요약:<br />• 최고 유사도: 95% (지방채 인수 추경 편성 사유 답변)<br />•
+									인용 가능 문단: 5개<br />• 수치 업데이트 필요: 1건 (금리 최신 고시)</div>
+								<span class="msg-time">10:45</span>
+							</div>
+							<div class="chat-msg user" data-component="chat-message" data-variant="answer"
+								data-role="user" data-status="complete">
+								<div class="msg-text">공자기금 지방채 인수 제도 개요와 추경 편성 배경을 중심으로 답변서 초안을 작성해줘.</div>
+								<span class="msg-time">10:50</span>
+							</div>
+							<div class="chat-msg ai" data-component="chat-message" data-variant="answer" data-role="ai"
+								data-status="complete">
+								<span class="chat-ai-avatar"><svg viewBox="0 0 24 24" aria-hidden="true">
+										<path
+											d="M12 2.8l1.45 3.75L17.2 8l-3.75 1.45L12 13.2l-1.45-3.75L6.8 8l3.75-1.45L12 2.8z">
+										</path>
+										<path
+											d="M18.4 12.3l.78 2.02 2.02.78-2.02.78-.78 2.02-.78-2.02-2.02-.78 2.02-.78.78-2.02z">
+										</path>
+										<path
+											d="M6 14.1l.92 2.18 2.18.92-2.18.92L6 20.3l-.92-2.18-2.18-.92 2.18-.92L6 14.1z">
+										</path>
+									</svg></span>
+								<div class="msg-text">참조자료를 기반으로 초안을 작성했습니다.<br /><br />✅ 반영 내용:<br />• 답변 요약: "특정
+									자본적 지출 사업 수행을 위해 공자기금이 지방채를 장기 저리로 인수"<br />• 제도 개요 표: 지원대상/사업/조건/절차<br />•
+									인수금리: 공자기금 예탁금리와 동일(분기별 고정), '26.2분기 3.435%<br />• 인수기간: 5년 거치 10년 분할
+									상환<br /><br />⚠️ 확인 필요:<br />• 금리는 분기별 변동이므로 답변 시점 기준 최신 고시 확인 필요</div>
+								<span class="msg-time">10:55</span>
+							</div>
+							<div class="chat-msg user" data-component="chat-message" data-variant="answer"
+								data-role="user" data-status="complete">
+								<div class="msg-text">광주·전남 통합특별시 관련 추경 사례도 추가해줘. 지자체별 수요도 포함해서.</div>
+								<span class="msg-time">11:00</span>
+							</div>
+							<div class="chat-msg ai" data-component="chat-message" data-variant="answer" data-role="ai"
+								data-status="complete">
+								<span class="chat-ai-avatar"><svg viewBox="0 0 24 24" aria-hidden="true">
+										<path
+											d="M12 2.8l1.45 3.75L17.2 8l-3.75 1.45L12 13.2l-1.45-3.75L6.8 8l3.75-1.45L12 2.8z">
+										</path>
+										<path
+											d="M18.4 12.3l.78 2.02 2.02.78-2.02.78-.78 2.02-.78-2.02-2.02-.78 2.02-.78.78-2.02z">
+										</path>
+										<path
+											d="M6 14.1l.92 2.18 2.18.92-2.18.92L6 20.3l-.92-2.18-2.18-.92 2.18-.92L6 14.1z">
+										</path>
+									</svg></span>
+								<div class="msg-text">추경 편성 사례를 추가했습니다.<br /><br />추가 내용:<br />• 광주·전남 통합특별시
+									출범(2026.7.1. 예정)<br />• 지방채 인수 수요: 약 1,000억 원 규모<br />• 전남: 안내표지판 설치, 통합전산망
+									구축(300억) 등 총 700억 원<br />• 광주: 재난관리기금, 재해구호기금 조성 등 총 195억 원<br /><br />예산 현황표도
+									반영 완료:<br />• '25년 예산 12,100억 / 결산 10,712억<br />• '26년 본예산 1,000억 → 추경안 2,000억
+									(증감 +1,000, 100%)</div>
+								<span class="msg-time">11:03</span>
+							</div>
+						</div>
+						<!--------------------Start: 메세지 입력 영역 --------------------------------------->
+						<div class="chat-input-area">
+							<form class="chat-input-row" data-answer-chat-form>
+								<label class="sr-only" for="answerChatInput">국회 질의 입력</label>
+								<input type="text" class="chat-input" id="answerChatInput"
+									placeholder="국회질의를 입력해 주세요..." autocomplete="off" />
+								<button type="submit" class="icon-button icon-button-primary icon-button-send chat-send"
+									aria-label="전송" title="전송" disabled>
+									<img class="icon icon-text" data-icon="send" alt="" aria-hidden="true" />
+								</button>
+							</form>
+						</div>
+						<!--------------------//End: 메세지 입력 영역 --------------------------------------->
 					</section>
 					<!-----------------------//End: AI채팅 영역----------------------->
 				</main>
@@ -1677,9 +1668,8 @@
 			</li>
 		</ul>
 
-		<div id="answerEvidenceSplitHandlePrototype" class="split-handler-handle"
-			data-dom-prototype hidden role="separator" aria-label="근거 상세 패널 크기 조절" aria-orientation="vertical"
-			tabindex="0"></div>
+		<div id="answerEvidenceSplitHandlePrototype" class="split-handler-handle" data-dom-prototype hidden
+			role="separator" aria-label="근거 상세 패널 크기 조절" aria-orientation="vertical" tabindex="0"></div>
 
 		<aside id="answerEvidenceDetailPrototype" class="verify-detail-panel split-handler-right" data-dom-prototype
 			data-instance-id="answerVerifyDetail" hidden aria-label="근거 상세 확인">
@@ -1807,8 +1797,7 @@
 			data-action="more" data-answer-action-only aria-label="더보기" title="더보기"><img class="icon icon-small"
 				src="../assets/icons/more-horizontal.svg" alt="" /></button>
 	</div>
-	<div id="commonSidepopActionPrototype" class="drawer-list-action dropdown-menu-component" data-dom-prototype
-		hidden>
+	<div id="commonSidepopActionPrototype" class="drawer-list-action dropdown-menu-component" data-dom-prototype hidden>
 		<div class="dropdown-menu drawer-list-action-menu" role="menu" hidden>
 			<button type="button" class="dropdown-menu-item" data-menu-value="pin" role="menuitem" aria-pressed="false">
 				<img class="icon drawer-list-action-icon" src="../assets/icons/pin.svg" alt="" aria-hidden="true" />
