@@ -12,10 +12,10 @@
 	<link rel="stylesheet" href="../css/ai-answer.css" />
 </head>
 
-<body data-page="answer">
+<body>
 	<div class="app">
 		<!---------------------------------------- Start: 사이드 바---------------------------------------------->
-		<aside class="sidebar app-sidebar collapsed" id="sidebar">
+		<aside class="sidebar collapsed" id="sidebar">
 			<!---------------------------------------- Start: 사이드 바 컨텐츠---------------------------------------------->
 			<!--
 						  [문서/페이지 구조 안내 — 개발자용]
@@ -36,7 +36,7 @@
 					</span>
 				</a>
 				<button type="button" class="icon-button icon-button-ghost sidebar-collapse-btn" id="sidebarCollapseBtn"
-					aria-label="사이드바 펼치기" aria-expanded="false" title="사이드바 펼치기">
+					aria-label="사이드바 접기/펼치기" aria-expanded="true" title="사이드바 접기">
 					<img class="collapse-icon icon icon-text" src="../assets/icons/sidebar-collapse.svg"
 						data-icon="sidebar-collapse" alt="" aria-hidden="true" />
 				</button>
@@ -44,7 +44,7 @@
 			<!------------------------------------ Start: 사이드바 메뉴 영역 ------------------------------------>
 			<nav class="sidebar-nav" aria-label="메인 네비게이션">
 				<div class="nav-group">
-					<a class="nav-link" href="ai-home.html" data-route="home" data-page="home" data-tooltip="AI-ONE 홈"
+					<a class="nav-link" href="ai-home.html" data-route="home" data-tooltip="AI-ONE 홈"
 						aria-label="AI-ONE 홈">
 						<img src="../assets/icons/home.svg" data-icon="home" alt="" aria-hidden="true" />
 						<span class="nav-text">AI-ONE 홈</span>
@@ -52,8 +52,8 @@
 				</div>
 				<div class="nav-group">
 					<span class="nav-group-label">AI 서비스</span>
-					<a class="nav-link" href="ai-workspace.html" data-route="intake" data-page="intake"
-						data-tooltip="국회질의분류" aria-label="국회질의분류">
+					<a class="nav-link" href="ai-workspace.html" data-route="intake" data-tooltip="국회질의분류"
+						aria-label="국회질의분류">
 						<svg viewBox="0 0 24 24" aria-hidden="true">
 							<path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
 							<polyline points="14 2 14 8 20 8"></polyline>
@@ -61,8 +61,8 @@
 						<span class="nav-text">국회질의분류</span>
 						<span class="nav-complete-dot hidden" aria-label="완료된 작업 있음" title="완료된 작업이 있습니다."></span>
 					</a>
-					<a class="nav-link" href="ai-answer.html" data-route="answer" data-page="answer"
-						data-tooltip="국회 답변서 초안 생성" aria-label="국회 답변서 초안 생성">
+					<a class="nav-link active" href="ai-answer.html" data-route="answer" data-tooltip="국회 답변서 초안 생성"
+						aria-label="국회 답변서 초안 생성">
 						<svg viewBox="0 0 24 24" aria-hidden="true">
 							<path d="M12 20h9"></path>
 							<path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path>
@@ -71,15 +71,15 @@
 						<span class="nav-complete-dot hidden" aria-label="완료된 작업 있음" title="완료된 작업이 있습니다."></span>
 					</a>
 					<a class="nav-link hidden" href="ai-answer-after.html" data-route="answer-after-9" hidden
-						data-page="answer-after-9" data-tooltip="국회답변서 9월이후" aria-label="국회답변서 9월이후">
+						data-tooltip="국회답변서 9월이후" aria-label="국회답변서 9월이후">
 						<svg viewBox="0 0 24 24" aria-hidden="true">
 							<path d="M12 20h9"></path>
 							<path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path>
 						</svg>
 						<span class="nav-text">국회답변서 9월이후</span>
 					</a>
-					<a class="nav-link" data-page="asset" data-modal-open="preparingServiceModal"
-						data-tooltip="국유재산 업무 관리" aria-label="국유재산 업무 관리 (준비중)">
+					<a class="nav-link" data-modal-open="preparingServiceModal" data-tooltip="국유재산 업무 관리"
+						aria-label="국유재산 업무 관리 (준비중)">
 						<svg viewBox="0 0 24 24" aria-hidden="true">
 							<path d="M3 10 12 4l9 6"></path>
 							<path d="M5 10v9"></path>
@@ -91,7 +91,7 @@
 						<span class="nav-text">국유재산 업무 관리</span>
 						<span class="nav-badge-soon">준비중</span>
 					</a>
-					<a class="nav-link" data-page="policy" data-modal-open="preparingServiceModal" data-tooltip="정책 안내서"
+					<a class="nav-link" data-modal-open="preparingServiceModal" data-tooltip="정책 안내서"
 						aria-label="정책 안내서 (준비중)">
 						<svg viewBox="0 0 24 24" aria-hidden="true">
 							<path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
@@ -104,8 +104,8 @@
 					</a>
 				</div>
 				<div class="nav-group">
-					<a class="nav-link" href="ai-chatbot.html" data-page="chatbot"
-						data-modal-open="preparingServiceModal" data-tooltip="AI-ONE 챗봇" aria-label="AI-ONE 챗봇 (준비중)">
+					<a class="nav-link" href="ai-chatbot.html" data-modal-open="preparingServiceModal"
+						data-tooltip="AI-ONE 챗봇" aria-label="AI-ONE 챗봇 (준비중)">
 						<svg viewBox="0 0 24 24" aria-hidden="true">
 							<path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
 						</svg>
@@ -140,18 +140,18 @@
 
 				</div>
 			</div>
-			<!---------------------------------------- //End: 사이드 바  컨텐츠---------------------------------------------->
+			<!---------------------------------------- //End: 사이드 바 컨텐츠---------------------------------------------->
 
 
 			<!--
-					  [문서/페이지 구조 안내 — 개발자용]
-					  - 사이드바 오버레이의 종류는 총 4개
-						· 사이드바 하단 사용자 정보 클릭 시 나오는 계정 메뉴(아이디: sidebarAccountMenu)
-						· 내 정보 클릭 시 나오는 프로필 모달(아이디: sidebarProfileModal)
-						· 환경설정 클릭 시 나오는 프로필 모달(아이디: sidebarSettingsModal)
-						· 로그아웃 클릭 시 나오는 프로필 모달(아이디: sidebarLogoutModal)
+						  [문서/페이지 구조 안내 — 개발자용]
+						  - 사이드바 오버레이의 종류는 총 4개
+							· 사이드바 하단 사용자 정보 클릭 시 나오는 계정 메뉴(아이디: sidebarAccountMenu)
+							· 내 정보 클릭 시 나오는 프로필 모달(아이디: sidebarProfileModal)
+							· 환경설정 클릭 시 나오는 프로필 모달(아이디: sidebarSettingsModal)
+							· 로그아웃 클릭 시 나오는 프로필 모달(아이디: sidebarLogoutModal)
 
-			-->
+				-->
 
 			<!---------------------------------------- Start: 내 정보 클릭 시 나오는 프로필 모달---------------------------------------------->
 			<div class="hidden modal" id="sidebarProfileModal" data-component="modal" data-modal>
@@ -160,7 +160,7 @@
 					role="dialog" aria-modal="true" data-modal-variant="account-profile" aria-label="내 정보">
 					<div class="modal-variant-panel" data-modal-panel="account-profile" data-account-modal-panel>
 						<div class="account-modal-head">
-							<div class="modal-title">내 정보</div>
+							<p class="modal-title">내 정보</p>
 							<button type="button" class="query-edit-modal-close" data-modal-close
 								aria-label="닫기">×</button>
 						</div>
@@ -215,7 +215,7 @@
 					role="dialog" aria-modal="true" data-modal-variant="account-settings" aria-label="환경설정">
 					<div class="modal-variant-panel" data-modal-panel="account-settings" data-account-modal-panel>
 						<div class="account-modal-head">
-							<div class="modal-title">환경설정</div>
+							<p class="modal-title">환경설정</p>
 							<button type="button" class="query-edit-modal-close" data-modal-close
 								aria-label="닫기">×</button>
 						</div>
@@ -344,10 +344,10 @@
 						<div class="modal-icon logout" data-modal-icon="logout" aria-hidden="true">
 							<img src="../assets/icons/logout.svg" alt="" />
 						</div>
-						<div class="modal-title" id="sidebarLogoutModal-title" data-slot="title">로그아웃</div>
-						<div class="modal-msg" id="sidebarLogoutModal-description" data-slot="description">
+						<p class="modal-title" id="sidebarLogoutModal-title" data-slot="title">로그아웃</p>
+						<p class="modal-msg" id="sidebarLogoutModal-description" data-slot="description">
 							AI-ONE에서 로그아웃하시겠습니까?
-						</div>
+						</p>
 						<div class="modal-actions" data-slot="actions">
 							<button type="button" class="btn-cancel" data-modal-close>취소</button>
 							<button type="button" class="btn-confirm danger" data-sidebar-logout-confirm
@@ -788,8 +788,8 @@
 												[문서/페이지 구조 안내 — 개발자용]
 												- center-sub-head: 문서 미리보기, 유사도 확인
 												- doc-viewer-body: 문서 원문 전체
-													· doc-pages-track: 페이지 스택(줌·다운로드 대상). 페이지가 늘면 web-doc-page가 반복됨
-													· web-doc-page: A4 비율 문서 시트 = 페이지 1장. 페이지네이션은 이 단위로 처리
+											· doc-pages-track: 페이지 스택(줌·다운로드 대상). 페이지가 늘면 draft-page가 반복됨
+											· draft-page: A4 비율 문서 시트 = 페이지 1장. 페이지네이션은 이 단위로 처리
 														· web-doc-header: 문서 제목, 소속기관, 연도
 														· web-doc-meta-box: 문서 메타정보(문서명, 문서유형, 활용등급, 검토메모)
 														· web-doc-body: 문서 본문
@@ -801,7 +801,7 @@
 										</div>
 										<article class="preview-body doc-viewer-body">
 											<div class="doc-pages-track">
-												<section class="web-doc-page">
+												<section class="draft-page">
 													<header class="web-doc-header">
 														<span class="web-doc-org">기획재정위원회 · 2026년</span>
 														<h3 class="web-doc-title" data-preview-title>재경위 전체 의원 질의에
@@ -850,7 +850,7 @@
 													</div>
 													<footer class="web-doc-page-footer">- 1 / 2 -</footer>
 												</section>
-												<section class="web-doc-page">
+												<section class="draft-page">
 													<header class="web-doc-header">
 														<h3 class="web-doc-title">재경위 전체 의원 질의에 대한 답변 통합본 · (계속)
 														</h3>
@@ -884,7 +884,7 @@
 										data-document-statusbar
 										data-document-target=".recommend-view-wrapper .doc-pages-track"
 										data-document-scroll-target=".recommend-view-wrapper .doc-viewer-body"
-										data-document-page-selector=".web-doc-page"
+										data-document-page-selector=".draft-page"
 										data-document-fullscreen-target=".recommend-view-wrapper"
 										data-document-zoom="100" data-document-min-zoom="50"
 										data-document-max-zoom="200" data-document-zoom-step="10">

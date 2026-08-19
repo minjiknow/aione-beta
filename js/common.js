@@ -22,7 +22,7 @@
             /* 현재 화면에만 적용 */
         }
         if (!notificationEnabled) window.AIOneSidebar?.clearCompletion();
-        else window.AIOneSidebar?.renderCompletionDots();
+        else window.LRJSMS?.renderCompletionDots();
         updateAllNotificationUIs();
         document.dispatchEvent(new CustomEvent("ai-one-notification-change", { detail: { enabled: notificationEnabled } }));
     }
@@ -713,7 +713,7 @@
 
         const description = layer.querySelector('[data-slot="description"]');
         const confirmButton = layer.querySelector(".btn-confirm[data-modal-close]");
-        const isChatbotTrigger = trigger?.dataset.page === "chatbot";
+        const isChatbotTrigger = trigger?.getAttribute("href")?.includes(CHATBOT_PROTOTYPE_PATH);
         if (!description || !confirmButton) return;
 
         if (isChatbotTrigger) {
@@ -937,10 +937,10 @@
 
     function resolveMenuKeyFromLink(link) {
         if (!link) return "";
-        if (link.dataset.page) return link.dataset.page;
+        if (link.dataset.route) return link.dataset.route;
 
         const href = link.getAttribute("href") || "";
-        if (href.includes("ai-intake")) return "intake";
+        if (href.includes("ai-intake") || href.includes("ai-workspace")) return "intake";
         if (href.includes("ai-answer")) return "answer";
         if (href.includes("ai-chatbot")) return "chatbot";
         if (href.includes("ai-economy")) return "economy";
@@ -1007,7 +1007,7 @@
         document.addEventListener(
             "click",
             (event) => {
-                const homeLink = event.target.closest('.app-sidebar .nav-link[data-page="home"], .sidebar .nav-link[data-page="home"]');
+                const homeLink = event.target.closest('.app-sidebar .nav-link[data-route="home"], .sidebar .nav-link[data-route="home"]');
                 if (!homeLink) return;
 
                 const sidebar = homeLink.closest(SIDEBAR_SELECTOR);
@@ -1236,15 +1236,27 @@
         sidebar.dataset.navTooltipsReady = "true";
     }
 
-    function setActiveSidebarRoute(sidebar, activePage) {
-        if (!activePage) return;
+    function setActiveSidebarLink(activeLink) {
+        const sidebar = activeLink?.closest(SIDEBAR_SELECTOR);
+        if (!sidebar || !activeLink.classList.contains("nav-link")) return false;
 
         sidebar.querySelectorAll(".nav-link").forEach((link) => {
-            const isActive = link.dataset.page === activePage;
+            const isActive = link === activeLink;
             link.classList.toggle("active", isActive);
             if (isActive) link.setAttribute("aria-current", "page");
             else link.removeAttribute("aria-current");
         });
+        return true;
+    }
+
+    function syncActiveSidebarState(sidebar) {
+        const activeLink = sidebar.querySelector(".nav-link.active");
+        if (activeLink) {
+            setActiveSidebarLink(activeLink);
+            return;
+        }
+
+        sidebar.querySelectorAll(".nav-link").forEach((link) => link.removeAttribute("aria-current"));
     }
 
     function readSidebarCollapsedState(storageKey, fallback) {
@@ -1383,7 +1395,6 @@
         bindSidebar(sidebar);
         const state = sidebarControllerStates.get(sidebar) || {};
         state.config = {
-            activePage: options.activePage || document.body?.dataset.page || "",
             initialCollapsed: options.initialCollapsed ?? sidebar.classList.contains("collapsed"),
             stateTarget: options.stateTarget || null,
             collapsedClass: options.collapsedClass || "",
@@ -1395,7 +1406,7 @@
             onChange: typeof options.onChange === "function" ? options.onChange : null,
         };
         sidebarControllerStates.set(sidebar, state);
-        setActiveSidebarRoute(sidebar, state.config.activePage);
+        syncActiveSidebarState(sidebar);
 
         if (sidebar.dataset.collapseControllerReady !== "true") {
             sidebar.dataset.collapseControllerReady = "true";
@@ -1413,7 +1424,11 @@
                 if (!link || !sidebar.contains(link)) return;
 
                 const currentConfig = sidebarControllerStates.get(sidebar)?.config;
-                if (!currentConfig?.collapseOnNavigate || link.dataset.page === "home" || link.dataset.soonTarget || link.getAttribute("aria-disabled") === "true") return;
+                const isDisabled = link.getAttribute("aria-disabled") === "true";
+                const opensModal = link.hasAttribute("data-modal-open");
+                if (!isDisabled && !opensModal) setActiveSidebarLink(link);
+
+                if (!currentConfig?.collapseOnNavigate || link.dataset.route === "home" || link.dataset.soonTarget || isDisabled) return;
                 setSidebarCollapsed(sidebar, true);
             });
         }
@@ -1452,6 +1467,7 @@
         init,
         configure: configureSidebar,
         setCollapsed: setSidebarCollapsed,
+        setActiveLink: setActiveSidebarLink,
         openModal,
         bindNavTooltips,
         renderCompletionDots,

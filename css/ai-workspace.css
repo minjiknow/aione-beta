@@ -6,6 +6,7 @@
 .drawer-run-item {
     background: var(--bg, #f6f8fa);
 }
+
 /* ==================== Start: Workspace loading skeleton ==================== */
 
 .comparison-panel-area,
@@ -579,15 +580,15 @@ html[data-theme="dark"] .query-card:is(.active, .is-selected, .mapped) {
 }
 
 @media (max-width: 1024px) {
-    body[data-page="workspace"].is-new-workspace .upload-panel-area .workspace-file-section.is-collapsed .workspace-file-list.hidden {
+    .is-new-workspace .upload-panel-area .workspace-file-section.is-collapsed .workspace-file-list.hidden {
         display: flex !important;
     }
 
-    body[data-page="workspace"] .upload-panel-area .workspace-file-section.is-collapsed .workspace-file-empty-list {
+    .upload-panel-area .workspace-file-section.is-collapsed .workspace-file-empty-list {
         display: none !important;
     }
 
-    body[data-page="workspace"] .upload-panel-area .workspace-file-section.is-collapsed .upload-summary-footer {
+    .upload-panel-area .workspace-file-section.is-collapsed .upload-summary-footer {
         margin-top: 0;
         flex: 0 0 32px;
     }
@@ -1718,7 +1719,7 @@ html[data-theme="dark"] .doc-content-original {
     background: #0d1117;
 }
 
-html[data-theme="dark"] :is(.orig-page, .orig-page-form) {
+html[data-theme="dark"] .orig-page {
     border-color: #3a4655;
     background: #161b22;
     box-shadow: 0 4px 18px rgba(0, 0, 0, 0.32);
@@ -1768,7 +1769,7 @@ html[data-theme="dark"] .orig-form-info-label {
  */
 
 @media (max-width: 1280px) {
-    body[data-page="workspace"] .three-panel {
+    .three-panel {
         --three-panel-left-width: clamp(280px, calc(31.373vw - 41.574px), 360px);
         --three-panel-right-width: clamp(300px, calc(39.216vw - 101.965px), 400px);
     }
@@ -1779,6 +1780,23 @@ html[data-theme="dark"] .orig-form-info-label {
 
     .orig-form-info-row {
         grid-template-columns: 108px 1fr 108px 1fr;
+    }
+}
+
+@media (max-width: 1024px) {
+    .three-panel > .comparison-panel-area {
+        height: auto;
+        overflow: visible;
+    }
+
+    .comparison-panel-area .doc-split-view,
+    .comparison-panel-area :is(.doc-split-left, .doc-split-right, .doc-content-original, .doc-content) {
+        overflow: visible;
+    }
+
+    .comparison-panel-area .doc-split-view,
+    .comparison-panel-area :is(.doc-content-original, .doc-content) {
+        flex: 0 0 auto;
     }
 }
 
@@ -1861,23 +1879,23 @@ html[data-theme="dark"] .orig-form-info-label {
 
 /* ==================== Start: 질의 제외 필터 상태 ==================== */
 
-body[data-page="workspace"] .filter-btn-excluded {
+.filter-btn-excluded {
     --filter-color: var(--red, #cf222e);
     --filter-bg: color-mix(in srgb, var(--red, #cf222e) 6%, var(--surface, #fff));
 }
 
-body[data-page="workspace"] .filter-btn-excluded:not(.active, [aria-pressed="true"]) .filter-count {
+.filter-btn-excluded:not(.active, [aria-pressed="true"]) .filter-count {
     background: var(--surface-elevated, #f0f3f6);
     color: var(--text-muted, #8b949e);
 }
 
-body[data-page="workspace"] .filter-btn-excluded:is(.active, [aria-pressed="true"]) {
+.filter-btn-excluded:is(.active, [aria-pressed="true"]) {
     border-color: color-mix(in srgb, var(--red, #cf222e) 35%, var(--border, #d1d9e0));
     background: var(--filter-bg);
     color: var(--red, #cf222e);
 }
 
-body[data-page="workspace"] .filter-btn-excluded:is(.active, [aria-pressed="true"]) .filter-count {
+.filter-btn-excluded:is(.active, [aria-pressed="true"]) .filter-count {
     background: color-mix(in srgb, var(--red, #cf222e) 12%, var(--surface, #fff));
     color: var(--red, #cf222e);
 }

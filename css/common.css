@@ -7814,7 +7814,7 @@ body.is-component-layer-open {
 
 /* ==================== End: Preview (right side of center) ==================== */
 
-/* ==================== Start: Web Document Style (자료보기 · 기준 문서 · 비교 문서 공통) ==================== */
+/* ==================== Start: Draft Page (자료보기 · 기준 문서 · 비교 문서 공통) ==================== */
 
 .cmp-col-body {
     background: var(--bg);
@@ -7827,18 +7827,28 @@ body.is-component-layer-open {
         width 0.18s ease;
 }
 
-.web-doc-page {
+.draft-page {
+    width: min(100%, 860px);
+    min-width: 0;
     background: #fff;
     border: 1px solid var(--border);
     border-radius: var(--radius);
     padding: 28px 34px;
     box-shadow: 0 1px 4px rgba(31, 35, 40, 0.05);
-    margin-bottom: 18px;
+    margin: 0 auto 18px;
     min-height: 920px;
+    color: var(--text);
 }
 
-.web-doc-page:last-child {
+.draft-page:last-child {
     margin-bottom: 0;
+}
+
+html[data-theme="dark"] .draft-page {
+    border-color: var(--border);
+    background: #161b22;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.28);
+    color: var(--text);
 }
 
 .web-doc-page-footer {
@@ -7994,6 +8004,19 @@ body.is-component-layer-open {
     min-height: 0;
 }
 
+@media (max-width: 720px) {
+    .draft-page {
+        min-height: 760px;
+        padding: 22px 18px;
+    }
+}
+
+@media (max-width: 480px) {
+    .draft-page {
+        padding: 18px 12px;
+    }
+}
+
 .doc-viewer-status-bar {
     border-top: 1px solid var(--border);
     background: var(--bg);
@@ -8031,7 +8054,7 @@ body.is-component-layer-open {
     flex-shrink: 0;
 }
 
-/* ==================== End: Web Document Style (자료보기 · 기준 문서 · 비교 문서 공통) ==================== */
+/* ==================== End: Draft Page (자료보기 · 기준 문서 · 비교 문서 공통) ==================== */
 
 /* ==================== Start: Chat Panel ==================== */
 

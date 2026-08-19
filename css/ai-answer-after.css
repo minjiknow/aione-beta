@@ -15,7 +15,7 @@
     --three-panel-right-width: 440px;
 }
 
-body[data-page="answer-after-9"] {
+body {
     display: block;
     overflow: hidden;
 }
@@ -441,7 +441,6 @@ body[data-page="answer-after-9"] {
 
 .doc-viewer-body {
     position: relative;
-    overflow: auto;
     overscroll-behavior: contain;
     contain: layout paint;
 }
@@ -463,13 +462,6 @@ body[data-page="answer-after-9"] {
     overflow: hidden;
 }
 
-.web-doc-page {
-    width: min(100%, 860px);
-    margin-left: auto;
-    margin-right: auto;
-}
-
-html[data-theme="dark"] .web-doc-page,
 html[data-theme="dark"] .draft-editor {
     background: #161b22 !important;
     color: var(--text) !important;
@@ -913,7 +905,7 @@ html[data-theme="dark"] .draft-editor {
     margin: 0 auto;
 }
 
-.doc-viewer-panel[data-zoom]:not([data-zoom="100"]) .web-doc-page {
+.doc-viewer-panel[data-zoom]:not([data-zoom="100"]) .draft-page {
     max-width: none;
 }
 
@@ -3731,28 +3723,57 @@ html[data-theme="dark"] .workspace-creation-loading {
 
 @media (max-width: 1024px) {
     /* 답변서 비교 뷰 */
+    .panel-center:has(.compare-view) {
+        height: auto;
+        overflow: visible;
+    }
+
+    .panel-center:has(.compare-view) > .center-body,
+    .panel-center:has(.compare-view) .compare-view {
+        flex: 0 0 auto;
+        overflow: visible;
+    }
+
     .compare-stats-bar {
         display: grid;
         grid-template-columns: repeat(2, minmax(0, 1fr));
     }
 
+    .compare-select-sync {
+        display: none;
+    }
+
     .compare-three-col {
+        --compare-panel-height: 620px;
+        --compare-analysis-height: 380px;
         flex-direction: column;
         gap: 8px;
         padding: 8px;
+        flex: 0 0 auto;
+        overflow: visible;
+    }
+
+    .compare-view.document-statusbar-fullscreen .compare-three-col {
+        flex: 1 1 0;
         overflow-x: hidden;
         overflow-y: auto;
+        overscroll-behavior-y: contain;
     }
 
     .cmp-col {
-        flex: 0 0 auto;
+        height: var(--compare-panel-height);
         width: 100%;
-        min-height: 620px;
+        min-height: 0;
+        flex: 0 0 var(--compare-panel-height);
+        contain: layout paint;
+        isolation: isolate;
         border: 1px solid var(--border);
+        background: var(--surface);
     }
 
     .cmp-col-analysis {
-        min-height: 380px;
+        height: var(--compare-analysis-height);
+        flex-basis: var(--compare-analysis-height);
     }
 
     .cmp-col-resize {
@@ -3760,7 +3781,37 @@ html[data-theme="dark"] .workspace-creation-loading {
     }
 
     .cmp-col-body {
+        flex: 1 1 0;
         min-height: 0;
+        overflow: auto;
+    }
+
+    .cmp-col-head {
+        position: relative;
+        z-index: 1;
+        background: var(--surface);
+    }
+
+    .three-panel [data-panel="center"] > .center-body:has(> .recommend-view-wrapper:not(.doc-viewer-fullscreen):not(.document-statusbar-fullscreen)),
+    .three-panel [data-panel="center"] .recommend-view-wrapper:not(.doc-viewer-fullscreen):not(.document-statusbar-fullscreen),
+    .three-panel [data-panel="center"] .recommend-view-wrapper:not(.doc-viewer-fullscreen):not(.document-statusbar-fullscreen) > .center-split {
+        min-height: 0;
+        flex: 0 0 auto;
+        overflow: visible;
+    }
+
+    .three-panel > [data-panel="center"]:has(> .center-body > .recommend-view-wrapper:not(.doc-viewer-fullscreen):not(.document-statusbar-fullscreen)) {
+        height: auto;
+        overflow: visible;
+    }
+
+    .three-panel [data-panel="center"] .recommend-view-wrapper:not(.doc-viewer-fullscreen):not(.document-statusbar-fullscreen) :is(.center-left, .center-right) {
+        overflow: visible;
+    }
+
+    .three-panel [data-panel="center"] .recommend-view-wrapper:not(.doc-viewer-fullscreen):not(.document-statusbar-fullscreen) :is(.recommend-list, .preview-body) {
+        flex: 0 0 auto;
+        overflow: visible;
     }
 
     /* 답변서 초안 생성 */
@@ -3811,12 +3862,6 @@ html[data-theme="dark"] .workspace-creation-loading {
         border-radius: 10px;
     }
 
-    /* Answer After Page Base */
-    html:has(> body[data-page="answer-after-9"]),
-    body[data-page="answer-after-9"] {
-        overflow: hidden;
-    }
-
     [data-panel="folder"] {
         min-height: 430px;
     }
@@ -3843,17 +3888,14 @@ html[data-theme="dark"] .workspace-creation-loading {
 
 @media (max-width: 720px) {
     /* 답변서 비교 뷰 */
+    .compare-three-col {
+        --compare-panel-height: 720px;
+        --compare-analysis-height: 420px;
+    }
+
     .compare-stats-bar {
         grid-template-columns: 1fr 1fr;
         padding: 8px;
-    }
-
-    .cmp-col {
-        min-height: 720px;
-    }
-
-    .cmp-col-analysis {
-        min-height: 420px;
     }
 
     /* 답변서 초안 생성 */
@@ -3920,15 +3962,9 @@ html[data-theme="dark"] .workspace-creation-loading {
         padding: 10px;
     }
 
-    .web-doc-page {
-        padding: 22px 18px;
-        min-height: 760px;
-    }
-
     .web-doc-meta-box {
         grid-template-columns: 1fr;
     }
-
 }
 
 @media (max-width: 480px) {
@@ -3954,10 +3990,6 @@ html[data-theme="dark"] .workspace-creation-loading {
 
     .panel-center {
         min-height: 1320px;
-    }
-
-    .web-doc-page {
-        padding: 18px 12px;
     }
 
     .web-doc-title {

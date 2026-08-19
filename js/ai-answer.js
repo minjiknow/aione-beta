@@ -13,7 +13,7 @@
         "① (선택) 좌측 AI 참조소스에서 첨부파일을 업로드하고\n" +
         "② 이 채팅에 국회질의를 입력하시면\n" +
         "과거 유사답변서나 관련자료 추천하고 초안을 생성합니다.";
-    const ANSWER_PAGE_SELECTOR = 'body[data-page="answer"] > .app';
+    const ANSWER_PAGE_SELECTOR = ".app";
 
     const requiredSelectors = [
         ANSWER_PAGE_SELECTOR,
@@ -99,7 +99,6 @@
         if (!sidebar) return;
 
         window.AIOneSidebar?.configure(sidebar, {
-            activePage: "answer",
             initialCollapsed: true,
         });
     }

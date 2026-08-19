@@ -12,7 +12,7 @@
 	<link rel="stylesheet" href="../css/ai-home.css" />
 </head>
 
-<body data-page="home">
+<body>
 	<div class="app">
 
 		<!---------------------------------------- Start: 사이드 바 ---------------------------------------------->
@@ -45,7 +45,7 @@
 			<!------------------------------------ Start: 사이드바 메뉴 영역 ------------------------------------>
 			<nav class="sidebar-nav" aria-label="메인 네비게이션">
 				<div class="nav-group">
-					<a class="nav-link" href="ai-home.html" data-route="home" data-page="home" data-tooltip="AI-ONE 홈"
+					<a class="nav-link active" href="ai-home.html" data-route="home" data-tooltip="AI-ONE 홈"
 						aria-label="AI-ONE 홈">
 						<img src="../assets/icons/home.svg" data-icon="home" alt="" aria-hidden="true" />
 						<span class="nav-text">AI-ONE 홈</span>
@@ -53,7 +53,7 @@
 				</div>
 				<div class="nav-group">
 					<span class="nav-group-label">AI 서비스</span>
-					<a class="nav-link" href="ai-workspace.html" data-route="intake" data-page="intake"
+					<a class="nav-link" href="ai-workspace.html" data-route="intake"
 						data-tooltip="국회질의분류" aria-label="국회질의분류">
 						<svg viewBox="0 0 24 24" aria-hidden="true">
 							<path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
@@ -62,7 +62,7 @@
 						<span class="nav-text">국회질의분류</span>
 						<span class="nav-complete-dot hidden" aria-label="완료된 작업 있음" title="완료된 작업이 있습니다."></span>
 					</a>
-					<a class="nav-link" href="ai-answer.html" data-route="answer" data-page="answer"
+					<a class="nav-link" href="ai-answer.html" data-route="answer"
 						data-tooltip="국회 답변서 초안 생성" aria-label="국회 답변서 초안 생성">
 						<svg viewBox="0 0 24 24" aria-hidden="true">
 							<path d="M12 20h9"></path>
@@ -72,14 +72,14 @@
 						<span class="nav-complete-dot hidden" aria-label="완료된 작업 있음" title="완료된 작업이 있습니다."></span>
 					</a>
 					<a class="nav-link hidden" href="ai-answer-after.html" data-route="answer-after-9" hidden
-						data-page="answer-after-9" data-tooltip="국회답변서 9월이후" aria-label="국회답변서 9월이후">
+						data-tooltip="국회답변서 9월이후" aria-label="국회답변서 9월이후">
 						<svg viewBox="0 0 24 24" aria-hidden="true">
 							<path d="M12 20h9"></path>
 							<path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path>
 						</svg>
 						<span class="nav-text">국회답변서 9월이후</span>
 					</a>
-					<a class="nav-link" data-page="asset" data-modal-open="preparingServiceModal"
+					<a class="nav-link" data-modal-open="preparingServiceModal"
 						data-tooltip="국유재산 업무 관리" aria-label="국유재산 업무 관리 (준비중)">
 						<svg viewBox="0 0 24 24" aria-hidden="true">
 							<path d="M3 10 12 4l9 6"></path>
@@ -92,7 +92,7 @@
 						<span class="nav-text">국유재산 업무 관리</span>
 						<span class="nav-badge-soon">준비중</span>
 					</a>
-					<a class="nav-link" data-page="policy" data-modal-open="preparingServiceModal" data-tooltip="정책 안내서"
+					<a class="nav-link" data-modal-open="preparingServiceModal" data-tooltip="정책 안내서"
 						aria-label="정책 안내서 (준비중)">
 						<svg viewBox="0 0 24 24" aria-hidden="true">
 							<path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
@@ -105,8 +105,8 @@
 					</a>
 				</div>
 				<div class="nav-group">
-					<a class="nav-link" href="ai-chatbot.html" data-page="chatbot"
-						data-modal-open="preparingServiceModal" data-tooltip="AI-ONE 챗봇" aria-label="AI-ONE 챗봇 (준비중)">
+					<a class="nav-link" href="ai-chatbot.html" data-modal-open="preparingServiceModal"
+						data-tooltip="AI-ONE 챗봇" aria-label="AI-ONE 챗봇 (준비중)">
 						<svg viewBox="0 0 24 24" aria-hidden="true">
 							<path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
 						</svg>

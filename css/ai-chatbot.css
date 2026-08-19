@@ -131,10 +131,10 @@ body.chat-popup-mode .chat-window-open-btn {
     pointer-events: none;
     animation: bgFloat 12s ease-in-out infinite;
 }
-html[data-theme="dark"] body[data-page="chatbot"] .main-wrap {
+html[data-theme="dark"] .main-wrap {
     background-color: var(--bg);
 }
-html[data-theme="dark"] body[data-page="chatbot"] .main-wrap::before {
+html[data-theme="dark"] .main-wrap::before {
     background:
         radial-gradient(620px 620px at 10% 20%, rgba(77, 217, 192, 0.11) 0%, transparent 62%),
         radial-gradient(540px 540px at 82% 10%, rgba(var(--primary-rgb), 0.12) 0%, transparent 62%),
@@ -211,16 +211,16 @@ html[data-theme="dark"] body[data-page="chatbot"] .main-wrap::before {
     background: radial-gradient(circle, rgba(26, 127, 55, 0.06) 0%, transparent 60%);
     animation: orbDrift1 20s ease-in-out infinite reverse;
 }
-html[data-theme="dark"] body[data-page="chatbot"] .bg-orb {
+html[data-theme="dark"] .bg-orb {
     opacity: 0.9;
 }
-html[data-theme="dark"] body[data-page="chatbot"] .bg-orb-1 {
+html[data-theme="dark"] .bg-orb-1 {
     background: radial-gradient(circle, rgba(77, 217, 192, 0.24) 0%, transparent 66%);
 }
-html[data-theme="dark"] body[data-page="chatbot"] .bg-orb-2 {
+html[data-theme="dark"] .bg-orb-2 {
     background: radial-gradient(circle, rgba(var(--primary-rgb), 0.22) 0%, transparent 66%);
 }
-html[data-theme="dark"] body[data-page="chatbot"] .bg-orb-3 {
+html[data-theme="dark"] .bg-orb-3 {
     background: radial-gradient(circle, rgba(163, 113, 247, 0.2) 0%, transparent 66%);
 }
 @keyframes orbDrift1 {

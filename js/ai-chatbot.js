@@ -64,7 +64,6 @@
         hydrateIcons();
         const sidebar = document.querySelector(".chatbot-sidebar");
         window.AIOneSidebar?.configure(sidebar, {
-            activePage: "chatbot",
             initialCollapsed: false,
         });
         applyPopupMode();
@@ -144,15 +143,7 @@
 
     // 챗봇 사이드바 활성 메뉴 전환
     function setActiveChatbotNavLink(activeLink) {
-        const sidebar = activeLink?.closest(".chatbot-sidebar");
-        if (!sidebar) return;
-
-        $$(".nav-link", sidebar).forEach((link) => {
-            const isActive = link === activeLink;
-            link.classList.toggle("active", isActive);
-            if (isActive) link.setAttribute("aria-current", "page");
-            else link.removeAttribute("aria-current");
-        });
+        window.AIOneSidebar?.setActiveLink(activeLink);
     }
 
     // 화면 주요 이벤트 연결
@@ -171,7 +162,7 @@
         if (sidebarNav) {
             sidebarNav.addEventListener("click", (event) => {
                 const navLink = event.target.closest(".nav-link");
-                if (!navLink || !sidebarNav.contains(navLink) || navLink.dataset.page === "home" || navLink.getAttribute("aria-disabled") === "true") return;
+                if (!navLink || !sidebarNav.contains(navLink) || navLink.dataset.route === "home" || navLink.getAttribute("aria-disabled") === "true") return;
                 if (navLink.matches('a[href="#"]')) event.preventDefault();
                 setActiveChatbotNavLink(navLink);
             });

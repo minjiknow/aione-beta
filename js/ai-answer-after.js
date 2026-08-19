@@ -293,7 +293,7 @@
                 // 문서 페이지 구성
                 function buildDocPage({ org, title, continueTitle, pageIdx, totalPages, metaItems, lead, sections, tableHtml }) {
                     const header = pageIdx === 0 ? `<span class="web-doc-org">${org}</span><h3 class="web-doc-title">${title}</h3>` : `<span class="web-doc-org">${continueTitle || `${title} · (계속)`}</span>`;
-                    return `<div class="web-doc-page">
+                    return `<div class="draft-page">
       <div class="web-doc-header${pageIdx > 0 ? " web-doc-header-sub" : ""}">${header}</div>
       <div class="web-doc-body">
         ${pageIdx === 0 ? buildDocMetaBox(metaItems || []) : ""}
@@ -361,7 +361,7 @@
 
                     const basePagesHolder = document.createElement("div");
                     basePagesHolder.innerHTML = buildCompareDraftPages();
-                    const pages = Array.from(basePagesHolder.querySelectorAll(".web-doc-page"));
+                    const pages = Array.from(basePagesHolder.querySelectorAll(".draft-page"));
                     pages.forEach((page, pageIndex) => {
                         const org = page.querySelector(".web-doc-org");
                         if (org) org.textContent = pageIndex === 0 ? `재정경제부 · 답변서 초안 · ${formatDraftVersionTab(version)}` : `답변서 초안 · ${formatDraftVersionTab(version)} · (계속)`;
@@ -662,7 +662,7 @@
 
                     state.body = body;
                     state.track = body.querySelector(".doc-pages-track") || body.firstElementChild || body;
-                    state.pages = Array.from(body.querySelectorAll(".web-doc-page"));
+                    state.pages = Array.from(body.querySelectorAll(".draft-page"));
                     state.statusBar = panel.querySelector("[data-document-statusbar]");
                     state.pageNumEl = panel.querySelector("[data-document-page-current]");
                     state.pageTotalEl = panel.querySelector("[data-document-page-total]");
@@ -778,6 +778,30 @@
     </div>`;
                 }
 
+                // 답변서 비교 스크롤 동기화 모드 반영
+                function syncAnswerCompareScrollMode(scope = document) {
+                    const syncCheck = scope.querySelector("#compareScrollSync");
+                    if (!syncCheck) return;
+
+                    const isResponsive = isResponsiveAnswerMode();
+                    if (syncCheck.dataset.desktopChecked === undefined) {
+                        syncCheck.dataset.desktopChecked = String(syncCheck.checked);
+                    }
+
+                    if (isResponsive) {
+                        if (!syncCheck.disabled) syncCheck.dataset.desktopChecked = String(syncCheck.checked);
+                        syncCheck.checked = false;
+                        syncCheck.disabled = true;
+                        scope.querySelectorAll("#compareBaseBody, #compareDraftBody").forEach((body) => {
+                            body.scrollTop = 0;
+                        });
+                        return;
+                    }
+
+                    syncCheck.disabled = false;
+                    syncCheck.checked = syncCheck.dataset.desktopChecked !== "false";
+                }
+
                 // 비교 상태 바 초기화
                 function initCompareStatusBar(scope = document) {
                     const statusBarArea = scope.querySelector("#compareStatusBar");
@@ -845,7 +869,7 @@
                     let syncingCompareScroll = false;
                     // 비교 스크롤 동기화
                     const syncCompareScroll = (sourceState, targetState) => {
-                        if (syncingCompareScroll || !syncCheck?.checked || !sourceState?.body || !targetState?.body) return;
+                        if (isResponsiveAnswerMode() || syncingCompareScroll || !syncCheck?.checked || !sourceState?.body || !targetState?.body) return;
                         const sourceMax = Math.max(1, sourceState.body.scrollHeight - sourceState.body.clientHeight);
                         const targetMax = Math.max(0, targetState.body.scrollHeight - targetState.body.clientHeight);
                         syncingCompareScroll = true;
@@ -864,6 +888,13 @@
                         draftState.body.dataset.answerCompareSyncBound = "true";
                         draftState.body.addEventListener("scroll", () => syncCompareScroll(panels.draft?._docViewerState, panels.base?._docViewerState), { passive: true });
                     }
+                    if (syncCheck && !syncCheck.dataset.responsiveSyncBound) {
+                        syncCheck.dataset.responsiveSyncBound = "true";
+                        syncCheck.addEventListener("change", () => {
+                            if (!isResponsiveAnswerMode()) syncCheck.dataset.desktopChecked = String(syncCheck.checked);
+                        });
+                    }
+                    syncAnswerCompareScrollMode(scope);
 
                     Object.values(panels).forEach((panel) => {
                         panel.tabIndex = 0;
@@ -3289,8 +3320,10 @@
                             if (!container.isConnected || container.clientWidth <= 0) return;
                             if (isResponsiveAnswerMode()) {
                                 clearResponsiveAnswerPanelStyles(container);
+                                syncAnswerCompareScrollMode(container);
                                 wasResponsive = true;
                             } else {
+                                syncAnswerCompareScrollMode(container);
                                 applySavedOrDefaultPanelLayout();
                                 wasResponsive = false;
                             }
@@ -3303,6 +3336,7 @@
                             if (document.visibilityState === "hidden" || container.clientWidth <= 0) return;
                             const responsive = isResponsiveAnswerMode();
                             if (responsive) {
+                                if (!wasResponsive) syncAnswerCompareScrollMode(container);
                                 clearResponsiveAnswerPanelStyles(container);
                                 lastContainerWidth = container.clientWidth;
                                 wasResponsive = true;
@@ -3311,6 +3345,7 @@
 
                             if (wasResponsive) {
                                 wasResponsive = false;
+                                syncAnswerCompareScrollMode(container);
                                 applySavedOrDefaultPanelLayout();
                                 lastContainerWidth = container.clientWidth;
                                 return;
@@ -5461,10 +5496,10 @@ ${lines.join("\n")}
         hydrateIcons(document);
         if (workspaceStarted) return;
 
-        const sidebar = document.querySelector('body[data-page="answer-after-9"] > .app > .sidebar');
+        const sidebar = document.querySelector(".app > .sidebar");
         const panelArea = document.querySelector(".three-panel-area");
         const threePanel = panelArea?.querySelector(".three-panel");
-        const topbarArea = document.querySelector('body[data-page="answer-after-9"] > .app > .main-wrap > .topbar-area');
+        const topbarArea = document.querySelector(".app > .main-wrap > .topbar-area");
         const topbar = topbarArea?.querySelector(".app-topbar");
         const smartUpload = document.querySelector("#smartSearchGuide [data-file-upload-zone]");
         const reportSidepop = document.querySelector("#answerReportSidepop[data-sidepop]");
@@ -5474,7 +5509,6 @@ ${lines.join("\n")}
         if (!sidebar || !topbar || !threePanel || !smartUpload || !reportSidepop || !reportUpload || !toast) return;
 
         window.AIOneSidebar?.configure(sidebar, {
-            activePage: "answer-after-9",
             initialCollapsed: false,
             storageKey: "sidebar-collapsed",
             collapseOnNavigate: true,

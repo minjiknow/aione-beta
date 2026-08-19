@@ -158,7 +158,6 @@
 
         sidebar.dataset.homeReady = "true";
         window.AIOneSidebar?.configure(sidebar, {
-            activePage: "home",
             initialCollapsed: false,
         });
 

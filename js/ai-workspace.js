@@ -849,7 +849,6 @@
 
         sidebar.dataset.workspaceReady = "true";
         window.AIOneSidebar?.configure(sidebar, {
-            activePage: "intake",
             initialCollapsed: true,
             responsiveRailQuery: "(max-width: 1280px)",
         });
@@ -1438,7 +1437,7 @@
     // 워크스페이스 원문 문서 렌더링
     function renderWorkspaceOriginalDocument(fileData) {
         const meta = { ...workspaceSampleData.defaultMeta, ...(fileData.meta || {}) };
-        const page = document.querySelector(".comparison-panel-area .orig-page-form");
+        const page = document.querySelector(".comparison-panel-area .orig-page");
         const boxes = page?.querySelector(".orig-query-boxes");
         if (!page || !boxes) return;
         const isSubmissionVersion = page.classList.contains("orig-page-submission");
@@ -2383,7 +2382,7 @@
         });
         const activeFileItem = fileItems.find((item) => item.classList.contains("active")) || fileItems[0];
         activeWorkspaceFileName = activeFileItem?.dataset.fileKey || files[0]?.name || "";
-        const activePage = document.querySelector(".comparison-panel-area .orig-page-form");
+        const activePage = document.querySelector(".comparison-panel-area .orig-page");
         const activeQueries = workspaceQuestionCards.map((query) => ({ ...query, id: Number(query.id) }));
         fileData[activeWorkspaceFileName] = {
             meta: {
