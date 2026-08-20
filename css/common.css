@@ -4853,7 +4853,7 @@ html[data-theme="dark"] .chatbot-sidebar {
 }
 
 /* Intake 기준의 상단 주요 액션과 목록 액션을 모든 Topbar에서 동일하게 사용합니다. */
-:is(.app-topbar-actions, .topbar > .topbar-right) #newClassifyBtn {
+.topbar-right .button.button-soft-primary {
     width: auto;
     min-width: 0;
     min-height: 32px;
@@ -4869,19 +4869,19 @@ html[data-theme="dark"] .chatbot-sidebar {
     box-shadow: 0 1px 2px rgba(var(--primary-rgb, 9, 105, 218), 0.06);
 }
 
-:is(.app-topbar-actions, .topbar > .topbar-right) #newClassifyBtn:hover:not(:disabled, [aria-disabled="true"]) {
+.topbar-right .button.button-soft-primary:hover:not(:disabled, [aria-disabled="true"]) {
     border-color: var(--primary, #0969da);
     background: var(--primary, #0969da);
     color: #fff;
     box-shadow: 0 5px 14px rgba(var(--primary-rgb, 9, 105, 218), 0.22);
 }
 
-:is(.app-topbar-actions, .topbar > .topbar-right) #newClassifyBtn :is(img, svg) {
+.topbar-right .button.button-soft-primary :is(img, svg) {
     width: 13px;
     height: 13px;
 }
 
-:is(.app-topbar-actions, .topbar > .topbar-right) #runDrawerBtn {
+.topbar-right .icon-button.icon-button-purple {
     width: 32px;
     height: 32px;
     border-color: rgba(130, 80, 223, 0.42);
@@ -4889,20 +4889,23 @@ html[data-theme="dark"] .chatbot-sidebar {
     color: var(--purple, #8250df);
     box-shadow: 0 1px 2px rgba(130, 80, 223, 0.06);
 }
+.icon-button.icon-button-purple.transparent {
+    background: transparent;
+}
 
-:is(.app-topbar-actions, .topbar > .topbar-right) #runDrawerBtn:hover:not(:disabled, [aria-disabled="true"]) {
+.topbar-right .icon-button.icon-button-purple:hover:not(:disabled, [aria-disabled="true"]) {
     border-color: var(--purple, #8250df);
     background: var(--purple, #8250df);
     color: #fff;
     box-shadow: 0 5px 14px rgba(130, 80, 223, 0.22);
 }
 
-:is(.app-topbar-actions, .topbar > .topbar-right) #runDrawerBtn :is(img, svg) {
+.topbar-right .icon-button.icon-button-purple :is(img, svg) {
     width: 18px;
     height: 18px;
 }
 
-.app-topbar-actions #runDrawerBtn:hover:not(:disabled, [aria-disabled="true"]) img[data-icon] {
+.topbar-right .icon-button.icon-button-purple:hover:not(:disabled, [aria-disabled="true"]) img[data-icon] {
     filter: var(--icon-filter-white);
 }
 
@@ -5237,7 +5240,7 @@ html[data-theme="dark"] .app-topbar :is(.topbar-subtit, .topbar-context-meta) {
     background: rgba(0, 0, 0, 0.4);
 }
 
-:is(#sidebarProfileModal, #sidebarSettingsModal, #sidebarLogoutModal).modal > .modal-bg {
+.modal-blur > .modal-bg {
     background: rgba(13, 17, 23, 0.46);
     -webkit-backdrop-filter: blur(2px);
     backdrop-filter: blur(2px);

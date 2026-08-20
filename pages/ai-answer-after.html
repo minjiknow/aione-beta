@@ -154,7 +154,7 @@
 				-->
 
 			<!---------------------------------------- Start: 내 정보 클릭 시 나오는 프로필 모달---------------------------------------------->
-			<div class="hidden modal" id="sidebarProfileModal" data-component="modal" data-modal>
+			<div class="hidden modal modal-blur" id="sidebarProfileModal" data-component="modal" data-modal>
 				<div class="modal-bg" data-modal-close aria-hidden="true"></div>
 				<section class="modal-contents modal-medium modal-variant-account-profile account-profile-modal"
 					role="dialog" aria-modal="true" data-modal-variant="account-profile" aria-label="내 정보">
@@ -209,7 +209,7 @@
 
 
 			<!---------------------------------------- Start: 환경설정 클릭 시 나오는 프로필 모달---------------------------------------------->
-			<div class="hidden modal" id="sidebarSettingsModal" data-component="modal" data-modal>
+			<div class="hidden modal modal-blur" id="sidebarSettingsModal" data-component="modal" data-modal>
 				<div class="modal-bg" data-modal-close aria-hidden="true"></div>
 				<section class="modal-contents modal-medium modal-variant-account-settings account-settings-modal"
 					role="dialog" aria-modal="true" data-modal-variant="account-settings" aria-label="환경설정">
@@ -336,7 +336,7 @@
 
 
 			<!---------------------------------------- Start: 로그아웃 클릭 시 나오는 프로필 모달---------------------------------------------->
-			<div class="hidden modal" id="sidebarLogoutModal" data-component="modal" data-modal>
+			<div class="hidden modal modal-blur" id="sidebarLogoutModal" data-component="modal" data-modal>
 				<div class="modal-bg" data-modal-close aria-hidden="true"></div>
 				<section class="modal-contents modal-medium modal-variant-logout" role="dialog" aria-modal="true"
 					data-modal-variant="logout" aria-label="로그아웃 확인">
@@ -409,13 +409,12 @@
 
 						<div class="topbar-right app-topbar-actions">
 							<button type="button" class="button button-soft-primary" id="newClassifyBtn"
-								data-pages="answer-after-9" data-workspace-action="new-chat" aria-label="새 채팅"
-								title="새 채팅">
+								data-workspace-action="new-chat" aria-label="새 채팅" title="새 채팅">
 								<img class="icon icon-small" aria-hidden="true" data-icon="plus" alt="" />
 								<span>새 채팅</span>
 							</button>
 							<button type="button" class="icon-button icon-button-purple" id="runDrawerBtn"
-								data-pages="answer-after-9" aria-label="채팅 목록" title="채팅 목록">
+								aria-label="채팅 목록" title="채팅 목록">
 								<img class="icon icon-text" aria-hidden="true" data-icon="list" alt="" />
 							</button>
 
@@ -564,7 +563,7 @@
 								<!-----------------Start: 파일 업로드 박스 ----------------------->
 								<div id="smartSearchGuide" data-component-type="type3" class="file-upload-area">
 									<div class="upload-zone upload-zone-type3 default" data-file-upload-zone
-										role="button" tabindex="0" aria-label="AI 참고소스 파일 업로드">
+										role="button" tabindex="0" aria-label="AI 참고소스 파일 업로드" aria-disabled="true">
 										<img class="upload-zone-default-icon" src="../assets/icons/upload.svg" alt=""
 											aria-hidden="true" />
 										<span class="upload-zone-icon" data-slot="icon" aria-hidden="true">
@@ -588,7 +587,7 @@
 											</span></span>
 										<div data-slot="input">
 											<input type="file" id="after9SourceFileInput" name="answerSources" multiple
-												accept=".pdf,.hwp,.hwpx,.docx,.txt,.png,.jpg,.jpeg" />
+												accept=".pdf,.hwp,.hwpx,.docx,.txt,.png,.jpg,.jpeg" disabled />
 										</div>
 									</div>
 								</div>
@@ -1473,7 +1472,7 @@
 
 		<!-----------------------Start: 채팅목록 및 오류신고 사이드팝업------------------->
 		<div class="drawer-area">
-			<div class="drawer" id="answerReportSidepop" data-component="sidepop" data-sidepop
+			<div class="drawer sidepop-error" id="answerReportSidepop" data-component="sidepop" data-sidepop
 				data-sidepop-action-modal="answerAfterChatActionModal"
 				data-sidepop-rename-modal="answerAfterChatRenameModal"
 				data-sidepop-delete-modal="answerAfterChatDeleteModal" hidden>
@@ -1947,24 +1946,12 @@
 		</ul>
 		<!-- Start: 실행 중 복제하는 답변서 초안 버전 바 원형 -->
 		<div id="draftVersionBarPrototype" class="draft-version-bar" data-dom-prototype hidden>
-			<div class="draft-tabs-shell">
-				<button class="draft-tabs-scroll-btn" id="draftTabsPrev" type="button" aria-label="이전 버전 탭 보기"
-					title="이전 버전 탭 보기">
-					<svg viewBox="0 0 24 24" width="14" height="14" aria-hidden="true">
-						<path d="M15 18l-6-6 6-6" />
-					</svg>
-				</button>
-				<div class="draft-doc-tabs" id="draftDocTabs"></div>
-				<button class="draft-tabs-scroll-btn" id="draftTabsNext" type="button" aria-label="다음 버전 탭 보기"
-					title="다음 버전 탭 보기">
-					<svg viewBox="0 0 24 24" width="14" height="14" aria-hidden="true">
-						<path d="M9 18l6-6-6-6" />
-					</svg>
-				</button>
-			</div>
+			<div class="answer-version-labels" data-answer-version-labels aria-label="열린 답변서 초안 버전"></div>
 			<div class="version-bar-right">
-				<label class="version-label" for="versionSelect">버전</label>
-				<select class="version-select" id="versionSelect" aria-label="답변서 초안 버전 선택"></select>
+				<label class="answer-version-control">
+					<span>버전</span>
+					<select class="answer-version-select" aria-label="답변서 초안 버전 선택"></select>
+				</label>
 				<button class="draft-compare-toggle" id="draftCompareBtn" type="button" title="초안 버전 2개를 나란히 비교">
 					<svg viewBox="0 0 24 24" width="14" height="14" aria-hidden="true">
 						<path d="M3 5h8v14H3zM13 5h8v14h-8z" />
@@ -1972,8 +1959,8 @@
 					</svg>
 					<span>버전 비교</span>
 				</button>
-				<button class="verify-icon-btn" id="verifyDownloadBtn" type="button" aria-label="현재 초안 다운로드"
-					title="다운로드">
+				<button class="icon-button icon-button-ghost answer-version-download" data-download-draft type="button"
+					aria-label="현재 초안 다운로드" title="다운로드">
 					<svg viewBox="0 0 24 24" width="14" height="14" aria-hidden="true">
 						<path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
 						<polyline points="7 10 12 15 17 10" />
@@ -2177,419 +2164,377 @@
 					</button>
 				</div>
 				<div class="draft-editor" contenteditable="false">
-					<div
-						style="border:2px solid var(--border);border-radius:8px;padding:16px 24px;margin-bottom:24px;display:flex;align-items:center;gap:16px;">
-						<div
-							style="width:40px;height:40px;border:2px solid var(--text-primary);border-radius:6px;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:calc(14px * var(--ui-font-scale));">
-							1</div>
-						<div style="font-size:calc(16px * var(--ui-font-scale));font-weight:700;line-height:1.5;">지방교부세가
-							지급되고 있고 지방채 인수시 지자체 채무는 증가함에도 추경을 편성해야 하는 이유는?</div>
+					<div class="answer-question-block">
+						<strong>1</strong>
+						<h3>지방교부세가 지급되고 있고 지방채 인수시 지자체 채무는 증가함에도 추경을 편성해야 하는 이유는?</h3>
 					</div>
 
-					<div class="draft-summary-box">
-						<p style="margin:0;line-height:1.8;" class="verify-sentence verify-green"
-							data-verify-tone="verify-green" data-verify-idx="1">□ 지방자치단체의 특정 자본적 지출 사업 수행을 위해 공공자금관리기금이
+					<div class="answer-summary-block">
+						<p class="answer-summary-line verify-sentence verify-green" data-verify-tone="verify-green"
+							data-verify-idx="1">□ 지방자치단체의 특정 자본적 지출 사업 수행을 위해 공공자금관리기금이
 							지방채를
 							장기 저리로 인수하여 지방재정을 지원하기 때문입니다. <sup class="verify-badge verify-badge-green"
 								data-vbadge="1">[1]</sup></p>
 					</div>
 
-					<h3 style="margin-top:24px;">□ 지방채 인수 추경 편성 배경</h3>
-					<ul style="line-height:2;">
-						<li class="verify-sentence verify-green" data-verify-tone="verify-green" data-verify-idx="2">
+					<section>
+						<h4>□ 지방채 인수 추경 편성 배경</h4>
+						<p class="verify-sentence verify-green" data-verify-tone="verify-green" data-verify-idx="2">
 							공공자금관리기금(공자기금)은 지방재정 지원을 목적으로 지방자치단체가 발행하는 지방채를 장기 저리로 인수하여 자금을 지원함 <sup
-								style="color:var(--accent-blue);font-size:calc(10px * var(--ui-font-scale));">1,2</sup>
+								class="answer-source-citation">1,2</sup>
 							<sup class="verify-badge verify-badge-green" data-vbadge="2">[2]</sup>
-						</li>
-						<li class="verify-sentence verify-yellow" data-verify-tone="verify-yellow" data-verify-idx="3">
+						</p>
+						<p class="verify-sentence verify-yellow" data-verify-tone="verify-yellow" data-verify-idx="3">
 							특히
 							도로, 지하철 건설, 공공용 시설 설치 및 지역개발사업 등 특정 자본적 지출 사업의 원활한 추진을 위해 필요한 경우 추경을 통해 인수 예산을 편성함 <sup
-								style="color:var(--accent-blue);font-size:calc(10px * var(--ui-font-scale));">1,3</sup>
+								class="answer-source-citation">1,3</sup>
 							<sup class="verify-badge verify-badge-yellow" data-vbadge="3">[주의]</sup>
-						</li>
-					</ul>
+						</p>
+					</section>
 
-					<h3 style="margin-top:24px;">□ 공자기금 지방채 인수 제도 개요</h3>
-					<p style="padding-left:16px;" class="verify-sentence verify-red" data-verify-tone="verify-red"
-						data-verify-idx="4">ㅇ 지방채 인수의 구체적인 지원 대상 및 조건은 다음과 같음 <sup
-							style="color:var(--accent-blue);font-size:calc(10px * var(--ui-font-scale));">1,3</sup> <sup
-							class="verify-badge verify-badge-red" data-vbadge="4">[출처없음]</sup></p>
-					<table class="draft-table">
-						<thead>
-							<tr>
-								<th style="width:100px;">구분</th>
-								<th>내용</th>
-							</tr>
-						</thead>
-						<tbody>
-							<tr>
-								<td>지원대상</td>
-								<td>지방자치단체(시·도)</td>
-							</tr>
-							<tr>
-								<td>지원사업</td>
-								<td>도로, 지하철건설, 공용·공공용시설의 설치, 지역개발사업 등 특정 자본적 지출 사업 (경상적 사업비, 인건비 등 불가)</td>
-							</tr>
-							<tr>
-								<td>지원조건</td>
-								<td>인수금리: 공자기금 예탁금리와 동일(분기별 고정금리)<br />인수기간: 5년 거치 10년 분할 상환</td>
-							</tr>
-							<tr>
-								<td>집행절차</td>
-								<td>행안부 발행계획 마련 및 협의(9월) → 행안부 지자체별 계획 승인(10월 말) → 지방의회 의결 후 인수 요청(연도 중)</td>
-							</tr>
-						</tbody>
-					</table>
+					<section>
+						<h4>□ 공자기금 지방채 인수 제도 개요</h4>
+						<p class="verify-sentence verify-red" data-verify-tone="verify-red" data-verify-idx="4">ㅇ 지방채
+							인수의 구체적인 지원 대상 및 조건은 다음과 같음 <sup class="answer-source-citation">1,3</sup> <sup
+								class="verify-badge verify-badge-red" data-vbadge="4">[출처없음]</sup></p>
+						<table class="draft-table">
+							<thead>
+								<tr>
+									<th style="width:100px;">구분</th>
+									<th>내용</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td>지원대상</td>
+									<td>지방자치단체(시·도)</td>
+								</tr>
+								<tr>
+									<td>지원사업</td>
+									<td>도로, 지하철건설, 공용·공공용시설의 설치, 지역개발사업 등 특정 자본적 지출 사업 (경상적 사업비, 인건비 등 불가)</td>
+								</tr>
+								<tr>
+									<td>지원조건</td>
+									<td>인수금리: 공자기금 예탁금리와 동일(분기별 고정금리)<br />인수기간: 5년 거치 10년 분할 상환</td>
+								</tr>
+								<tr>
+									<td>집행절차</td>
+									<td>행안부 발행계획 마련 및 협의(9월) → 행안부 지자체별 계획 승인(10월 말) → 지방의회 의결 후 인수 요청(연도 중)</td>
+								</tr>
+							</tbody>
+						</table>
+					</section>
 
-					<h3 style="margin-top:24px;">□ 추경 편성의 구체적 사례</h3>
-					<ul style="line-height:2;">
-						<li class="verify-sentence verify-green" data-verify-tone="verify-green" data-verify-idx="5">
+					<section>
+						<h4>□ 추경 편성의 구체적 사례</h4>
+						<p class="verify-sentence verify-green" data-verify-tone="verify-green" data-verify-idx="5">
 							광주·전남
 							통합특별시 출범(2026.7.1. 예정)과 관련하여 통합전산망 구축, 안내표지판 설치, 재난관리기금 조성 등 지자체의 실제 지방채 인수 수요가 발생함에 따라 이를
 							반영하여
-							추경을 편성함 <sup
-								style="color:var(--accent-blue);font-size:calc(10px * var(--ui-font-scale));">1,4</sup>
+							추경을 편성함 <sup class="answer-source-citation">1,4</sup>
 							<sup class="verify-badge verify-badge-green" data-vbadge="5">[1]</sup>
-						</li>
-					</ul>
+						</p>
+					</section>
 
-					<hr style="margin:28px 0;border:none;border-top:1px solid var(--border);" />
-
-					<div style="display:flex;align-items:center;gap:12px;margin-bottom:20px;">
-						<div
-							style="background:var(--text-primary);color:#fff;border-radius:4px;padding:4px 10px;font-size:calc(12px * var(--ui-font-scale));font-weight:600;">
-							참고 1</div>
-						<span style="font-size:calc(15px * var(--ui-font-scale));font-weight:700;">공자기금 지방채 인수 제도</span>
-					</div>
-
-					<h4 style="margin-bottom:8px;">(1) 제도 개요 및 목적</h4>
-					<ul style="line-height:2;">
-						<li class="verify-sentence verify-green" data-verify-tone="verify-green" data-verify-idx="6">
+					<section>
+						<h3>참고 1 · 공자기금 지방채 인수 제도</h3>
+						<h4>(1) 제도 개요 및 목적</h4>
+						<p class="verify-sentence verify-green" data-verify-tone="verify-green" data-verify-idx="6">
 							지방재정
 							지원을 목적으로 지방자치단체가 발행하는 지방채를 장기 저리로 인수 <sup class="verify-badge verify-badge-green"
-								data-vbadge="6">[2]</sup></li>
-						<li class="verify-sentence verify-yellow" data-verify-tone="verify-yellow" data-verify-idx="7">
+								data-vbadge="6">[2]</sup></p>
+						<p class="verify-sentence verify-yellow" data-verify-tone="verify-yellow" data-verify-idx="7">
 							지방채의
 							정의: 지자체가 증권발행방법으로 차입하는 지방채증권과 증서에 의한 차입금이 있으며, 공자기금은 차입금에 해당 <sup
-								class="verify-badge verify-badge-yellow" data-vbadge="7">[주의]</sup></li>
-						<li class="verify-sentence verify-red" data-verify-tone="verify-red" data-verify-idx="8">기타 운영
+								class="verify-badge verify-badge-yellow" data-vbadge="7">[주의]</sup></p>
+						<p class="verify-sentence verify-red" data-verify-tone="verify-red" data-verify-idx="8">기타 운영
 							사항: 타
 							회계·기금 예탁, 관리기금 계정 간 예탁 및 전출, 국·공채 등 유가증권 인수 또는 매입 수행 <sup
-								class="verify-badge verify-badge-red" data-vbadge="8">[출처없음]</sup></li>
-					</ul>
+								class="verify-badge verify-badge-red" data-vbadge="8">[출처없음]</sup></p>
 
-					<h4 style="margin-bottom:8px;">(2) 인수 조건 및 현황</h4>
-					<ul style="line-height:2;">
-						<li class="verify-sentence verify-green" data-verify-tone="verify-green" data-verify-idx="9">
+						<h4>(2) 인수 조건 및 현황</h4>
+						<p class="verify-sentence verify-green" data-verify-tone="verify-green" data-verify-idx="9">
 							인수금리:
 							공자기금 예탁금리와 동일하며 분기별 고정 적용 ('26.2분기 3.435%) <sup class="verify-badge verify-badge-green"
-								data-vbadge="9">[1]</sup></li>
-						<li class="verify-sentence verify-green" data-verify-tone="verify-green" data-verify-idx="10">
+								data-vbadge="9">[1]</sup></p>
+						<p class="verify-sentence verify-green" data-verify-tone="verify-green" data-verify-idx="10">
 							인수기간:
-							5년 거치 10년 분할 상환 <sup class="verify-badge verify-badge-green" data-vbadge="10">[2]</sup></li>
-					</ul>
+							5년 거치 10년 분할 상환 <sup class="verify-badge verify-badge-green" data-vbadge="10">[2]</sup></p>
 
-					<table class="draft-table">
-						<thead>
-							<tr>
-								<th style="width:100px;">구분</th>
-								<th>내용</th>
-							</tr>
-						</thead>
-						<tbody>
-							<tr>
-								<td>지원대상</td>
-								<td>지방자치단체(시·도)</td>
-							</tr>
-							<tr>
-								<td>지원사업</td>
-								<td>도로, 지하철건설, 공용·공공용시설의 설치, 지역개발사업 등의 특정 자본적 지출 사업 (경상적 사업비, 인건비 등은 불가)</td>
-							</tr>
-							<tr>
-								<td>지원조건</td>
-								<td>· 인수금리: 공자기금 예탁금리와 동일(분기별 고정금리)<br />전분기 공자기금 총괄계정 평균 조달금리 +
-									기금운용경비(0.1%p)<br />금리(%):
-									('25.1분기) 2.975, (2분기) 2.794, (3분기) 2.683, (4분기) 2.713, ('26.1분기) 2.957, (2분기)
-									3.435<br />· 인수기간: 5년거치 10년 분할 상환</td>
-							</tr>
-							<tr>
-								<td>집행절차</td>
-								<td>① 행안부의 지방채 발행계획 마련 및 우리부 협의 (9월) — 지방재정법 시행령 제11조, 공공자금관리기금법 시행령 제2조 등 근거<br />②
-									행안부의 각
-									지자체별 지방채 발행계획 승인(10월 말)<br />③ 지자체별 지방의회 의결 후 지방채 인수 요청(연도 중)</td>
-							</tr>
-						</tbody>
-					</table>
+						<table class="draft-table">
+							<thead>
+								<tr>
+									<th style="width:100px;">구분</th>
+									<th>내용</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td>지원대상</td>
+									<td>지방자치단체(시·도)</td>
+								</tr>
+								<tr>
+									<td>지원사업</td>
+									<td>도로, 지하철건설, 공용·공공용시설의 설치, 지역개발사업 등의 특정 자본적 지출 사업 (경상적 사업비, 인건비 등은 불가)</td>
+								</tr>
+								<tr>
+									<td>지원조건</td>
+									<td>· 인수금리: 공자기금 예탁금리와 동일(분기별 고정금리)<br />전분기 공자기금 총괄계정 평균 조달금리 +
+										기금운용경비(0.1%p)<br />금리(%):
+										('25.1분기) 2.975, (2분기) 2.794, (3분기) 2.683, (4분기) 2.713, ('26.1분기) 2.957, (2분기)
+										3.435<br />· 인수기간: 5년거치 10년 분할 상환</td>
+								</tr>
+								<tr>
+									<td>집행절차</td>
+									<td>① 행안부의 지방채 발행계획 마련 및 우리부 협의 (9월) — 지방재정법 시행령 제11조, 공공자금관리기금법 시행령 제2조 등 근거<br />②
+										행안부의 각
+										지자체별 지방채 발행계획 승인(10월 말)<br />③ 지자체별 지방의회 의결 후 지방채 인수 요청(연도 중)</td>
+								</tr>
+							</tbody>
+						</table>
 
-					<p style="text-align:center;margin:24px 0 8px;font-weight:700;"
-						class="verify-sentence verify-yellow" data-verify-tone="verify-yellow" data-verify-idx="11">
-						&lt;지방채 인수 예산 현황&gt; <sup class="verify-badge verify-badge-yellow" data-vbadge="11">[주의]</sup>
-					</p>
-					<p
-						style="text-align:right;font-size:calc(11px * var(--ui-font-scale));color:var(--text-muted);margin-bottom:8px;">
-						(단위: 억원)</p>
-					<table class="draft-table">
-						<thead>
-							<tr>
-								<th rowspan="2">구분</th>
-								<th colspan="2">'25년</th>
-								<th colspan="4">'26년</th>
-							</tr>
-							<tr>
-								<th>예산(최종)</th>
-								<th>결산</th>
-								<th>본예산(A)</th>
-								<th>추경안(B)</th>
-								<th>증감(B-A)</th>
-								<th>(%)</th>
-							</tr>
-						</thead>
-						<tbody>
-							<tr>
-								<td>지방채 인수</td>
-								<td style="text-align:right">12,100</td>
-								<td style="text-align:right">10,712</td>
-								<td style="text-align:right">1,000</td>
-								<td style="text-align:right">2,000</td>
-								<td style="text-align:right">1,000</td>
-								<td style="text-align:right">(100.0)</td>
-							</tr>
-						</tbody>
-					</table>
+						<p class="answer-table-title verify-sentence verify-yellow" data-verify-tone="verify-yellow"
+							data-verify-idx="11">
+							&lt;지방채 인수 예산 현황&gt; <sup class="verify-badge verify-badge-yellow"
+								data-vbadge="11">[주의]</sup>
+						</p>
+						<p class="answer-table-unit">
+							(단위: 억원)</p>
+						<table class="draft-table">
+							<thead>
+								<tr>
+									<th rowspan="2">구분</th>
+									<th colspan="2">'25년</th>
+									<th colspan="4">'26년</th>
+								</tr>
+								<tr>
+									<th>예산(최종)</th>
+									<th>결산</th>
+									<th>본예산(A)</th>
+									<th>추경안(B)</th>
+									<th>증감(B-A)</th>
+									<th>(%)</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td>지방채 인수</td>
+									<td style="text-align:right">12,100</td>
+									<td style="text-align:right">10,712</td>
+									<td style="text-align:right">1,000</td>
+									<td style="text-align:right">2,000</td>
+									<td style="text-align:right">1,000</td>
+									<td style="text-align:right">(100.0)</td>
+								</tr>
+							</tbody>
+						</table>
+					</section>
 
-					<hr style="margin:28px 0;border:none;border-top:1px solid var(--border);" />
-
-					<div style="display:flex;align-items:center;gap:12px;margin-bottom:20px;">
-						<div
-							style="background:var(--text-primary);color:#fff;border-radius:4px;padding:4px 10px;font-size:calc(12px * var(--ui-font-scale));font-weight:600;">
-							참고 2</div>
-						<span style="font-size:calc(15px * var(--ui-font-scale));font-weight:700;">광주·전남 통합 관련 추경
-							수요</span>
-					</div>
-
-					<h4 style="margin-bottom:8px;">(1) 출범 계획</h4>
-					<ul style="line-height:2;">
-						<li class="verify-sentence verify-red" data-verify-tone="verify-red" data-verify-idx="12">
+					<section>
+						<h3>참고 2 · 광주·전남 통합 관련 추경 수요</h3>
+						<h4>(1) 출범 계획</h4>
+						<p class="verify-sentence verify-red" data-verify-tone="verify-red" data-verify-idx="12">
 							전남광주통합특별시
-							설치를 위한 특별법 통과 후 '26.3.5. 시행, '26.7.1. 출범 예정 <sup
-								style="color:var(--accent-blue);font-size:calc(10px * var(--ui-font-scale));">1</sup>
+							설치를 위한 특별법 통과 후 '26.3.5. 시행, '26.7.1. 출범 예정 <sup class="answer-source-citation">1</sup>
 							<sup class="verify-badge verify-badge-red" data-vbadge="12">[출처없음]</sup>
-						</li>
-					</ul>
+						</p>
 
-					<h4 style="margin-bottom:8px;">(2) 추경 규모 및 산출 근거 <sup
-							style="color:var(--accent-blue);font-size:calc(10px * var(--ui-font-scale));">4</sup></h4>
-					<ul style="line-height:2;">
-						<li class="verify-sentence verify-green" data-verify-tone="verify-green" data-verify-idx="13">
+						<h4>(2) 추경 규모 및 산출 근거 <sup class="answer-source-citation">4</sup></h4>
+						<p class="verify-sentence verify-green" data-verify-tone="verify-green" data-verify-idx="13">
 							지방채 인수
 							수요 확인 결과 약 1,000억 원 규모 <sup class="verify-badge verify-badge-green"
 								data-vbadge="13">[1]</sup>
-						</li>
-						<li class="verify-sentence verify-green" data-verify-tone="verify-green" data-verify-idx="14">
+						</p>
+						<p class="verify-sentence verify-green" data-verify-tone="verify-green" data-verify-idx="14">
 							지자체별
-							세부 수요 <sup class="verify-badge verify-badge-green" data-vbadge="14">[2]</sup></li>
-					</ul>
-					<p style="margin-left:24px;line-height:2;" class="verify-sentence verify-yellow"
-						data-verify-tone="verify-yellow" data-verify-idx="15">* 전남: 통합특별시 안내표지판 설치, 통합전산망 구축(300억 원) 등 총
-						700억 원<br />* 광주: 재난관리기금 및 재해구호기금 조성 등 총 195억 원 <sup class="verify-badge verify-badge-yellow"
-							data-vbadge="15">[주의]</sup></p>
-					<ul style="line-height:2;">
-						<li class="verify-sentence verify-red" data-verify-tone="verify-red" data-verify-idx="16">'26년
+							세부 수요 <sup class="verify-badge verify-badge-green" data-vbadge="14">[2]</sup></p>
+						<p class="verify-sentence verify-yellow" data-verify-tone="verify-yellow" data-verify-idx="15">*
+							전남: 통합특별시 안내표지판 설치, 통합전산망 구축(300억 원) 등 총
+							700억 원<br />* 광주: 재난관리기금 및 재해구호기금 조성 등 총 195억 원 <sup
+								class="verify-badge verify-badge-yellow" data-vbadge="15">[주의]</sup></p>
+						<p class="verify-sentence verify-red" data-verify-tone="verify-red" data-verify-idx="16">'26년
 							본예산
 							규모(1,000억 원)를 감안하여 산출 <sup class="verify-badge verify-badge-red"
 								data-vbadge="16">[출처없음]</sup>
-						</li>
-					</ul>
-
-					<hr style="margin:28px 0;border:none;border-top:1px solid var(--border);" />
-
-					<div style="display:flex;align-items:center;gap:12px;margin-bottom:20px;">
-						<div
-							style="background:var(--text-primary);color:#fff;border-radius:4px;padding:4px 10px;font-size:calc(12px * var(--ui-font-scale));font-weight:600;">
-							참고 3</div>
-						<span style="font-size:calc(15px * var(--ui-font-scale));font-weight:700;">연도별 지방채 인수 실적</span>
-					</div>
-
-					<p
-						style="text-align:right;font-size:calc(11px * var(--ui-font-scale));color:var(--text-muted);margin-bottom:8px;">
-						(단위: 억원)</p>
-					<table class="draft-table" style="font-size:calc(12px * var(--ui-font-scale));">
-						<thead>
-							<tr>
-								<th>구분</th>
-								<th>'16</th>
-								<th>'17</th>
-								<th>'18</th>
-								<th>'19</th>
-								<th>'20</th>
-								<th>'21</th>
-								<th>'22</th>
-								<th>'23</th>
-								<th>'24</th>
-								<th>'25</th>
-							</tr>
-						</thead>
-						<tbody>
-							<tr>
-								<td>계획</td>
-								<td style="text-align:right">29,875</td>
-								<td style="text-align:right">1,200</td>
-								<td style="text-align:right">1,000</td>
-								<td style="text-align:right">1,000</td>
-								<td style="text-align:right">18,000</td>
-								<td style="text-align:right">21,000</td>
-								<td style="text-align:right">100</td>
-								<td style="text-align:right">100</td>
-								<td style="text-align:right">26,000</td>
-								<td style="text-align:right">12,100</td>
-							</tr>
-							<tr>
-								<td>(지방채)</td>
-								<td style="text-align:right">14,406</td>
-								<td style="text-align:right">1,200</td>
-								<td style="text-align:right">1,000</td>
-								<td style="text-align:right">1,000</td>
-								<td style="text-align:right">18,000</td>
-								<td style="text-align:right">21,000</td>
-								<td style="text-align:right">100</td>
-								<td style="text-align:right">100</td>
-								<td style="text-align:right">26,000</td>
-								<td style="text-align:right">12,100</td>
-							</tr>
-							<tr>
-								<td>(지방교육채)</td>
-								<td style="text-align:right">15,469</td>
-								<td style="text-align:right">-</td>
-								<td style="text-align:right">-</td>
-								<td style="text-align:right">-</td>
-								<td style="text-align:right">-</td>
-								<td style="text-align:right">-</td>
-								<td style="text-align:right">-</td>
-								<td style="text-align:right">-</td>
-								<td style="text-align:right">-</td>
-								<td style="text-align:right">-</td>
-							</tr>
-							<tr>
-								<td>실적</td>
-								<td style="text-align:right">14,851</td>
-								<td style="text-align:right">14</td>
-								<td style="text-align:right">-</td>
-								<td style="text-align:right">670</td>
-								<td style="text-align:right">15,566</td>
-								<td style="text-align:right">19,956</td>
-								<td style="text-align:right">79</td>
-								<td style="text-align:right">100</td>
-								<td style="text-align:right">25,962</td>
-								<td style="text-align:right">10,712</td>
-							</tr>
-							<tr>
-								<td>(지방채)</td>
-								<td style="text-align:right">708</td>
-								<td style="text-align:right">14</td>
-								<td style="text-align:right">-</td>
-								<td style="text-align:right">670</td>
-								<td style="text-align:right">15,566</td>
-								<td style="text-align:right">19,956</td>
-								<td style="text-align:right">79</td>
-								<td style="text-align:right">100</td>
-								<td style="text-align:right">25,962</td>
-								<td style="text-align:right">10,712</td>
-							</tr>
-							<tr>
-								<td>(지방교육채)</td>
-								<td style="text-align:right">14,143</td>
-								<td style="text-align:right">-</td>
-								<td style="text-align:right">-</td>
-								<td style="text-align:right">-</td>
-								<td style="text-align:right">-</td>
-								<td style="text-align:right">-</td>
-								<td style="text-align:right">-</td>
-								<td style="text-align:right">-</td>
-								<td style="text-align:right">-</td>
-								<td style="text-align:right">-</td>
-							</tr>
-							<tr style="border-top:2px solid var(--border);">
-								<td><strong>인수잔액</strong></td>
-								<td style="text-align:right">37,467</td>
-								<td style="text-align:right">34,712</td>
-								<td style="text-align:right">30,066</td>
-								<td style="text-align:right">19,004</td>
-								<td style="text-align:right">32,597</td>
-								<td style="text-align:right">40,708</td>
-								<td style="text-align:right">35,241</td>
-								<td style="text-align:right">35,210</td>
-								<td style="text-align:right">61,010</td>
-								<td style="text-align:right">71,532</td>
-							</tr>
-						</tbody>
-					</table>
-
-					<hr style="margin:28px 0;border:none;border-top:1px solid var(--border);" />
-					<div style="display:flex;align-items:center;gap:12px;margin-bottom:20px;">
-						<div
-							style="background:var(--text-primary);color:#fff;border-radius:4px;padding:4px 10px;font-size:calc(12px * var(--ui-font-scale));font-weight:600;">
-							참고 4</div>
-						<span style="font-size:calc(15px * var(--ui-font-scale));font-weight:700;">출처</span>
-					</div>
-					<div style="font-size:calc(12.5px * var(--ui-font-scale));line-height:2.2;padding-left:8px;">
-						<p style="margin:0;" class="verify-sentence verify-green" data-verify-tone="verify-green"
-							data-verify-idx="17">(1) 260402_재경위_전체 의원 질의에 대한 답변_통합본.hwp <sup
-								class="verify-badge verify-badge-green" data-vbadge="17">[1]</sup></p>
-						<p style="margin:0;" class="verify-sentence verify-green" data-verify-tone="verify-green"
-							data-verify-idx="18">(2) 지방채 인수를 해야 하는 법적 의무.hwpx <sup
-								class="verify-badge verify-badge-green" data-vbadge="18">[2]</sup></p>
-						<p style="margin:0;" class="verify-sentence verify-yellow" data-verify-tone="verify-yellow"
-							data-verify-idx="19">(3) 지방교부세가 지급되고 있고 지방채 인수시 지자체 채무는 증가함에도 추경을 편성해야 하는 이유.hwpx <sup
-								class="verify-badge verify-badge-yellow" data-vbadge="19">[주의]</sup></p>
-						<p style="margin:0;" class="verify-sentence verify-red" data-verify-tone="verify-red"
-							data-verify-idx="20">(4) 민주당 반대로 무산된 TK통합법이 통과되었다면 이번 지방채 인수 추경안에 관련 예산이 포함될 수 있었다고 보는데, 이에
-							대한
-							견해.hwpx <sup class="verify-badge verify-badge-red" data-vbadge="20">[출처없음]</sup></p>
-						<p style="margin:0;" class="verify-sentence verify-green" data-verify-tone="verify-green"
-							data-verify-idx="21">(5) 세수추계 실패와 책임문제.hwpx <sup class="verify-badge verify-badge-green"
-								data-vbadge="21">[1]</sup></p>
-						<p style="margin:0;" class="verify-sentence verify-green" data-verify-tone="verify-green"
-							data-verify-idx="22">(6) 세수부족, 초과세수 등 반복되는 세수추계 오류 발생 문제.hwpx <sup
-								class="verify-badge verify-badge-green" data-vbadge="22">[2]</sup></p>
-						<p style="margin:0;" class="verify-sentence verify-yellow" data-verify-tone="verify-yellow"
-							data-verify-idx="23">(7) table_paser_test.hwp <sup class="verify-badge verify-badge-yellow"
-								data-vbadge="23">[주의]</sup></p>
-					</div>
-
-					<hr style="margin:28px 0;border:none;border-top:1px solid var(--border);" />
-					<div style="display:flex;align-items:center;gap:12px;margin-bottom:20px;">
-						<div
-							style="background:var(--text-primary);color:#fff;border-radius:4px;padding:4px 10px;font-size:calc(12px * var(--ui-font-scale));font-weight:600;">
-							참고 5</div>
-						<span style="font-size:calc(15px * var(--ui-font-scale));font-weight:700;">추가 QA</span>
-					</div>
-					<div class="draft-question-box">
-						<p style="margin:0 0 8px;font-weight:600;font-size:calc(13px * var(--ui-font-scale));"
-							class="verify-sentence verify-red" data-verify-tone="verify-red" data-verify-idx="24">Q.
-							공자기금의
-							지방채 인수 지원이 가능한 사업 범위는 무엇인가요? <sup class="verify-badge verify-badge-red"
-								data-vbadge="24">[출처없음]</sup></p>
-						<p style="margin:0;font-size:calc(12.5px * var(--ui-font-scale));line-height:1.8;"
-							class="verify-sentence verify-green" data-verify-tone="verify-green" data-verify-idx="25">□
-							도로,
-							지하철 건설, 공용 및 공공용 시설의 설치, 지역개발사업 등 특정 자본적 지출 사업에 한해 지원이 가능하며, 경상적 사업비나 인건비 등은 지원 대상에서 제외됩니다.
-							<sup class="verify-badge verify-badge-green" data-vbadge="25">[1]</sup>
 						</p>
-					</div>
-					<div class="draft-question-box">
-						<p style="margin:0 0 8px;font-weight:600;font-size:calc(13px * var(--ui-font-scale));"
-							class="verify-sentence verify-green" data-verify-tone="verify-green" data-verify-idx="26">Q.
-							지방채
-							인수를 위한 집행 절차와 일정은 어떻게 되나요? <sup class="verify-badge verify-badge-green"
-								data-vbadge="26">[2]</sup></p>
-						<p style="margin:0;font-size:calc(12.5px * var(--ui-font-scale));line-height:1.8;"
-							class="verify-sentence verify-yellow" data-verify-tone="verify-yellow" data-verify-idx="27">
-							□ 먼저
-							9월 중 행정안전부가 지방채 발행계획을 마련하여 협의하고, 10월 말까지 지자체별 발행계획을 승인받은 후, 해당 지자체가 지방의회 의결을 거쳐 연도 중에 지방채
-							인수를
-							요청하는 순서로 진행됩니다. <sup class="verify-badge verify-badge-yellow" data-vbadge="27">[주의]</sup>
-						</p>
-					</div>
+					</section>
+
+					<section>
+						<h3>참고 3 · 연도별 지방채 인수 실적</h3>
+						<p class="answer-table-unit">
+							(단위: 억원)</p>
+						<table class="draft-table">
+							<thead>
+								<tr>
+									<th>구분</th>
+									<th>'16</th>
+									<th>'17</th>
+									<th>'18</th>
+									<th>'19</th>
+									<th>'20</th>
+									<th>'21</th>
+									<th>'22</th>
+									<th>'23</th>
+									<th>'24</th>
+									<th>'25</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td>계획</td>
+									<td style="text-align:right">29,875</td>
+									<td style="text-align:right">1,200</td>
+									<td style="text-align:right">1,000</td>
+									<td style="text-align:right">1,000</td>
+									<td style="text-align:right">18,000</td>
+									<td style="text-align:right">21,000</td>
+									<td style="text-align:right">100</td>
+									<td style="text-align:right">100</td>
+									<td style="text-align:right">26,000</td>
+									<td style="text-align:right">12,100</td>
+								</tr>
+								<tr>
+									<td>(지방채)</td>
+									<td style="text-align:right">14,406</td>
+									<td style="text-align:right">1,200</td>
+									<td style="text-align:right">1,000</td>
+									<td style="text-align:right">1,000</td>
+									<td style="text-align:right">18,000</td>
+									<td style="text-align:right">21,000</td>
+									<td style="text-align:right">100</td>
+									<td style="text-align:right">100</td>
+									<td style="text-align:right">26,000</td>
+									<td style="text-align:right">12,100</td>
+								</tr>
+								<tr>
+									<td>(지방교육채)</td>
+									<td style="text-align:right">15,469</td>
+									<td style="text-align:right">-</td>
+									<td style="text-align:right">-</td>
+									<td style="text-align:right">-</td>
+									<td style="text-align:right">-</td>
+									<td style="text-align:right">-</td>
+									<td style="text-align:right">-</td>
+									<td style="text-align:right">-</td>
+									<td style="text-align:right">-</td>
+									<td style="text-align:right">-</td>
+								</tr>
+								<tr>
+									<td>실적</td>
+									<td style="text-align:right">14,851</td>
+									<td style="text-align:right">14</td>
+									<td style="text-align:right">-</td>
+									<td style="text-align:right">670</td>
+									<td style="text-align:right">15,566</td>
+									<td style="text-align:right">19,956</td>
+									<td style="text-align:right">79</td>
+									<td style="text-align:right">100</td>
+									<td style="text-align:right">25,962</td>
+									<td style="text-align:right">10,712</td>
+								</tr>
+								<tr>
+									<td>(지방채)</td>
+									<td style="text-align:right">708</td>
+									<td style="text-align:right">14</td>
+									<td style="text-align:right">-</td>
+									<td style="text-align:right">670</td>
+									<td style="text-align:right">15,566</td>
+									<td style="text-align:right">19,956</td>
+									<td style="text-align:right">79</td>
+									<td style="text-align:right">100</td>
+									<td style="text-align:right">25,962</td>
+									<td style="text-align:right">10,712</td>
+								</tr>
+								<tr>
+									<td>(지방교육채)</td>
+									<td style="text-align:right">14,143</td>
+									<td style="text-align:right">-</td>
+									<td style="text-align:right">-</td>
+									<td style="text-align:right">-</td>
+									<td style="text-align:right">-</td>
+									<td style="text-align:right">-</td>
+									<td style="text-align:right">-</td>
+									<td style="text-align:right">-</td>
+									<td style="text-align:right">-</td>
+									<td style="text-align:right">-</td>
+								</tr>
+								<tr style="border-top:2px solid var(--border);">
+									<td><strong>인수잔액</strong></td>
+									<td style="text-align:right">37,467</td>
+									<td style="text-align:right">34,712</td>
+									<td style="text-align:right">30,066</td>
+									<td style="text-align:right">19,004</td>
+									<td style="text-align:right">32,597</td>
+									<td style="text-align:right">40,708</td>
+									<td style="text-align:right">35,241</td>
+									<td style="text-align:right">35,210</td>
+									<td style="text-align:right">61,010</td>
+									<td style="text-align:right">71,532</td>
+								</tr>
+							</tbody>
+						</table>
+					</section>
+
+					<section>
+						<h3>참고 4 · 출처</h3>
+						<div class="answer-source-list">
+							<p class="verify-sentence verify-green" data-verify-tone="verify-green"
+								data-verify-idx="17">(1) 260402_재경위_전체 의원 질의에 대한 답변_통합본.hwp <sup
+									class="verify-badge verify-badge-green" data-vbadge="17">[1]</sup></p>
+							<p class="verify-sentence verify-green" data-verify-tone="verify-green"
+								data-verify-idx="18">(2) 지방채 인수를 해야 하는 법적 의무.hwpx <sup
+									class="verify-badge verify-badge-green" data-vbadge="18">[2]</sup></p>
+							<p class="verify-sentence verify-yellow" data-verify-tone="verify-yellow"
+								data-verify-idx="19">(3) 지방교부세가 지급되고 있고 지방채 인수시 지자체 채무는 증가함에도 추경을 편성해야 하는 이유.hwpx <sup
+									class="verify-badge verify-badge-yellow" data-vbadge="19">[주의]</sup></p>
+							<p class="verify-sentence verify-red" data-verify-tone="verify-red" data-verify-idx="20">(4)
+								민주당 반대로 무산된 TK통합법이 통과되었다면 이번 지방채 인수 추경안에 관련 예산이 포함될 수 있었다고 보는데, 이에
+								대한
+								견해.hwpx <sup class="verify-badge verify-badge-red" data-vbadge="20">[출처없음]</sup></p>
+							<p class="verify-sentence verify-green" data-verify-tone="verify-green"
+								data-verify-idx="21">(5) 세수추계 실패와 책임문제.hwpx <sup class="verify-badge verify-badge-green"
+									data-vbadge="21">[1]</sup></p>
+							<p class="verify-sentence verify-green" data-verify-tone="verify-green"
+								data-verify-idx="22">(6) 세수부족, 초과세수 등 반복되는 세수추계 오류 발생 문제.hwpx <sup
+									class="verify-badge verify-badge-green" data-vbadge="22">[2]</sup></p>
+							<p class="verify-sentence verify-yellow" data-verify-tone="verify-yellow"
+								data-verify-idx="23">(7) table_paser_test.hwp <sup
+									class="verify-badge verify-badge-yellow" data-vbadge="23">[주의]</sup></p>
+						</div>
+					</section>
+
+					<section>
+						<h3>참고 5 · 추가 QA</h3>
+						<div class="draft-question-box">
+							<p class="verify-sentence verify-red" data-verify-tone="verify-red" data-verify-idx="24">Q.
+								공자기금의
+								지방채 인수 지원이 가능한 사업 범위는 무엇인가요? <sup class="verify-badge verify-badge-red"
+									data-vbadge="24">[출처없음]</sup></p>
+							<p class="verify-sentence verify-green" data-verify-tone="verify-green"
+								data-verify-idx="25">□
+								도로,
+								지하철 건설, 공용 및 공공용 시설의 설치, 지역개발사업 등 특정 자본적 지출 사업에 한해 지원이 가능하며, 경상적 사업비나 인건비 등은 지원 대상에서
+								제외됩니다.
+								<sup class="verify-badge verify-badge-green" data-vbadge="25">[1]</sup>
+							</p>
+						</div>
+						<div class="draft-question-box">
+							<p class="verify-sentence verify-green" data-verify-tone="verify-green"
+								data-verify-idx="26">Q.
+								지방채
+								인수를 위한 집행 절차와 일정은 어떻게 되나요? <sup class="verify-badge verify-badge-green"
+									data-vbadge="26">[2]</sup></p>
+							<p class="verify-sentence verify-yellow" data-verify-tone="verify-yellow"
+								data-verify-idx="27">
+								□ 먼저
+								9월 중 행정안전부가 지방채 발행계획을 마련하여 협의하고, 10월 말까지 지자체별 발행계획을 승인받은 후, 해당 지자체가 지방의회 의결을 거쳐 연도 중에
+								지방채
+								인수를
+								요청하는 순서로 진행됩니다. <sup class="verify-badge verify-badge-yellow"
+									data-vbadge="27">[주의]</sup>
+							</p>
+						</div>
+					</section>
 
 				</div>
 			</div>

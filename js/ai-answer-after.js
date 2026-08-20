@@ -7,6 +7,40 @@
 
     let workspaceStarted = false;
 
+    // 참고소스 UploadZone 모양은 유지하고 파일 입력 동작만 차단
+    function disableSmartSourceUploadZone(root = document) {
+        const zone = root.querySelector?.("#smartSearchGuide [data-file-upload-zone]");
+        if (!zone || zone.dataset.answerAfterUploadDisabled === "true") return;
+
+        const input = zone.querySelector('input[type="file"]');
+        zone.dataset.answerAfterUploadDisabled = "true";
+        zone.setAttribute("aria-disabled", "true");
+        zone.classList.remove("dragover");
+        if (input) input.disabled = true;
+
+        const blockUploadInteraction = (event) => {
+            if (event.type === "keydown" && !["Enter", " "].includes(event.key)) return;
+            event.preventDefault();
+            event.stopImmediatePropagation();
+            zone.classList.remove("dragover");
+        };
+
+        ["click", "keydown", "dragenter", "dragover", "dragleave", "drop", "app:file-upload"].forEach((eventName) => {
+            zone.addEventListener(eventName, blockUploadInteraction, true);
+        });
+
+        input?.addEventListener(
+            "change",
+            (event) => {
+                event.stopImmediatePropagation();
+                input.value = "";
+            },
+            true,
+        );
+    }
+
+    disableSmartSourceUploadZone();
+
     // 아이콘 경로 보정
     function hydrateIcons(root = document) {
         root.querySelectorAll?.("img[data-icon]").forEach((icon) => {
@@ -2214,8 +2248,8 @@
                     draftCompareLeftVersion = 0;
                     draftCompareRightVersion = Math.min(1, Math.max(0, draftVersions.length - 1));
                     comparePanelsSwapped = false;
-                    openDocTabs = [{ id: 0, label: formatDraftVersionTab(draftVersions[0]), versionIdx: 0 }];
-                    activeDocTab = 0;
+                    openDraftVersionLabels = [{ id: 0, label: formatDraftVersionTab(draftVersions[0]), versionIdx: 0 }];
+                    activeDraftVersionLabelId = 0;
 
                     // 관련자료 목록과 문서 미리보기 구조는 유지하고 각 영역에 안내 문구를 표시합니다.
                     switchTab("recommend");
@@ -2762,8 +2796,8 @@
                     draftDisplayMode = "single";
                     draftCompareLeftVersion = 0;
                     draftCompareRightVersion = 0;
-                    openDocTabs = [{ id: 0, label: formatDraftVersionTab(firstDraft), versionIdx: 0 }];
-                    activeDocTab = 0;
+                    openDraftVersionLabels = [{ id: 0, label: formatDraftVersionTab(firstDraft), versionIdx: 0 }];
+                    activeDraftVersionLabelId = 0;
 
                     const recommendCount = getRecommendedSources("all").length + getReferenceSources("all").length;
                     const recommendTabCount = $("#tabCountRecommend");
@@ -2888,10 +2922,10 @@
                             activeDraftVersion = draftVersions.length - 1;
                             draftCompareRightVersion = activeDraftVersion;
                             draftCompareLeftVersion = Math.max(0, activeDraftVersion - 1);
-                            openDraftVersionTab(activeDraftVersion);
-                            renderDocTabs();
+                            openDraftVersionLabel(activeDraftVersion);
+                            renderDraftVersionLabels();
                             // 초안 탭에 있으면 버전 선택 상자를 갱신합니다.
-                            const vSelect = $("#versionSelect");
+                            const vSelect = $(".answer-version-select");
                             if (vSelect) {
                                 const opt = document.createElement("option");
                                 opt.value = activeDraftVersion;
@@ -3364,8 +3398,8 @@
                 /* ============================ 끝: 패널 크기 조절 ============================== */
 
                 /* ============================ 시작: 답변서 버전 바 ============================ */
-                let openDocTabs = [{ id: 0, label: formatDraftVersionTab(draftVersions[0]), versionIdx: 0 }];
-                let activeDocTab = 0;
+                let openDraftVersionLabels = [{ id: 0, label: formatDraftVersionTab(draftVersions[0]), versionIdx: 0 }];
+                let activeDraftVersionLabelId = 0;
 
                 // 초안 버전 바 Template 복제
                 function cloneDraftVersionBarTemplate() {
@@ -3380,27 +3414,27 @@
                     slot.replaceWith(versionBar);
                 }
 
-                // 다음 초안 탭 ID 조회
-                function getNextDraftTabId() {
-                    return openDocTabs.reduce((maxId, tab) => Math.max(maxId, tab.id), -1) + 1;
+                // 다음 초안 버전 레이블 ID 조회
+                function getNextDraftVersionLabelId() {
+                    return openDraftVersionLabels.reduce((maxId, label) => Math.max(maxId, label.id), -1) + 1;
                 }
 
-                // 초안 버전 탭 열기
-                function openDraftVersionTab(versionIdx) {
+                // 초안 버전 레이블 열기
+                function openDraftVersionLabel(versionIdx) {
                     const version = draftVersions[versionIdx];
                     if (!version) return;
 
-                    const existing = openDocTabs.find((tab) => tab.versionIdx === versionIdx);
+                    const existing = openDraftVersionLabels.find((label) => label.versionIdx === versionIdx);
                     if (existing) {
-                        activeDocTab = existing.id;
+                        activeDraftVersionLabelId = existing.id;
                     } else {
-                        const newTab = {
-                            id: getNextDraftTabId(),
+                        const newLabel = {
+                            id: getNextDraftVersionLabelId(),
                             label: formatDraftVersionTab(version),
                             versionIdx,
                         };
-                        openDocTabs.push(newTab);
-                        activeDocTab = newTab.id;
+                        openDraftVersionLabels.push(newLabel);
+                        activeDraftVersionLabelId = newLabel.id;
                     }
                     activeDraftVersion = versionIdx;
                 }
@@ -3513,7 +3547,7 @@
                     $("#draftCompareClose")?.addEventListener("click", () => {
                         draftDisplayMode = "single";
                         activeDraftVersion = draftCompareRightVersion;
-                        openDraftVersionTab(activeDraftVersion);
+                        openDraftVersionLabel(activeDraftVersion);
                         switchTab("draft");
                     });
 
@@ -3562,13 +3596,12 @@
                 // 초안 버전 바 초기화
                 function initDraftVersionBar() {
                     const activeVersion = draftVersions[activeDraftVersion] || draftVersions[0];
-                    const activeOpenTab = openDocTabs.find((tab) => tab.versionIdx === activeDraftVersion);
-                    if (!activeOpenTab && activeVersion) openDraftVersionTab(activeDraftVersion);
+                    const activeOpenLabel = openDraftVersionLabels.find((label) => label.versionIdx === activeDraftVersion);
+                    if (!activeOpenLabel && activeVersion) openDraftVersionLabel(activeDraftVersion);
 
-                    renderDocTabs();
-                    bindDraftTabScroller();
+                    renderDraftVersionLabels();
 
-                    const versionSelect = $("#versionSelect");
+                    const versionSelect = $(".answer-version-select");
                     if (versionSelect) {
                         const options = draftVersions.map((version, index) => {
                             const option = document.createElement("option");
@@ -3582,7 +3615,7 @@
                         versionSelect.addEventListener("change", () => {
                             const idx = Number.parseInt(versionSelect.value, 10);
                             if (!Number.isInteger(idx) || !draftVersions[idx]) return;
-                            openDraftVersionTab(idx);
+                            openDraftVersionLabel(idx);
                             switchTab("draft");
                         });
                     }
@@ -3601,7 +3634,7 @@
                         });
                     }
 
-                    const downloadBtn = $("#verifyDownloadBtn");
+                    const downloadBtn = $("[data-download-draft]");
                     if (downloadBtn) {
                         downloadBtn.addEventListener("click", () => {
                             const version = draftVersions[activeDraftVersion];
@@ -3610,113 +3643,76 @@
                     }
                 }
 
-                // 문서 탭 렌더링
-                function renderDocTabs() {
-                    const container = $("#draftDocTabs");
+                // 초안 버전 레이블 렌더링
+                function renderDraftVersionLabels() {
+                    const container = $("[data-answer-version-labels]");
                     if (!container) return;
 
-                    container.innerHTML = openDocTabs
-                        .map((tab) => {
-                            const version = draftVersions[tab.versionIdx];
-                            const label = version ? formatDraftVersionTab(version) : tab.label;
+                    container.innerHTML = openDraftVersionLabels
+                        .map((versionLabel) => {
+                            const version = draftVersions[versionLabel.versionIdx];
+                            const label = version ? formatDraftVersionTab(version) : versionLabel.label;
                             const safeLabel = escapeHtml(label);
-                            return `<div class="draft-doc-tab${tab.id === activeDocTab ? " active" : ""}" data-dtab="${tab.id}" title="${safeLabel}">
-        <button class="draft-doc-tab-open" data-dtab-open="${tab.id}" type="button" aria-label="${safeLabel} 버전 열기"><span class="draft-doc-tab-label">${safeLabel}</span></button>
-        <button class="draft-doc-tab-close" data-dtab-close="${tab.id}" type="button" aria-label="${safeLabel} 탭 닫기">×</button>
-      </div>`;
+                            const isActive = versionLabel.id === activeDraftVersionLabelId;
+                            return `<span class="answer-version-chip${isActive ? " active" : ""}" data-answer-version-label="${versionLabel.id}"${isActive ? ' aria-current="true"' : ""} title="${safeLabel}">
+        <button class="answer-version-open" data-answer-version-open type="button" aria-label="${safeLabel} 버전 열기">${safeLabel}</button>
+        <button class="answer-version-close" data-answer-version-close type="button" aria-label="${safeLabel} 레이블 닫기">×</button>
+      </span>`;
                         })
                         .join("");
 
-                    bindDocTabEvents();
+                    bindDraftVersionLabelEvents();
                     requestAnimationFrame(() => {
-                        container.querySelector(".draft-doc-tab.active")?.scrollIntoView({ behavior: "smooth", block: "nearest", inline: "nearest" });
-                        updateDraftTabScrollButtons();
+                        container.querySelector(".answer-version-chip.active")?.scrollIntoView({ behavior: "smooth", block: "nearest", inline: "nearest" });
                     });
                 }
 
-                // 문서 탭 이벤트 연결
-                function bindDocTabEvents() {
-                    const container = $("#draftDocTabs");
-                    if (!container || container.dataset.draftTabEventsBound === "true") return;
-                    container.dataset.draftTabEventsBound = "true";
+                // 초안 버전 레이블 이벤트 연결
+                function bindDraftVersionLabelEvents() {
+                    const container = $("[data-answer-version-labels]");
+                    if (!container || container.dataset.answerVersionEventsBound === "true") return;
+                    container.dataset.answerVersionEventsBound = "true";
 
                     container.addEventListener("click", (event) => {
-                        const closeButton = event.target.closest("[data-dtab-close]");
+                        const closeButton = event.target.closest("[data-answer-version-close]");
                         if (closeButton) {
-                            const id = Number.parseInt(closeButton.dataset.dtabClose, 10);
-                            if (openDocTabs.length <= 1) {
+                            const labelElement = closeButton.closest("[data-answer-version-label]");
+                            const id = Number.parseInt(labelElement?.dataset.answerVersionLabel || "", 10);
+                            if (!Number.isInteger(id)) return;
+                            if (openDraftVersionLabels.length <= 1) {
                                 showToast("최소 한 개의 버전 탭은 열어 두어야 합니다.");
                                 return;
                             }
 
-                            const closingTab = openDocTabs.find((tab) => tab.id === id);
-                            openDocTabs = openDocTabs.filter((tab) => tab.id !== id);
+                            const closingLabel = openDraftVersionLabels.find((label) => label.id === id);
+                            openDraftVersionLabels = openDraftVersionLabels.filter((label) => label.id !== id);
 
-                            if (activeDocTab === id) {
-                                const nextTab = openDocTabs[openDocTabs.length - 1];
-                                activeDocTab = nextTab.id;
-                                activeDraftVersion = nextTab.versionIdx;
+                            if (activeDraftVersionLabelId === id) {
+                                const nextLabel = openDraftVersionLabels[openDraftVersionLabels.length - 1];
+                                activeDraftVersionLabelId = nextLabel.id;
+                                activeDraftVersion = nextLabel.versionIdx;
                                 switchTab("draft");
                                 return;
                             }
 
-                            if (closingTab?.versionIdx === activeDraftVersion) {
-                                const activeTab = openDocTabs.find((tab) => tab.id === activeDocTab) || openDocTabs[0];
-                                activeDraftVersion = activeTab.versionIdx;
+                            if (closingLabel?.versionIdx === activeDraftVersion) {
+                                const activeLabel = openDraftVersionLabels.find((label) => label.id === activeDraftVersionLabelId) || openDraftVersionLabels[0];
+                                activeDraftVersion = activeLabel.versionIdx;
                             }
-                            renderDocTabs();
+                            renderDraftVersionLabels();
                             return;
                         }
 
-                        const openButton = event.target.closest("[data-dtab-open]");
+                        const openButton = event.target.closest("[data-answer-version-open]");
                         if (!openButton) return;
-                        const tabId = Number.parseInt(openButton.dataset.dtabOpen, 10);
-                        const selectedTab = openDocTabs.find((item) => item.id === tabId);
-                        if (!selectedTab) return;
-                        activeDocTab = selectedTab.id;
-                        activeDraftVersion = selectedTab.versionIdx;
+                        const labelElement = openButton.closest("[data-answer-version-label]");
+                        const labelId = Number.parseInt(labelElement?.dataset.answerVersionLabel || "", 10);
+                        const selectedLabel = openDraftVersionLabels.find((item) => item.id === labelId);
+                        if (!selectedLabel) return;
+                        activeDraftVersionLabelId = selectedLabel.id;
+                        activeDraftVersion = selectedLabel.versionIdx;
                         switchTab("draft");
                     });
-                }
-
-                // 초안 탭 스크롤 이벤트 연결
-                function bindDraftTabScroller() {
-                    const container = $("#draftDocTabs");
-                    const prevButton = $("#draftTabsPrev");
-                    const nextButton = $("#draftTabsNext");
-                    if (!container || !prevButton || !nextButton) return;
-
-                    prevButton.addEventListener("click", () => container.scrollBy({ left: -240, behavior: "smooth" }));
-                    nextButton.addEventListener("click", () => container.scrollBy({ left: 240, behavior: "smooth" }));
-
-                    container.addEventListener("scroll", updateDraftTabScrollButtons, { passive: true });
-                    container.addEventListener(
-                        "wheel",
-                        (event) => {
-                            if (container.scrollWidth <= container.clientWidth) return;
-                            if (Math.abs(event.deltaY) <= Math.abs(event.deltaX)) return;
-                            event.preventDefault();
-                            container.scrollLeft += event.deltaY;
-                        },
-                        { passive: false },
-                    );
-
-                    window.addEventListener("resize", updateDraftTabScrollButtons, { passive: true });
-                    updateDraftTabScrollButtons();
-                }
-
-                // 초안 탭 스크롤 버튼 갱신
-                function updateDraftTabScrollButtons() {
-                    const container = $("#draftDocTabs");
-                    const prevButton = $("#draftTabsPrev");
-                    const nextButton = $("#draftTabsNext");
-                    if (!container || !prevButton || !nextButton) return;
-
-                    const hasOverflow = container.scrollWidth > container.clientWidth + 2;
-                    prevButton.classList.toggle("hidden", !hasOverflow);
-                    nextButton.classList.toggle("hidden", !hasOverflow);
-                    prevButton.disabled = !hasOverflow || container.scrollLeft <= 1;
-                    nextButton.disabled = !hasOverflow || container.scrollLeft + container.clientWidth >= container.scrollWidth - 1;
                 }
 
                 /* ============================ 끝: 답변서 버전 바 ============================== */
@@ -5494,6 +5490,7 @@ ${lines.join("\n")}
     // 완료 답변 화면 시작 조건 확인
     function tryStartAfter9Workspace() {
         hydrateIcons(document);
+        disableSmartSourceUploadZone();
         if (workspaceStarted) return;
 
         const sidebar = document.querySelector(".app > .sidebar");

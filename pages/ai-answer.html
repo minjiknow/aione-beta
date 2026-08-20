@@ -154,7 +154,7 @@
 				-->
 
 			<!---------------------------------------- Start: 내 정보 클릭 시 나오는 프로필 모달---------------------------------------------->
-			<div class="hidden modal" id="sidebarProfileModal" data-component="modal" data-modal>
+			<div class="hidden modal modal-blur" id="sidebarProfileModal" data-component="modal" data-modal>
 				<div class="modal-bg" data-modal-close aria-hidden="true"></div>
 				<section class="modal-contents modal-medium modal-variant-account-profile account-profile-modal"
 					role="dialog" aria-modal="true" data-modal-variant="account-profile" aria-label="내 정보">
@@ -209,7 +209,7 @@
 
 
 			<!---------------------------------------- Start: 환경설정 클릭 시 나오는 프로필 모달---------------------------------------------->
-			<div class="hidden modal" id="sidebarSettingsModal" data-component="modal" data-modal>
+			<div class="hidden modal modal-blur" id="sidebarSettingsModal" data-component="modal" data-modal>
 				<div class="modal-bg" data-modal-close aria-hidden="true"></div>
 				<section class="modal-contents modal-medium modal-variant-account-settings account-settings-modal"
 					role="dialog" aria-modal="true" data-modal-variant="account-settings" aria-label="환경설정">
@@ -336,7 +336,7 @@
 
 
 			<!---------------------------------------- Start: 로그아웃 클릭 시 나오는 프로필 모달---------------------------------------------->
-			<div class="hidden modal" id="sidebarLogoutModal" data-component="modal" data-modal>
+			<div class="hidden modal modal-blur" id="sidebarLogoutModal" data-component="modal" data-modal>
 				<div class="modal-bg" data-modal-close aria-hidden="true"></div>
 				<section class="modal-contents modal-medium modal-variant-logout" role="dialog" aria-modal="true"
 					data-modal-variant="logout" aria-label="로그아웃 확인">
@@ -405,12 +405,12 @@
 					<div class="topbar-bottom">
 						<div class="topbar-right app-topbar-actions">
 							<button type="button" class="button button-soft-primary" id="newClassifyBtn"
-								data-pages="answer" data-workspace-action="new-chat" aria-label="새 채팅" title="새 채팅">
+								data-workspace-action="new-chat" aria-label="새 채팅" title="새 채팅">
 								<img class="icon icon-small" aria-hidden="true" data-icon="plus" alt="" />
 								<span>새 채팅</span>
 							</button>
 							<button type="button" class="icon-button icon-button-purple" id="runDrawerBtn"
-								data-pages="answer" aria-label="채팅 목록" title="채팅 목록">
+								aria-label="채팅 목록" title="채팅 목록">
 								<img class="icon icon-text" aria-hidden="true" data-icon="list" alt="" />
 							</button>
 						</div>
@@ -984,94 +984,93 @@
 									data-answer-draft-content data-split-min="260">
 									<div class="answer-draft-main split-handler-left">
 										<h3 class="answer-draft-heading">답변서 초안 · v1.0(09:18)</h3>
-										<div class="answer-draft-scroll">
-											<article class="answer-draft-document" id="answerDraftDocument">
-												<div class="answer-question-block">
-													<strong>1</strong>
-													<h3>지방교부세가 지급되고 있고 지방채 인수시 지자체 채무는 증가함에도 추경을 편성해야 하는 이유는?</h3>
-												</div>
-												<div class="answer-summary-block">
-													<p class="answer-summary-line is-caution"
-														data-answer-evidence-refs="3,4">□ 지방자치단체의 특정 자본적 지출 사업 수행을
-														위해
-														공공자금관리기금이 지방채를 장기 저리로 인수하여 지방재정을 지원하기 때문입니다.
-														<sup class="answer-verification-badge">[주의]</sup>
-													</p>
-												</div>
-												<section>
-													<h4>□ 지방채 인수 추경 편성 배경</h4>
-													<p class="is-caution" data-answer-evidence-refs="1,2">
-														공공자금관리기금(공자기금)은 지방재정 지원을 목적으로 지방자치단체가 발행하는 지방채를 장기 저리로
-														인수하여 자금을 지원함 <sup class="answer-source-citation">1,2</sup>
-														<sup class="answer-verification-badge">[주의]</sup>
-													</p>
-													<p class="is-grounded">도로, 지하철 건설, 공공용 시설 설치 등 특정 자본적 지출 사업의 원활한
-														추진을 위해
-														추경을 통해 인수 예산을 편성함 <sup class="answer-source-citation">1,3</sup>
-														<sup class="answer-verification-badge">[3]</sup>
-													</p>
-												</section>
-												<section>
-													<h4>□ 공자기금 지방채 인수 제도 개요</h4>
-													<p class="is-grounded">○ 지방채 인수의 구체적인 지원 대상 및 조건은 다음과 같음
-														<sup class="answer-source-citation">1,3</sup>
-														<sup class="answer-verification-badge">[4]</sup>
-													</p>
-													<table class="draft-table">
-														<thead>
-															<tr>
-																<th>구분</th>
-																<th>내용</th>
-															</tr>
-														</thead>
-														<tbody>
-															<tr>
-																<td>지원대상</td>
-																<td>지방자치단체(시·도)</td>
-															</tr>
-															<tr>
-																<td>지원사업</td>
-																<td>도로, 지하철건설, 공공용 시설의 설치, 지역개발사업 등 특정 자본적 지출 사업
-																</td>
-															</tr>
-															<tr>
-																<td>지원조건</td>
-																<td>공자기금 예탁금리와 동일한 분기별 고정금리<br />5년 거치 10년 분할 상환
-																</td>
-															</tr>
-															<tr>
-																<td>집행절차</td>
-																<td>행안부 발행계획 마련 및 협의 → 지자체별 계획 승인 → 지방의회 의결 후 인수 요청
-																</td>
-															</tr>
-														</tbody>
-													</table>
-												</section>
-												<section>
-													<h4>□ 추경 편성의 구체적 사례</h4>
-													<p class="is-grounded">광주·전남 통합특별시 출범과 관련하여 통합전산망 구축, 안내표지판 설치 등
-														지방채 인수
-														수요를 반영하여 추경을 편성함 <sup>[1]</sup></p>
-												</section>
-												<section>
-													<h3>공자기금 지방채 인수 제도</h3>
-													<h4>(1) 제도 개요 및 목적</h4>
-													<p class="is-caution">지방재정 지원을 목적으로 지방자치단체가 발행하는 지방채를 장기 저리로 인수
-														<sup>[주의]</sup>
-													</p>
-													<p class="is-missing">기타 운영 사항은 최신 기금운용계획 확인 후 반영 필요 <sup>[출처
-															누락]</sup>
-													</p>
-												</section>
-											</article>
-										</div>
+
+										<article class="draft-editor" id="answerDraftDocument">
+											<div class="answer-question-block">
+												<strong>1</strong>
+												<h3>지방교부세가 지급되고 있고 지방채 인수시 지자체 채무는 증가함에도 추경을 편성해야 하는 이유는?</h3>
+											</div>
+											<div class="answer-summary-block">
+												<p class="answer-summary-line is-caution"
+													data-answer-evidence-refs="3,4">□ 지방자치단체의 특정 자본적 지출 사업 수행을
+													위해
+													공공자금관리기금이 지방채를 장기 저리로 인수하여 지방재정을 지원하기 때문입니다.
+													<sup class="answer-verification-badge">[주의]</sup>
+												</p>
+											</div>
+											<section>
+												<h4>□ 지방채 인수 추경 편성 배경</h4>
+												<p class="is-caution" data-answer-evidence-refs="1,2">
+													공공자금관리기금(공자기금)은 지방재정 지원을 목적으로 지방자치단체가 발행하는 지방채를 장기 저리로
+													인수하여 자금을 지원함 <sup class="answer-source-citation">1,2</sup>
+													<sup class="answer-verification-badge">[주의]</sup>
+												</p>
+												<p class="is-grounded">도로, 지하철 건설, 공공용 시설 설치 등 특정 자본적 지출 사업의 원활한
+													추진을 위해
+													추경을 통해 인수 예산을 편성함 <sup class="answer-source-citation">1,3</sup>
+													<sup class="answer-verification-badge">[3]</sup>
+												</p>
+											</section>
+											<section>
+												<h4>□ 공자기금 지방채 인수 제도 개요</h4>
+												<p class="is-grounded">○ 지방채 인수의 구체적인 지원 대상 및 조건은 다음과 같음
+													<sup class="answer-source-citation">1,3</sup>
+													<sup class="answer-verification-badge">[4]</sup>
+												</p>
+												<table class="draft-table">
+													<thead>
+														<tr>
+															<th>구분</th>
+															<th>내용</th>
+														</tr>
+													</thead>
+													<tbody>
+														<tr>
+															<td>지원대상</td>
+															<td>지방자치단체(시·도)</td>
+														</tr>
+														<tr>
+															<td>지원사업</td>
+															<td>도로, 지하철건설, 공공용 시설의 설치, 지역개발사업 등 특정 자본적 지출 사업
+															</td>
+														</tr>
+														<tr>
+															<td>지원조건</td>
+															<td>공자기금 예탁금리와 동일한 분기별 고정금리<br />5년 거치 10년 분할 상환
+															</td>
+														</tr>
+														<tr>
+															<td>집행절차</td>
+															<td>행안부 발행계획 마련 및 협의 → 지자체별 계획 승인 → 지방의회 의결 후 인수 요청
+															</td>
+														</tr>
+													</tbody>
+												</table>
+											</section>
+											<section>
+												<h4>□ 추경 편성의 구체적 사례</h4>
+												<p class="is-grounded">광주·전남 통합특별시 출범과 관련하여 통합전산망 구축, 안내표지판 설치 등
+													지방채 인수
+													수요를 반영하여 추경을 편성함 <sup>[1]</sup></p>
+											</section>
+											<section>
+												<h3>공자기금 지방채 인수 제도</h3>
+												<h4>(1) 제도 개요 및 목적</h4>
+												<p class="is-caution">지방재정 지원을 목적으로 지방자치단체가 발행하는 지방채를 장기 저리로 인수
+													<sup>[주의]</sup>
+												</p>
+												<p class="is-missing">기타 운영 사항은 최신 기금운용계획 확인 후 반영 필요 <sup>[출처
+														누락]</sup>
+												</p>
+											</section>
+										</article>
+
 									</div>
 								</div>
 								<div class="document-statusbar-area" data-answer-draft-content>
 									<footer class="document-statusbar" data-component="document-statusbar"
-										data-document-statusbar
-										data-document-target=".answer-draft-panel .answer-draft-document"
-										data-document-scroll-target=".answer-draft-panel .answer-draft-scroll"
+										data-document-statusbar data-document-target=".answer-draft-panel .draft-editor"
+										data-document-scroll-target=".answer-draft-panel .draft-editor"
 										data-document-page-selector=""
 										data-document-fullscreen-target=".answer-draft-panel" data-document-zoom="100"
 										data-document-min-zoom="50" data-document-max-zoom="200"

@@ -517,7 +517,7 @@
     // 문서 동작 초기화
     function initDocumentActions() {
         document.querySelector("[data-download-draft]")?.addEventListener("click", () => {
-            const documentText = document.querySelector(".answer-draft-document")?.innerText.trim();
+            const documentText = document.querySelector(".answer-draft-panel .draft-editor")?.innerText.trim();
             if (!documentText) {
                 showToast("다운로드할 답변서 초안이 없습니다.");
                 return;
@@ -668,7 +668,7 @@
 
     // 초안 근거 검증 초기화
     function initDraftVerification() {
-        const draftDocument = document.querySelector(".answer-draft-document");
+        const draftDocument = document.querySelector(".answer-draft-panel .draft-editor");
         const splitArea = document.querySelector(".answer-draft-split-area");
         const highlightToggle = document.querySelector("[data-answer-highlight-toggle]");
         const sourceToggle = document.querySelector("[data-answer-source-toggle]");

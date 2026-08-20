@@ -1875,6 +1875,48 @@ html[data-theme="dark"] .orig-form-info-label {
 
 /* ==================== End: 질의요지서 원문 및 추출 결과 ==================== */
 
+/* ==================== Start: 9월 제출용 질의요지서 ==================== */
+
+.orig-page-submission .orig-query-boxes-form {
+    gap: 50px;
+    padding: 20px 16px 0;
+}
+
+.orig-page-submission {
+    padding-bottom: 73px;
+}
+
+.orig-page-submission .orig-query-box {
+    gap: 0;
+    padding: 0;
+    border: 0;
+    border-radius: 0;
+    background: transparent;
+    box-shadow: none;
+}
+
+.orig-page-submission .orig-query-box:is(:hover, :focus-visible, .active) {
+    border: 0;
+    background: transparent;
+    box-shadow: none;
+}
+
+.orig-page-submission .orig-query-box:focus-visible {
+    outline: 2px solid color-mix(in srgb, var(--primary, #0969da) 32%, transparent);
+    outline-offset: 4px;
+}
+
+.orig-page-submission .orig-query-num {
+    display: none !important;
+}
+
+.orig-page-submission .orig-query-box-text {
+    font-size: calc(14px * var(--ui-font-scale));
+    line-height: 1.7;
+}
+
+/* ==================== End: 9월 제출용 질의요지서 ==================== */
+
 /* ==================== Start: 9월 이후 워크스페이스 기능 ==================== */
 
 /* ==================== Start: 질의 제외 필터 상태 ==================== */
@@ -1904,33 +1946,27 @@ html[data-theme="dark"] .orig-form-info-label {
 
 /* ==================== Start: 실국별 알림 담당자 설정 ==================== */
 
-.app-topbar-actions #notificationAssigneeBtn {
+.notification-dept-settings-btn {
     width: 32px;
     height: 32px;
     border-color: color-mix(in srgb, var(--primary, #0969da) 38%, var(--border, #d1d9e0));
     background: transparent;
     color: var(--primary, #0969da);
 }
-
-.app-topbar-actions #notificationAssigneeBtn:hover {
-    background: color-mix(in srgb, var(--primary, #0969da) 11%, var(--surface, #fff));
-}
-
-.app-topbar-actions #notificationAssigneeBtn img {
-    width: 16px;
-    height: 16px;
-}
-
-.notification-dept-settings-btn,
-.notification-dept-settings-btn.has-assignee {
-    background: transparent !important;
-}
-
-.notification-dept-settings-btn:hover,
 .notification-dept-settings-btn.has-assignee {
     border-color: var(--primary, #0969da) !important;
     color: var(--primary, #0969da) !important;
-    background: color-mix(in srgb, var(--primary, #0969da) 11%, var(--surface, #fff)) !important;
+}
+
+.notification-dept-settings-btn:hover {
+    border-color: var(--primary, #0969da) !important;
+    color: var(--primary, #0969da) !important;
+    background: color-mix(in srgb, var(--primary, #0969da) 11%, var(--surface, #fff));
+}
+
+.notification-dept-settings-btn img {
+    width: 16px;
+    height: 16px;
 }
 
 .modal-contents[data-modal-variant="notification-assignee"] [data-modal-panel="notification-assignee"] {
@@ -2712,33 +2748,33 @@ html[data-theme="dark"] .orig-form-info-label {
 
 /* ==================== Start: 분류 룰 설정 사이드팝 ==================== */
 
-#workspaceRuleSettingsSidepop .rule-option-grid {
+.sidepop-rule .rule-option-grid {
     display: grid;
     gap: 8px;
 }
 
-#workspaceRuleSettingsSidepop .rule-option-grid-3 {
+.sidepop-rule .rule-option-grid-3 {
     grid-template-columns: repeat(3, minmax(0, 1fr));
 }
 
-#workspaceRuleSettingsSidepop .rule-option-grid-2 {
+.sidepop-rule .rule-option-grid-2 {
     grid-template-columns: repeat(2, minmax(0, 1fr));
 }
 
-#workspaceRuleSettingsSidepop .rule-option-card {
+.sidepop-rule .rule-option-card {
     position: relative;
     display: block;
     min-width: 0;
     cursor: pointer;
 }
 
-#workspaceRuleSettingsSidepop .rule-option-card > input[type="radio"] {
+.sidepop-rule .rule-option-card > input[type="radio"] {
     position: absolute;
     opacity: 0;
     pointer-events: none;
 }
 
-#workspaceRuleSettingsSidepop .rule-option-card-content {
+.sidepop-rule .rule-option-card-content {
     display: flex;
     min-height: 58px;
     align-items: flex-start;
@@ -2754,35 +2790,35 @@ html[data-theme="dark"] .orig-form-info-label {
         transform 0.14s ease;
 }
 
-#workspaceRuleSettingsSidepop .rule-option-card:hover .rule-option-card-content {
+.sidepop-rule .rule-option-card:hover .rule-option-card-content {
     border-color: color-mix(in srgb, var(--primary, #0969da) 35%, var(--border, #d1d9e0));
     background: color-mix(in srgb, var(--primary, #0969da) 2.5%, var(--surface, #fff));
     transform: translateY(-1px);
 }
 
-#workspaceRuleSettingsSidepop .rule-option-card > input[type="radio"]:checked + .rule-option-card-content {
+.sidepop-rule .rule-option-card > input[type="radio"]:checked + .rule-option-card-content {
     border-color: var(--primary, #0969da);
     background: color-mix(in srgb, var(--primary, #0969da) 6%, var(--surface, #fff));
     box-shadow: 0 0 0 1px color-mix(in srgb, var(--primary, #0969da) 16%, transparent);
 }
 
-#workspaceRuleSettingsSidepop .rule-option-card > input[type="radio"]:focus-visible + .rule-option-card-content {
+.sidepop-rule .rule-option-card > input[type="radio"]:focus-visible + .rule-option-card-content {
     outline: 2px solid color-mix(in srgb, var(--primary, #0969da) 35%, transparent);
     outline-offset: 2px;
 }
 
-#workspaceRuleSettingsSidepop .rule-option-card:has(input[type="radio"]:disabled) {
+.sidepop-rule .rule-option-card:has(input[type="radio"]:disabled) {
     cursor: default;
     opacity: 0.55;
 }
 
-#workspaceRuleSettingsSidepop .rule-option-card:has(input[type="radio"]:disabled):hover .rule-option-card-content {
+.sidepop-rule .rule-option-card:has(input[type="radio"]:disabled):hover .rule-option-card-content {
     border-color: var(--border, #d1d9e0);
     background: var(--surface, #fff);
     transform: none;
 }
 
-#workspaceRuleSettingsSidepop .rule-option-dot {
+.sidepop-rule .rule-option-dot {
     position: relative;
     width: 15px;
     height: 15px;
@@ -2793,27 +2829,27 @@ html[data-theme="dark"] .orig-form-info-label {
     flex: 0 0 15px;
 }
 
-#workspaceRuleSettingsSidepop .rule-option-card > input[type="radio"]:checked + .rule-option-card-content .rule-option-dot {
+.sidepop-rule .rule-option-card > input[type="radio"]:checked + .rule-option-card-content .rule-option-dot {
     border-color: var(--primary, #0969da);
     background: var(--primary, #0969da);
     box-shadow: inset 0 0 0 3.5px var(--surface, #fff);
 }
 
-#workspaceRuleSettingsSidepop .rule-option-card-content > span:last-child {
+.sidepop-rule .rule-option-card-content > span:last-child {
     display: flex;
     min-width: 0;
     flex-direction: column;
     gap: 3px;
 }
 
-#workspaceRuleSettingsSidepop .rule-option-card-content strong {
+.sidepop-rule .rule-option-card-content strong {
     color: var(--text, #1f2328);
     font-size: calc(11px * var(--ui-font-scale));
     font-weight: 700;
     line-height: 1.25;
 }
 
-#workspaceRuleSettingsSidepop .rule-option-card-content small {
+.sidepop-rule .rule-option-card-content small {
     color: var(--text-muted, #8b949e);
     font-size: calc(9px * var(--ui-font-scale));
     font-weight: 450;
@@ -2822,19 +2858,19 @@ html[data-theme="dark"] .orig-form-info-label {
 }
 
 @media (max-width: 760px) {
-    #workspaceRuleSettingsSidepop :is(.rule-option-grid-3, .rule-option-grid-2) {
+    .sidepop-rule :is(.rule-option-grid-3, .rule-option-grid-2) {
         grid-template-columns: 1fr;
     }
 }
 
-#workspaceRuleSettingsSidepop .drawer-body {
+.sidepop-rule .drawer-body {
     display: flex;
     min-height: 0;
     padding: 0;
     overflow: hidden;
 }
 
-#workspaceRuleSettingsSidepop .rule-drawer-body {
+.sidepop-rule .rule-drawer-body {
     display: flex;
     min-width: 0;
     min-height: 0;
@@ -2842,7 +2878,7 @@ html[data-theme="dark"] .orig-form-info-label {
     overflow: hidden;
 }
 
-#workspaceRuleSettingsSidepop .rule-drawer-left {
+.sidepop-rule .rule-drawer-left {
     width: 252px;
     padding: 14px;
     border-right: 1px solid var(--border);
@@ -2851,48 +2887,48 @@ html[data-theme="dark"] .orig-form-info-label {
     overflow-y: auto;
 }
 
-#workspaceRuleSettingsSidepop .rule-drawer-right {
+.sidepop-rule .rule-drawer-right {
     min-width: 0;
     padding: 18px 22px;
     flex: 1 1 auto;
     overflow-y: auto;
 }
 
-#workspaceRuleSettingsSidepop .rule-detail-section {
+.sidepop-rule .rule-detail-section {
     margin-bottom: 18px;
     padding-bottom: 18px;
     border-bottom: 1px solid var(--surface-elevated);
 }
 
-#workspaceRuleSettingsSidepop .rule-detail-section:last-child {
+.sidepop-rule .rule-detail-section:last-child {
     margin-bottom: 0;
     border-bottom: 0;
 }
 
-#workspaceRuleSettingsSidepop .rule-detail-title {
+.sidepop-rule .rule-detail-title {
     margin: 0 0 14px;
     color: var(--text);
     font-size: calc(14px * var(--ui-font-scale));
     font-weight: 700;
 }
 
-#workspaceRuleSettingsSidepop :is(.rule-detail-heading-row, .rule-setting-label-row) {
+.sidepop-rule :is(.rule-detail-heading-row, .rule-setting-label-row) {
     display: flex;
     align-items: center;
     justify-content: space-between;
     gap: 10px;
 }
 
-#workspaceRuleSettingsSidepop .rule-detail-heading-row {
+.sidepop-rule .rule-detail-heading-row {
     margin-bottom: 13px;
 }
 
-#workspaceRuleSettingsSidepop .rule-detail-heading-row .rule-detail-title,
-#workspaceRuleSettingsSidepop .rule-section-label-row .rule-detail-title {
+.sidepop-rule .rule-detail-heading-row .rule-detail-title,
+.sidepop-rule .rule-section-label-row .rule-detail-title {
     margin-bottom: 0;
 }
 
-#workspaceRuleSettingsSidepop .rule-form-mode-badge {
+.sidepop-rule .rule-form-mode-badge {
     display: inline-flex;
     height: 24px;
     align-items: center;
@@ -2906,18 +2942,18 @@ html[data-theme="dark"] .orig-form-info-label {
     white-space: nowrap;
 }
 
-#workspaceRuleSettingsSidepop .rule-form-mode-badge.new {
+.sidepop-rule .rule-form-mode-badge.new {
     border-color: color-mix(in srgb, var(--green) 24%, var(--border));
     background: color-mix(in srgb, var(--green) 7%, var(--surface));
     color: var(--green);
 }
 
-#workspaceRuleSettingsSidepop .rule-priority-group {
+.sidepop-rule .rule-priority-group {
     width: 170px;
     flex: 0 0 170px;
 }
 
-#workspaceRuleSettingsSidepop .rule-priority-help {
+.sidepop-rule .rule-priority-help {
     display: block;
     margin-top: 5px;
     color: var(--text-muted);
@@ -2926,7 +2962,7 @@ html[data-theme="dark"] .orig-form-info-label {
     word-break: keep-all;
 }
 
-#workspaceRuleSettingsSidepop .keyword-tags {
+.sidepop-rule .keyword-tags {
     display: flex;
     min-height: 0;
     flex-wrap: wrap;
@@ -2934,7 +2970,7 @@ html[data-theme="dark"] .orig-form-info-label {
     margin-top: 6px;
 }
 
-#workspaceRuleSettingsSidepop .keyword-tags span {
+.sidepop-rule .keyword-tags span {
     padding: 3px 10px;
     border-radius: var(--radius-badge);
     background: color-mix(in srgb, var(--primary) 8%, transparent);
@@ -2943,48 +2979,48 @@ html[data-theme="dark"] .orig-form-info-label {
     font-weight: 600;
 }
 
-#workspaceRuleSettingsSidepop .keyword-tags.exclude span {
+.sidepop-rule .keyword-tags.exclude span {
     background: color-mix(in srgb, var(--red) 8%, transparent);
     color: var(--red);
 }
 
-#workspaceRuleSettingsSidepop .rule-setting-block {
+.sidepop-rule .rule-setting-block {
     margin-top: 14px;
 }
 
-#workspaceRuleSettingsSidepop .rule-setting-block:first-of-type {
+.sidepop-rule .rule-setting-block:first-of-type {
     margin-top: 4px;
 }
 
-#workspaceRuleSettingsSidepop .rule-setting-label-row {
+.sidepop-rule .rule-setting-label-row {
     margin-bottom: 8px;
 }
 
-#workspaceRuleSettingsSidepop .rule-setting-label {
+.sidepop-rule .rule-setting-label {
     color: var(--text);
     font-size: calc(12px * var(--ui-font-scale));
     font-weight: 650;
 }
 
-#workspaceRuleSettingsSidepop .rule-setting-help {
+.sidepop-rule .rule-setting-help {
     color: var(--text-muted);
     font-size: calc(10px * var(--ui-font-scale));
     line-height: 1.35;
     text-align: right;
 }
 
-#workspaceRuleSettingsSidepop .rule-section-label-row {
+.sidepop-rule .rule-section-label-row {
     align-items: flex-start;
     margin-bottom: 9px;
 }
 
-#workspaceRuleSettingsSidepop .rule-list {
+.sidepop-rule .rule-list {
     display: flex;
     flex-direction: column;
     gap: 8px;
 }
 
-#workspaceRuleSettingsSidepop .rule-item {
+.sidepop-rule .rule-item {
     display: block;
     width: 100%;
     padding: 12px;
@@ -2996,26 +3032,26 @@ html[data-theme="dark"] .orig-form-info-label {
     transition: var(--transition);
 }
 
-#workspaceRuleSettingsSidepop .rule-item:hover {
+.sidepop-rule .rule-item:hover {
     border-color: var(--primary);
 }
 
-#workspaceRuleSettingsSidepop .rule-item.active {
+.sidepop-rule .rule-item.active {
     border-color: var(--primary);
     background: color-mix(in srgb, var(--primary) 5%, var(--surface));
 }
 
-#workspaceRuleSettingsSidepop .rule-item.disabled {
+.sidepop-rule .rule-item.disabled {
     opacity: 0.72;
 }
 
-#workspaceRuleSettingsSidepop .rule-item.new-draft {
+.sidepop-rule .rule-item.new-draft {
     border-style: dashed;
     border-color: color-mix(in srgb, var(--green) 34%, var(--border));
     background: color-mix(in srgb, var(--green) 5%, var(--surface));
 }
 
-#workspaceRuleSettingsSidepop .rule-item-head {
+.sidepop-rule .rule-item-head {
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -3023,7 +3059,7 @@ html[data-theme="dark"] .orig-form-info-label {
     margin-bottom: 4px;
 }
 
-#workspaceRuleSettingsSidepop .rule-item-keywords {
+.sidepop-rule .rule-item-keywords {
     min-width: 0;
     color: var(--text);
     font-size: calc(12px * var(--ui-font-scale));
@@ -3031,19 +3067,19 @@ html[data-theme="dark"] .orig-form-info-label {
     line-height: 1.4;
 }
 
-#workspaceRuleSettingsSidepop .rule-item.new-draft .rule-item-keywords {
+.sidepop-rule .rule-item.new-draft .rule-item-keywords {
     color: var(--green);
 }
 
-#workspaceRuleSettingsSidepop .rule-item-head-actions {
+.sidepop-rule .rule-item-head-actions {
     display: flex;
     align-items: center;
     gap: 6px;
     flex: 0 0 auto;
 }
 
-#workspaceRuleSettingsSidepop .rule-priority-badge,
-#workspaceRuleSettingsSidepop .rule-item-status {
+.sidepop-rule .rule-priority-badge,
+.sidepop-rule .rule-item-status {
     display: inline-flex;
     height: 20px;
     align-items: center;
@@ -3054,47 +3090,47 @@ html[data-theme="dark"] .orig-form-info-label {
     white-space: nowrap;
 }
 
-#workspaceRuleSettingsSidepop .rule-priority-badge {
+.sidepop-rule .rule-priority-badge {
     border: 1px solid color-mix(in srgb, var(--primary) 16%, var(--border));
     background: color-mix(in srgb, var(--primary) 4%, var(--surface));
     color: color-mix(in srgb, var(--primary) 68%, var(--text-muted));
 }
 
-#workspaceRuleSettingsSidepop .rule-item-status.on {
+.sidepop-rule .rule-item-status.on {
     background: color-mix(in srgb, var(--green) 8%, transparent);
     color: var(--green);
 }
 
-#workspaceRuleSettingsSidepop .rule-item-status.off {
+.sidepop-rule .rule-item-status.off {
     background: var(--surface-elevated);
     color: var(--text-muted);
 }
 
-#workspaceRuleSettingsSidepop .rule-item-body {
+.sidepop-rule .rule-item-body {
     display: block;
     color: var(--text-muted);
     font-size: calc(11px * var(--ui-font-scale));
     line-height: 1.5;
 }
 
-#workspaceRuleSettingsSidepop .drawer-footer {
+.sidepop-rule .drawer-footer {
     gap: 8px;
     padding: 12px 20px;
 }
 
-#workspaceRuleSettingsSidepop .rule-drawer-hint {
+.sidepop-rule .rule-drawer-hint {
     margin-right: auto;
     color: var(--text-muted);
     font-size: calc(11px * var(--ui-font-scale));
 }
 
-#workspaceRuleSettingsSidepop .rule-add-btn.is-new {
+.sidepop-rule .rule-add-btn.is-new {
     border-color: transparent;
     background: transparent;
     color: var(--green);
 }
 
-#workspaceRuleSettingsSidepop [data-rule-action="save"].new-mode {
+.sidepop-rule [data-rule-action="save"].new-mode {
     border-color: var(--green);
     background: var(--green);
 }

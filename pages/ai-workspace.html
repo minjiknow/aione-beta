@@ -154,7 +154,7 @@
 				-->
 
 			<!---------------------------------------- Start: 내 정보 클릭 시 나오는 프로필 모달---------------------------------------------->
-			<div class="hidden modal" id="sidebarProfileModal" data-component="modal" data-modal>
+			<div class="hidden modal modal-blur" id="sidebarProfileModal" data-component="modal" data-modal>
 				<div class="modal-bg" data-modal-close aria-hidden="true"></div>
 				<section class="modal-contents modal-medium modal-variant-account-profile account-profile-modal"
 					role="dialog" aria-modal="true" data-modal-variant="account-profile" aria-label="내 정보">
@@ -209,7 +209,7 @@
 
 
 			<!---------------------------------------- Start: 환경설정 클릭 시 나오는 프로필 모달---------------------------------------------->
-			<div class="hidden modal" id="sidebarSettingsModal" data-component="modal" data-modal>
+			<div class="hidden modal modal-blur" id="sidebarSettingsModal" data-component="modal" data-modal>
 				<div class="modal-bg" data-modal-close aria-hidden="true"></div>
 				<section class="modal-contents modal-medium modal-variant-account-settings account-settings-modal"
 					role="dialog" aria-modal="true" data-modal-variant="account-settings" aria-label="환경설정">
@@ -336,7 +336,7 @@
 
 
 			<!---------------------------------------- Start: 로그아웃 클릭 시 나오는 프로필 모달---------------------------------------------->
-			<div class="hidden modal" id="sidebarLogoutModal" data-component="modal" data-modal>
+			<div class="hidden modal modal-blur" id="sidebarLogoutModal" data-component="modal" data-modal>
 				<div class="modal-bg" data-modal-close aria-hidden="true"></div>
 				<section class="modal-contents modal-medium modal-variant-logout" role="dialog" aria-modal="true"
 					data-modal-variant="logout" aria-label="로그아웃 확인">
@@ -428,13 +428,12 @@
 
 						<div class="topbar-right app-topbar-actions">
 							<button type="button" class="button button-soft-primary" id="newClassifyBtn"
-								data-pages="intake" data-workspace-action="new-question" aria-label="새 질의분류"
-								title="새 질의분류">
+								data-workspace-action="new-question" aria-label="새 질의분류" title="새 질의분류">
 								<img class="icon icon-small" aria-hidden="true" data-icon="plus" alt="" />
 								<span>새 질의분류</span>
 							</button>
 							<button type="button" class="icon-button icon-button-purple" id="runDrawerBtn"
-								data-pages="intake" aria-label="실행 목록" title="실행 목록">
+								aria-label="실행 목록" title="실행 목록">
 								<img class="icon icon-text" aria-hidden="true" data-icon="list" alt="" />
 							</button>
 							<!--
@@ -442,19 +441,19 @@
 						  - 룰 설정 버튼은 9월 15일 버전 이후에 필요한 것으로 hidden 상태로 제외하였습니다.사이드 팝업인 workspaceRuleSettingsSidepop를 열기 위한 버튼으로, 추후 필요 시 &hidden 클래스 제거 후 사용 가능
 						  - 실국별 알림 담당자 설정 버튼은 9월 15일 버전 이후에 필요한 것으로 hidden 상태로 제외하였습니다.모달인 workspaceNotificationAssigneeModal를 열기 위한 버튼으로, 추후 필요 시 주석 해제 &hidden 클래스 제거 후 사용 가능
 						-->
-
-							<!-- <button type="button" class="icon-button icon-button-purple hidden" id="ruleManageBtn"
-							data-pages="intake" data-sidepop-open="workspaceRuleSettingsSidepop"
-							data-sidepop-variant="content" aria-label="룰 설정" title="룰 설정">
-							<img class="icon icon-text" aria-hidden="true" data-icon="edit-compact" alt="" />
-						</button>
-						<button type="button"
-							class="icon-button icon-button-workspace notification-dept-settings-btn hidden"
-							id="notificationAssigneeBtn" data-modal-open="workspaceNotificationAssigneeModal"
-							aria-label="실국별 알림 담당자 설정" title="실국별 알림 담당자 설정">
-							<img class="icon icon-text" aria-hidden="true" data-icon="notification-assignee"
-								alt="" />
-						</button>-->
+							<!--
+							<button type="button" class="icon-button icon-button-purple transparent hidden"
+								id="ruleManageBtn" data-sidepop-open="workspaceRuleSettingsSidepop"
+								data-sidepop-variant="content" aria-label="룰 설정" title="룰 설정">
+								<img class="icon icon-text" aria-hidden="true" data-icon="edit-compact" alt="" />
+							</button>
+							<button type="button"
+								class="icon-button icon-button-workspace notification-dept-settings-btn hidden"
+								id="notificationAssigneeBtn" data-modal-open="workspaceNotificationAssigneeModal"
+								aria-label="실국별 알림 담당자 설정" title="실국별 알림 담당자 설정">
+								<img class="icon icon-text" aria-hidden="true" data-icon="notification-assignee"
+									alt="" />
+							</button> -->
 							<!--
 						  [문서/페이지 구조 안내 — 개발자용]
 						  - accessory tool: common.css/common.js에서 관리하는 보조도구 모음
@@ -2576,7 +2575,7 @@
 
 		<!-------------------- Start: 분류 룰 설정 사이드팝업 --------------------->
 		<div class="hidden drawer-area">
-			<div class="drawer" id="workspaceRuleSettingsSidepop" data-component="sidepop" data-sidepop
+			<div class="drawer sidepop-rule" id="workspaceRuleSettingsSidepop" data-component="sidepop" data-sidepop
 				data-sidepop-rename-modal="" data-sidepop-delete-modal="" hidden>
 				<button type="button" class="drawer-backdrop" data-sidepop-close aria-label="사이드 팝업 닫기"></button>
 				<aside class="drawer-contents drawer-xlarge drawer-variant-content" role="dialog" aria-modal="true"
