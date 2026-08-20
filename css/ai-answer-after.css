@@ -2488,7 +2488,7 @@ html[data-theme="dark"] .draft-editor {
 
 /* ==================== Start: 답변서 버전 바 및 근거 검증 도구 ==================== */
 
-.draft-version-bar {
+.draft-versionbar {
     display: flex;
     min-height: 50px;
     padding: 8px 17px 8px 18px;
@@ -2613,13 +2613,13 @@ html[data-theme="dark"] .draft-editor {
 }
 
 @media (max-width: 900px) {
-    .draft-version-bar {
+    .draft-versionbar {
         flex-wrap: wrap;
         padding: 8px 10px;
         gap: 7px;
     }
 
-    .draft-version-bar .answer-version-labels {
+    .draft-versionbar .answer-version-labels {
         width: 100%;
         flex: 0 0 100%;
     }
