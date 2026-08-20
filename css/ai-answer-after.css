@@ -2630,14 +2630,16 @@ html[data-theme="dark"] .draft-editor {
     }
 }
 
-.draft-verify-toolbar {
+.draft-toolbar {
     display: flex;
+    min-height: 41px;
+    padding: 8px 18px;
     align-items: center;
-    justify-content: space-between;
-    padding: 8px 16px;
-    border-bottom: 1px solid var(--border);
-    background: var(--bg);
-    flex-shrink: 0;
+    gap: 10px;
+    border-bottom: 1px solid var(--border, #d1d9e0);
+    background: var(--bg, #f6f8fa);
+    overflow-x: auto;
+    white-space: nowrap;
 }
 .verify-toolbar-left {
     display: flex;
@@ -3878,7 +3880,7 @@ html[data-theme="dark"] .workspace-creation-loading {
     .center-tabs .top-tab {
         flex: 0 0 auto;
     }
-    .draft-verify-toolbar {
+    .draft-toolbar {
         align-items: flex-start;
         gap: 8px;
         flex-wrap: wrap;
@@ -3937,11 +3939,11 @@ html[data-theme="dark"] .workspace-creation-loading {
     .draft-editor {
         padding: 22px 16px;
     }
-    .draft-verify-toolbar {
+    .draft-toolbar {
         overflow-x: auto;
         flex-wrap: nowrap;
     }
-    .draft-verify-toolbar > * {
+    .draft-toolbar > * {
         flex-shrink: 0;
     }
 

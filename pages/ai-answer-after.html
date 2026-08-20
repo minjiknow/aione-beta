@@ -1106,10 +1106,10 @@
 											<span class="sub-title">문서 미리보기</span><span class="sub-badge blue">유사도
 												94%</span>
 										</div>
-										<div class="preview-body doc-viewer-body" id="previewBody"
+										<article class="preview-body doc-viewer-body" id="previewBody"
 											data-preview-recommendation-id="1">
 											<div class="doc-pages-track">
-												<div class="draft-page">
+												<section class="draft-page">
 													<div class="web-doc-header"><span class="web-doc-org">기획재정위원회 ·
 															2026년</span>
 														<h3 class="web-doc-title">지방채 인수 추경 편성 사유 답변</h3>
@@ -1164,9 +1164,9 @@
 														</div>
 													</div>
 													<div class="web-doc-page-footer"><span>- 1 / 1 -</span></div>
-												</div>
+												</section>
 											</div>
-										</div>
+										</article>
 									</div>
 									<!-------------------------------------- //End: 문서 미리보기 영역 --------------------------------------->
 								</div>
@@ -2104,20 +2104,18 @@
 				class="filter-count source-tab-count"></span></button>
 		<div id="afterDraftViewPrototype" class="draft-view-wrapper" data-dom-prototype hidden>
 			<div data-draft-version-bar-slot></div>
-			<div class="draft-verify-toolbar">
-				<div class="verify-toolbar-left">
-					<div class="verify-checks" id="verifyModeChecks">
-						<label class="verify-check-label"><input type="checkbox"
-								class="checkbox-control checkbox-control-xs verify-check" data-mode="highlight"
-								checked /><span>문장별 하이라이트</span></label>
-						<label class="verify-check-label"><input type="checkbox"
-								class="checkbox-control checkbox-control-xs verify-check" data-mode="source"
-								checked /><span>출처번호 보기</span></label>
-					</div>
-					<span class="verify-legend green">녹색: 근거 확인</span>
-					<span class="verify-legend yellow">노랑: 주의</span>
-					<span class="verify-legend red">빨강: 출처 누락</span>
+			<div class="draft-toolbar">
+				<div class="verify-checks" id="verifyModeChecks">
+					<label class="verify-check-label"><input type="checkbox"
+							class="checkbox-control checkbox-control-xs verify-check" data-mode="highlight"
+							checked /><span>문장별 하이라이트</span></label>
+					<label class="verify-check-label"><input type="checkbox"
+							class="checkbox-control checkbox-control-xs verify-check" data-mode="source"
+							checked /><span>출처번호 보기</span></label>
 				</div>
+				<span class="verify-legend green">녹색: 근거 확인</span>
+				<span class="verify-legend yellow">노랑: 주의</span>
+				<span class="verify-legend red">빨강: 출처 누락</span>
 			</div>
 			<div data-draft-content-slot></div>
 			<div class="document-statusbar-area">
@@ -2592,9 +2590,9 @@
 						data-compare-viewer="base">
 						<div class="cmp-col-head"><span class="cmp-col-title" id="compareBaseTitle">기준 문서</span><span
 								class="cmp-col-badge" id="compareBaseBadge">유사답변서 · 91%</span></div>
-						<div class="cmp-col-body doc-viewer-body" id="compareBaseBody">
+						<article class="cmp-col-body doc-viewer-body" id="compareBaseBody">
 							<div class="doc-pages-track">
-								<div class="draft-page">
+								<section class="draft-page">
 									<div class="web-doc-header"><span class="web-doc-org">기획재정위원회 · 2026년</span>
 										<h3 class="web-doc-title">260402_재경위_전체 의원 질의에 대한 답변_통합본</h3>
 									</div>
@@ -2665,8 +2663,8 @@
 
 									</div>
 									<div class="web-doc-page-footer"><span>- 1 / 3 -</span></div>
-								</div>
-								<div class="draft-page">
+								</section>
+								<section class="draft-page">
 									<div class="web-doc-header web-doc-header-sub"><span
 											class="web-doc-org">260402_재경위_전체
 											의원 질의에 대한 답변_통합본 · (계속)</span></div>
@@ -2732,8 +2730,8 @@
 										</table>
 									</div>
 									<div class="web-doc-page-footer"><span>- 2 / 3 -</span></div>
-								</div>
-								<div class="draft-page">
+								</section>
+								<section class="draft-page">
 									<div class="web-doc-header web-doc-header-sub"><span
 											class="web-doc-org">260402_재경위_전체
 											의원 질의에 대한 답변_통합본 · (부속)</span></div>
@@ -2777,9 +2775,9 @@
 
 									</div>
 									<div class="web-doc-page-footer"><span>- 3 / 3 -</span></div>
-								</div>
+								</section>
 							</div>
-						</div>
+						</article>
 					</div>
 					<div class="cmp-col-resize split-handler-handle" data-cmp-resize="0" role="separator"
 						aria-label="기준 문서와 비교 문서 너비 조절" aria-orientation="vertical" tabindex="0"></div>
@@ -2787,9 +2785,9 @@
 						data-compare-viewer="draft">
 						<div class="cmp-col-head"><span class="cmp-col-title" id="compareDraftTitle">비교 문서</span><span
 								class="cmp-col-badge blue" id="compareDraftBadge">현재 답변서 초안</span></div>
-						<div class="cmp-col-body doc-viewer-body" id="compareDraftBody">
+						<article class="cmp-col-body doc-viewer-body" id="compareDraftBody">
 							<div class="doc-pages-track">
-								<div class="draft-page">
+								<section class="draft-page">
 									<div class="web-doc-header"><span class="web-doc-org">재정경제부 · 답변서 초안</span>
 										<h3 class="web-doc-title">국회 기획재정위원회 질의에 대한 답변(초안)</h3>
 									</div>
@@ -2849,8 +2847,8 @@
 
 									</div>
 									<div class="web-doc-page-footer"><span>- 1 / 3 -</span></div>
-								</div>
-								<div class="draft-page">
+								</section>
+								<section class="draft-page">
 									<div class="web-doc-header web-doc-header-sub"><span class="web-doc-org">국회 기획재정위원회
 											질의에
 											대한 답변(초안) · (계속)</span></div>
@@ -2910,8 +2908,8 @@
 										</table>
 									</div>
 									<div class="web-doc-page-footer"><span>- 2 / 3 -</span></div>
-								</div>
-								<div class="draft-page">
+								</section>
+								<section class="draft-page">
 									<div class="web-doc-header web-doc-header-sub"><span class="web-doc-org">국회 기획재정위원회
 											질의에
 											대한 답변(초안) · (보완메모)</span></div>
@@ -2955,9 +2953,9 @@
 
 									</div>
 									<div class="web-doc-page-footer"><span>- 3 / 3 -</span></div>
-								</div>
+								</section>
 							</div>
-						</div>
+						</article>
 					</div>
 					<div class="cmp-col-resize split-handler-handle" data-cmp-resize="1" role="separator"
 						aria-label="비교 문서와 차이점 분석 너비 조절" aria-orientation="vertical" tabindex="0"></div>

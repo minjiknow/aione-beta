@@ -689,7 +689,7 @@
         flex: 0 0 100%;
         overflow-x: auto;
     }
-    .answer-tab-panel .answer-draft-versionbar {
+    .answer-tab-panel .draft-versionbar {
         flex-wrap: wrap;
     }
 }
@@ -886,7 +886,7 @@ html[data-theme="dark"] :is(.center-body, .answer-center-body, .chat-messages, .
     color: var(--text);
 }
 
-html[data-theme="dark"] :is(.center-sub-head, .answer-draft-toolbar, .answer-draft-versionbar, .document-statusbar) {
+html[data-theme="dark"] :is(.center-sub-head, .draft-toolbar, .draft-versionbar, .document-statusbar) {
     border-color: var(--border);
     background-color: var(--surface-el);
     color: var(--text);
@@ -1283,7 +1283,7 @@ html[data-theme="dark"] .rec-score {
     opacity: 0.3;
 }
 
-.answer-draft-versionbar {
+.draft-versionbar {
     display: flex;
     min-height: 50px;
     padding: 8px 17px 8px 18px;
@@ -1395,7 +1395,7 @@ html[data-theme="dark"] .rec-score {
     height: 14px;
 }
 
-.answer-draft-toolbar {
+.draft-toolbar {
     display: flex;
     min-height: 41px;
     padding: 8px 18px;
