@@ -62,10 +62,6 @@
         if (pageReady || !arePageComponentsReady()) return;
         pageReady = true;
         hydrateIcons();
-        const sidebar = document.querySelector(".chatbot-sidebar");
-        window.AIOneSidebar?.configure(sidebar, {
-            initialCollapsed: false,
-        });
         applyPopupMode();
         bindEvents();
         document.addEventListener("click", () => {
@@ -141,11 +137,6 @@
 
     /* ============================ 시작: 화면 이벤트 연결 ============================ */
 
-    // 챗봇 사이드바 활성 메뉴 전환
-    function setActiveChatbotNavLink(activeLink) {
-        window.AIOneSidebar?.setActiveLink(activeLink);
-    }
-
     // 화면 주요 이벤트 연결
     function bindEvents() {
         // 최소 브라우저 창에서 챗봇을 엽니다.
@@ -158,26 +149,11 @@
             else if (event.target.closest("#chatPromptBottom")) sendMessage(value);
         });
 
-        const sidebarNav = $(".chatbot-sidebar .sidebar-nav");
-        if (sidebarNav) {
-            sidebarNav.addEventListener("click", (event) => {
-                const navLink = event.target.closest(".nav-link");
-                if (!navLink || !sidebarNav.contains(navLink) || navLink.dataset.route === "home" || navLink.getAttribute("aria-disabled") === "true") return;
-                if (navLink.matches('a[href="#"]')) event.preventDefault();
-                setActiveChatbotNavLink(navLink);
-            });
-        }
-
         // 새 대화
         const newChatBtn = $("#newChatBtn");
         const newChatLink = $("#newChatLink");
         if (newChatLink) newChatLink.addEventListener("click", resetChat);
-        if (newChatBtn) {
-            newChatBtn.addEventListener("click", () => {
-                resetChat();
-                setActiveChatbotNavLink(newChatLink);
-            });
-        }
+        if (newChatBtn) newChatBtn.addEventListener("click", resetChat);
 
         // 보고서 드로어
         const reportDrawerClose = $("#reportDrawerClose");

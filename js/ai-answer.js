@@ -7,12 +7,6 @@
 
     let initialized = false;
     const pendingWorkspaceTasks = new Set();
-    const AI_CHAT_INTRO =
-        "국회 질의를 입력해 보세요!\n" +
-        "AI가 지능형 검색을 통해 관련자료를 추천하고 국회 답변서 초안 생성을 시작합니다.\n" +
-        "① (선택) 좌측 AI 참조소스에서 첨부파일을 업로드하고\n" +
-        "② 이 채팅에 국회질의를 입력하시면\n" +
-        "과거 유사답변서나 관련자료 추천하고 초안을 생성합니다.";
     const ANSWER_PAGE_SELECTOR = ".app";
 
     const requiredSelectors = [
@@ -91,16 +85,6 @@
             chatListButton.setAttribute("aria-haspopup", "dialog");
             chatListButton.setAttribute("aria-expanded", "false");
         }
-    }
-
-    // 사이드바 초기화
-    function initSidebar() {
-        const sidebar = document.querySelector(`${ANSWER_PAGE_SELECTOR} > .sidebar`);
-        if (!sidebar) return;
-
-        window.AIOneSidebar?.configure(sidebar, {
-            initialCollapsed: true,
-        });
     }
 
     // 패널 크기 조절 레이아웃 일시 중지
@@ -1224,9 +1208,7 @@
         const introMessage = messages?.querySelector(":scope > [data-chat-intro]");
         if (messages && introMessage) {
             messages.replaceChildren(introMessage);
-            const introText = introMessage.querySelector(".msg-text");
             const introTime = introMessage.querySelector(".msg-time");
-            if (introText) introText.textContent = AI_CHAT_INTRO;
             if (introTime) introTime.textContent = getCurrentTime();
         }
         if (chatInput) chatInput.value = "";
@@ -1283,7 +1265,6 @@
         initialized = true;
 
         configureTopbar();
-        initSidebar();
         initTabs();
         initReferences();
         initSourceUpload();

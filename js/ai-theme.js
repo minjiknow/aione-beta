@@ -11,15 +11,6 @@
     const LEGACY_PRIMARY_COLOR_KEY = "ai-one-primary-color";
     const VALID_THEMES = Object.freeze(["system", "dark", "light"]);
     const VALID_ACCENTS = Object.freeze(["default", "blue", "green", "yellow", "pink", "orange", "purple"]);
-    const ACCENT_LABELS = Object.freeze({
-        default: "기본값",
-        blue: "블루",
-        green: "그린",
-        yellow: "옐로",
-        pink: "핑크",
-        orange: "오렌지",
-        purple: "퍼플",
-    });
     const LEGACY_PRIMARY_COLOR_ACCENTS = Object.freeze({
         default: "default",
         "#218BFF": "blue",
@@ -97,7 +88,9 @@
             control.dataset.accentValue = currentAccent;
             const label = control.querySelector("[data-accent-label]");
             const swatch = control.querySelector(".settings-accent-swatch");
-            if (label) label.textContent = ACCENT_LABELS[currentAccent];
+            const selectedOption = control.querySelector(`[data-accent-value="${currentAccent}"]`);
+            const selectedOptionLabel = Array.from(selectedOption?.children || []).find((element) => !element.matches(".settings-accent-option-dot, .settings-accent-option-check"));
+            if (label && selectedOptionLabel) label.textContent = selectedOptionLabel.textContent.trim();
             if (swatch) swatch.dataset.accentValue = currentAccent;
             control.querySelectorAll("[data-accent-value]").forEach((option) => {
                 option.setAttribute("aria-selected", String(option.dataset.accentValue === currentAccent));

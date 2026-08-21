@@ -691,10 +691,10 @@
     const MENU_GAP = 10;
     const VIEWPORT_MARGIN = 16;
     const PREPARING_SERVICE_MODAL_ID = "preparingServiceModal";
-    const DEFAULT_PREPARING_SERVICE_MESSAGE = "이 화면은 프로토타입에 아직 포함되어 있지 않습니다.";
     const CHATBOT_PREPARING_SERVICE_MESSAGE = ["AI-ONE 챗봇은 준비중인 서비스입니다.", "확인을 누르면 프로토타입 화면으로 이동합니다."];
     const CHATBOT_PROTOTYPE_PATH = "ai-chatbot.html";
     const menuAnchors = new WeakMap();
+    const preparingServiceDefaultContents = new WeakMap();
     const baseController = window.AIOneLayerFactory.create({
         type: "modal",
         layerSelector: "[data-modal]",
@@ -715,6 +715,9 @@
         const confirmButton = layer.querySelector(".btn-confirm[data-modal-close]");
         const isChatbotTrigger = trigger?.getAttribute("href")?.includes(CHATBOT_PROTOTYPE_PATH);
         if (!description || !confirmButton) return;
+        if (!preparingServiceDefaultContents.has(description)) {
+            preparingServiceDefaultContents.set(description, Array.from(description.childNodes, (node) => node.cloneNode(true)));
+        }
 
         if (isChatbotTrigger) {
             description.replaceChildren(CHATBOT_PREPARING_SERVICE_MESSAGE[0], document.createElement("br"), CHATBOT_PREPARING_SERVICE_MESSAGE[1]);
@@ -722,7 +725,8 @@
             return;
         }
 
-        description.textContent = DEFAULT_PREPARING_SERVICE_MESSAGE;
+        const defaultContent = preparingServiceDefaultContents.get(description) || [];
+        description.replaceChildren(...defaultContent.map((node) => node.cloneNode(true)));
         delete confirmButton.dataset.navigateTo;
     }
 
@@ -824,8 +828,8 @@
         return layer?.closest(".app-sidebar, .sidebar")?.querySelector(".user-card") || null;
     }
 
-    function getProfileValue(card, selector, fallback) {
-        return card?.querySelector(selector)?.textContent?.trim() || fallback;
+    function getProfileValue(card, selector) {
+        return card?.querySelector(selector)?.textContent?.trim() || "";
     }
 
     function syncProfile(target, source = null) {
@@ -834,9 +838,9 @@
 
         const card = resolveUserCard(source, layer);
         const profile = {
-            name: getProfileValue(card, ".user-name, .user-name-sm", "박재정 주무관"),
-            department: getProfileValue(card, ".user-dept", "재정분석과"),
-            role: getProfileValue(card, ".user-role-badge", "국회담당자"),
+            name: getProfileValue(card, ".user-name, .user-name-sm"),
+            department: getProfileValue(card, ".user-dept"),
+            role: getProfileValue(card, ".user-role-badge"),
         };
 
         layer.querySelectorAll("[data-account-profile-name]").forEach((element) => {
@@ -1038,9 +1042,9 @@
         if (!avatar) return;
 
         card.dataset.profileTooltipReady = "true";
-        const userName = card.querySelector(".user-name, .user-name-sm")?.textContent?.trim() || "박재정 주무관";
-        const userDepartment = card.querySelector(".user-dept")?.textContent?.trim() || "재정분석과";
-        const userRole = card.querySelector(".user-role-badge")?.textContent?.trim() || "국회담당자";
+        const userName = card.querySelector(".user-name, .user-name-sm")?.textContent?.trim() || "";
+        const userDepartment = card.querySelector(".user-dept")?.textContent?.trim() || "";
+        const userRole = card.querySelector(".user-role-badge")?.textContent?.trim() || "";
         const tooltip = document.getElementById("userProfileHoverTooltip");
         if (!tooltip) return;
         const name = tooltip.querySelector("[data-profile-name]");
@@ -1420,8 +1424,15 @@
                 setSidebarCollapsed(sidebar, false);
             });
             sidebar.addEventListener("click", (event) => {
+                const activeTargetTrigger = event.target.closest("[data-sidebar-active-target]");
+                if (activeTargetTrigger && sidebar.contains(activeTargetTrigger)) {
+                    const activeTarget = sidebar.querySelector(activeTargetTrigger.dataset.sidebarActiveTarget);
+                    if (activeTarget?.classList.contains("nav-link")) setActiveSidebarLink(activeTarget);
+                }
+
                 const link = event.target.closest(".nav-link");
                 if (!link || !sidebar.contains(link)) return;
+                if (link.matches('a[href="#"]')) event.preventDefault();
 
                 const currentConfig = sidebarControllerStates.get(sidebar)?.config;
                 const isDisabled = link.getAttribute("aria-disabled") === "true";
@@ -1437,6 +1448,15 @@
         setSidebarCollapsed(sidebar, initialCollapsed, { persist: false });
         bindSidebarResponsiveRail(sidebar);
         return sidebar;
+    }
+
+    function getSidebarConfigFromMarkup(sidebar) {
+        return {
+            initialCollapsed: sidebar.classList.contains("collapsed"),
+            storageKey: sidebar.dataset.sidebarStorageKey || "",
+            collapseOnNavigate: sidebar.hasAttribute("data-sidebar-collapse-on-navigate"),
+            responsiveRailQuery: sidebar.dataset.sidebarResponsiveQuery || RESPONSIVE_RAIL_QUERY,
+        };
     }
 
     // 사이드바 초기화와 공개 API
@@ -1459,8 +1479,10 @@
 
     function init(root = document) {
         initCollapsedHomeNavigation();
-        if (root.matches?.(".app-sidebar, .sidebar")) bindSidebar(root);
-        root.querySelectorAll?.(".app-sidebar, .sidebar").forEach(bindSidebar);
+        if (root.matches?.(SIDEBAR_SELECTOR)) configureSidebar(root, getSidebarConfigFromMarkup(root));
+        root.querySelectorAll?.(SIDEBAR_SELECTOR).forEach((sidebar) => {
+            configureSidebar(sidebar, getSidebarConfigFromMarkup(sidebar));
+        });
     }
 
     window.AIOneSidebar = Object.freeze({

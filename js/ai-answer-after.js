@@ -107,195 +107,53 @@
                     { status: "done", label: "청킹 완료", delay: 0 },
                 ];
 
-                const recommendations = [
-                    {
-                        id: 1,
-                        title: "지방채 인수 추경 편성 사유 답변",
-                        score: 97,
-                        meta: "과거답변서 · 2026년 · 기획재정위원회",
-                        category: "similar",
-                        desc: "현재 질의와 직접 연결되는 과거 답변. 공자기금 지방채 인수 필요성과 추경 편성 논리를 함께 설명.",
-                        tags: ["과거답변서", "추경편성", "지방채인수"],
-                        preview: {
-                            org: "기획재정위원회 · 2026년",
-                            title: "지방채 인수 추경 편성 사유 답변",
-                            sections: [
-                                { title: "질의 요지", items: ["지방교부세 지급 중 지방채 인수와 추경 편성이 필요한 이유를 질의", "지방채 증가에 따른 재정건전성 관리방안도 함께 요구"] },
-                                { title: "핵심 답변", items: ["지방교부세는 일반재원, 지방채는 특정 자본적 지출을 위한 별도 재원", "공자기금은 장기·저리 인수로 지자체의 일시적 대규모 투자수요를 지원"] },
-                            ],
-                        },
-                    },
-                    {
-                        id: 2,
-                        title: "지방채 인수 예산 현황표(2016~2026)",
-                        score: 95,
-                        meta: "참고자료 · 예산현황 · 재정정책국",
-                        category: "reference",
-                        desc: "연도별 지방채 인수 계획·실적·잔액을 정리한 최신 현황표.",
-                        tags: ["예산현황", "인수실적"],
-                        preview: {
-                            org: "재정정책국 · 2026년",
-                            title: "지방채 인수 예산 현황표",
-                            sections: [{ title: "주요 수치", items: ["'25년 예산 12,100억 원 / 결산 10,712억 원", "'26년 본예산 1,000억 원 / 추경안 2,000억 원", "'25년 말 인수잔액 71,532억 원"] }],
-                        },
-                    },
-                    {
-                        id: 3,
-                        title: "260402_재경위 전체 의원 질의 답변 통합본",
-                        score: 94,
-                        meta: "과거답변서 · 2026년 · 기획재정위원회",
-                        category: "similar",
-                        desc: "공자기금 지방채 인수 제도, 추경 편성 배경, 지원조건을 포함한 전체 의원 답변 통합본.",
-                        tags: ["과거답변서", "공자기금"],
-                        preview: {
-                            org: "기획재정위원회 · 2026년",
-                            title: "재경위 전체 의원 질의 답변 통합본",
-                            sections: [{ title: "활용 가능 문단", items: ["공자기금의 지방채 인수 목적과 지원대상", "5년 거치 10년 분할 상환 조건과 인수금리 설명", "추경 편성 필요성에 대한 기존 답변 논리"] }],
-                        },
-                    },
-                    {
-                        id: 4,
-                        title: "광주·전남 통합 관련 추경 수요 상세",
-                        score: 92,
-                        meta: "참고자료 · 근거자료 · 지역발전정책국",
-                        category: "reference",
-                        desc: "통합특별시 출범 관련 추경 규모와 지자체별 세부 수요.",
-                        tags: ["광주전남", "추경수요"],
-                        preview: {
-                            org: "지역발전정책국 · 2026년",
-                            title: "광주·전남 통합 관련 추경 수요",
-                            sections: [{ title: "세부 수요", items: ["전남: 통합전산망·안내표지판 등 약 700억 원", "광주: 재난관리기금·재해구호기금 등 약 195억 원", "기타 공통 전환비용을 포함해 약 1,000억 원 규모"] }],
-                        },
-                    },
-                    {
-                        id: 5,
-                        title: "공자기금 지방채 인수 제도 및 법적 근거",
-                        score: 90,
-                        meta: "참고자료 · 법령근거 · 국고실",
-                        category: "reference",
-                        desc: "공공자금관리기금법 및 지방재정 관련 규정에 따른 지방채 인수 근거와 절차 정리.",
-                        tags: ["법령근거", "공자기금"],
-                        preview: {
-                            org: "국고실 · 법령분석",
-                            title: "공자기금 지방채 인수 제도 및 법적 근거",
-                            sections: [{ title: "법적 근거", items: ["공공자금관리기금 관련 법령에 따른 기금 운용", "지방채 발행·인수 절차와 승인 체계", "인수대상 사업 및 상환조건의 제도적 근거"] }],
-                        },
-                    },
-                    {
-                        id: 6,
-                        title: "지방교부세와 지방채 재원 성격 비교자료",
-                        score: 88,
-                        meta: "참고자료 · 분석자료 · 재정정책국",
-                        category: "reference",
-                        desc: "지방교부세 일반재원과 지방채 자본적 지출 재원의 차이를 비교.",
-                        tags: ["지방교부세", "재원비교"],
-                        preview: {
-                            org: "재정정책국 · 분석자료",
-                            title: "지방교부세와 지방채 재원 성격 비교",
-                            sections: [{ title: "비교 요지", items: ["지방교부세: 지자체의 일반재원으로 폭넓게 활용", "지방채: 특정 자본사업의 일시적 대규모 재원조달 수단", "두 재원은 목적과 상환구조가 달라 병행 활용 가능"] }],
-                        },
-                    },
-                    {
-                        id: 7,
-                        title: "2026년 공자기금 분기별 인수금리 산정자료",
-                        score: 86,
-                        meta: "참고자료 · 금리자료 · 국고실",
-                        category: "reference",
-                        desc: "공자기금 조달금리와 지방채 인수금리 산정 기준 및 분기별 변동 추이.",
-                        tags: ["인수금리", "공자기금"],
-                        preview: { org: "국고실 · 2026년", title: "공자기금 분기별 인수금리", sections: [{ title: "금리 현황", items: ["'26.1분기 2.957%", "'26.2분기 3.435%", "분기별 공자기금 조달비용을 기준으로 고정 적용"] }] },
-                    },
-                    {
-                        id: 8,
-                        title: "지방재정 채무관리 지표 및 위기관리 기준",
-                        score: 84,
-                        meta: "참고자료 · 지침 · 재정정책국",
-                        category: "reference",
-                        desc: "지방채 발행 이후 채무비율과 재정위험을 관리하기 위한 지표 및 대응 기준.",
-                        tags: ["채무관리", "재정건전성"],
-                        preview: {
-                            org: "재정정책국 · 지침",
-                            title: "지방재정 채무관리 지표",
-                            sections: [{ title: "관리 지표", items: ["예산대비 채무비율과 관리채무부담도 점검", "재정위험 상승 시 신규 지방채 발행·투자사업 관리 강화", "위기단체 지정 및 단계별 개선계획 수립"] }],
-                        },
-                    },
-                    {
-                        id: 9,
-                        title: "세수추계 및 세입경정 운용 검토자료",
-                        score: 82,
-                        meta: "참고자료 · 분석자료 · 세제실",
-                        category: "reference",
-                        desc: "추경 재원 마련 시 세입경정과 추가 세수 활용 가능성을 검토한 자료.",
-                        tags: ["세입경정", "세수추계"],
-                        preview: {
-                            org: "세제실 · 2026년",
-                            title: "세수추계 및 세입경정 운용 검토",
-                            sections: [{ title: "검토 내용", items: ["세목별 세수 전망과 추가 세입 가능성 점검", "세입경정 필요 여부와 시점 검토", "추경 재원 구성 시 국채발행 최소화 방안"] }],
-                        },
-                    },
-                    {
-                        id: 10,
-                        title: "지방채 발행 한도 산정 및 승인 절차",
-                        score: 80,
-                        meta: "참고자료 · 지침 · 지방재정",
-                        category: "reference",
-                        desc: "지자체별 지방채 발행 한도 산정기준과 한도 초과 시 승인 절차.",
-                        tags: ["지방채한도", "승인절차"],
-                        preview: {
-                            org: "지방재정 · 지침",
-                            title: "지방채 발행 한도 산정 및 승인 절차",
-                            sections: [{ title: "주요 내용", items: ["최근 재정규모와 채무지표를 반영해 발행한도 산정", "한도 초과 사업은 별도 협의·승인 절차 적용", "중장기 상환계획을 함께 검토"] }],
-                        },
-                    },
-                    {
-                        id: 11,
-                        title: "통합특별시 출범 재정지원 유사사례 답변",
-                        score: 78,
-                        meta: "과거답변서 · 유사사례 · 지역발전정책국",
-                        category: "similar",
-                        desc: "행정구역 통합·특별자치단체 출범 시 일시적 투자수요에 대응한 과거 답변 사례.",
-                        tags: ["과거답변서", "통합특별시"],
-                        preview: {
-                            org: "지역발전정책국 · 유사사례",
-                            title: "통합특별시 출범 재정지원 유사사례",
-                            sections: [{ title: "유사 논거", items: ["출범 초기 전산·표지·조직 통합 비용이 단기간 집중", "일회성 자본투자는 장기상환 재원과 연계 가능", "사업별 집행시기를 고려해 추경 편성 여부 검토"] }],
-                        },
-                    },
-                    {
-                        id: 12,
-                        title: "최근 5년 지방채 인수 실적 및 상환 현황",
-                        score: 76,
-                        meta: "참고자료 · 통계자료 · 국고실",
-                        category: "reference",
-                        desc: "최근 5년 인수액, 상환액, 잔액과 만기구조를 정리한 통계자료.",
-                        tags: ["통계자료", "상환현황"],
-                        preview: { org: "국고실 · 통계자료", title: "최근 5년 지방채 인수 실적 및 상환 현황", sections: [{ title: "통계 항목", items: ["연도별 신규 인수액", "원금 상환 및 이자 납부액", "만기별 잔액과 향후 상환스케줄"] }] },
-                    },
-                    {
-                        id: 13,
-                        title: "재정사업 구조조정 및 추경 재원 확보 사례",
-                        score: 73,
-                        meta: "참고자료 · 예산분석 · 경제정책국",
-                        category: "reference",
-                        desc: "불용·저성과 사업 조정으로 추경 재원을 확보한 과거 운용사례.",
-                        tags: ["지출구조조정", "추경재원"],
-                        preview: {
-                            org: "경제정책국 · 예산분석",
-                            title: "재정사업 구조조정 및 추경 재원 확보 사례",
-                            sections: [{ title: "운용 사례", items: ["집행부진 사업의 연내 불용 예상액 점검", "저성과·중복사업 감액을 통해 신규 긴급소요에 재배분", "사업조정 시 국민 체감성과와 집행가능성 병행 검토"] }],
-                        },
-                    },
-                    {
-                        id: 14,
-                        title: "지방재정 운용 성과평가 보고서",
-                        score: 69,
-                        meta: "참고자료 · 성과보고 · 지역발전정책국",
-                        category: "reference",
-                        desc: "지자체별 재정운용 성과와 채무관리 지표 평가 결과 요약.",
-                        tags: ["성과평가", "지방재정"],
-                        preview: { org: "지역발전정책국 · 2026년", title: "지방재정 운용 성과평가 보고서", sections: [{ title: "평가 내용", items: ["채무관리·재정효율성 지표 평가", "우수 지자체 재정운용 사례", "등급별 개선 권고사항"] }] },
-                    },
-                ];
+                const recommendationPreviewById = new Map([
+                    [1, { org: "기획재정위원회 · 2026년", title: "지방채 인수 추경 편성 사유 답변", sections: [{ title: "질의 요지", items: ["지방교부세 지급 중 지방채 인수와 추경 편성이 필요한 이유를 질의", "지방채 증가에 따른 재정건전성 관리방안도 함께 요구"] }, { title: "핵심 답변", items: ["지방교부세는 일반재원, 지방채는 특정 자본적 지출을 위한 별도 재원", "공자기금은 장기·저리 인수로 지자체의 일시적 대규모 투자수요를 지원"] }] }],
+                    [2, { org: "재정정책국 · 2026년", title: "지방채 인수 예산 현황표", sections: [{ title: "주요 수치", items: ["'25년 예산 12,100억 원 / 결산 10,712억 원", "'26년 본예산 1,000억 원 / 추경안 2,000억 원", "'25년 말 인수잔액 71,532억 원"] }] }],
+                    [3, { org: "기획재정위원회 · 2026년", title: "재경위 전체 의원 질의 답변 통합본", sections: [{ title: "활용 가능 문단", items: ["공자기금의 지방채 인수 목적과 지원대상", "5년 거치 10년 분할 상환 조건과 인수금리 설명", "추경 편성 필요성에 대한 기존 답변 논리"] }] }],
+                    [4, { org: "지역발전정책국 · 2026년", title: "광주·전남 통합 관련 추경 수요", sections: [{ title: "세부 수요", items: ["전남: 통합전산망·안내표지판 등 약 700억 원", "광주: 재난관리기금·재해구호기금 등 약 195억 원", "기타 공통 전환비용을 포함해 약 1,000억 원 규모"] }] }],
+                    [5, { org: "국고실 · 법령분석", title: "공자기금 지방채 인수 제도 및 법적 근거", sections: [{ title: "법적 근거", items: ["공공자금관리기금 관련 법령에 따른 기금 운용", "지방채 발행·인수 절차와 승인 체계", "인수대상 사업 및 상환조건의 제도적 근거"] }] }],
+                    [6, { org: "재정정책국 · 분석자료", title: "지방교부세와 지방채 재원 성격 비교", sections: [{ title: "비교 요지", items: ["지방교부세: 지자체의 일반재원으로 폭넓게 활용", "지방채: 특정 자본사업의 일시적 대규모 재원조달 수단", "두 재원은 목적과 상환구조가 달라 병행 활용 가능"] }] }],
+                    [7, { org: "국고실 · 2026년", title: "공자기금 분기별 인수금리", sections: [{ title: "금리 현황", items: ["'26.1분기 2.957%", "'26.2분기 3.435%", "분기별 공자기금 조달비용을 기준으로 고정 적용"] }] }],
+                    [8, { org: "재정정책국 · 지침", title: "지방재정 채무관리 지표", sections: [{ title: "관리 지표", items: ["예산대비 채무비율과 관리채무부담도 점검", "재정위험 상승 시 신규 지방채 발행·투자사업 관리 강화", "위기단체 지정 및 단계별 개선계획 수립"] }] }],
+                    [9, { org: "세제실 · 2026년", title: "세수추계 및 세입경정 운용 검토", sections: [{ title: "검토 내용", items: ["세목별 세수 전망과 추가 세입 가능성 점검", "세입경정 필요 여부와 시점 검토", "추경 재원 구성 시 국채발행 최소화 방안"] }] }],
+                    [10, { org: "지방재정 · 지침", title: "지방채 발행 한도 산정 및 승인 절차", sections: [{ title: "주요 내용", items: ["최근 재정규모와 채무지표를 반영해 발행한도 산정", "한도 초과 사업은 별도 협의·승인 절차 적용", "중장기 상환계획을 함께 검토"] }] }],
+                    [11, { org: "지역발전정책국 · 유사사례", title: "통합특별시 출범 재정지원 유사사례", sections: [{ title: "유사 논거", items: ["출범 초기 전산·표지·조직 통합 비용이 단기간 집중", "일회성 자본투자는 장기상환 재원과 연계 가능", "사업별 집행시기를 고려해 추경 편성 여부 검토"] }] }],
+                    [12, { org: "국고실 · 통계자료", title: "최근 5년 지방채 인수 실적 및 상환 현황", sections: [{ title: "통계 항목", items: ["연도별 신규 인수액", "원금 상환 및 이자 납부액", "만기별 잔액과 향후 상환스케줄"] }] }],
+                    [13, { org: "경제정책국 · 예산분석", title: "재정사업 구조조정 및 추경 재원 확보 사례", sections: [{ title: "운용 사례", items: ["집행부진 사업의 연내 불용 예상액 점검", "저성과·중복사업 감액을 통해 신규 긴급소요에 재배분", "사업조정 시 국민 체감성과와 집행가능성 병행 검토"] }] }],
+                    [14, { org: "지역발전정책국 · 2026년", title: "지방재정 운용 성과평가 보고서", sections: [{ title: "평가 내용", items: ["채무관리·재정효율성 지표 평가", "우수 지자체 재정운용 사례", "등급별 개선 권고사항"] }] }],
+                ]);
+
+                function normalizeAuthoredText(value) {
+                    return String(value || "")
+                        .replace(/\s+/g, " ")
+                        .trim();
+                }
+
+                function readAuthoredRecommendations(root = document) {
+                    return Array.from(root.querySelectorAll("#recommendList .rec-card[data-rec-id]"))
+                        .map((card) => {
+                            const id = Number(card.dataset.recId);
+                            if (!Number.isFinite(id)) return null;
+                            return {
+                                id,
+                                title: normalizeAuthoredText(card.querySelector(".rec-title")?.textContent),
+                                score: Number.parseInt(card.querySelector(".rec-score")?.textContent, 10) || 0,
+                                meta: normalizeAuthoredText(card.querySelector(".rec-meta")?.textContent),
+                                category: card.dataset.category || "reference",
+                                desc: normalizeAuthoredText(card.querySelector(".rec-desc")?.textContent),
+                                tags: Array.from(card.querySelectorAll(".rec-tag"), (tag) => normalizeAuthoredText(tag.textContent)).filter(Boolean),
+                                preview: recommendationPreviewById.get(id) || null,
+                            };
+                        })
+                        .filter(Boolean);
+                }
+
+                const recommendations = readAuthoredRecommendations();
+                const initialSelectedRecIds = Array.from(document.querySelectorAll("#recommendList .rec-card[data-rec-id]"))
+                    .filter((card) => card.classList.contains("active") || card.querySelector('.rec-checkbox input[type="checkbox"]')?.checked)
+                    .map((card) => Number(card.dataset.recId))
+                    .filter(Number.isFinite);
 
                 // 문서 Meta Box 구성
                 function buildDocMetaBox(items) {
@@ -954,7 +812,7 @@
                     syncActiveZoom();
                 }
 
-                let selectedRecIds = [1, 2, 3]; // 기본 예시 화면: 상위 관련자료 3건 선택
+                let selectedRecIds = [...initialSelectedRecIds];
                 let smartImportedSourceIds = [];
                 let smartImportedSelectedIds = [];
                 const smartImportedStatus = new Map();
@@ -980,20 +838,22 @@
 
                 const draftContent = getStaticDraftContent();
 
-                const chatTopics = [
-                    { title: "지방채 인수 추경 답변서 초안 작성", time: "11:05", date: "2026.07.20", id: 0 },
-                    { title: "공자기금 인수금리 조건 정리", time: "10:22", date: "2026.07.20", id: 1 },
-                    { title: "광주·전남 통합특별시 추경 수요", time: "16:40", date: "2026.07.19", id: 2 },
-                    { title: "세수결손 대응계획 답변서 검토", time: "15:12", date: "2026.07.18", id: 3 },
-                    { title: "국가채무비율 전망 근거자료 정리", time: "09:35", date: "2026.07.18", id: 4 },
-                    { title: "공공기관 경영평가 개선 질의", time: "14:08", date: "2026.07.17", id: 5 },
-                    { title: "종합부동산세 세율 조정 영향", time: "11:26", date: "2026.07.16", id: 6 },
-                    { title: "간이과세 기준금액 상향 검토", time: "17:42", date: "2026.07.15", id: 7 },
-                    { title: "외국환거래법 개정 답변자료", time: "13:18", date: "2026.07.14", id: 8 },
-                    { title: "청년 일자리 재정사업 성과", time: "10:04", date: "2026.07.11", id: 9 },
-                    { title: "물가안정 정책 공조 현황", time: "16:55", date: "2026.07.10", id: 10 },
-                    { title: "재정준칙 도입 필요성 검토", time: "09:48", date: "2026.07.09", id: 11 },
-                ];
+                function readAuthoredChatTopics(root = document) {
+                    return Array.from(root.querySelectorAll("#answerReportSidepop .drawer-chat-item"), (item, index) => {
+                        const titleElement = item.querySelector(".drawer-chat-name")?.cloneNode(true);
+                        titleElement?.querySelector(".drawer-chat-icon")?.remove();
+                        const timeElement = item.querySelector(".drawer-chat-time");
+                        const timeLabel = Array.from(timeElement?.children || []).find((element) => !element.classList.contains("drawer-chat-date"));
+                        return {
+                            title: normalizeAuthoredText(titleElement?.textContent),
+                            time: normalizeAuthoredText(timeLabel?.textContent),
+                            date: normalizeAuthoredText(timeElement?.querySelector(".drawer-chat-date")?.textContent),
+                            id: index,
+                        };
+                    }).filter((topic) => topic.title);
+                }
+
+                const chatTopics = readAuthoredChatTopics();
 
                 // 새 채팅 시작 시 노출되는 안내 문구 (첫번째 문단)
                 const AI_CHAT_INTRO =
@@ -1114,7 +974,7 @@
                     currentTab = "recommend";
                     currentSourceGroup = "all";
                     currentFilter = "all";
-                    selectedRecIds = recommendations.slice(0, Math.min(3, recommendations.length)).map((item) => item.id);
+                    selectedRecIds = [...initialSelectedRecIds];
                     draftVersions = draftVersionExamples.map((version) => ({ ...version }));
                     activeDraftVersion = 0;
                     draftDisplayMode = "single";
@@ -5493,7 +5353,6 @@ ${lines.join("\n")}
         disableSmartSourceUploadZone();
         if (workspaceStarted) return;
 
-        const sidebar = document.querySelector(".app > .sidebar");
         const panelArea = document.querySelector(".three-panel-area");
         const threePanel = panelArea?.querySelector(".three-panel");
         const topbarArea = document.querySelector(".app > .main-wrap > .topbar-area");
@@ -5503,13 +5362,7 @@ ${lines.join("\n")}
         const reportUpload = reportSidepop?.querySelector("#reportUploadZone [data-file-upload-zone]");
         const toast = document.querySelector("#answerAfter9Toast[data-toast]");
 
-        if (!sidebar || !topbar || !threePanel || !smartUpload || !reportSidepop || !reportUpload || !toast) return;
-
-        window.AIOneSidebar?.configure(sidebar, {
-            initialCollapsed: false,
-            storageKey: "sidebar-collapsed",
-            collapseOnNavigate: true,
-        });
+        if (!topbar || !threePanel || !smartUpload || !reportSidepop || !reportUpload || !toast) return;
         startAfter9Workspace();
     }
 

@@ -404,6 +404,10 @@ body {
     text-align: left;
 }
 
+.draft-table td.txt-right {
+    text-align: right;
+}
+
 /* ==================== End: 답변서 표 ==================== */
 
 /* ==================== Start: 모달 액션 버튼 ==================== */

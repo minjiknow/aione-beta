@@ -842,24 +842,6 @@
         focusTarget?.focus();
     }
 
-    // 사이드바 보강
-    function enhanceSidebar(host) {
-        const sidebar = host.querySelector(".sidebar");
-        if (!sidebar || sidebar.dataset.workspaceReady === "true") return;
-
-        sidebar.dataset.workspaceReady = "true";
-        window.AIOneSidebar?.configure(sidebar, {
-            initialCollapsed: true,
-            responsiveRailQuery: "(max-width: 1280px)",
-        });
-
-        sidebar.querySelectorAll(".nav-link").forEach((link) => {
-            if (link.getAttribute("aria-disabled") === "true") {
-                link.addEventListener("click", (event) => event.preventDefault());
-            }
-        });
-    }
-
     // 상단바 보강
     function enhanceTopbar(host) {
         const actions = host.querySelector(".app-topbar-actions");
@@ -1351,11 +1333,13 @@
         const activeFile = workspaceSampleData.files.find((file) => file.name === activeWorkspaceFileName) || { name: activeWorkspaceFileName || "질의목록" };
         const activeFileData = getWorkspaceFileData(activeFile);
         const meta = { ...workspaceSampleData.defaultMeta, ...(activeFileData.meta || {}) };
+        const sidebar = document.querySelector(".app-sidebar, .sidebar");
+        const currentUserName = sidebar?.querySelector(".user-name, .user-name-sm")?.textContent?.trim() || "";
         const headers = ["실행일", "실행파일명", "실행자", "요구일", "질의의원명", "교섭단체명", "질의ID", "질의번호", "질의명", "담당실국", "협조실국", "제출기한"];
         const rows = workspaceQuestionCards.map((query, index) => [
             formatDate("."),
             activeFile.name,
-            "박재정 주무관",
+            currentUserName,
             meta.date || "",
             normalizeMemberName(meta.memberName),
             meta.partyName || "",
@@ -2912,7 +2896,6 @@
     document.addEventListener("DOMContentLoaded", () => {
         hydrateIcons();
         hydrateWorkspaceStaticContent();
-        enhanceSidebar(document);
         enhanceTopbar(document);
         initWorkspaceRunList();
         document.querySelectorAll(".file-upload-area").forEach(initFileUpload);

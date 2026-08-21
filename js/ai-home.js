@@ -151,26 +151,6 @@
         });
     }
 
-    // 사이드바 보강
-    function enhanceSidebar(host) {
-        const sidebar = host.querySelector(".sidebar");
-        if (!sidebar || sidebar.dataset.homeReady === "true") return;
-
-        sidebar.dataset.homeReady = "true";
-        window.AIOneSidebar?.configure(sidebar, {
-            initialCollapsed: false,
-        });
-
-        sidebar.querySelectorAll(".nav-link").forEach((link) => {
-            if (link.getAttribute("aria-disabled") === "true") {
-                link.addEventListener("click", (event) => {
-                    event.preventDefault();
-                    openPreparingModal(link);
-                });
-            }
-        });
-    }
-
     // 데이터 테이블 보강
     function enhanceDataTable(host) {
         const table = host?.querySelector("[data-home-datatable]");
@@ -248,7 +228,6 @@
 
     document.addEventListener("DOMContentLoaded", () => {
         hydrateIcons();
-        enhanceSidebar(document);
         enhanceDataTable(document.querySelector(".home-history"));
         initHomeHistorySkeleton();
         initPromptComposer();
